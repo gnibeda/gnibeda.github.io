@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Chart library mocha tests</title>
+    <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="../build/css/main.css">
+
+</head>
+<body>
+<div id="mocha"></div>
+
+<script src="https://cdn.rawgit.com/jquery/jquery/2.1.4/dist/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/Automattic/expect.js/0.3.1/index.js"></script>
+<script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
+<script src="libs/imagediff.js"></script>
+<script src="libs/chai.js"></script>
+
+<script>mocha.setup('bdd')</script>
+<script src="../build/src/cl.js"></script>
+<script src="canvas.js"></script>
+<script src="chart.js"></script>
+<script src="axis.js"></script>
+<script src="main.js"></script>
+<script>
+    mocha.checkLeaks();
+    //mocha.globals(['jQuery']);
+    window.onload = function() {
+        mocha.run();
+    };
+</script>
+<div id="test" style="position: absolute; left: 400px; top: 40px; width: 900px; height: 700px; visibility: hidden"></div>
+<div id="preloader" class="cl-preloader-hidden" style="padding: 10px; border-radius: 4px; background-color: lightskyblue; color:white; font-weight: bold">Loading...</div>
+</body>
+</html>
