@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>AxisManager - Documentation</title>
+    <title>ItemManager - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -28,7 +28,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">AxisManager</h1>
+    <h1 class="page-title">ItemManager</h1>
     
 
     
@@ -43,7 +43,7 @@
         <h2>
             <span class="ancestors"><a href="cl.html">cl</a>.</span>
         
-        AxisManager
+        ItemManager
         </h2>
         
     
@@ -56,14 +56,14 @@
 
     
 
-    <h4 class="name" id="AxisManager"><span class="type-signature"></span>new AxisManager<span class="signature">(chart)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="ItemManager"><span class="type-signature"></span>new ItemManager<span class="signature">(chart)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Represent axis manager class
+    Represent items manager class. Stores bubbles, polys and other chart items.
 </div>
 
 
@@ -182,7 +182,7 @@
             <td class="type">
             
                 
-<span class="param-type">array.&lt;<a href="cl.Axis.html">cl.Axis</a>></span>
+<span class="param-type">array</span>
 
 
             
@@ -192,7 +192,7 @@
 
             
 
-            <td class="description last">Axis items</td>
+            <td class="description last">Items</td>
         </tr>
 
     
@@ -286,14 +286,14 @@
 
     
 
-    <h4 class="name" id="add"><span class="type-signature"></span>add<span class="signature">(axisOptions)</span><span class="type-signature"> &rarr; {<a href="cl.Axis.html">cl.Axis</a>}</span></h4>
+    <h4 class="name" id="add"><span class="type-signature"></span>add<span class="signature">(item)</span><span class="type-signature"> &rarr; {object}</span></h4>
 
     
 
 
 
 <div class="description">
-    Adds axis
+    Adds item
 </div>
 
 
@@ -329,7 +329,7 @@
 
         <tr>
             
-                <td class="name"><code>axisOptions</code></td>
+                <td class="name"><code>item</code></td>
             
 
             <td class="type">
@@ -345,7 +345,7 @@
 
             
 
-            <td class="description last">Axis settings. See "options" in <a href="cl.Axis.html">cl.Axis</a> constructor</td>
+            <td class="description last">Item to add</td>
         </tr>
 
     
@@ -408,7 +408,7 @@
 
         
 <div class="param-desc">
-    New axis
+    Added item
 </div>
 
 
@@ -419,7 +419,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><a href="cl.Axis.html">cl.Axis</a></span>
+<span class="param-type">object</span>
 
 
     </dd>
@@ -523,7 +523,7 @@
 
 
 <div class="description">
-    Destroys axis manager
+    Destroys item manager
 </div>
 
 
@@ -598,14 +598,14 @@
 
     
 
-    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(indexOrName)</span><span class="type-signature"> &rarr; {<a href="cl.Axis.html">cl.Axis</a>|undefined}</span></h4>
+    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(id)</span><span class="type-signature"> &rarr; {object|undefined}</span></h4>
 
     
 
 
 
 <div class="description">
-    Returns axis with specified index or name. Will return first axis with name. Returns undefined if axis was not found
+    Returns item with specified id. Will return first item with id. Returns undefined if id was not found
 </div>
 
 
@@ -641,16 +641,13 @@
 
         <tr>
             
-                <td class="name"><code>indexOrName</code></td>
+                <td class="name"><code>id</code></td>
             
 
             <td class="type">
             
                 
 <span class="param-type">number</span>
-|
-
-<span class="param-type">string</span>
 
 
             
@@ -660,7 +657,7 @@
 
             
 
-            <td class="description last">or axis name</td>
+            <td class="description last">Id of item</td>
         </tr>
 
     
@@ -730,7 +727,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><a href="cl.Axis.html">cl.Axis</a></span>
+<span class="param-type">object</span>
 |
 
 <span class="param-type">undefined</span>
@@ -848,14 +845,14 @@
 
     
 
-    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">(axis)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">(item)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Removes axis
+    Removes item
 </div>
 
 
@@ -891,16 +888,13 @@
 
         <tr>
             
-                <td class="name"><code>axis</code></td>
+                <td class="name"><code>item</code></td>
             
 
             <td class="type">
             
                 
 <span class="param-type">object</span>
-|
-
-<span class="param-type">string</span>
 |
 
 <span class="param-type">number</span>
@@ -913,7 +907,7 @@
 
             
 
-            <td class="description last">Axis itself or axis name, or axis index</td>
+            <td class="description last">Item itself or item id</td>
         </tr>
 
     
@@ -1062,7 +1056,7 @@
 
     
 
-    <h4 class="name" id="resize"><span class="type-signature"></span>resize<span class="signature">(width, height)</span><span class="type-signature"> &rarr; {<a href="cl.Layer.html">cl.Layer</a>}</span></h4>
+    <h4 class="name" id="resize"><span class="type-signature"></span>resize<span class="signature">(width, height)</span><span class="type-signature"> &rarr; {<a href="cl.ItemManager.html">cl.ItemManager</a>}</span></h4>
 
     
 
@@ -1163,12 +1157,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
         <a href="cl.Layer.html#resize">cl.Layer#resize</a>
     </li></ul></dd>
-    
-
     
 
     
@@ -1219,7 +1213,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><a href="cl.Layer.html">cl.Layer</a></span>
+<span class="param-type"><a href="cl.ItemManager.html">cl.ItemManager</a></span>
 
 
     </dd>
