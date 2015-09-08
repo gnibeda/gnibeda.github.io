@@ -80,9 +80,6 @@ function chartTest() {
             chart.getBackground().setFit(cl.Background.FIT_FILL).apply();
         });
 
-        it('should', function(){
-        });
-
         after(function() {
             chart.destroy();
         });

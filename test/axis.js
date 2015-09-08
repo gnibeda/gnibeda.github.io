@@ -38,12 +38,12 @@ function axisTest() {
 
         it('should deny X axis removing', function(){
             expect(function(){chart.axis.remove(0)}).to.throw("Can not delete base 'x' axis");
-            expect(chart.axis.items.length).to.equal(3);
+            expect(chart.axis.shapes.length).to.equal(3);
         });
 
         it('should deny Y axis removing', function(){
             expect(function(){chart.axis.remove(1)}).to.throw("Can not delete base 'y' axis");
-            expect(chart.axis.items.length).to.equal(3);
+            expect(chart.axis.shapes.length).to.equal(3);
         });
 
         it('should set axis min', function(){
