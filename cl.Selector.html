@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Shape - Documentation</title>
+    <title>Selector - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -28,7 +28,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Shape</h1>
+    <h1 class="page-title">Selector</h1>
     
 
     
@@ -43,7 +43,7 @@
         <h2>
             <span class="ancestors"><a href="cl.html">cl</a>.</span>
         
-        Shape
+        Selector
         </h2>
         
     
@@ -56,14 +56,14 @@
 
     
 
-    <h4 class="name" id="Shape"><span class="type-signature"></span>new Shape<span class="signature">(parent, props)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Selector"><span class="type-signature"></span>new Selector<span class="signature">(chart, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Represent base shape class. This is base class for all displayable objects, like bubbles, polygons, etc.
+    Represent selector class
 </div>
 
 
@@ -87,6 +87,8 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -99,30 +101,38 @@
 
         <tr>
             
-                <td class="name"><code>parent</code></td>
+                <td class="name"><code>chart</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type"><a href="cl.Chart.html">cl.Chart</a></span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">Parent shape manager</td>
+            <td class="description last">Parent chart</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>props</code></td>
+                <td class="name"><code>options</code></td>
             
 
             <td class="type">
@@ -135,10 +145,74 @@
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">shape settings
+            <td class="description last">Selector settings
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>hover</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Hovering settings
                 <h6>Properties</h6>
                 
 
@@ -168,48 +242,13 @@
 
         <tr>
             
-                <td class="name"><code>id</code></td>
+                <td class="name"><code>enabled</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Shape id</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>x</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -230,103 +269,25 @@
             
                 <td class="default">
                 
-                    0
+                    true
                 
                 </td>
             
 
-            <td class="description last">Shape X coordinate</td>
+            <td class="description last">Is shape hover enabled</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>y</code></td>
+                <td class="name"><code>width</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    0
-                
-                </td>
-            
-
-            <td class="description last">Shape Y coordinate</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>color</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    cl.Consts.COLOR_RED
-                
-                </td>
-            
-
-            <td class="description last">Shape color</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>border</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
+<span class="param-type">number</span>
 
 
             
@@ -352,20 +313,20 @@
                 </td>
             
 
-            <td class="description last">Shape border width</td>
+            <td class="description last">Hover width</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>opacity</code></td>
+                <td class="name"><code>color</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
             
@@ -386,12 +347,97 @@
             
                 <td class="default">
                 
-                    0.3
+                    cl.Consts.COLOR_BLUE
                 
                 </td>
             
 
-            <td class="description last">Shape opacity</td>
+            <td class="description last">Hover color</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>opacity</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last">Hover opacity</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>showHand</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+
+            <td class="description last">Show hand cursor on hover</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -436,7 +482,7 @@
 
         <tr>
             
-                <td class="name"><code>props</code></td>
+                <td class="name"><code>options</code></td>
             
 
             <td class="type">
@@ -452,78 +498,7 @@
 
             
 
-            <td class="description last">Shape properties. Same as "props" in constructor
-                <h6>Properties</h6>
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>owner</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="cl.Shape.html">cl.Shape</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Owner of properties</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Shape type</td>
+            <td class="description last">Selector settings. Same as "options" in constructor</td>
         </tr>
 
     
@@ -587,6 +562,17 @@
     </div>
 
     
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li><a href="cl.Layer.html">cl.Layer</a></li>
+    </ul>
+
+
+    
 
     
 
@@ -606,91 +592,14 @@
 
     
 
-    <h4 class="name" id="apply"><span class="type-signature"></span>apply<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="addEventListener"><span class="type-signature"></span>addEventListener<span class="signature">(event, callback)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Apply shape changes
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="calcAnimProps"><span class="type-signature"></span>calcAnimProps<span class="signature">(newProps)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Calculate changed properties for animation
+    Adds event listener
 </div>
 
 
@@ -726,13 +635,13 @@
 
         <tr>
             
-                <td class="name"><code>newProps</code></td>
+                <td class="name"><code>event</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
             
@@ -742,7 +651,30 @@
 
             
 
-            <td class="description last">New properties</td>
+            <td class="description last">Event name</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Event callback</td>
         </tr>
 
     
@@ -801,28 +733,88 @@
 
 
 
-<h5>Returns:</h5>
+
+
 
         
-<div class="param-desc">
-    Is shape changed or not
+            
+
+    
+
+    <h4 class="name" id="apply"><span class="type-signature"></span>apply<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Renders layer
 </div>
 
 
 
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
 
 
-    </dd>
-</dl>
+
+
+
+
+
+
+
+
+<dl class="details">
 
     
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="cl.Layer.html#apply">cl.Layer#apply</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -838,7 +830,7 @@
 
 
 <div class="description">
-    Destroys shape
+    Destroys selector
 </div>
 
 
@@ -861,6 +853,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="cl.Layer.html#destroy">cl.Layer#destroy</a>
+    </li></ul></dd>
     
 
     
@@ -908,14 +905,14 @@
 
     
 
-    <h4 class="name" id="getId"><span class="type-signature"></span>getId<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
+    <h4 class="name" id="hide"><span class="type-signature"></span>hide<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="cl.Layer.html">cl.Layer</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    Returns shape id
+    Hide layer
 </div>
 
 
@@ -936,6 +933,11 @@
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="cl.Layer.html#hide">cl.Layer#hide</a>
+    </li></ul></dd>
     
 
     
@@ -980,10 +982,6 @@
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    Id
-</div>
-
 
 
 <dl class="param-type">
@@ -992,37 +990,191 @@
     </dt>
     <dd>
         
+<span class="param-type"><a href="cl.Layer.html">cl.Layer</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="render"><span class="type-signature"></span>render<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Renders selector
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="cl.Layer.html#render">cl.Layer#render</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="resize"><span class="type-signature"></span>resize<span class="signature">(width, height)</span><span class="type-signature"> &rarr; {<a href="cl.Layer.html">cl.Layer</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Resizes layer
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>width</code></td>
+            
+
+            <td class="type">
+            
+                
 <span class="param-type">number</span>
 
 
-    </dd>
-</dl>
+            
+            </td>
 
-    
-
-
-
-        
             
 
+            
+
+            <td class="description last">New width</td>
+        </tr>
+
     
 
-    <h4 class="name" id="getProps"><span class="type-signature"></span>getProps<span class="signature">()</span><span class="type-signature"> &rarr; {object}</span></h4>
+        <tr>
+            
+                <td class="name"><code>height</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">New height</td>
+        </tr>
 
     
-
-
-
-<div class="description">
-    Returns shape properties
-</div>
-
-
-
-
-
-
-
+    </tbody>
+</table>
 
 
 
@@ -1035,6 +1187,11 @@
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="cl.Layer.html#resize">cl.Layer#resize</a>
+    </li></ul></dd>
     
 
     
@@ -1079,10 +1236,6 @@
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    Shape properties
-</div>
-
 
 
 <dl class="param-type">
@@ -1091,7 +1244,7 @@
     </dt>
     <dd>
         
-<span class="param-type">object</span>
+<span class="param-type"><a href="cl.Layer.html">cl.Layer</a></span>
 
 
     </dd>
@@ -1106,14 +1259,14 @@
 
     
 
-    <h4 class="name" id="hitTest"><span class="type-signature"></span>hitTest<span class="signature">(x, y)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="shapesFromPoint"><span class="type-signature"></span>shapesFromPoint<span class="signature">(x, y)</span><span class="type-signature"> &rarr; {Array}</span></h4>
 
     
 
 
 
 <div class="description">
-    Check if point inside shape
+    Returns all shapes under point in screen coordinates
 </div>
 
 
@@ -1251,7 +1404,7 @@
 
         
 <div class="param-desc">
-    Inside or not
+    Array of shapes under point
 </div>
 
 
@@ -1262,7 +1415,7 @@
     </dt>
     <dd>
         
-<span class="param-type">boolean</span>
+<span class="param-type">Array</span>
 
 
     </dd>
@@ -1277,14 +1430,14 @@
 
     
 
-    <h4 class="name" id="link"><span class="type-signature"></span>link<span class="signature">(ids)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="show"><span class="type-signature"></span>show<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="cl.Layer.html">cl.Layer</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    Link shape to other shapes
+    Show layer
 </div>
 
 
@@ -1293,55 +1446,6 @@
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>ids</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">array</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Array with id's</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -1355,546 +1459,10 @@
     
 
     
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="render"><span class="type-signature"></span>render<span class="signature">(canvas, chart)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Renders shape on canvas
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>canvas</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="cl.Canvas.html">cl.Canvas</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>chart</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="cl.Chart.html">cl.Chart</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="renderHover"><span class="type-signature"></span>renderHover<span class="signature">(canvas, offset, chart)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Renders shape hover on canvas
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>canvas</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="cl.Canvas.html">cl.Canvas</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>offset</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Hover offset</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>chart</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="cl.Chart.html">cl.Chart</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="setProps"><span class="type-signature"></span>setProps<span class="signature">(newProps, animate<span class="signature-attributes">opt</span>, animationSpeed<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Updates shape properties
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>newProps</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">New properties</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>animate</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">Animate properties change</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>animationSpeed</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    cl.ShapeManager.ANIMATION_SPEED
-                
-                </td>
-            
-
-            <td class="description last">Animation speed in ms</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="cl.Layer.html#show">cl.Layer#show</a>
+    </li></ul></dd>
     
 
     
@@ -1939,10 +1507,6 @@
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    Is shape changed or not
-</div>
-
 
 
 <dl class="param-type">
@@ -1951,7 +1515,7 @@
     </dt>
     <dd>
         
-<span class="param-type">boolean</span>
+<span class="param-type"><a href="cl.Layer.html">cl.Layer</a></span>
 
 
     </dd>
@@ -1966,237 +1530,14 @@
 
     
 
-    <h4 class="name" id="startAnimation"><span class="type-signature"></span>startAnimation<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~onClick"><span class="type-signature">(inner) </span>onClick<span class="signature">(e)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Starts animation of shape. Will tween "props" to "animProps". "animProps" should be exist
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="stopAnimation"><span class="type-signature"></span>stopAnimation<span class="signature">(dontStopTween<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Stops animation
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>dontStopTween</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">Don't stop tween. Not usable in general cases. Used only if method called from onComplete tween event</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="unlink"><span class="type-signature"></span>unlink<span class="signature">(ids)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Unlink shape from other shapes
+    Click event handler
 </div>
 
 
@@ -2232,13 +1573,13 @@
 
         <tr>
             
-                <td class="name"><code>ids</code></td>
+                <td class="name"><code>e</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">array</span>
+<span class="param-type">object</span>
 
 
             
@@ -2248,7 +1589,7 @@
 
             
 
-            <td class="description last">Array with id's</td>
+            <td class="description last">Event</td>
         </tr>
 
     

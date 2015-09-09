@@ -34,6 +34,25 @@ function testShapes() {
             expect(props.id).equal(32, "Wrong id in props");
         });
 
+        it('should set links', function(){
+            shape.link([10, 20]);
+            expect(shape.props.links.length).equal(2, "Wrong count of links ids");
+            expect(shape.props.links[0]).equal(10, "Wrong links property");
+            expect(shape.props.links[1]).equal(20, "Wrong links property");
+
+            shape.link([10, 20]);
+            expect(shape.props.links.length).equal(2, "Wrong count of links ids");
+        });
+
+        it('should remove links', function(){
+            shape.unlink([10]);
+            expect(shape.props.links.length).equal(1, "Wrong count of links ids");
+
+            shape.link([10, 20, 30]);
+            shape.unlink([10, 20, 30]);
+            expect(shape.props.links.length).equal(0, "Wrong count of links ids");
+        });
+
         it('should destroy shape', function(){
             shape.destroy();
         });
@@ -60,6 +79,18 @@ function testShapes() {
         it('should add bubbles', function(){
             var bubbles = [{id: 30, x: 10, y: 20, size: 4, color: "#AAFFAA", opacity: 0.4}, {id: 31, x: 20, y: 30, size: 6, color: "#EEFFAA", opacity: 0.8}];
             chart.addBubbles(bubbles);
+        });
+
+        it('should remove all', function(){
+            chart.shapes.clear();
+            expect(chart.shapes.count).equal(0, "Shapes was not cleared");
+
+            var bubbles = [{id: 30, x: 10, y: 20, size: 4, color: "#AAFFAA", opacity: 0.4}, {id: 31, x: 20, y: 30, size: 6, color: "#EEFFAA", opacity: 0.8}];
+            chart.addBubbles(bubbles);
+        });
+
+        it('should get count', function(){
+           expect(chart.shapes.count).equal(2, "Wrong shape count");
         });
 
         it('should find bubbles by id', function() {

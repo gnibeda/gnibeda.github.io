@@ -119,8 +119,8 @@ function axisTest() {
             expect(chart.xAxis.toAxis(100)).to.equal(-10);
             expect(chart.xAxis.toAxis(chart.width - 80)).to.equal(20);
 
-            expect(chart.yAxis.toAxis(50)).to.equal(-10);
-            expect(chart.yAxis.toAxis(chart.height - 30)).to.equal(20);
+            expect(chart.yAxis.toAxis(30)).to.equal(20, "Incorrect upper limit of Y conversion");
+            expect(chart.yAxis.toAxis(chart.height - 50)).to.equal(-10, "Incorrect lower limit of Y conversion");
         });
 
         it('should convert from axis coordinate to screen', function(){
