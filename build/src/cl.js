@@ -312,7 +312,7 @@ cl.Utils = (function() {
         this.extend = extend;
         this.colorLuminance = colorLuminance;
 
-        // Make animProps reuest crossbrowser
+        // Make requestAnimFrame request cross browser
         window.requestAnimFrame = (function(){
             return  window.requestAnimationFrame   ||
                 window.webkitRequestAnimationFrame ||
@@ -538,56 +538,71 @@ cl.Event = (function() {
      * Represent event class
      * @memberof cl
      * @constructor
+     *
+     * @property {number} x X coordinate in chart space
+     * @property {number} y Y coordinate in chart space
+     * @property {cl.Shape|array<cl.Shape>} target Shapes affected by event
+     * @property {object} originalEvent Original event
+     * @property {string} type Event type. See event names below
      */
     function Event() {
         this.x = null;
         this.y = null;
         this.target = null;
         this.originalEvent = null;
+        this.type = null;
     }
-
-    return Event;
-})();
-
-cl.EventPool = (function() {
-    'use strict';
 
     /**
-     * Represent event pool class
-     * @param {number} count Events count to initialize
-     * @memberof cl
-     * @constructor
-     * @static
+     * Define allowed event names
      */
-    function EventPool(count) {
-        var t = this;
-        t.items = [];
-        t.pop = pop;
-        t.push = push;
+    var eventNames = {
+        /**
+         * Name for click event
+         * @default "click"
+         * @memberOf cl.Event
+         */
+        click: "click",
 
-        for (var i = 0; i < count; i++) t.items.push(new cl.Event());
+        /**
+         * Name for mouse move event
+         * @default "mousemove"
+         * @memberOf cl.Event
+         */
+        mouseMove: "mousemove",
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /**
+         * Name for mouse down event
+         * @default "mousedown"
+         * @memberOf cl.Event
+         */
+        mouseDown: "mousedown",
 
-        function pop() {
-            var e = t.items.pop();
-            if (!e) {
-                console.warn("pool is empty!");
-                e = new cl.Event();
-            }
-            console.log("events in pool: ", t.items.length);
-            return e;
-        }
+        /**
+         * Name for mouse up event
+         * @default "mouseup"
+         * @memberOf cl.Event
+         */
+        mouseUp: "mouseup",
 
-        function push(e) {
-            t.items.push(e);
-        }
+        /**
+         * Name for shape over event
+         * @default "shapeover"
+         * @memberOf cl.Event
+         */
+        shapeOver: "shapeover",
 
-    }
+        /**
+         * Name for shape out event
+         * @default "shapeout"
+         * @memberOf cl.Event
+         */
+        shapeOut: "shapeout"
+    };
 
-    EventPool.EVENT_COUNT = 100;
+    cl.Utils.merge(Event, eventNames);
 
-    return new EventPool(EventPool.EVENT_COUNT);
+    return Event;
 })();
 
 cl.EventManager = (function() {
@@ -598,76 +613,183 @@ cl.EventManager = (function() {
      * @param {cl.Chart} chart Parent chart
      * @memberof cl
      * @constructor
+     *
+     * @property {cl.Chart} chart Parent chart
+     * @property {number} mouseX Mouse X coordinate in screen space
+     * @property {number} mouseY Mouse Y coordinate in screen space
+     * @property {boolean} mouseDown Is mouse left button pressed or not
      */
     function EventManager(chart) {
         var t = this;
+
+        // Properties
         t.chart = chart;
-        t.event = new cl.Event();
+        t.mouseX = 0;
+        t.mouseY = 0;
+        t.mouseDown = false;
 
         // Public methods
         t.destroy = destroy;
+        t.hasListener = hasListener;
+        t.addEventListener = addEventListener;
+        t.removeEventListener = removeEventListener;
 
         // Private
-        var listeners = {
-            click: [],
-            mousemove: [],
-            mouseDown: [],
-            mouseUp: []
-        };
+        var
+            event = new cl.Event(),
+            listeners = {},
+            hoveredShape = null;
 
+        // Create arrays in listeners for each event
+        for (var name in cl.Event) listeners[cl.Event[name]] = [];
+
+        // Bind all mouse event listeners to screen canvas element
         bindBaseEventListeners();
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        function onMouseMove() {
+        /**
+         * Adds event listener
+         * @param {string} event Event name. See {@link cl.Event} members
+         * @param {function} callback Event callback
+         * @memberof cl.EventManager.prototype
+         */
+        function addEventListener(event, callback) {
+            if (!listeners[event]) throw new Error(cl.Lang.get("errUnknownEvent", event));
+            if (listeners[event].indexOf(callback) !== -1) return;
+            listeners[event].push(callback);
+        }
+
+        /**
+         * Removes event listener
+         * @param {string} event Event name. See {@link cl.Event} members
+         * @param {function} callback Event callback
+         * @memberof cl.EventManager.prototype
+         */
+        function removeEventListener(event, callback) {
+            if (!listeners[event]) throw new Error(cl.Lang.get("errUnknownEvent", event));
+            var idx = listeners[event].indexOf(callback);
+            if (idx !== -1) listeners[event].splice(idx, 1);
+        }
+
+        /**
+         * On mouse move event handler
+         * @param {object} e Event
+         * @private
+         */
+        function onMouseMove(e) {
+            t.mouseX = e.offsetX;
+            t.mouseY = e.offsetY;
+            if (hasListener("shapeover") || hasListener("shapeout")) {
+                var h = t.chart.selector.shapeFromPoint(t.mouseX, t.mouseY);
+                if (h) {
+                    if (hoveredShape !== h) callListeners("shapeover", e, h);
+                } else {
+                    if (hoveredShape !== null) callListeners("shapeout", e, hoveredShape);
+                }
+                hoveredShape = h;
+            }
             callListeners("mousemove", e);
         }
 
-        function onMouseDown() {
+        /**
+         * On mouse down event handler
+         * @param {object} e Event
+         * @private
+         */
+        function onMouseDown(e) {
+            t.mouseDown = true;
             callListeners("mousedown", e);
         }
 
-        function onMouseUp() {
+        /**
+         * On mouse up event handler
+         * @param {object} e Event
+         * @private
+         */
+        function onMouseUp(e) {
+            if (!t.mouseDown && e.currentTarget === document) return;
+            t.mouseDown = false;
             callListeners("mouseup", e);
+            // Stop event propagation, no need to fire document onMouseUp
+            e.stopPropagation();
         }
 
+        /**
+         * On mouse click event handler
+         * @param {object} e Event
+         * @private
+         */
         function onClick(e) {
-            callListeners("click", e);
+            callListeners("click", e, t.chart.selector.shapeFromPoint(e.offsetX, e.offsetY));
         }
 
-        function callListeners(eventName, e) {
-            if (listeners[eventName].length === 0) return;
-            var x = t.chart.xAxis.toAxis(e.offsetX);
-            var y = t.chart.yAxis.toAxis(e.offsetY);
+        /**
+         * Call event listeners by event name
+         * @param {string} eventName Event name
+         * @param {object} e Original event
+         * @param {cl.Shape|array<cl.Shape>} [target] Shape affected by event
+         * @param {number} [xPos] X coordinate in axis space
+         * @param {number} [yPos] Y coordinate in axis space
+         * @private
+         */
+        function callListeners(eventName, e, target, xPos, yPos) {
+            if (!t.hasListener(eventName)) return;
+            var x, y;
+            if (xPos === undefined) x = t.chart.xAxis.toAxis(e.offsetX); else x = xPos;
+            if (yPos === undefined) y = t.chart.yAxis.toAxis(e.offsetY); else y = yPos;
 
-            // Get event object from pool
-            t.event.x = x;
-            t.event.y = y;
-            // TODO: set target
-            //t.event.target = t.hover;
-            t.event.originalEvent = e;
-            for (var i = 0, l = listeners.click.length; i < l; i++) listeners[eventName][i](t.event);
+            event.x = x;
+            event.y = y;
+            event.target = target;
+            event.originalEvent = e;
+            for (var i = 0, l = listeners[eventName].length; i < l; i++) listeners[eventName][i](event);
         }
 
+        /**
+         * Bind all mouse event listeners to screen canvas element
+         * @private
+         */
         function bindBaseEventListeners() {
             var el = t.chart.screen.el;
             el.addEventListener("mousemove", onMouseMove);
             el.addEventListener("mousedown", onMouseDown);
             el.addEventListener("mouseup", onMouseUp);
             el.addEventListener("click", onClick);
+            // Bind document mouse up to avoid mouse button release outside container
+            document.addEventListener("mouseup", onMouseUp);
         }
 
+        /**
+         * Unbind all mouse event listeners to screen canvas element
+         * @private
+         */
         function unbindBaseEventListeners() {
             var el = t.chart.screen.el;
             el.removeEventListener("mousemove", onMouseMove);
             el.removeEventListener("mousedown", onMouseDown);
             el.removeEventListener("mouseup", onMouseUp);
             el.removeEventListener("click", onClick);
+            document.removeEventListener("mouseup", onMouseUp);
         }
 
+        /**
+         * Check if manager have any event listeners for specified event
+         * @param {string} eventName Event name
+         * @returns {boolean} True if has event listeners
+         * @memberof cl.EventManager.prototype
+         */
+        function hasListener(eventName) {
+            return listeners[eventName].length !== 0;
+        }
+
+        /**
+         * Destroys event manager
+         * @memberof cl.EventManager.prototype
+         */
         function destroy() {
             t.chart = null;
-            t.event = null;
+            event = null;
             listeners = null;
             unbindBaseEventListeners();
         }
@@ -2233,16 +2355,31 @@ cl.Selector = (function() {
     'use strict';
 
     /**
-     * Represent selector class
+     * Represent selector class. All shapes selections done with help of current class. Also this class does dragging.
      * @extends cl.Layer
      * @param {cl.Chart} chart Parent chart
      * @param {object} [options] Selector settings
+     * @param {boolean} [options.draggable=false] Shapes drag enabled or not
+     *
      * @param {object} [options.hover] Hovering settings
      * @param {boolean} [options.hover.enabled=true] Is shape hover enabled
      * @param {number} [options.hover.width=1] Hover width
      * @param {string} [options.hover.color=cl.Consts.COLOR_BLUE] Hover color
      * @param {number} [options.hover.opacity=1] Hover opacity
      * @param {boolean} [options.hover.showHand=true] Show hand cursor on hover
+     *
+     * @param {object} [options.selection] Selection settings
+     * @param {boolean} [options.selection.enabled=true] Is enabled or not
+     * @param {boolean} [options.selection.multiple=true] Allow multiple selection
+     * @param {object} [options.selection.shape] Shape selection settings
+     * @param {number} [options.selection.shape.width=1] Selected shape line width
+     * @param {string} [options.selection.shape.color=cl.Consts.COLOR_RED] Selected shape line color
+     * @param {number} [options.selection.shape.opacity=1] Selected shape line opacity
+     * @param {object} [options.selection.rect] Selection frame settings
+     * @param {boolean} [options.selection.rect.enabled=true] Is enabled or not
+     * @param {number} [options.selection.rect.width=1] Selected shape line width
+     * @param {string} [options.selection.rect.color=cl.Consts.COLOR_LIGHTBLUE] Selected shape line color
+     * @param {number} [options.selection.rect.opacity=0.3] Selected shape line opacity
      *
      * @memberof cl
      * @constructor
@@ -2260,7 +2397,7 @@ cl.Selector = (function() {
 
         // Default settings
         cl.Utils.merge(t.options, {
-            dragable: true,
+            draggable: false,
             hover: {
                 enabled: true,
                 width: 2,
@@ -2271,147 +2408,315 @@ cl.Selector = (function() {
             selection: {
                 enabled: true,
                 multiple: false,
-                width: 1,
-                color: cl.Consts.COLOR_BLUE,
-                opacity: 1
+                shape: {
+                    width: 1,
+                    color: cl.Consts.COLOR_BLUE,
+                    opacity: 1
+                },
+                rect: {
+                    enabled: true,
+                    width: 1,
+                    color: cl.Consts.COLOR_LIGHTBLUE,
+                    opacity: 0.3
+                }
             }
         });
         cl.Utils.merge(t.options, options || {});
 
         // Private
-        // TODO: Move all mouse and event specific code to Interaction manager
-        var mouseDown = false;
-        var mouseX = 0;
-        var mouseY = 0;
-        var hoverCalculated = false;
-        var listeners = {
-            click: [],
-            mousemove: []
-        };
-        var drag = {
-            active : false,
-            items: null,
-            sx: 0,
-            sy: 0,
-            ox: 0,
-            oy: 0
-        };
+        var
+            drag = {
+                active : false, // Is dragging active or not
+                prepared: false,  // Is dragging prepared or not. Used to determine if we start drag shape or empty space
+                items: [], // Items have been dragged
+                bounds: null, // Bounds of items
+                sx: 0, // Current drag x coordinate
+                sy: 0, // Current drag y coordinate
+                lx: 0, // Drag start x coordinate
+                ly: 0,// Drag start y coordinate
+                layer: new cl.Canvas(t.chart.width, t.chart.height) // Layer to hold cache shapes have been dragging
+            },
+            rect = { active: false, sx: 0, sy: 0, ex: 0, ey: 0 };
 
         // TODO: solve problem with start animation items have dragging
 
         // Public methods
+        t.resize = resize;
         t.render = render;
         t.destroy = destroy;
+        t.getBounds = getBounds;
+        t.enableDrag = enableDrag;
+        t.disableDrag = disableDrag;
+        t.shapesFromRect = shapesFromRect;
+        t.shapeFromPoint = shapeFromPoint;
         t.shapesFromPoint = shapesFromPoint;
-        t.addEventListener = addEventListener;
+        t.enableMultiselect = enableMultiselect;
+        t.disableMultiselect = disableMultiselect;
 
         // Bind mouse move event
-        chart.screen.el.addEventListener("mousemove", onMouseMove);
-        chart.screen.el.addEventListener("mousedown", onMouseDown);
-        chart.screen.el.addEventListener("mouseup", onMouseUp);
-        chart.screen.el.addEventListener("click", onClick);
+        t.chart.addEventListener(cl.Event.shapeOver, onShapeOver);
+        t.chart.addEventListener(cl.Event.shapeOut, onShapeOut);
+        t.chart.addEventListener(cl.Event.mouseDown, onMouseDown);
+        t.chart.addEventListener(cl.Event.mouseUp, onMouseUp);
+        t.chart.addEventListener(cl.Event.mouseMove, onMouseMove);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        //TODO: rename
-        function statDrag() {
-            // TODO: dont drag if starts without hover
-            if (!t.options.dragable) return;
-            if (t.hover && t.selection.indexOf(t.hover) === -1) t.selection = [t.hover];
+        /**
+         * Enables multiselection
+         * @memberof cl.Selector.prototype
+         */
+        function enableMultiselect() {
+            t.options.selection.enabled = true;
+            t.options.selection.rect.enabled = true;
+            t.options.selection.multiple = true;
+        }
+
+        /**
+         * Disables multiselection
+         * @memberof cl.Selector.prototype
+         */
+        function disableMultiselect() {
+            t.options.selection.multiple = false;
+        }
+
+        /**
+         * Enables dragging
+         * @memberof cl.Selector.prototype
+         */
+        function enableDrag() {
+            t.options.draggable = true;
+        }
+
+        /**
+         * Disables dragging
+         * @memberof cl.Selector.prototype
+         */
+        function disableDrag() {
+            t.options.draggable = false;
+        }
+
+        /**
+         * Shape over event handler
+         * @param {cl.Event} e
+         * @private
+         */
+        function onShapeOver(e) {
+            if (drag.active || rect.active) return;
+            if (t.options.hover.showHand) showHand();
+            t.hover = e.target;
+            t.apply();
+        }
+
+        /**
+         * Shape out event handler
+         * @param {cl.Event} e
+         * @private
+         */
+        function onShapeOut(e) {
+            if (drag.active || rect.active) return;
+            if (t.options.hover.showHand) hideHand();
+            t.hover = null;
+            t.apply();
+        }
+
+        /**
+         * Returns bounds of shapes
+         * @param {array<cl.Shape>} items Items array
+         * @returns {{x: Number, y: Number, w: number, h: number}} Bounds
+         * @memberof cl.Selector.prototype
+         */
+        function getBounds(items) {
+            var x1, y1, x2, y2, i, l, b;
+            x1 = Number.MAX_VALUE;
+            y1 = Number.MAX_VALUE;
+            x2 = Number.MIN_VALUE;
+            y2 = Number.MIN_VALUE;
+            for (i = 0, l = items.length; i < l; i++) {
+                b = items[i].getBounds();
+                if (b.x < x1) x1 = b.x;
+                if (b.y < y1) y1 = b.y;
+                if (b.x + b.w > x2) x2 = b.x + b.w;
+                if (b.y + b.h > y2) y2 = b.y + b.h;
+            }
+            return {x: x1, y: y1, w: x2 - x1, h: y2 - y1};
+        }
+
+        /**
+         * Starts dragging process
+         * @private
+         */
+        function startDrag() {
+            if (!t.options.draggable) return;
+            // Check if there shape under cursor
+            var currentItem = t.shapeFromPoint(t.chart.events.mouseX, t.chart.events.mouseY);
+            if (!currentItem) return;
+            // Make selection if not exists
+            if (currentItem && t.selection.indexOf(currentItem) === -1) t.selection = [currentItem];
             if (t.selection.length === 0) return;
+
             var i, l;
             var sel = t.selection;
+
+            // Initialise
             drag.items = [];
-            drag.sx = t.chart.xAxis.toAxis(mouseX);
-            drag.sy = t.chart.yAxis.toAxis(mouseY);
+            drag.sx = t.chart.xAxis.toAxis(drag.sx);
+            drag.sy = t.chart.yAxis.toAxis(drag.sy);
 
-            for (i = 0, l = sel.length; i < l; i++) {
-                if (!sel[i].isAnimating) {
-                    t.chart.shapes.updateStatic();
-                    t.apply();
-                }
+            // Calculate bounds of draggable shapes
+            drag.bounds = t.getBounds(sel);
+            drag.bounds.x = Math.floor(drag.bounds.x) - 10;
+            drag.bounds.y = Math.floor(drag.bounds.y) - 10;
 
-                sel[i].isAnimating = true;
+            // Prepare drag layer for drawing
+            drag.layer.resize(drag.bounds.w + 20, drag.bounds.h + 20);
+            drag.layer.resetTransform();
+            drag.layer.clear();
+            drag.layer.ctx.translate(-drag.bounds.x, -drag.bounds.y);
+
+            for (i = 0, l = sel.length; i < l; i++) if (sel[i].props.draggable) {
+                // Add draggable item
                 drag.items.push(sel[i]);
+                // Render draggable shape in drag layer
+                sel[i].render(drag.layer);
+                if (!sel[i].isAnimating) {
+                    // Update static layer if draggable shapes was in static
+                    t.chart.shapes.updateStatic();
+                    t.chart.shapes.apply();
+                }
+                sel[i].isAnimating = true;
             }
+            // Renders selection of draggable shapes
+            renderSelection(drag.layer, drag.items);
+
+            // Sets _isDragged flag to hide shapes from rendering in ShapeManager
+            for (i = 0, l = drag.items.length; i < l; i++) drag.items[i]._isDragged = true;
 
             drag.active = true;
+            t.apply();
+        }
+
+        /**
+         * Mouse move callback
+         * @private
+         * @param {cl.Event} e Event
+         */
+        function onMouseMove(e) {
+            var i, l;
+            if (drag.active) {
+                // Move all draggable shapes
+                for (i = 0, l = drag.items.length; i < l; i++) {
+                    drag.items[i].props.x += e.x - drag.sx;
+                    drag.items[i].props.y += e.y - drag.sy;
+                }
+                // Request shapes and selector redraw
+                t.apply();
+                t.chart.shapes.apply();
+                // Store new coordinates
+                drag.sx = e.x;
+                drag.sy = e.y;
+
+            } else
+            // Start drag if moved by Selector.DRAG_THRESOLD pixels
+            if (drag.prepared && t.chart.events.mouseDown && ((Math.abs(drag.sx - e.originalEvent.offsetX) > Selector.DRAG_THRESOLD) || (Math.abs(drag.sy - e.originalEvent.offsetY) > Selector.DRAG_THRESOLD))) startDrag();
+
+            // Change selection rectangle coordinates
+            if (rect.active) {
+                rect.ex = e.originalEvent.offsetX;
+                rect.ey = e.originalEvent.offsetY;
+                t.apply();
+            }
         }
 
         /**
          * Mouse down event listener
          * @private
-         * @param {object} e Event
+         * @param {cl.Event} e Event
          */
         function onMouseDown(e) {
-            drag.sx = e.offsetX;
-            drag.sy = e.offsetY;
-            mouseDown = true;
+            if (!drag.active && t.hover) {
+                // Store drag parameters
+                drag.prepared = true;
+                drag.sx = e.originalEvent.offsetX;
+                drag.sy = e.originalEvent.offsetY;
+                drag.lx = drag.sx;
+                drag.ly = drag.sy;
+            } else drag.prepared = false;
+            if (!t.hover && t.options.selection.enabled && t.options.selection.rect.enabled && t.options.selection.multiple) {
+                // Store selection rectangle parameters
+                rect.sx = e.originalEvent.offsetX;
+                rect.sy = e.originalEvent.offsetY;
+                rect.ex = rect.sx;
+                rect.ey = rect.sy;
+                rect.active = true;
+            }
         }
 
         /**
          * Mouse down event listener
          * @private
-         * @param {object} e Event
+         * @param {cl.Event} e Event
          */
         function onMouseUp(e) {
             var i, l;
-            // TODO: fix mouse out
+            if (rect.active) {
+                // Calculate selection
+                var hw = Math.abs(rect.ex - rect.sx) / 2;
+                var hh = Math.abs(rect.ey - rect.sy) / 2;
+                var rx = Math.max(rect.sx, rect.ex) - hw;
+                var ry = Math.max(rect.sy, rect.ey) - hh;
+                t.selection = t.shapesFromRect(rx, ry, hw, hh, t.options.selection.rect.inside);
+                rect.active = false;
+                t.apply();
+            } else
             if (drag.active) {
+                // Move all dragged shapes in static layer
                 for (i = 0, l = drag.items.length; i < l; i++) {
+                    drag.items[i]._isDragged = false;
                     if (!drag.items[i].tween) {
                         drag.items[i].isAnimating = false;
                         t.chart.shapes.updateStatic();
                         t.chart.shapes.apply();
                     }
                 }
+                // Stop dragging
                 drag.items = null;
                 drag.active = false;
+                drag.prepared = false;
+                t.apply();
             } else {
+                // Select shapes
                 if (t.options.selection.enabled) {
                     if (t.options.selection.multiple && t.hover) {
+                        // Multiple selection. Add or remove shape from selection
                         var idx = t.selection.indexOf(t.hover);
                         if (idx === -1) t.selection.push(t.hover); else t.selection.splice(idx, 1);
                     } else {
+                        // Single selection
                         if (t.hover) t.selection = [t.hover]; else t.selection = [];
                     }
                     t.apply();
                 }
             }
-            mouseDown = false;
         }
 
         /**
-         * Adds event listener
-         * @param {string} event Event name
-         * @param {function} callback Event callback
+         * Returns all shapes intersecting rectangle
+         * @param {number} rx X coordinate in pixels of rectangle center
+         * @param {number} ry Y coordinate in pixels of rectangle center
+         * @param {number} hw Half width
+         * @param {number} hh Half height
+         * @param {boolean} onlyInside Return shapes fully inside rectangle
+         * @returns {Array<cl.Shape>} Array of shapes intersecting rectangle
          * @memberof cl.Selector.prototype
          */
-        function addEventListener(event, callback) {
-            if (!listeners[event]) throw new Error(cl.Lang.get("errUnknownEvent", event));
-            if (listeners[event].indexOf(callback) !== -1) return;
-            listeners[event].push(callback);
+        function shapesFromRect(rx, ry, hw, hh, onlyInside) {
+            var i, l, res = [];
+            l = t.chart.shapes.count;
+            for (i = 0; i < l; i++) if (t.chart.shapes.shapes[i].hitTestRect(rx, ry, hw, hh, onlyInside)) res.push(t.chart.shapes.shapes[i]);
+            return res;
         }
 
-        /**
-         * Click event handler
-         * @param {object} e Event
-         */
-        function onClick(e) {
-            // Call all listeners
-            if (listeners.click.length === 0) return;
-            var x = t.chart.xAxis.toAxis(e.offsetX);
-            var y = t.chart.yAxis.toAxis(e.offsetY);
-
-            // Get event object from pool
-            /*var ev = cl.EventPool.pop();
-            ev.x = x;
-            ev.y = y;
-            ev.target = t.hover;
-            ev.originalEvent = e;
-            for (var i = 0, l = listeners.click.length; i < l; i++) listeners.click[i](ev);
-            cl.EventPool.push(ev);*/
-        }
 
         /**
          * Returns all shapes under point in screen coordinates
@@ -2422,44 +2727,36 @@ cl.Selector = (function() {
          */
         function shapesFromPoint(x, y) {
             var i, l, res = [];
-            l = chart.shapes.count;
-            for (i = 0; i < l; i++) if (chart.shapes.shapes[i].hitTest(x, y)) res.push(chart.shapes.shapes[i]);
+            l = t.chart.shapes.count;
+            for (i = 0; i < l; i++) if (t.chart.shapes.shapes[i].hitTest(x, y)) res.push(t.chart.shapes.shapes[i]);
             return res;
         }
 
         /**
-         * Calculates hovered shape
-         * @private
+         * Returns one closest shape under point in screen coordinates
+         * @param {number} x X coordinate in pixels
+         * @param {number} y Y coordinate in pixels
+         * @returns {cl.Shape|undefined} Shape under point
+         * @memberof cl.Selector.prototype
          */
-        function calcHover() {
-            //if (!t.options.hover.enabled) return;
-            if (hoverCalculated || drag.active) return;
-            var prevHover = t.hover;
-            // Get all shapes under point
-            var hovered = t.shapesFromPoint(mouseX, mouseY);
-
-            if (hovered.length !== 0) {
+        function shapeFromPoint(x, y) {
+            var shapes = t.chart.selector.shapesFromPoint(x, y);
+            if (shapes.length !== 0) {
                 var min = Number.MAX_VALUE;
                 var idx = 0;
                 // Find closest shape
-                for (var i = 0, l = hovered.length; i < l; i++) {
-                    var x = t.chart.xAxis.toScreen(hovered[i].props.x);
-                    var y = t.chart.yAxis.toScreen(hovered[i].props.y);
+                for (var i = 0, l = shapes.length; i < l; i++) {
+                    var sx = t.chart.xAxis.toScreen(shapes[i].props.x);
+                    var sy = t.chart.yAxis.toScreen(shapes[i].props.y);
                     // TODO: move dist to shapesFromPoint calculations
-                    var dist = (mouseX - x) * (mouseX - x) + (mouseY - y) * (mouseY - y);
+                    var dist = (sx - x) * (sx - x) + (sy - y) * (sy - y);
                     if (dist < min) {
                         min = dist;
                         idx = i;
                     }
                 }
-                t.hover = hovered[idx];
-                if (t.options.hover.showHand) showHand();
-            } else {
-                t.hover = null;
-                if (t.options.hover.showHand) hideHand();
+                return shapes[idx];
             }
-            if (prevHover != t.hover) t.apply();
-            hoverCalculated = true;
         }
 
         /**
@@ -2470,33 +2767,73 @@ cl.Selector = (function() {
             if (!t.options.visible) return;
             var i, l;
 
-            calcHover();
-            hoverCalculated = false;
-
             t.surface.clear();
-            if (t.options.selection.enabled && t.selection.length != 0) {
-                t.surface.ctx.strokeStyle = t.options.selection.color;
-                t.surface.ctx.lineWidth = t.options.selection.width;
-                t.surface.ctx.globalAlpha = t.options.selection.opacity;
-                t.surface.ctx.beginPath();
-                for (i = 0, l = t.selection.length; i < l; i++) {
-                    t.selection[i].renderHover(t.surface, 0);
+            if (drag.active) t.surface.draw(drag.layer, drag.bounds.x -drag.lx + t.chart.events.mouseX, drag.bounds.y -drag.ly + t.chart.events.mouseY); else {
+
+                // Render selection
+                renderSelection(t.surface, t.selection);
+
+                if (t.options.hover.enabled && !rect.active) {
+                    // Recalculate hover if shapes is moving, but not when dragging
+                    if (t.chart.shapes.isAnimating && !drag.active) t.hover = t.shapeFromPoint(t.chart.events.mouseX, t.chart.events.mouseY);
+                    // Render hover if exists
+                    if (t.hover) {
+                        t.surface.ctx.strokeStyle = t.options.hover.color;
+                        t.surface.ctx.lineWidth = t.options.hover.width;
+                        t.surface.ctx.globalAlpha = t.options.hover.opacity;
+                        t.surface.ctx.beginPath();
+                        t.hover.renderHover(t.surface, t.options.hover.width / 2);
+                        t.surface.ctx.stroke();
+                        t.surface.ctx.closePath();
+                    }
                 }
-                t.surface.ctx.stroke();
-                t.surface.ctx.closePath();
-            }
 
-            if (t.options.hover.enabled && t.hover) {
-                t.surface.ctx.strokeStyle = t.options.hover.color;
-                t.surface.ctx.lineWidth = t.options.hover.width;
-                t.surface.ctx.globalAlpha = t.options.hover.opacity;
-                t.surface.ctx.beginPath();
-                t.hover.renderHover(t.surface, t.options.hover.width / 2);
-                t.surface.ctx.stroke();
-                t.surface.ctx.closePath();
+                // Render selection rectangle
+                if (rect.active) {
+                    t.surface.ctx.strokeStyle = cl.Utils.colorLuminance(t.options.selection.rect.color, -0.2);
+                    t.surface.ctx.fillStyle = t.options.selection.rect.color;
+                    t.surface.ctx.lineWidth = t.options.selection.rect.width;
+                    t.surface.ctx.globalAlpha = t.options.selection.rect.opacity;
+                    t.surface.ctx.beginPath();
+                    t.surface.ctx.rect(rect.sx + 0.5, rect.sy + 0.5, rect.ex - rect.sx, rect.ey - rect.sy);
+                    t.surface.ctx.fill();
+                    t.surface.ctx.stroke();
+                    t.surface.ctx.closePath();
+                }
             }
-
             cl.Layer.prototype.render.call(t);
+        }
+
+        /**
+         * Renders selection
+         * @param {cl.Canvas} canvas Canvas
+         * @param {array<cl.Shape>} shapes Shapes to draw
+         * @private
+         */
+        function renderSelection(canvas, shapes) {
+            var i, l;
+
+            if (t.options.selection.enabled && t.selection.length !== 0) {
+                canvas.ctx.strokeStyle = t.options.selection.shape.color;
+                canvas.ctx.lineWidth = t.options.selection.shape.width;
+                canvas.ctx.globalAlpha = t.options.selection.shape.opacity;
+                canvas.ctx.beginPath();
+                for (i = 0, l = shapes.length; i < l; i++) shapes[i].renderHover(canvas);
+                canvas.ctx.stroke();
+                canvas.ctx.closePath();
+            }
+        }
+
+        /**
+         * Resizes layer
+         * @param {number} width New width
+         * @param {number} height New height
+         * @returns {cl.Layer}
+         */
+        function resize(width, height) {
+            if (drag.layer) drag.layer.resize(width, height);
+            cl.Layer.prototype.resize.call(t, width, height);
+            return t;
         }
 
         /**
@@ -2504,42 +2841,12 @@ cl.Selector = (function() {
          * @memberof cl.Selector.prototype
          */
         function destroy() {
-            t.options = null;
+            if (drag.layer) drag.layer.destroy();
             t.hover = null;
+            t.options = null;
+            drag.layer = null;
             t.selection = [];
             cl.Layer.prototype.destroy.call(t);
-        }
-
-        /**
-         * Mouse move callback
-         * @private
-         * @param {object} e Event
-         */
-        function onMouseMove(e) {
-            var ev = cl.EventPool.pop();
-
-            var i, l;
-            mouseX = e.offsetX;
-            mouseY = e.offsetY;
-            hoverCalculated = false;
-            calcHover();
-
-
-
-            if (drag.active) {
-                var mx = t.chart.xAxis.toAxis(mouseX);
-                var my = t.chart.yAxis.toAxis(mouseY);
-                for (i = 0, l = drag.items.length; i < l; i++) {
-                    drag.items[i].props.x += mx - drag.sx;
-                    drag.items[i].props.y += my - drag.sy;
-                }
-                t.apply();
-                t.chart.shapes.apply();
-                drag.sx = mx;
-                drag.sy = my;
-            } else if (mouseDown && ((Math.abs(drag.sx - mouseX) > 3) || (Math.abs(drag.sy - mouseY) > 3))) statDrag();
-
-            cl.EventPool.push(ev);
         }
 
         /**
@@ -2561,6 +2868,14 @@ cl.Selector = (function() {
     }
     cl.Utils.extend(Selector, cl.Layer);
 
+    /**
+     * Number of pixels indicates mouse movement before drag actually start
+     * @memberof cl.Selector
+     * @type {number}
+     * @default 3
+     */
+    Selector.DRAG_THRESOLD = 3;
+
     return Selector;
 
 })();
@@ -2578,6 +2893,8 @@ cl.Shape = (function() {
      * @param {object} [props.color=cl.Consts.COLOR_RED] Shape color
      * @param {object} [props.border=1] Shape border width
      * @param {object} [props.opacity=0.3] Shape opacity
+     * @param {array} [props.links=[]] Array of linked shapes id's
+     * @param {boolean} [props.draggable=true] Is shape draggable
      *
      * @property {object} props Shape properties. Same as "props" in constructor
      * @property {cl.Shape} props.owner Owner of properties
@@ -2596,6 +2913,11 @@ cl.Shape = (function() {
         t.type = "base";
         t.isAnimating = false;
         t.animProps = null;
+
+        // Private
+        t._isDragged = false;
+
+        // TODO: make tween class
         t.tween = null;
         t.props = {
             owner: t,
@@ -2605,13 +2927,35 @@ cl.Shape = (function() {
             color: cl.Consts.COLOR_RED,
             border: 1,
             opacity: 0.3,
-            links: []
+            links: [],
+            draggable: true
         };
         cl.Utils.merge(t.props, props);
 
         // Dont create shapes without id
         if (t.props.id === undefined) throw new Error(cl.Lang.get("errShapeNoParam", "id"));
     }
+
+    /**
+     * Returns shape bounds in screen space
+     * @returns {{x: number, y: number, w: number, h: number}} Shape bounds
+     */
+    Shape.prototype.getBounds = function() {
+
+    };
+
+    /**
+     * Checks if shape intersecting rectangle
+     * @param {number} rx X coordinate in pixels of rectangle center
+     * @param {number} ry Y coordinate in pixels of rectangle center
+     * @param {number} hw Half width
+     * @param {number} hh Half height
+     * @param {boolean} [onlyInside] Check shape to be fully inside rectangle
+     * @returns {boolean} Inside or not
+     */
+    Shape.prototype.hitTestRect = function(rx, ry, hw, hh, onlyInside) {
+
+    };
 
     /**
      * Check if point inside shape
@@ -2633,7 +2977,7 @@ cl.Shape = (function() {
         ids.forEach(function(v){
             if (t.props.links.indexOf(v) === -1) {
                 var obj = t.parent.get(v);
-                if (!obj) return;
+                if (!obj || obj.props.id === t.props.id) return;
                 t.props.links.push(v);
                 if (!obj.isAnimating) changed = true;
             }
@@ -2843,7 +3187,7 @@ cl.Shape = (function() {
     /**
      * Renders shape hover on canvas
      * @param {cl.Canvas} canvas
-     * @param {number} offset Hover offset
+     * @param {number} [offset=0] Hover offset
      * @param {cl.Chart} chart
      */
     Shape.prototype.renderHover = function(canvas, offset) {
@@ -3014,7 +3358,6 @@ cl.ShapeManager = (function() {
             t.surface.draw(t.static, 0, 0);
             renderLinks(t.surface, false);
             for (i = 0, l = t.shapes.length; i < l; i++)  if (t.shapes[i].isAnimating) t.shapes[i].render(t.surface, t.chart);
-
         }
 
 /*
@@ -3302,6 +3645,8 @@ cl.Bubble = (function() {
         t.render = render;
         t.destroy = destroy;
         t.hitTest = hitTest;
+        t.getBounds = getBounds;
+        t.hitTestRect = hitTestRect;
         t.renderHover = renderHover;
         t.calcAnimProps = calcAnimProps;
 
@@ -3314,6 +3659,46 @@ cl.Bubble = (function() {
         if (t.props.size === undefined) throw new Error(cl.Lang.get("errShapeNoParam", "size"));
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /**
+         * Returns shape bounds
+         * @returns {{x: number, y: number, w: number, h: number}} Shape bounds
+         */
+        function getBounds() {
+            return {
+                x: t.parent.chart.xAxis.toScreen(t.props.x) - t.props.size,
+                y: t.parent.chart.yAxis.toScreen(t.props.y) - t.props.size,
+                w: t.props.size * 2,
+                h: t.props.size * 2
+            };
+        }
+
+        /**
+         * Checks if shape intersecting rectangle
+         * @param {number} rx X coordinate in pixels of rectangle center
+         * @param {number} ry Y coordinate in pixels of rectangle center
+         * @param {number} hw Half width
+         * @param {number} hh Half height
+         * @param {boolean} [onlyInside] Check shape to be fully inside rectangle
+         * @returns {boolean} Inside or not
+         */
+        function hitTestRect(rx, ry, hw, hh, onlyInside) {
+            var cx = t.parent.chart.xAxis.toScreen(t.props.x);
+            var cy = t.parent.chart.yAxis.toScreen(t.props.y);
+            var cdx = Math.abs(cx - rx);
+            var cdy = Math.abs(cy - ry);
+            var r = t.props.size;
+
+            if (cdx > hw + r) { return false; }
+            if (cdy > hh + r) { return false; }
+            // TODO: onlyInside not working
+            if (cdx <= hw ) { return true; }
+            if (cdy <= hh ) { return true; }
+
+            var cdsq = (cdx - hw) * (cdx - hw) + (cdy - hh) * (cdy - hh);
+
+            return cdsq <= r * r;
+        }
 
         /**
          * Check if point inside shape
@@ -3347,6 +3732,7 @@ cl.Bubble = (function() {
          * @memberof cl.Bubble.prototype
          */
         function render(canvas) {
+            if (t._isDragged) return;
             var chart = t.parent.chart;
             if (t.props.size >= 0) {
                 canvas.setAlpha(t.props.opacity);
@@ -3365,16 +3751,17 @@ cl.Bubble = (function() {
         /**
          * Renders bubble hover on canvas
          * @param {cl.Canvas} canvas
-         * @param {number} offset Hover offset
+         * @param {number} [offset=0] Hover offset
          * @memberof cl.Bubble.prototype
          */
         function renderHover(canvas, offset) {
+            if (t._isDragged) return;
             var chart = t.parent.chart;
             if (t.props.size >= 0) {
                 var x = chart.xAxis.toScreen(t.props.x);
                 var y = chart.yAxis.toScreen(t.props.y);
-                canvas.ctx.moveTo(x + t.props.size + offset, y);
-                canvas.ctx.arc(x, y, t.props.size + offset, 0, cl.Consts.TWO_PI, false);
+                canvas.ctx.moveTo(x + t.props.size + (offset || 0), y);
+                canvas.ctx.arc(x, y, t.props.size + (offset || 0), 0, cl.Consts.TWO_PI, false);
             }
 
             cl.Shape.prototype.renderHover.call(t, canvas);
@@ -3411,6 +3798,7 @@ cl.Chart = (function(){
      * @param {number|undefined} options.height Height of chart. If undefined, chart will fits parent element height
      * @param {object} options.background Background options, described like options in {@link cl.Background} constructor
      * @param {object} options.shapes Shapes options, described like options in {@link cl.ShapeManager} constructor
+     * @param {object} options.selector Selector options, described like options in {@link cl.Selector} constructor
      *
      * @property {object} options Chart settings
      * @property {cl.Axis} xAxis Chart x axis
@@ -3462,23 +3850,29 @@ cl.Chart = (function(){
      *
      * // Add bubbles to chart
      * chart.addBubbles([
-     *      {
-     *          x: 20,
-     *          y: 30,
-     *          size: 3
-     *      },
-     *      {
-     *          x: 20,
-     *          y: 30,
-     *          size: 3,
-     *          color: "#AAFFAA",
-     *          opacity: 0.5
-     *      }
+     *      { x: 20, y: 30, size: 3 },
+     *      { x: 40, y: 10, size: 4, color: "#AAFFAA", opacity: 0.7 }
      * ]);
      *
      * // Change single bubble properties with animation
      * var b = chart.shapes.get(myBubbleID);
      * b.setProps({ x: 50, y: 50, size: 2}, true);
+     *
+     * // Link shape to another by ids
+     * b.link([13, 14]);
+     *
+     * // Add event listeners to chart
+     * chart.addEventListener(cl.Event.shapeOver, function(e) {
+     *      console.log("x: ", e.x, " y: ", e.y);
+     *      console.log("Shape is: ", e.target);
+     * });
+     *
+     * // Enable multiselect and drag
+     * chart.selector.enableMultiselect();
+     * chart.selector.enableDrag();
+     *
+     * // Get all shapes under screen point
+     * var shapes = chart.selector.shapeFromPoint(x, y);
      *
      * @constructor
      * @memberof cl
@@ -3515,16 +3909,20 @@ cl.Chart = (function(){
         t.hidePreloader = hidePreloader;
         t.getBackground = getBackground;
         t.setBackground = setBackground;
+        t.addEventListener = addEventListener;
+        t.removeEventListener = removeEventListener;
 
         if (!t.element) throw cl.Lang.get("errNoElements");
 
         t.screen = new cl.Canvas(t.options.width || t.element.offsetWidth, t.options.height || t.element.offsetHeight);
+        t.screen.el.classList.add("cl-chart");
+        t.events = new cl.EventManager(t);
 
         // Create layers
         t.background = new cl.Background(t, t.options.background || {});
         t.axis = new cl.AxisManager(t);
         t.shapes = new cl.ShapeManager(t, t.options.shapes);
-        t.selector = new cl.Selector(t);
+        t.selector = new cl.Selector(t, t.options.selector);
         t.layers = [
             t.background,
             t.axis,
@@ -3639,7 +4037,7 @@ cl.Chart = (function(){
 
         /**
          * Sets chart background image
-         * @param url Image url
+         * @param url Image url or base64 string
          * @memberof cl.Chart.prototype
          */
         function setBackground(url) {
@@ -3705,6 +4103,30 @@ cl.Chart = (function(){
             t.screen.resize(width, height);
             _dirtyFlags.all = true;
             t.redraw();
+        }
+
+        /**
+         * Adds event listener
+         * @param {string} event Event name. See {@link cl.Event} members
+         * @param {function} callback Event callback
+         * @memberof cl.Chart.prototype
+         * @example
+         * chart.addEventListener(cl.Event.shapeOver, function(e) { console.log(e.target); });
+         * // equals to
+         * chart.addEventListener("shapeover", function(e) { console.log(e.target); });
+         */
+        function addEventListener(event, callback) {
+            t.events.addEventListener(event, callback);
+        }
+
+        /**
+         * Removes event listener
+         * @param {string} event Event name. See {@link cl.Event} members
+         * @param {function} callback Event callback
+         * @memberof cl.Chart.prototype
+         */
+        function removeEventListener(event, callback) {
+            t.events.removeEventListener(event, callback);
         }
 
         /**

@@ -34,25 +34,6 @@ function testShapes() {
             expect(props.id).equal(32, "Wrong id in props");
         });
 
-        it('should set links', function(){
-            shape.link([10, 20]);
-            expect(shape.props.links.length).equal(2, "Wrong count of links ids");
-            expect(shape.props.links[0]).equal(10, "Wrong links property");
-            expect(shape.props.links[1]).equal(20, "Wrong links property");
-
-            shape.link([10, 20]);
-            expect(shape.props.links.length).equal(2, "Wrong count of links ids");
-        });
-
-        it('should remove links', function(){
-            shape.unlink([10]);
-            expect(shape.props.links.length).equal(1, "Wrong count of links ids");
-
-            shape.link([10, 20, 30]);
-            shape.unlink([10, 20, 30]);
-            expect(shape.props.links.length).equal(0, "Wrong count of links ids");
-        });
-
         it('should destroy shape', function(){
             shape.destroy();
         });
@@ -105,6 +86,27 @@ function testShapes() {
             expect(shape1.props.x).equal(1, "property x doesn't match");
             expect(shape1.props.y).equal(1, "property y doesn't match");
             expect(shape1.props.size).equal(1, "property size doesn't match");
+        });
+
+        it("should don't link itself", function(){
+            shape1.link([30]);
+            expect(shape1.props.links.length).equal(0, "Wrong count of links ids");
+        });
+
+        it('should set links', function(){
+            shape1.link([31, 777]);
+            expect(shape1.props.links.length).equal(1, "Wrong count of links ids");
+            expect(shape1.props.links[0]).equal(31, "Wrong links property");
+        });
+
+
+        it('should remove links', function(){
+            shape1.unlink([31]);
+            expect(shape1.props.links.length).equal(0, "Wrong count of links ids");
+
+            shape1.link([31]);
+            shape1.unlink([31]);
+            expect(shape1.props.links.length).equal(0, "Wrong count of links ids");
         });
 
         it('should dont change id', function(){

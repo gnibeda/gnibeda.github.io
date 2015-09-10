@@ -27,8 +27,16 @@ function chartTest() {
 
         it('should set chart size', function () {
             chart.resize(800, 600);
-            chart.width.should.equal(800, "Wrong width");
-            chart.height.should.equal(600, "Wrong height");
+            chart.width.should.equal(800, "Wrong chart width");
+            chart.height.should.equal(600, "Wrong chart height");
+            chart.screen.width.should.equal(800, "Wrong screen width");
+            chart.screen.height.should.equal(600, "Wrong screen height");
+            chart.shapes.surface.width.should.equal(800, "Wrong screen width");
+            chart.shapes.surface.height.should.equal(600, "Wrong screen height");
+            chart.axis.surface.width.should.equal(800, "Wrong screen width");
+            chart.axis.surface.height.should.equal(600, "Wrong screen height");
+            chart.selector.surface.width.should.equal(800, "Wrong screen width");
+            chart.selector.surface.height.should.equal(600, "Wrong screen height");
         });
 
         it('should show preloader in center of chart', function () {
