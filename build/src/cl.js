@@ -1,296 +1,5 @@
 // tween.js v.0.15.0 https://github.com/sole/tween.js
 void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=TWEEN||function(){var n=[];return{REVISION:"14",getAll:function(){return n},removeAll:function(){n=[]},add:function(t){n.push(t)},remove:function(t){var r=n.indexOf(t);-1!==r&&n.splice(r,1)},update:function(t){if(0===n.length)return!1;var r=0;for(t=void 0!==t?t:"undefined"!=typeof window&&void 0!==window.performance&&void 0!==window.performance.now?window.performance.now():Date.now();r<n.length;)n[r].update(t)?r++:n.splice(r,1);return!0}}}();TWEEN.Tween=function(n){var t=n,r={},i={},u={},o=1e3,e=0,a=!1,f=!1,c=!1,s=0,h=null,l=TWEEN.Easing.Linear.None,p=TWEEN.Interpolation.Linear,E=[],d=null,v=!1,I=null,w=null,M=null;for(var O in n)r[O]=parseFloat(n[O],10);this.to=function(n,t){return void 0!==t&&(o=t),i=n,this},this.start=function(n){TWEEN.add(this),f=!0,v=!1,h=void 0!==n?n:"undefined"!=typeof window&&void 0!==window.performance&&void 0!==window.performance.now?window.performance.now():Date.now(),h+=s;for(var o in i){if(i[o]instanceof Array){if(0===i[o].length)continue;i[o]=[t[o]].concat(i[o])}r[o]=t[o],r[o]instanceof Array==!1&&(r[o]*=1),u[o]=r[o]||0}return this},this.stop=function(){return f?(TWEEN.remove(this),f=!1,null!==M&&M.call(t),this.stopChainedTweens(),this):this},this.stopChainedTweens=function(){for(var n=0,t=E.length;t>n;n++)E[n].stop()},this.delay=function(n){return s=n,this},this.repeat=function(n){return e=n,this},this.yoyo=function(n){return a=n,this},this.easing=function(n){return l=n,this},this.interpolation=function(n){return p=n,this},this.chain=function(){return E=arguments,this},this.onStart=function(n){return d=n,this},this.onUpdate=function(n){return I=n,this},this.onComplete=function(n){return w=n,this},this.onStop=function(n){return M=n,this},this.update=function(n){var f;if(h>n)return!0;v===!1&&(null!==d&&d.call(t),v=!0);var M=(n-h)/o;M=M>1?1:M;var O=l(M);for(f in i){var m=r[f]||0,N=i[f];N instanceof Array?t[f]=p(N,O):("string"==typeof N&&(N=m+parseFloat(N,10)),"number"==typeof N&&(t[f]=m+(N-m)*O))}if(null!==I&&I.call(t,O),1==M){if(e>0){isFinite(e)&&e--;for(f in u){if("string"==typeof i[f]&&(u[f]=u[f]+parseFloat(i[f],10)),a){var T=u[f];u[f]=i[f],i[f]=T}r[f]=u[f]}return a&&(c=!c),h=n+s,!0}null!==w&&w.call(t);for(var g=0,W=E.length;W>g;g++)E[g].start(n);return!1}return!0}},TWEEN.Easing={Linear:{None:function(n){return n}},Quadratic:{In:function(n){return n*n},Out:function(n){return n*(2-n)},InOut:function(n){return(n*=2)<1?.5*n*n:-.5*(--n*(n-2)-1)}},Cubic:{In:function(n){return n*n*n},Out:function(n){return--n*n*n+1},InOut:function(n){return(n*=2)<1?.5*n*n*n:.5*((n-=2)*n*n+2)}},Quartic:{In:function(n){return n*n*n*n},Out:function(n){return 1- --n*n*n*n},InOut:function(n){return(n*=2)<1?.5*n*n*n*n:-.5*((n-=2)*n*n*n-2)}},Quintic:{In:function(n){return n*n*n*n*n},Out:function(n){return--n*n*n*n*n+1},InOut:function(n){return(n*=2)<1?.5*n*n*n*n*n:.5*((n-=2)*n*n*n*n+2)}},Sinusoidal:{In:function(n){return 1-Math.cos(n*Math.PI/2)},Out:function(n){return Math.sin(n*Math.PI/2)},InOut:function(n){return.5*(1-Math.cos(Math.PI*n))}},Exponential:{In:function(n){return 0===n?0:Math.pow(1024,n-1)},Out:function(n){return 1===n?1:1-Math.pow(2,-10*n)},InOut:function(n){return 0===n?0:1===n?1:(n*=2)<1?.5*Math.pow(1024,n-1):.5*(-Math.pow(2,-10*(n-1))+2)}},Circular:{In:function(n){return 1-Math.sqrt(1-n*n)},Out:function(n){return Math.sqrt(1- --n*n)},InOut:function(n){return(n*=2)<1?-.5*(Math.sqrt(1-n*n)-1):.5*(Math.sqrt(1-(n-=2)*n)+1)}},Elastic:{In:function(n){var t,r=.1,i=.4;return 0===n?0:1===n?1:(!r||1>r?(r=1,t=i/4):t=i*Math.asin(1/r)/(2*Math.PI),-(r*Math.pow(2,10*(n-=1))*Math.sin(2*(n-t)*Math.PI/i)))},Out:function(n){var t,r=.1,i=.4;return 0===n?0:1===n?1:(!r||1>r?(r=1,t=i/4):t=i*Math.asin(1/r)/(2*Math.PI),r*Math.pow(2,-10*n)*Math.sin(2*(n-t)*Math.PI/i)+1)},InOut:function(n){var t,r=.1,i=.4;return 0===n?0:1===n?1:(!r||1>r?(r=1,t=i/4):t=i*Math.asin(1/r)/(2*Math.PI),(n*=2)<1?-.5*r*Math.pow(2,10*(n-=1))*Math.sin(2*(n-t)*Math.PI/i):r*Math.pow(2,-10*(n-=1))*Math.sin(2*(n-t)*Math.PI/i)*.5+1)}},Back:{In:function(n){var t=1.70158;return n*n*((t+1)*n-t)},Out:function(n){var t=1.70158;return--n*n*((t+1)*n+t)+1},InOut:function(n){var t=2.5949095;return(n*=2)<1?.5*n*n*((t+1)*n-t):.5*((n-=2)*n*((t+1)*n+t)+2)}},Bounce:{In:function(n){return 1-TWEEN.Easing.Bounce.Out(1-n)},Out:function(n){return 1/2.75>n?7.5625*n*n:2/2.75>n?7.5625*(n-=1.5/2.75)*n+.75:2.5/2.75>n?7.5625*(n-=2.25/2.75)*n+.9375:7.5625*(n-=2.625/2.75)*n+.984375},InOut:function(n){return.5>n?.5*TWEEN.Easing.Bounce.In(2*n):.5*TWEEN.Easing.Bounce.Out(2*n-1)+.5}}},TWEEN.Interpolation={Linear:function(n,t){var r=n.length-1,i=r*t,u=Math.floor(i),o=TWEEN.Interpolation.Utils.Linear;return 0>t?o(n[0],n[1],i):t>1?o(n[r],n[r-1],r-i):o(n[u],n[u+1>r?r:u+1],i-u)},Bezier:function(n,t){var r,i=0,u=n.length-1,o=Math.pow,e=TWEEN.Interpolation.Utils.Bernstein;for(r=0;u>=r;r++)i+=o(1-t,u-r)*o(t,r)*n[r]*e(u,r);return i},CatmullRom:function(n,t){var r=n.length-1,i=r*t,u=Math.floor(i),o=TWEEN.Interpolation.Utils.CatmullRom;return n[0]===n[r]?(0>t&&(u=Math.floor(i=r*(1+t))),o(n[(u-1+r)%r],n[u],n[(u+1)%r],n[(u+2)%r],i-u)):0>t?n[0]-(o(n[0],n[0],n[1],n[1],-i)-n[0]):t>1?n[r]-(o(n[r],n[r],n[r-1],n[r-1],i-r)-n[r]):o(n[u?u-1:0],n[u],n[u+1>r?r:u+1],n[u+2>r?r:u+2],i-u)},Utils:{Linear:function(n,t,r){return(t-n)*r+n},Bernstein:function(n,t){var r=TWEEN.Interpolation.Utils.Factorial;return r(n)/r(t)/r(n-t)},Factorial:function(){var n=[1];return function(t){var r,i=1;if(n[t])return n[t];for(r=t;r>1;r--)i*=r;return n[t]=i}}(),CatmullRom:function(n,t,r,i,u){var o=.5*(r-n),e=.5*(i-t),a=u*u,f=u*a;return(2*t-2*r+o+e)*f+(-3*t+3*r-2*o-e)*a+o*u+t}}},"undefined"!=typeof module&&module.exports&&(module.exports=TWEEN);
-/**
- * A class to parse color values
- * @author Stoyan Stefanov <sstoo@gmail.com>
- * @link   http://www.phpied.com/rgb-color-parser-in-javascript/
- * @license Use it if you like it
- */
-function RGBColor(color_string)
-{
-    'use strict';
-
-    this.ok = false;
-
-    // strip any leading #
-    if (color_string.charAt(0) == '#') { // remove # if any
-        color_string = color_string.substr(1,6);
-    }
-
-    color_string = color_string.replace(/ /g,'');
-    color_string = color_string.toLowerCase();
-
-    // before getting into regexps, try simple matches
-    // and overwrite the input
-    var simple_colors = {
-        aliceblue: 'f0f8ff',
-        antiquewhite: 'faebd7',
-        aqua: '00ffff',
-        aquamarine: '7fffd4',
-        azure: 'f0ffff',
-        beige: 'f5f5dc',
-        bisque: 'ffe4c4',
-        black: '000000',
-        blanchedalmond: 'ffebcd',
-        blue: '0000ff',
-        blueviolet: '8a2be2',
-        brown: 'a52a2a',
-        burlywood: 'deb887',
-        cadetblue: '5f9ea0',
-        chartreuse: '7fff00',
-        chocolate: 'd2691e',
-        coral: 'ff7f50',
-        cornflowerblue: '6495ed',
-        cornsilk: 'fff8dc',
-        crimson: 'dc143c',
-        cyan: '00ffff',
-        darkblue: '00008b',
-        darkcyan: '008b8b',
-        darkgoldenrod: 'b8860b',
-        darkgray: 'a9a9a9',
-        darkgreen: '006400',
-        darkkhaki: 'bdb76b',
-        darkmagenta: '8b008b',
-        darkolivegreen: '556b2f',
-        darkorange: 'ff8c00',
-        darkorchid: '9932cc',
-        darkred: '8b0000',
-        darksalmon: 'e9967a',
-        darkseagreen: '8fbc8f',
-        darkslateblue: '483d8b',
-        darkslategray: '2f4f4f',
-        darkturquoise: '00ced1',
-        darkviolet: '9400d3',
-        deeppink: 'ff1493',
-        deepskyblue: '00bfff',
-        dimgray: '696969',
-        dodgerblue: '1e90ff',
-        feldspar: 'd19275',
-        firebrick: 'b22222',
-        floralwhite: 'fffaf0',
-        forestgreen: '228b22',
-        fuchsia: 'ff00ff',
-        gainsboro: 'dcdcdc',
-        ghostwhite: 'f8f8ff',
-        gold: 'ffd700',
-        goldenrod: 'daa520',
-        gray: '808080',
-        green: '008000',
-        greenyellow: 'adff2f',
-        honeydew: 'f0fff0',
-        hotpink: 'ff69b4',
-        indianred : 'cd5c5c',
-        indigo : '4b0082',
-        ivory: 'fffff0',
-        khaki: 'f0e68c',
-        lavender: 'e6e6fa',
-        lavenderblush: 'fff0f5',
-        lawngreen: '7cfc00',
-        lemonchiffon: 'fffacd',
-        lightblue: 'add8e6',
-        lightcoral: 'f08080',
-        lightcyan: 'e0ffff',
-        lightgoldenrodyellow: 'fafad2',
-        lightgrey: 'd3d3d3',
-        lightgreen: '90ee90',
-        lightpink: 'ffb6c1',
-        lightsalmon: 'ffa07a',
-        lightseagreen: '20b2aa',
-        lightskyblue: '87cefa',
-        lightslateblue: '8470ff',
-        lightslategray: '778899',
-        lightsteelblue: 'b0c4de',
-        lightyellow: 'ffffe0',
-        lime: '00ff00',
-        limegreen: '32cd32',
-        linen: 'faf0e6',
-        magenta: 'ff00ff',
-        maroon: '800000',
-        mediumaquamarine: '66cdaa',
-        mediumblue: '0000cd',
-        mediumorchid: 'ba55d3',
-        mediumpurple: '9370d8',
-        mediumseagreen: '3cb371',
-        mediumslateblue: '7b68ee',
-        mediumspringgreen: '00fa9a',
-        mediumturquoise: '48d1cc',
-        mediumvioletred: 'c71585',
-        midnightblue: '191970',
-        mintcream: 'f5fffa',
-        mistyrose: 'ffe4e1',
-        moccasin: 'ffe4b5',
-        navajowhite: 'ffdead',
-        navy: '000080',
-        oldlace: 'fdf5e6',
-        olive: '808000',
-        olivedrab: '6b8e23',
-        orange: 'ffa500',
-        orangered: 'ff4500',
-        orchid: 'da70d6',
-        palegoldenrod: 'eee8aa',
-        palegreen: '98fb98',
-        paleturquoise: 'afeeee',
-        palevioletred: 'd87093',
-        papayawhip: 'ffefd5',
-        peachpuff: 'ffdab9',
-        peru: 'cd853f',
-        pink: 'ffc0cb',
-        plum: 'dda0dd',
-        powderblue: 'b0e0e6',
-        purple: '800080',
-        red: 'ff0000',
-        rosybrown: 'bc8f8f',
-        royalblue: '4169e1',
-        saddlebrown: '8b4513',
-        salmon: 'fa8072',
-        sandybrown: 'f4a460',
-        seagreen: '2e8b57',
-        seashell: 'fff5ee',
-        sienna: 'a0522d',
-        silver: 'c0c0c0',
-        skyblue: '87ceeb',
-        slateblue: '6a5acd',
-        slategray: '708090',
-        snow: 'fffafa',
-        springgreen: '00ff7f',
-        steelblue: '4682b4',
-        tan: 'd2b48c',
-        teal: '008080',
-        thistle: 'd8bfd8',
-        tomato: 'ff6347',
-        turquoise: '40e0d0',
-        violet: 'ee82ee',
-        violetred: 'd02090',
-        wheat: 'f5deb3',
-        white: 'ffffff',
-        whitesmoke: 'f5f5f5',
-        yellow: 'ffff00',
-        yellowgreen: '9acd32'
-    };
-    for (var key in simple_colors) {
-        if (color_string == key) {
-            color_string = simple_colors[key];
-        }
-    }
-    // emd of simple type-in colors
-
-    // array of color definition objects
-    var color_defs = [
-        {
-            re: /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/,
-            example: ['rgb(123, 234, 45)', 'rgb(255,234,245)'],
-            process: function (bits){
-                return [
-                    parseInt(bits[1]),
-                    parseInt(bits[2]),
-                    parseInt(bits[3])
-                ];
-            }
-        },
-        {
-            re: /^(\w{2})(\w{2})(\w{2})$/,
-            example: ['#00ff00', '336699'],
-            process: function (bits){
-                return [
-                    parseInt(bits[1], 16),
-                    parseInt(bits[2], 16),
-                    parseInt(bits[3], 16)
-                ];
-            }
-        },
-        {
-            re: /^(\w{1})(\w{1})(\w{1})$/,
-            example: ['#fb0', 'f0f'],
-            process: function (bits){
-                return [
-                    parseInt(bits[1] + bits[1], 16),
-                    parseInt(bits[2] + bits[2], 16),
-                    parseInt(bits[3] + bits[3], 16)
-                ];
-            }
-        }
-    ];
-
-    // search through the definitions to find a match
-    for (var i = 0; i < color_defs.length; i++) {
-        var re = color_defs[i].re;
-        var processor = color_defs[i].process;
-        var bits = re.exec(color_string);
-        if (bits) {
-            var channels = processor(bits);
-            this.r = channels[0];
-            this.g = channels[1];
-            this.b = channels[2];
-            this.ok = true;
-        }
-
-    }
-
-    // validate/cleanup values
-    this.r = (this.r < 0 || isNaN(this.r)) ? 0 : ((this.r > 255) ? 255 : this.r);
-    this.g = (this.g < 0 || isNaN(this.g)) ? 0 : ((this.g > 255) ? 255 : this.g);
-    this.b = (this.b < 0 || isNaN(this.b)) ? 0 : ((this.b > 255) ? 255 : this.b);
-
-    // some getters
-    this.toRGB = function () {
-        return 'rgb(' + this.r + ', ' + this.g + ', ' + this.b + ')';
-    }
-    this.toHex = function () {
-        var r = this.r.toString(16);
-        var g = this.g.toString(16);
-        var b = this.b.toString(16);
-        if (r.length == 1) r = '0' + r;
-        if (g.length == 1) g = '0' + g;
-        if (b.length == 1) b = '0' + b;
-        return '#' + r + g + b;
-    }
-
-    // help
-    /*this.getHelpXML = function () {
-
-        var examples = new Array();
-        // add regexps
-        for (var i = 0; i < color_defs.length; i++) {
-            var example = color_defs[i].example;
-            for (var j = 0; j < example.length; j++) {
-                examples[examples.length] = example[j];
-            }
-        }
-        // add type-in colors
-        for (var sc in simple_colors) {
-            examples[examples.length] = sc;
-        }
-
-        var xml = document.createElement('ul');
-        xml.setAttribute('id', 'rgbcolor-examples');
-        for (var i = 0; i < examples.length; i++) {
-            try {
-                var list_item = document.createElement('li');
-                var list_color = new RGBColor(examples[i]);
-                var example_div = document.createElement('div');
-                example_div.style.cssText =
-                        'margin: 3px; '
-                        + 'border: 1px solid black; '
-                        + 'background:' + list_color.toHex() + '; '
-                        + 'color:' + list_color.toHex()
-                ;
-                example_div.appendChild(document.createTextNode('test'));
-                var list_item_value = document.createTextNode(
-                    ' ' + examples[i] + ' -> ' + list_color.toRGB() + ' -> ' + list_color.toHex()
-                );
-                list_item.appendChild(example_div);
-                list_item.appendChild(list_item_value);
-                xml.appendChild(list_item);
-
-            } catch(e){}
-        }
-        return xml;
-
-    }*/
-
-}
-
-
 /** @namespace */
 var cl= (function(){
     return {
@@ -488,6 +197,13 @@ cl.Consts = (function(){
         /**
          * @memberof cl.Consts.prototype
          * @type {string}
+         * @default "#00FF00"
+         */
+        COLOR_GREEN: "#00FF00",
+
+        /**
+         * @memberof cl.Consts.prototype
+         * @type {string}
          * @default "#0000FF"
          */
         COLOR_BLUE: "#0000FF",
@@ -531,6 +247,245 @@ cl.Consts = (function(){
 
     return new Consts();
 })();
+/** @namespace */
+cl.Color = (function(){
+    'use strict';
+
+    /**
+     * Color singleton
+     * @memberof cl
+     * @constructor
+     * @static
+     */
+    function Color() {
+        var colors = {
+            aliceblue: 'f0f8ff',
+            antiquewhite: 'faebd7',
+            aqua: '00ffff',
+            aquamarine: '7fffd4',
+            azure: 'f0ffff',
+            beige: 'f5f5dc',
+            bisque: 'ffe4c4',
+            black: '000000',
+            blanchedalmond: 'ffebcd',
+            blue: '0000ff',
+            blueviolet: '8a2be2',
+            brown: 'a52a2a',
+            burlywood: 'deb887',
+            cadetblue: '5f9ea0',
+            chartreuse: '7fff00',
+            chocolate: 'd2691e',
+            coral: 'ff7f50',
+            cornflowerblue: '6495ed',
+            cornsilk: 'fff8dc',
+            crimson: 'dc143c',
+            cyan: '00ffff',
+            darkblue: '00008b',
+            darkcyan: '008b8b',
+            darkgoldenrod: 'b8860b',
+            darkgray: 'a9a9a9',
+            darkgreen: '006400',
+            darkkhaki: 'bdb76b',
+            darkmagenta: '8b008b',
+            darkolivegreen: '556b2f',
+            darkorange: 'ff8c00',
+            darkorchid: '9932cc',
+            darkred: '8b0000',
+            darksalmon: 'e9967a',
+            darkseagreen: '8fbc8f',
+            darkslateblue: '483d8b',
+            darkslategray: '2f4f4f',
+            darkturquoise: '00ced1',
+            darkviolet: '9400d3',
+            deeppink: 'ff1493',
+            deepskyblue: '00bfff',
+            dimgray: '696969',
+            dodgerblue: '1e90ff',
+            feldspar: 'd19275',
+            firebrick: 'b22222',
+            floralwhite: 'fffaf0',
+            forestgreen: '228b22',
+            fuchsia: 'ff00ff',
+            gainsboro: 'dcdcdc',
+            ghostwhite: 'f8f8ff',
+            gold: 'ffd700',
+            goldenrod: 'daa520',
+            gray: '808080',
+            green: '008000',
+            greenyellow: 'adff2f',
+            honeydew: 'f0fff0',
+            hotpink: 'ff69b4',
+            indianred : 'cd5c5c',
+            indigo : '4b0082',
+            ivory: 'fffff0',
+            khaki: 'f0e68c',
+            lavender: 'e6e6fa',
+            lavenderblush: 'fff0f5',
+            lawngreen: '7cfc00',
+            lemonchiffon: 'fffacd',
+            lightblue: 'add8e6',
+            lightcoral: 'f08080',
+            lightcyan: 'e0ffff',
+            lightgoldenrodyellow: 'fafad2',
+            lightgrey: 'd3d3d3',
+            lightgreen: '90ee90',
+            lightpink: 'ffb6c1',
+            lightsalmon: 'ffa07a',
+            lightseagreen: '20b2aa',
+            lightskyblue: '87cefa',
+            lightslateblue: '8470ff',
+            lightslategray: '778899',
+            lightsteelblue: 'b0c4de',
+            lightyellow: 'ffffe0',
+            lime: '00ff00',
+            limegreen: '32cd32',
+            linen: 'faf0e6',
+            magenta: 'ff00ff',
+            maroon: '800000',
+            mediumaquamarine: '66cdaa',
+            mediumblue: '0000cd',
+            mediumorchid: 'ba55d3',
+            mediumpurple: '9370d8',
+            mediumseagreen: '3cb371',
+            mediumslateblue: '7b68ee',
+            mediumspringgreen: '00fa9a',
+            mediumturquoise: '48d1cc',
+            mediumvioletred: 'c71585',
+            midnightblue: '191970',
+            mintcream: 'f5fffa',
+            mistyrose: 'ffe4e1',
+            moccasin: 'ffe4b5',
+            navajowhite: 'ffdead',
+            navy: '000080',
+            oldlace: 'fdf5e6',
+            olive: '808000',
+            olivedrab: '6b8e23',
+            orange: 'ffa500',
+            orangered: 'ff4500',
+            orchid: 'da70d6',
+            palegoldenrod: 'eee8aa',
+            palegreen: '98fb98',
+            paleturquoise: 'afeeee',
+            palevioletred: 'd87093',
+            papayawhip: 'ffefd5',
+            peachpuff: 'ffdab9',
+            peru: 'cd853f',
+            pink: 'ffc0cb',
+            plum: 'dda0dd',
+            powderblue: 'b0e0e6',
+            purple: '800080',
+            red: 'ff0000',
+            rosybrown: 'bc8f8f',
+            royalblue: '4169e1',
+            saddlebrown: '8b4513',
+            salmon: 'fa8072',
+            sandybrown: 'f4a460',
+            seagreen: '2e8b57',
+            seashell: 'fff5ee',
+            sienna: 'a0522d',
+            silver: 'c0c0c0',
+            skyblue: '87ceeb',
+            slateblue: '6a5acd',
+            slategray: '708090',
+            snow: 'fffafa',
+            springgreen: '00ff7f',
+            steelblue: '4682b4',
+            tan: 'd2b48c',
+            teal: '008080',
+            thistle: 'd8bfd8',
+            tomato: 'ff6347',
+            turquoise: '40e0d0',
+            violet: 'ee82ee',
+            violetred: 'd02090',
+            wheat: 'f5deb3',
+            white: 'ffffff',
+            whitesmoke: 'f5f5f5',
+            yellow: 'ffff00',
+            yellowgreen: '9acd32'
+        };
+
+        var defs = [
+            {
+                re: /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/,
+                example: ['rgb(123, 234, 45)', 'rgb(255,234,245)'],
+                process: function (bits){
+                    return [
+                        parseInt(bits[1]),
+                        parseInt(bits[2]),
+                        parseInt(bits[3])
+                    ];
+                }
+            },
+            {
+                re: /^(\w{2})(\w{2})(\w{2})$/,
+                example: ['#00ff00', '336699'],
+                process: function (bits){
+                    return [
+                        parseInt(bits[1], 16),
+                        parseInt(bits[2], 16),
+                        parseInt(bits[3], 16)
+                    ];
+                }
+            },
+            {
+                re: /^(\w{1})(\w{1})(\w{1})$/,
+                example: ['#fb0', 'f0f'],
+                process: function (bits){
+                    return [
+                        parseInt(bits[1] + bits[1], 16),
+                        parseInt(bits[2] + bits[2], 16),
+                        parseInt(bits[3] + bits[3], 16)
+                    ];
+                }
+            }
+        ];
+
+
+        this.toHex = function (red, green, blue) {
+            var r = red.toString(16);
+            var g = green.toString(16);
+            var b = blue.toString(16);
+            if (r.length == 1) r = '0' + r;
+            if (g.length == 1) g = '0' + g;
+            if (b.length == 1) b = '0' + b;
+            return '#' + r + g + b;
+        };
+
+        this.toRGB = function (color) {
+            // strip any leading #
+            if (color.charAt(0) == '#') color = color.substr(1,6);
+            color = color.replace(/ /g,'').toLowerCase();
+            if (colors[color]) color = colors[color];
+
+            var r, g, b, ok;
+
+            ok = false;
+            for (var i = 0; i < defs.length; i++) {
+                var re = defs[i].re;
+                var processor = defs[i].process;
+                var bits = re.exec(color);
+                if (bits) {
+                    var channels = processor(bits);
+                    r = channels[0];
+                    g = channels[1];
+                    b = channels[2];
+                    ok = true;
+                }
+
+            }
+
+            // validate/cleanup values
+            r = (r < 0 || isNaN(r)) ? 0 : ((r > 255) ? 255 : r);
+            g = (g < 0 || isNaN(g)) ? 0 : ((g > 255) ? 255 : g);
+            b = (b < 0 || isNaN(b)) ? 0 : ((b > 255) ? 255 : b);
+
+            return {r: r, g: g, b: b};
+        };
+    }
+
+    return new Color();
+
+})();
 cl.Event = (function() {
     'use strict';
 
@@ -563,6 +518,13 @@ cl.Event = (function() {
          * @memberOf cl.Event
          */
         click: "click",
+
+        /**
+         * Name for double click event
+         * @default "dblclick"
+         * @memberOf cl.Event
+         */
+        doubleClick: "dblclick",
 
         /**
          * Name for mouse move event
@@ -598,6 +560,8 @@ cl.Event = (function() {
          * @memberOf cl.Event
          */
         shapeOut: "shapeout"
+
+
     };
 
     cl.Utils.merge(Event, eventNames);
@@ -680,16 +644,16 @@ cl.EventManager = (function() {
         function onMouseMove(e) {
             t.mouseX = e.offsetX;
             t.mouseY = e.offsetY;
-            if (hasListener("shapeover") || hasListener("shapeout")) {
+            if (hasListener(cl.Event.shapeOver) || hasListener(cl.Event.shapeOut)) {
                 var h = t.chart.selector.shapeFromPoint(t.mouseX, t.mouseY);
                 if (h) {
-                    if (hoveredShape !== h) callListeners("shapeover", e, h);
+                    if (hoveredShape !== h) callListeners(cl.Event.shapeOver, e, h);
                 } else {
-                    if (hoveredShape !== null) callListeners("shapeout", e, hoveredShape);
+                    if (hoveredShape !== null) callListeners(cl.Event.shapeOut, e, hoveredShape);
                 }
                 hoveredShape = h;
             }
-            callListeners("mousemove", e);
+            callListeners(cl.Event.mouseMove, e);
         }
 
         /**
@@ -699,7 +663,7 @@ cl.EventManager = (function() {
          */
         function onMouseDown(e) {
             t.mouseDown = true;
-            callListeners("mousedown", e);
+            callListeners(cl.Event.mouseDown, e);
         }
 
         /**
@@ -710,7 +674,7 @@ cl.EventManager = (function() {
         function onMouseUp(e) {
             if (!t.mouseDown && e.currentTarget === document) return;
             t.mouseDown = false;
-            callListeners("mouseup", e);
+            callListeners(cl.Event.mouseUp, e);
             // Stop event propagation, no need to fire document onMouseUp
             e.stopPropagation();
         }
@@ -721,7 +685,16 @@ cl.EventManager = (function() {
          * @private
          */
         function onClick(e) {
-            callListeners("click", e, t.chart.selector.shapeFromPoint(e.offsetX, e.offsetY));
+            callListeners(cl.Event.click, e, t.chart.selector.shapeFromPoint(e.offsetX, e.offsetY));
+        }
+
+        /**
+         * On mouse double click event handler
+         * @param {object} e Event
+         * @private
+         */
+        function onDoubleClick(e) {
+            callListeners(cl.Event.doubleClick, e, t.chart.selector.shapeFromPoint(e.offsetX, e.offsetY));
         }
 
         /**
@@ -752,12 +725,13 @@ cl.EventManager = (function() {
          */
         function bindBaseEventListeners() {
             var el = t.chart.screen.el;
-            el.addEventListener("mousemove", onMouseMove);
-            el.addEventListener("mousedown", onMouseDown);
-            el.addEventListener("mouseup", onMouseUp);
-            el.addEventListener("click", onClick);
+            el.addEventListener(cl.Event.mouseMove, onMouseMove);
+            el.addEventListener(cl.Event.mouseDown, onMouseDown);
+            el.addEventListener(cl.Event.mouseUp, onMouseUp);
+            el.addEventListener(cl.Event.click, onClick);
+            el.addEventListener(cl.Event.doubleClick, onDoubleClick);
             // Bind document mouse up to avoid mouse button release outside container
-            document.addEventListener("mouseup", onMouseUp);
+            document.addEventListener(cl.Event.mouseUp, onMouseUp);
         }
 
         /**
@@ -766,11 +740,12 @@ cl.EventManager = (function() {
          */
         function unbindBaseEventListeners() {
             var el = t.chart.screen.el;
-            el.removeEventListener("mousemove", onMouseMove);
-            el.removeEventListener("mousedown", onMouseDown);
-            el.removeEventListener("mouseup", onMouseUp);
-            el.removeEventListener("click", onClick);
-            document.removeEventListener("mouseup", onMouseUp);
+            el.removeEventListener(cl.Event.mouseMove, onMouseMove);
+            el.removeEventListener(cl.Event.mouseDown, onMouseDown);
+            el.removeEventListener(cl.Event.mouseUp, onMouseUp);
+            el.removeEventListener(cl.Event.click, onClick);
+            el.removeEventListener(cl.Event.doubleClick, onDoubleClick);
+            document.removeEventListener(cl.Event.mouseUp, onMouseUp);
         }
 
         /**
@@ -922,8 +897,8 @@ cl.Axis = (function() {
      * @param {string} [options.ticks.small.type="line"] Small ticks type. "line" or "dot"
      *
      * @param {object} [options.margin] Margin settings
-     * @param {number} [options.margin.start=40] Axis margin from start in pixels
-     * @param {number} [options.margin.end=10] Axis margin from end in pixels
+     * @param {number} [options.margin.start=20] Axis margin from start in pixels
+     * @param {number} [options.margin.end=20] Axis margin from end in pixels
      *
      * @param {object} [options.style] Style settings
      * @param {number} [options.style.lineWidth=1] Width of axis in pixels
@@ -1067,8 +1042,8 @@ cl.Axis = (function() {
                 }
             },
             margin: {
-                start: 40,
-                end: 10
+                start: 20,
+                end: 20
             },
             style: {
                 lineWidth: 2,
@@ -2385,6 +2360,7 @@ cl.Selector = (function() {
      * @constructor
      *
      * @property {object} options Selector settings. Same as "options" in constructor
+     * @property {array<cl.Shape>} selection Current selection
      */
     function Selector(chart, options) {
         var t = this;
@@ -2438,15 +2414,15 @@ cl.Selector = (function() {
             },
             rect = { active: false, sx: 0, sy: 0, ex: 0, ey: 0 };
 
-        // TODO: solve problem with start animation items have dragging
-
         // Public methods
         t.resize = resize;
         t.render = render;
         t.destroy = destroy;
+        t.deselect = deselect;
         t.getBounds = getBounds;
         t.enableDrag = enableDrag;
         t.disableDrag = disableDrag;
+        t.getSelection = getSelection;
         t.shapesFromRect = shapesFromRect;
         t.shapeFromPoint = shapeFromPoint;
         t.shapesFromPoint = shapesFromPoint;
@@ -2461,6 +2437,24 @@ cl.Selector = (function() {
         t.chart.addEventListener(cl.Event.mouseMove, onMouseMove);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /**
+         * Removes selection
+         * @memberof cl.Selector.prototype
+         */
+        function deselect() {
+            t.selection = [];
+            t.apply();
+        }
+
+        /**
+         * Returns selection
+         * @returns {array.<cl.Shape>}
+         * @memberof cl.Selector.prototype
+         */
+        function getSelection() {
+            return t.selection;
+        }
 
         /**
          * Enables multiselection
@@ -2706,14 +2700,13 @@ cl.Selector = (function() {
          * @param {number} ry Y coordinate in pixels of rectangle center
          * @param {number} hw Half width
          * @param {number} hh Half height
-         * @param {boolean} onlyInside Return shapes fully inside rectangle
          * @returns {Array<cl.Shape>} Array of shapes intersecting rectangle
          * @memberof cl.Selector.prototype
          */
-        function shapesFromRect(rx, ry, hw, hh, onlyInside) {
+        function shapesFromRect(rx, ry, hw, hh) {
             var i, l, res = [];
             l = t.chart.shapes.count;
-            for (i = 0; i < l; i++) if (t.chart.shapes.shapes[i].hitTestRect(rx, ry, hw, hh, onlyInside)) res.push(t.chart.shapes.shapes[i]);
+            for (i = 0; i < l; i++) if (t.chart.shapes.shapes[i].hitTestRect(rx, ry, hw, hh)) res.push(t.chart.shapes.shapes[i]);
             return res;
         }
 
@@ -2893,8 +2886,14 @@ cl.Shape = (function() {
      * @param {object} [props.color=cl.Consts.COLOR_RED] Shape color
      * @param {object} [props.border=1] Shape border width
      * @param {object} [props.opacity=0.3] Shape opacity
+     * @param {array} [props.lineDash=[]] Shape line dash. Example: [2, 2]
      * @param {array} [props.links=[]] Array of linked shapes id's
      * @param {boolean} [props.draggable=true] Is shape draggable
+     * @param {object} [props.track] Shape track. Can be displayed while shape is animating
+     * @param {boolean} [props.track.enabled=false] Enabled or not
+     * @param {number} [props.track.width=1] Line width
+     * @param {string} [props.track.color=cl.Consts.COLOR_GREEN] Line color
+     * @param {number} [props.track.opacity=0.4] Line opacity
      *
      * @property {object} props Shape properties. Same as "props" in constructor
      * @property {cl.Shape} props.owner Owner of properties
@@ -2927,8 +2926,17 @@ cl.Shape = (function() {
             color: cl.Consts.COLOR_RED,
             border: 1,
             opacity: 0.3,
+            lineDash: null,
             links: [],
-            draggable: true
+            draggable: true,
+            track: {
+                enabled: false,
+                width: 1,
+                color: cl.Consts.COLOR_GREEN,
+                opacity: 0.4,
+                startSize: 2,
+                endSize: 4
+            }
         };
         cl.Utils.merge(t.props, props);
 
@@ -2950,10 +2958,9 @@ cl.Shape = (function() {
      * @param {number} ry Y coordinate in pixels of rectangle center
      * @param {number} hw Half width
      * @param {number} hh Half height
-     * @param {boolean} [onlyInside] Check shape to be fully inside rectangle
      * @returns {boolean} Inside or not
      */
-    Shape.prototype.hitTestRect = function(rx, ry, hw, hh, onlyInside) {
+    Shape.prototype.hitTestRect = function(rx, ry, hw, hh) {
 
     };
 
@@ -2995,7 +3002,6 @@ cl.Shape = (function() {
      */
     Shape.prototype.unlink = function(ids) {
         var t = this;
-        // TODO: redraw chart after links changed
         var prevLength = t.props.links.length;
         ids.forEach(function(v){
             var idx = t.props.links.indexOf(v);
@@ -3030,28 +3036,14 @@ cl.Shape = (function() {
 
         // Calculate colors for animations
         if (this.animProps.color) {
-            //TODO: may be hsv support needed?
-            /*var rgbFrom = new RGBColor(changedItems[i].props.color);
-             var rgbTo = new RGBColor(changedItems[i].animProps.color);
-             var hsv = rgb2hsv(rgbFrom.r,  rgbFrom.g, rgbFrom.b);
-             changedItems[i].props.color_h = hsv.h;
-             changedItems[i].props.color_s = hsv.s;
-             changedItems[i].props.color_v = hsv.v;
-             hsv = rgb2hsv(rgbTo.r,  rgbTo.g, rgbTo.b);
-             changedItems[i].animProps.color_h = hsv.h;
-             changedItems[i].animProps.color_s = hsv.s;
-             changedItems[i].animProps.color_v = hsv.v;*/
-
-            // TODO: optimize color conversion
-            var rgbFrom = new RGBColor(this.props.color);
-            var rgbTo = new RGBColor(this.animProps.color);
-            this.props.color_h = rgbFrom.r;
-            this.props.color_s = rgbFrom.g;
-            this.props.color_v = rgbFrom.b;
-            this.animProps.color_h = rgbTo.r;
-            this.animProps.color_s = rgbTo.g;
-            this.animProps.color_v = rgbTo.b;
-            // TODO: For v8 perfomance issues, don't use delete for objects properties. Solve this case without deletion?
+            var rgbFrom = cl.Color.toRGB(this.props.color);
+            var rgbTo = cl.Color.toRGB(this.animProps.color);
+            this.props.color_r = rgbFrom.r;
+            this.props.color_g = rgbFrom.g;
+            this.props.color_b = rgbFrom.b;
+            this.animProps.color_r = rgbTo.r;
+            this.animProps.color_g = rgbTo.g;
+            this.animProps.color_b = rgbTo.b;
             delete this.animProps.color;
         }
 
@@ -3061,28 +3053,17 @@ cl.Shape = (function() {
             .easing(TWEEN.Easing.Quadratic.Out)
             .delay(cl.ShapeManager.ANIMATION_DELAY)
             .onUpdate(function () {
-                if (this.color_h === undefined) return;
-                /*var h = this.color_h * 3.6;
-                 var s = this.color_s;
-                 var v = this.color_v;
-                 if (h > 3.6) h = 3.6;
-                 if (s > 1) s = 1;
-                 if (v > 1) v = 1;
-                 if (h < 0) h = 0;
-                 if (s < 0) s = 0;
-                 if (v < 0) v = 0;
-                 var rgb = HSVtoRGB(h, s, v);
-
-                 var value = (1 << 24) + (rgb.r << 16) + (rgb.g  << 8) + rgb.b;
-                 this.color = "#" + (0x1000000 | value).toString(16).substring(1);*/
-                var r = this.color_h;
-                var g = this.color_s;
-                var b = this.color_v;
+                if (this.color_r === undefined) return;
+                var r = Math.floor(this.color_r);
+                var g = Math.floor(this.color_g);
+                var b = Math.floor(this.color_b);
+                if (r < 0) r = 0;
+                if (g < 0) g = 0;
+                if (b < 0) b = 0;
                 if (r > 255) r = 255;
                 if (g > 255) g = 255;
                 if (b > 255) b = 255;
-                var value = (1 << 24) + (r << 16) + (g << 8) + b;
-                this.color = "#" + (0x1000000 | value).toString(16).substring(1);
+                this.color = cl.Color.toHex(r, g, b);
             })
             .onComplete(function () {
                 // Stop animation, but don't stop tween inside onComplete(this can cause bugs)
@@ -3107,6 +3088,7 @@ cl.Shape = (function() {
      * @returns {boolean} Is shape changed or not
      */
     Shape.prototype.setProps = function(newProps, animate, animationSpeed) {
+        if (this._isDragged) return false;
         // Get animation properties
         var result = this.calcAnimProps(newProps);
         if (result) {
@@ -3143,6 +3125,7 @@ cl.Shape = (function() {
      * @returns {boolean} Is shape changed or not
      */
     Shape.prototype.calcAnimProps = function(newProps) {
+        if (this._isDragged) return false;
         this.animProps.owner = this;
         if (newProps.x !== undefined && newProps.x !== this.props.x) {
             this.animProps.x = newProps.x;
@@ -3358,6 +3341,30 @@ cl.ShapeManager = (function() {
             t.surface.draw(t.static, 0, 0);
             renderLinks(t.surface, false);
             for (i = 0, l = t.shapes.length; i < l; i++)  if (t.shapes[i].isAnimating) t.shapes[i].render(t.surface, t.chart);
+
+
+            for (i = 0, l = t.shapes.length; i < l; i++)  if (t.shapes[i].isAnimating && t.shapes[i].props.track.enabled && t.shapes[i].animProps) {
+                var x1, y1, x2, y2;
+                x1 = t.chart.xAxis.toScreen(t.shapes[i].props.x);
+                y1 = t.chart.yAxis.toScreen(t.shapes[i].props.y);
+                x2 = t.chart.xAxis.toScreen(t.shapes[i].animProps.x);
+                y2 = t.chart.yAxis.toScreen(t.shapes[i].animProps.y);
+                t.surface.ctx.strokeStyle = t.shapes[i].props.track.color;
+                t.surface.ctx.lineWidth = t.shapes[i].props.track.width;
+                t.surface.ctx.beginPath();
+                t.surface.ctx.moveTo(x1, y1);
+                t.surface.ctx.lineTo(x2, y2);
+                t.surface.ctx.stroke();
+
+                if (t.shapes[i].props.track.startSize !== 0 && t.shapes[i].props.track.endSize !== 0) {
+                    t.surface.ctx.fillStyle = t.shapes[i].props.track.color;
+                    if (t.shapes[i].props.track.startSize !== 0)
+                        t.surface.ctx.arc(x1, y1, t.shapes[i].props.track.startSize, 0, cl.Consts.TWO_PI, false);
+                    if (t.shapes[i].props.track.endSize !== 0)
+                        t.surface.ctx.arc(x2, y2, t.shapes[i].props.track.endSize, 0, cl.Consts.TWO_PI, false);
+                    t.surface.ctx.fill();
+                }
+            }
         }
 
 /*
@@ -3443,7 +3450,7 @@ cl.ShapeManager = (function() {
             var changedItems = [];
 
             for (i = 0, l = it.length; i < l; i++) {
-                if (it[i].id === undefined) throw new Error(cl.Lang.get("errShapeNoParam"));
+                if (it[i].id === undefined) throw new Error(cl.Lang.get("errShapeNoParam", "id"));
                 var obj = t.get(it[i].id);
                 if (obj) {
                     //var changed = obj.calcAnimProps(it[i].props);
@@ -3679,10 +3686,9 @@ cl.Bubble = (function() {
          * @param {number} ry Y coordinate in pixels of rectangle center
          * @param {number} hw Half width
          * @param {number} hh Half height
-         * @param {boolean} [onlyInside] Check shape to be fully inside rectangle
          * @returns {boolean} Inside or not
          */
-        function hitTestRect(rx, ry, hw, hh, onlyInside) {
+        function hitTestRect(rx, ry, hw, hh) {
             var cx = t.parent.chart.xAxis.toScreen(t.props.x);
             var cy = t.parent.chart.yAxis.toScreen(t.props.y);
             var cdx = Math.abs(cx - rx);
@@ -3691,7 +3697,7 @@ cl.Bubble = (function() {
 
             if (cdx > hw + r) { return false; }
             if (cdy > hh + r) { return false; }
-            // TODO: onlyInside not working
+
             if (cdx <= hw ) { return true; }
             if (cdy <= hh ) { return true; }
 
@@ -3738,11 +3744,13 @@ cl.Bubble = (function() {
                 canvas.setAlpha(t.props.opacity);
                 canvas.setFillColor(t.props.color);
                 canvas.setLineStyle(t.props.border, cl.Utils.colorLuminance(t.props.color, -0.2), true);
+                if (t.props.lineDash) canvas.setLineDash(t.props.lineDash);
                 canvas.ctx.beginPath();
                 canvas.ctx.arc(chart.xAxis.toScreen(t.props.x), chart.yAxis.toScreen(t.props.y), t.props.size, 0, cl.Consts.TWO_PI, false);
                 canvas.ctx.fill();
                 canvas.ctx.stroke();
                 canvas.ctx.closePath();
+                if (t.props.lineDash) canvas.setLineDash([]);
             }
 
             cl.Shape.prototype.render.call(t, canvas);
@@ -3842,6 +3850,10 @@ cl.Chart = (function(){
      * // Add new axis
      * chart.axis.add({ type: "x", name: "My custom axis", offset: 30 });
      *
+     * // Coordinate conversion
+     * var screenX = chart.toScreenX(xValue);
+     * var axisX = chart.toAxisX(xPixel);
+     *
      * // Refresh(redraw) chart
      * chart.redraw()
      *
@@ -3867,6 +3879,20 @@ cl.Chart = (function(){
      *      console.log("Shape is: ", e.target);
      * });
      *
+     * // Don't pass event object in callbacks, because it can be destroyed or changed
+     * // Just copy needed properties
+     * chart.addEventListener(cl.Event.shapeOver, function(e) {
+     *     setTimeout(function() {
+     *          console.log(e.target); // WRONG
+     *     }, 1000);
+     * });
+     * chart.addEventListener(cl.Event.shapeOver, function(e) {
+     *     var target = e.target;
+     *     setTimeout(function() {
+     *          console.log(target); // right
+     *     }, 1000);
+     * });
+     *
      * // Enable multiselect and drag
      * chart.selector.enableMultiselect();
      * chart.selector.enableDrag();
@@ -3880,11 +3906,17 @@ cl.Chart = (function(){
     function Chart(options) {
         var t = this;
 
+        // Properties
         t.options = options || {};
         t.xAxis = null;
         t.yAxis = null;
         t.preloader = t.options.preloader;
         t.element = t.options.element;
+        Object.defineProperties(t, {
+            isDirty: { get: getIsDirty },
+            width: { get: function() { return t.screen.width; } },
+            height: { get: function() { return t.screen.height; } }
+        });
 
         // Private
         var _redrawRequested = false;
@@ -3892,17 +3924,14 @@ cl.Chart = (function(){
             all: false
         };
 
-        // Properties
-        Object.defineProperties(t, {
-            isDirty: { get: getIsDirty },
-            width: { get: function() { return t.screen.width; } },
-            height: { get: function() { return t.screen.height; } }
-        });
-
         // Public methods
         t.redraw = redraw;
         t.resize = resize;
         t.destroy = destroy;
+        t.toAxisX = toAxisX;
+        t.toAxisY = toAxisY;
+        t.toScreenX = toScreenX;
+        t.toScreenY = toScreenY;
         t.addBubbles = addBubbles;
         t.setDirtyFlag = setDirtyFlag;
         t.showPreloader = showPreloader;
@@ -3930,19 +3959,56 @@ cl.Chart = (function(){
             t.selector
         ];
 
+        // Create deafult axis
         t.xAxis = t.axis.add(cl.Utils.merge({ type: "x" }, t.options.xAxis || {}));
         t.yAxis = t.axis.add(cl.Utils.merge({ type: "y" }, t.options.yAxis || {}));
 
         // Add screen to DOM
         t.element.appendChild(t.screen.el);
-
         t.redraw();
 
-        //if (options.background) t.setBackground(options.background);
-
-        // TODO: write function for coordinate conversion using default axis
-
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        /**
+         * Converts X coordinate in screen space to axis space
+         * @param {number} v Value
+         * @returns {number} Value in axis space
+         * @memberof cl.Chart.prototype
+         */
+        function toAxisX(v) {
+            return t.xAxis.toAxis(v);
+        }
+
+        /**
+         * Converts Y coordinate in screen space to axis space
+         * @param {number} v Value
+         * @returns {number} Value in axis space
+         * @memberof cl.Chart.prototype
+         */
+        function toAxisY(v) {
+            return t.yAxis.toAxis(v);
+        }
+
+        /**
+         * Converts Y coordinate in axis space to screen space
+         * @param {number} v Value
+         * @returns {number} Value in screen space
+         * @memberof cl.Chart.prototype
+         */
+        function toScreenY(v) {
+            return t.yAxis.toScreen(v);
+        }
+
+        /**
+         * Converts X coordinate in axis space to screen space
+         * @param {number} v Value
+         * @returns {number} Value in screen space
+         * @memberof cl.Chart.prototype
+         */
+        function toScreenX(v) {
+            return t.xAxis.toScreen(v);
+        }
 
         /**
          * Add bubbles to chart. If been added exists id's, bubbles will update its properties

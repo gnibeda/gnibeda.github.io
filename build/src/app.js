@@ -9,7 +9,7 @@
             element: document.getElementById("testDiv"),
             preloader: document.getElementById("preloader"),
             selector: {
-                draggable: true
+                draggable: false
             },
             background: {
                 //url: "http://solidreach.solidopinion.com/images/radar11.png",
@@ -18,6 +18,7 @@
             },
             xAxis: {
                 name: "X axis",
+                margin:{ start: 40, end: 10},
                 ticks: {
                     big: {
                         align: "center"
@@ -32,6 +33,7 @@
             },
             yAxis: {
                 name: "Y axis",
+                margin:{ start: 40, end: 10},
                 ticks: {
                     big: {
                         align: "center"
@@ -52,7 +54,7 @@
 
         bubbles = [
             {id: -1, x: 10, y: 10, size: 20},
-            {id: -2, x: 80, y: 10, size: 20},
+            {id: -2, x: 80, y: 10, size: 20, lineDash: [2, 2] },
             {id: -3, x: 50, y: 50, size: 40, links: [-1, -2] }
         ];
 

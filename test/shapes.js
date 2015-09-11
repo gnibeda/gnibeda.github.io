@@ -57,6 +57,10 @@ function testShapes() {
             expect(function(){new cl.Bubble(chart.shapes, {id: 33})}).to.throw("Can not create shape without 'size' parameter");
         });
 
+        it('should deny add shape without id', function(){
+            expect(function(){chart.addBubbles([{}])}).to.throw("Can not create shape without 'id' parameter");
+        });
+
         it('should add bubbles', function(){
             var bubbles = [{id: 30, x: 10, y: 20, size: 4, color: "#AAFFAA", opacity: 0.4}, {id: 31, x: 20, y: 30, size: 6, color: "#EEFFAA", opacity: 0.8}];
             chart.addBubbles(bubbles);
