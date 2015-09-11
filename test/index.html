@@ -31,9 +31,14 @@
     mocha.checkLeaks();
     //mocha.globals(['jQuery']);
     window.onload = function() {
-        mocha.run();
+        if (isChrome()) {
+            document.getElementById("warn").remove();
+            mocha.run();
+        }
+
     };
 </script>
+<h2 id="warn" style="color: red; position: absolute; left: 10px; top: 0px; z-index: 10">Please run tests in "Google Chrome" browser! This tests have many browser specific things.</h2>
 <div id="test" style="position: absolute; left: 400px; top: 40px; width: 900px; height: 700px; visibility: hidden"></div>
 <div id="preloader" class="cl-preloader-hidden" style="padding: 10px; border-radius: 4px; background-color: lightskyblue; color:white; font-weight: bold">Loading...</div>
 </body>
