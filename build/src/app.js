@@ -53,9 +53,9 @@
         var i;
 
         bubbles = [
-            {id: -1, x: 10, y: 10, size: 20},
-            {id: -2, x: 80, y: 10, size: 20, lineDash: [2, 2] },
-            {id: -3, x: 50, y: 50, size: 40, links: [-1, -2] }
+            {id: 1, x: 10, y: 10, size: 20},
+            {id: 2, x: 80, y: 10, size: 20, lineDash: [2, 2] },
+            {id: 3, x: 50, y: 50, size: 40, links: [1, 2] }
         ];
 
         chart.addBubbles(bubbles);
@@ -81,7 +81,7 @@ function addBubbless1000() {
     var bubbles = [];
     var i;
     for (i = 0; i < 1000; i++) bubbles.push({
-        id: i,
+        id: i + 4,
         x: Math.random() * 100,
         y: Math.random() * 100,
         size: 4 + Math.random() * 10,
@@ -97,7 +97,7 @@ function animate100() {
     for (i = 0; i < 100; i++) {
         if (!ch.shapes.get(i)) continue;
         bubbles.push({
-            id: i,
+            id: i + 4,
             x: ch.shapes.get(i).props.x + (Math.random() - Math.random()) * 10,
             y: ch.shapes.get(i).props.y + (Math.random() - Math.random()) * 10,
             size: 4 + Math.random() * 20,
