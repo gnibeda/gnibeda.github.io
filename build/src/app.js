@@ -98,8 +98,8 @@ function animate100() {
         if (!ch.shapes.get(i)) continue;
         bubbles.push({
             id: i + 4,
-            x: ch.shapes.get(i).props.x + (Math.random() - Math.random()) * 10,
-            y: ch.shapes.get(i).props.y + (Math.random() - Math.random()) * 10,
+            x: ch.shapes.get(i+4).props.x + (Math.random() - Math.random()) * 10,
+            y: ch.shapes.get(i+4).props.y + (Math.random() - Math.random()) * 10,
             size: 4 + Math.random() * 20,
             color: getRandomColor(),
             opacity: 0.5 + Math.random() * 0.5

@@ -62,7 +62,7 @@ function testShapes() {
         });
 
         it('should add bubbles', function(){
-            var bubbles = [{id: 30, x: 10, y: 20, size: 4, color: "#AAFFAA", opacity: 0.4}, {id: 31, x: 20, y: 30, size: 6, color: "#EEFFAA", opacity: 0.8}];
+            var bubbles = [{id: 30, x: 10, y: 20, size: 40, color: "#AAFFAA", opacity: 0.4}, {id: 31, x: 20, y: 30, size: 60, color: "#EEFFAA", opacity: 0.8}];
             chart.addBubbles(bubbles);
         });
 
@@ -70,7 +70,7 @@ function testShapes() {
             chart.shapes.clear();
             expect(chart.shapes.count).equal(0, "Shapes was not cleared");
 
-            var bubbles = [{id: 30, x: 10, y: 20, size: 4, color: "#AAFFAA", opacity: 0.4}, {id: 31, x: 20, y: 30, size: 6, color: "#EEFFAA", opacity: 0.8}];
+            var bubbles = [{id: 30, x: 10, y: 20, size: 40, color: "#AAFFAA", opacity: 0.4}, {id: 31, x: 20, y: 30, size: 60, color: "#EEFFAA", opacity: 0.8}];
             chart.addBubbles(bubbles);
         });
 
@@ -86,10 +86,10 @@ function testShapes() {
         });
 
         it('should change bubble props', function(){
-            shape1.setProps({x: 1, y: 1, size: 1});
+            shape1.setProps({x: 1, y: 1, size: 10});
             expect(shape1.props.x).equal(1, "property x doesn't match");
             expect(shape1.props.y).equal(1, "property y doesn't match");
-            expect(shape1.props.size).equal(1, "property size doesn't match");
+            expect(shape1.props.size).equal(10, "property size doesn't match");
         });
 
         it("should don't link itself", function(){
@@ -129,22 +129,22 @@ function testShapes() {
         });
 
         it('should calc animProps', function(){
-            var changed = shape1.calcAnimProps({x: 1, y: 2, size: 3});
+            var changed = shape1.calcAnimProps({x: 1, y: 2, size: 30});
             assert.ok(changed, "Wrong result of calcAnimProps");
             assert.ok(shape1.animProps, "animProps not exists");
             expect(shape1.animProps.x).equal(undefined, "animProps has X, but shouldn't");
             expect(shape1.animProps.y).equal(2, "no y in animProps");
-            expect(shape1.animProps.size).equal(3, "no size in animProps");
+            expect(shape1.animProps.size).equal(30, "no size in animProps");
         });
 
         it('should update props using add', function(){
-            var bubbles = [{id: 30, x: 1, y: 2, size: 4}, {id: 33, x: 20, y: 30, size: 6, color: "#EEFFAA", opacity: 0.8}];
+            var bubbles = [{id: 30, x: 1, y: 2, size: 40}, {id: 33, x: 20, y: 30, size: 60, color: "#EEFFAA", opacity: 0.8}];
             chart.addBubbles(bubbles);
             expect(chart.shapes.shapes.length).equal(3, "Wrong shapes number");
             var b = chart.shapes.get(30);
             expect(b.props.x).equal(1, "property x doesn't match");
             expect(b.props.y).equal(2, "property y doesn't match");
-            expect(b.props.size).equal(4, "property size doesn't match");
+            expect(b.props.size).equal(40, "property size doesn't match");
         });
 
         it('should limit animations when setProps was called', function() {
@@ -227,12 +227,12 @@ function testShapes() {
         });
 
         it('should animate props via setProps', function(done){
-            shape1.setProps({x: 10, y: 20, size: 5}, true, 300);
+            shape1.setProps({x: 10, y: 20, size: 50}, true, 300);
             setTimeout(function(){
                 var p = shape1.getProps();
                 expect(p.x).equal(10, "x doesn't match");
                 expect(p.y).equal(20, "y doesn't match");
-                expect(p.size).equal(5, "size doesn't match");
+                expect(p.size).equal(50, "size doesn't match");
                 total++;
                 done();
             }, 600);

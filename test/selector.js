@@ -106,6 +106,50 @@ function testSelector() {
             expect(chart.selector.getSelection().length).equal(0, "Wrong selected shapes count");
         });
 
+
+        it('should drag shape', function() {
+            fireEvent("mousemove", 400, 300, chart);
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mousemove", 410, 310, chart);
+            fireEvent("mousemove", 20, 20, chart);
+            fireEvent("mouseup", 20, 20, chart);
+            expect(chart.shapes.get(1).props.x).equal(0, "Shape dragged incorrectly. Wrong shape X coordinate");
+            expect(chart.shapes.get(1).props.y).equal(100, "Shape dragged incorrectly. Wrong shape Y coordinate");
+        });
+
+
+        it("should don't change porps of dragged shape, calling setProps", function() {
+            fireEvent("mousemove", 20, 20, chart);
+            fireEvent("mousedown", 20, 20, chart);
+            fireEvent("mousemove", 30, 30, chart);
+            fireEvent("mousemove", 400, 300, chart);
+
+            chart.shapes.get(1).setProps({x: 0, y: 0});
+
+            expect(chart.shapes.get(1).props.x).not.equal(0, "Wrong shape X coordinate");
+            expect(chart.shapes.get(1).props.y).not.equal(0, "Wrong shape X coordinate");
+
+            fireEvent("mouseup", 400, 300, chart);
+            expect(chart.shapes.get(1).props.x).equal(50, "Wrong shape X coordinate");
+            expect(chart.shapes.get(1).props.y).equal(50, "Wrong shape Y coordinate");
+        });
+
+        it("should don't change props of dragged shape, calling addBubbles", function() {
+            fireEvent("mousemove", 400, 300, chart);
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mousemove", 410, 310, chart);
+            fireEvent("mousemove", 20, 20, chart);
+
+            chart.addBubbles([{id: 1, x: 80, y: 80}]);
+
+            expect(chart.shapes.get(1).props.x).not.equal(80, "Wrong shape X coordinate");
+            expect(chart.shapes.get(1).props.y).not.equal(80, "Wrong shape X coordinate");
+
+            fireEvent("mouseup", 20, 20, chart);
+            expect(chart.shapes.get(1).props.x).equal(0, "Wrong shape X coordinate");
+            expect(chart.shapes.get(1).props.y).equal(100, "Wrong shape Y coordinate");
+        });
+
         it('should disable drag', function() {
             chart.selector.disableDrag();
             expect(chart.selector.options.draggable).to.be.false;

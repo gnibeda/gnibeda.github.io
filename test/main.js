@@ -15,8 +15,12 @@ function isChrome() {
 
 function fireEvent(name, x, y, chart) {
     var event = document.createEvent("MouseEvents");
+    //var sx = window.scrollX || document.documentElement.scrollLeft;
+    //var sy = window.scrollY || document.documentElement.scrollTop;
+    var xx = x + chart.screen.el.parentNode.offsetLeft;
+    var yy = y + chart.screen.el.parentNode.offsetTop;
     event.initMouseEvent(
-        name, true, true, chart.screen.el, null, x + chart.screen.el.parentNode.offsetLeft, y + chart.screen.el.parentNode.offsetTop, x + chart.screen.el.parentNode.offsetLeft, y + chart.screen.el.parentNode.offsetTop,
+        name, true, true, window, null, xx, yy, xx, yy,
         false, false, false, false,
         0, null
     );

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Chart library mocha tests</title>
-    <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
+    <link href="libs/mocha.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="../build/css/main.css">
 
@@ -13,7 +13,7 @@
 
 <script src="https://cdn.rawgit.com/jquery/jquery/2.1.4/dist/jquery.min.js"></script>
 <script src="https://cdn.rawgit.com/Automattic/expect.js/0.3.1/index.js"></script>
-<script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
+<script src="libs/mocha.js"></script>
 <script src="libs/imagediff.js"></script>
 <script src="libs/chai.js"></script>
 
@@ -29,17 +29,11 @@
 <script src="main.js"></script>
 <script>
     mocha.checkLeaks();
-    //mocha.globals(['jQuery']);
     window.onload = function() {
-        if (isChrome()) {
-            document.getElementById("warn").remove();
-            mocha.run();
-        }
-
+        mocha.run();
     };
 </script>
-<h2 id="warn" style="color: red; position: absolute; left: 10px; top: 0px; z-index: 10">Please run tests in "Google Chrome" browser! This tests have many browser specific things.</h2>
-<div id="test" style="position: absolute; left: 400px; top: 40px; width: 900px; height: 700px; visibility: hidden"></div>
-<div id="preloader" class="cl-preloader-hidden" style="padding: 10px; border-radius: 4px; background-color: lightskyblue; color:white; font-weight: bold">Loading...</div>
+    <div id="test" style="position: fixed; left: 480px; top: 20px; width: 900px; height: 700px; visibility: visible"></div>
+    <div id="preloader" class="cl-preloader-hidden" style="padding: 10px; border-radius: 4px; background-color: lightskyblue; color:white; font-weight: bold">Loading...</div>
 </body>
 </html>
