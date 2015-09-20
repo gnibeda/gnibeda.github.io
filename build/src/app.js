@@ -59,6 +59,7 @@
         ];
 
         chart.addBubbles(bubbles);
+        ch.addRects([{id: 0, x: 20, y: 30, x2: 40, y2: 70, color: 'green', links:[1, 2]}], true);
 
         chart.addEventListener(cl.Event.click, function(e){
             var txt = "";
@@ -158,3 +159,12 @@ function mul(x, next) {
     return f;
 }
 
+
+
+Function.prototype.mybind = function(ctx) {
+    var t = this;
+    var args = Array.prototype.slice.call(arguments, 1);
+    return function() {
+        t.apply(ctx, args);
+    };
+};

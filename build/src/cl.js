@@ -142,7 +142,9 @@ cl.Lang = (function(){
             errAxisHaveNoChart: "Trying to access axis with no parent chart",
             errDelBaseAxis: "Can not delete base '%1' axis",
             errShapeNoParam: "Can not create shape without '%1' parameter",
-            errUnknownEvent: "Unknown event '%1'"
+            errUnknownEvent: "Unknown event '%1'",
+            errNoShapeClass: "Shape class is not specified",
+            errShapeType: "Can not add shape, because same shape with different type already exists"
         }
     };
 
@@ -225,24 +227,34 @@ cl.Consts = (function(){
          * @default 14
          */
         FONT_SIZE: 14,
+
         /**
          * @memberof cl.Consts.prototype
          * @type {string}
          * @default "Arial"
          */
         FONT_NAME: "Arial",
+
         /**
          * @memberof cl.Consts.prototype
          * @type {number}
          * @default 2 * Math.PI
          */
         TWO_PI: 2 * Math.PI,
+
         /**
          * @memberof cl.Consts.prototype
          * @type {number}
          * @default Math.PI / 2
          */
-        HALF_PI: Math.PI / 2
+        HALF_PI: Math.PI / 2,
+
+        /**
+         * @memberof cl.Consts.prototype
+         * @type {number}
+         * @default Math.PI / 180
+         */
+        RAD_TO_DEG: Math.PI / 180
     };
 
     return new Consts();
@@ -440,6 +452,10 @@ cl.Color = (function(){
             }
         ];
 
+        this.fromString = function(colorName) {
+            if (colors[colorName]) return "#" + colors[colorName];
+            return colorName;
+        };
 
         this.toHex = function (red, green, blue) {
             var r = red.toString(16);
@@ -2105,6 +2121,7 @@ cl.Canvas = (function(){
         t.restore = restore;
         t.drawText = drawText;
         t.drawLine = drawLine;
+        t.drawRect = drawRect;
         t.setAlpha = setAlpha;
         t.drawArrow = drawArrow;
         t.setLineDash = setLineDash;
@@ -2131,7 +2148,6 @@ cl.Canvas = (function(){
          * @memberof cl.Canvas.prototype
          */
         function setLineDash(dash) {
-            //TODO: setLineDash not exist in Safari. Make polyfill
             if (t.ctx.setLineDash) t.ctx.setLineDash(dash);
         }
 
@@ -2242,6 +2258,46 @@ cl.Canvas = (function(){
 
 
             t.ctx.fill();
+        }
+
+        /**
+         * Draws rectangle on canvas
+         * @param {nubmer} x1 First point X coordinate
+         * @param {nubmer} y1 First point Y coordinate
+         * @param {nubmer} x2 Second point X coordinate
+         * @param {nubmer} y2 Second point Y coordinate
+         * @param {nubmer} r Border radius
+         * @memberof cl.Canvas.prototype
+         */
+        function drawRect(x1, y1, x2, y2, r) {
+            var sx, sy, ex, ey;
+            sx = Math.min(x1, x2);
+            sy = Math.min(y1, y2);
+            ex = Math.max(x1, x2);
+            ey = Math.max(y1, y2);
+            if (r) {
+                // Ensure that the radius isn't too large for x
+                if (( ex - sx ) - ( 2 * r ) < 0) {
+                    r = ( ( ex - sx ) / 2 );
+                }
+                // Ensure that the radius isn't too large for y
+                if (( ey - sy ) - ( 2 * r ) < 0) {
+                    r = ( ( ey - sy ) / 2 );
+                }
+                t.ctx.beginPath();
+                t.ctx.moveTo(sx + r, sy);
+                t.ctx.lineTo(ex - r, sy);
+                t.ctx.arc(ex - r, sy + r, r, cl.Consts.RAD_TO_DEG * 270, cl.Consts.RAD_TO_DEG * 360, false);
+                t.ctx.lineTo(ex, ey - r);
+                t.ctx.arc(ex - r, ey - r, r, cl.Consts.RAD_TO_DEG * 0, cl.Consts.RAD_TO_DEG * 90, false);
+                t.ctx.lineTo(sx + r, ey);
+                t.ctx.arc(sx + r, ey - r, r, cl.Consts.RAD_TO_DEG * 90, cl.Consts.RAD_TO_DEG * 180, false);
+                t.ctx.lineTo(sx, sy + r);
+                t.ctx.arc(sx + r, sy + r, r, cl.Consts.RAD_TO_DEG * 180, cl.Consts.RAD_TO_DEG * 270, false);
+                t.ctx.closePath();
+            } else {
+                t.ctx.rect(sx, sy, ex - sx, ey - sy);
+            }
         }
 
         /**
@@ -2497,7 +2553,8 @@ cl.Selector = (function() {
          */
         function onShapeOver(e) {
             if (drag.active || rect.active) return;
-            if (t.options.hover.showHand) showHand();
+            if (e.target && e.target.props.cursor) t.chart.setCursor(e.target.props.cursor);
+                else if (t.options.hover.showHand) showHand();
             t.hover = e.target;
             t.apply();
         }
@@ -2509,7 +2566,7 @@ cl.Selector = (function() {
          */
         function onShapeOut(e) {
             if (drag.active || rect.active) return;
-            if (t.options.hover.showHand) hideHand();
+            if ((e.target && e.target.props.cursor) || t.options.hover.showHand) resetCursor();
             t.hover = null;
             t.apply();
         }
@@ -2588,6 +2645,9 @@ cl.Selector = (function() {
 
             drag.active = true;
             t.apply();
+
+            // TODO: change cursor while dragging
+            //t.chart.setCursor("move");
         }
 
         /**
@@ -2599,10 +2659,10 @@ cl.Selector = (function() {
             var i, l;
             if (drag.active) {
                 // Move all draggable shapes
-                for (i = 0, l = drag.items.length; i < l; i++) {
-                    drag.items[i].props.x += e.x - drag.sx;
-                    drag.items[i].props.y += e.y - drag.sy;
-                }
+                for (i = 0, l = drag.items.length; i < l; i++) drag.items[i].processDrag(e.x - drag.sx, e.y - drag.sy);//{
+                    //drag.items[i].props.x += e.x - drag.sx;
+                    //drag.items[i].props.y += e.y - drag.sy;
+                //}
                 // Request shapes and selector redraw
                 t.apply();
                 t.chart.shapes.apply();
@@ -2678,6 +2738,8 @@ cl.Selector = (function() {
                 drag.active = false;
                 drag.prepared = false;
                 t.apply();
+                // TODO: change cursor after dragging ends
+                //t.chart.setCursor();
             } else {
                 // Select shapes
                 if (t.options.selection.enabled) {
@@ -2739,8 +2801,8 @@ cl.Selector = (function() {
                 var idx = 0;
                 // Find closest shape
                 for (var i = 0, l = shapes.length; i < l; i++) {
-                    var sx = t.chart.xAxis.toScreen(shapes[i].props.x);
-                    var sy = t.chart.yAxis.toScreen(shapes[i].props.y);
+                    var sx = t.chart.xAxis.toScreen(shapes[i].getCenterX());
+                    var sy = t.chart.yAxis.toScreen(shapes[i].getCenterY());
                     // TODO: move dist to shapesFromPoint calculations
                     var dist = (sx - x) * (sx - x) + (sy - y) * (sy - y);
                     if (dist < min) {
@@ -2847,15 +2909,15 @@ cl.Selector = (function() {
          * @private
          */
         function showHand() {
-            t.chart.screen.el.classList.add("cl-cursor-hand");
+            t.chart.setCursor("pointer");
         }
 
         /**
          * Hides hand cursor
          * @private
          */
-        function hideHand() {
-            t.chart.screen.el.classList.remove("cl-cursor-hand");
+        function resetCursor() {
+            t.chart.setCursor();
         }
 
     }
@@ -2881,6 +2943,7 @@ cl.Shape = (function() {
      * @param {object} parent Parent shape manager
      * @param {object} props shape settings
      * @param {object} props.id Shape id
+     * @param {string} [props.cursor] Change cursor to specified when shape is hovered
      * @param {object} [props.x=0] Shape X coordinate
      * @param {object} [props.y=0] Shape Y coordinate
      * @param {object} [props.color=cl.Consts.COLOR_RED] Shape color
@@ -2940,9 +3003,37 @@ cl.Shape = (function() {
         };
         cl.Utils.merge(t.props, props);
 
+        if (t.props.color) t.props.color = cl.Color.fromString(t.props.color);
+
         // Dont create shapes without id
         if (t.props.id === undefined) throw new Error(cl.Lang.get("errShapeNoParam", "id"));
     }
+
+    /**
+     * Returns X coordinate of shape center
+     * @returns {number} X coordinate in axis space
+     */
+    Shape.prototype.getCenterX = function() {
+        return this.props.x;
+    };
+
+    /**
+     * Returns Y coordinate of shape center
+     * @returns {number} Y coordinate in axis space
+     */
+    Shape.prototype.getCenterY = function() {
+        return this.props.y;
+    };
+
+    /**
+     * Used to update shape position while shape dragged
+     * @param {number} deltaX X coordinate changes
+     * @param {number} deltaY Y coordinate changes
+     */
+    Shape.prototype.processDrag = function(deltaX, deltaY) {
+        this.props.x += deltaX;
+        this.props.y += deltaY;
+    };
 
     /**
      * Returns shape bounds in screen space
@@ -2958,7 +3049,7 @@ cl.Shape = (function() {
      * @param {number} ry Y coordinate in pixels of rectangle center
      * @param {number} hw Half width
      * @param {number} hh Half height
-     * @returns {boolean} Inside or not
+     * @returns {boolean} Intersecting or not
      */
     Shape.prototype.hitTestRect = function(rx, ry, hw, hh) {
 
@@ -3035,9 +3126,11 @@ cl.Shape = (function() {
         }
 
         // Calculate colors for animations
+        var rgbFrom;
+        var rgbTo;
         if (this.animProps.color) {
-            var rgbFrom = cl.Color.toRGB(this.props.color);
-            var rgbTo = cl.Color.toRGB(this.animProps.color);
+            rgbFrom = cl.Color.toRGB(this.props.color);
+            rgbTo = cl.Color.toRGB(this.animProps.color);
             this.props.color_r = rgbFrom.r;
             this.props.color_g = rgbFrom.g;
             this.props.color_b = rgbFrom.b;
@@ -3046,6 +3139,17 @@ cl.Shape = (function() {
             this.animProps.color_b = rgbTo.b;
             delete this.animProps.color;
         }
+        if (this.animProps.color2) {
+            rgbFrom = cl.Color.toRGB(this.props.color2 || this.props.color);
+            rgbTo = cl.Color.toRGB(this.animProps.color2);
+            this.props.color2_r = rgbFrom.r;
+            this.props.color2_g = rgbFrom.g;
+            this.props.color2_b = rgbFrom.b;
+            this.animProps.color2_r = rgbTo.r;
+            this.animProps.color2_g = rgbTo.g;
+            this.animProps.color2_b = rgbTo.b;
+            delete this.animProps.color2;
+        }
 
         // Create tween for animation
         this.tween = new TWEEN.Tween(this.props)
@@ -3053,17 +3157,31 @@ cl.Shape = (function() {
             .easing(TWEEN.Easing.Quadratic.Out)
             .delay(cl.ShapeManager.ANIMATION_DELAY)
             .onUpdate(function () {
-                if (this.color_r === undefined) return;
-                var r = Math.floor(this.color_r);
-                var g = Math.floor(this.color_g);
-                var b = Math.floor(this.color_b);
-                if (r < 0) r = 0;
-                if (g < 0) g = 0;
-                if (b < 0) b = 0;
-                if (r > 255) r = 255;
-                if (g > 255) g = 255;
-                if (b > 255) b = 255;
-                this.color = cl.Color.toHex(r, g, b);
+                var r, g, b;
+                if (this.color_r !== undefined) {
+                    r = Math.floor(this.color_r);
+                    g = Math.floor(this.color_g);
+                    b = Math.floor(this.color_b);
+                    if (r < 0) r = 0;
+                    if (g < 0) g = 0;
+                    if (b < 0) b = 0;
+                    if (r > 255) r = 255;
+                    if (g > 255) g = 255;
+                    if (b > 255) b = 255;
+                    this.color = cl.Color.toHex(r, g, b);
+                }
+                if (this.color2_r !== undefined) {
+                    r = Math.floor(this.color2_r);
+                    g = Math.floor(this.color2_g);
+                    b = Math.floor(this.color2_b);
+                    if (r < 0) r = 0;
+                    if (g < 0) g = 0;
+                    if (b < 0) b = 0;
+                    if (r > 255) r = 255;
+                    if (g > 255) g = 255;
+                    if (b > 255) b = 255;
+                    this.color2 = cl.Color.toHex(r, g, b);
+                }
             })
             .onComplete(function () {
                 // Stop animation, but don't stop tween inside onComplete(this can cause bugs)
@@ -3291,8 +3409,8 @@ cl.ShapeManager = (function() {
                 if (!isStatic && staticPass) continue;
                 lc = t.shapes[i].props.links.length;
                 if (lc === 0) continue;
-                var x = chart.xAxis.toScreen(t.shapes[i].props.x);
-                var y = chart.yAxis.toScreen(t.shapes[i].props.y);
+                var x = chart.xAxis.toScreen(t.shapes[i].getCenterX());
+                var y = chart.yAxis.toScreen(t.shapes[i].getCenterY());
                 for (k = 0; k < lc; k++) {
                     if (t.shapes[i].props.links[k] == t.shapes[i].props.id) continue;
                     var obj = t.get(t.shapes[i].props.links[k]);
@@ -3445,7 +3563,7 @@ cl.ShapeManager = (function() {
             var i, l;
             var it;
             var aa = allowAnimation || false;
-
+            if (!ShapeClass) throw new Error(cl.Lang.get("errNoShapeClass"));
             if (!(item instanceof Array)) it = [item];  else it = item;
             var changedItems = [];
 
@@ -3453,7 +3571,7 @@ cl.ShapeManager = (function() {
                 if (it[i].id === undefined) throw new Error(cl.Lang.get("errShapeNoParam", "id"));
                 var obj = t.get(it[i].id);
                 if (obj) {
-                    //var changed = obj.calcAnimProps(it[i].props);
+                    if (obj.constructor !== ShapeClass) throw new Error(cl.Lang.get("errShapeType"));
                     var changed = obj.setProps(it[i], aa, animationSpeed);
                     if (changed) {
                         changedItems.push(obj);
@@ -3635,10 +3753,26 @@ cl.Bubble = (function() {
     'use strict';
 
     /**
-     * Represent bubble class
+     * Represent bubble shape class
      * @extends cl.Shape
      * @param {object} parent Parent shape manager
      * @param {object} props shape settings
+     * @param {object} props.id Shape id
+     * @param {string} [props.cursor] Change cursor to specified when shape is hovered
+     * @param {object} [props.x=0] Shape X coordinate
+     * @param {object} [props.y=0] Shape Y coordinate
+     * @param {object} props.size Bubble radius in pixels
+     * @param {object} [props.color=cl.Consts.COLOR_RED] Shape color
+     * @param {object} [props.border=1] Shape border width
+     * @param {object} [props.opacity=0.3] Shape opacity
+     * @param {array} [props.lineDash=[]] Shape line dash. Example: [2, 2]
+     * @param {array} [props.links=[]] Array of linked shapes id's
+     * @param {boolean} [props.draggable=true] Is shape draggable
+     * @param {object} [props.track] Shape track. Can be displayed while shape is animating
+     * @param {boolean} [props.track.enabled=false] Enabled or not
+     * @param {number} [props.track.width=1] Line width
+     * @param {string} [props.track.color=cl.Consts.COLOR_GREEN] Line color
+     * @param {number} [props.track.opacity=0.4] Line opacity
      * @constructor
      * @memberof cl
      **/
@@ -3659,10 +3793,6 @@ cl.Bubble = (function() {
 
         // Private
         var opt = props || {};
-
-        // Properties
-        t.size = opt.size;
-
         if (t.props.size === undefined) throw new Error(cl.Lang.get("errShapeNoParam", "size"));
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3670,6 +3800,7 @@ cl.Bubble = (function() {
         /**
          * Returns shape bounds
          * @returns {{x: number, y: number, w: number, h: number}} Shape bounds
+         * @memberof cl.Bubble.prototype
          */
         function getBounds() {
             return {
@@ -3686,7 +3817,8 @@ cl.Bubble = (function() {
          * @param {number} ry Y coordinate in pixels of rectangle center
          * @param {number} hw Half width
          * @param {number} hh Half height
-         * @returns {boolean} Inside or not
+         * @returns {boolean} Intersecting or not
+         * @memberof cl.Bubble.prototype
          */
         function hitTestRect(rx, ry, hw, hh) {
             var cx = t.parent.chart.xAxis.toScreen(t.props.x);
@@ -3710,7 +3842,8 @@ cl.Bubble = (function() {
          * Check if point inside shape
          * @param {number} x X coordinate in pixels
          * @param {number} y Y coordinate in pixels
-         * @returns {boolean} Inside or not
+         * @returns {boolean} Intersect or not
+         * @memberof cl.Bubble.prototype
          */
         function hitTest(x, y) {
             var bx = t.parent.chart.xAxis.toScreen(t.props.x);
@@ -3722,6 +3855,7 @@ cl.Bubble = (function() {
          * Updates shape properties
          * @param {object} newProps New properties
          * @returns {boolean} Is shape changed or not
+         * @memberof cl.Bubble.prototype
          */
         function calcAnimProps(newProps) {
             t.animProps = {};
@@ -3789,6 +3923,275 @@ cl.Bubble = (function() {
 
 
     return Bubble;
+
+})();
+cl.Rect = (function() {
+    'use strict';
+
+    /**
+     * Represent rectangle shape class
+     * @extends cl.Shape
+     * @param {object} parent Parent shape manager
+     * @param {object} props shape settings
+     * @param {object} props.id Shape id
+     * @param {string} [props.cursor] Change cursor to specified when shape is hovered
+     * @param {object} [props.x=0] First corner X coordinate
+     * @param {object} [props.y=0] First corner Y coordinate
+     * @param {number} props.x2 Second corner X coordinate
+     * @param {number} props.y2 Second corner Y coordinate
+     * @param {string} [props.color=cl.Consts.COLOR_RED] First corner color
+     * @param {string} [props.color2] Second corner color
+     * @param {object} [props.border=1] Shape border width
+     * @param {number} [props.borderRadius=0] Border radius
+     * @param {object} [props.opacity=0.3] Shape opacity
+     * @param {array} [props.lineDash=[]] Shape line dash. Example: [2, 2]
+     * @param {array} [props.links=[]] Array of linked shapes id's
+     * @param {boolean} [props.draggable=true] Is shape draggable
+     * @param {object} [props.track] Shape track. Can be displayed while shape is animating
+     * @param {boolean} [props.track.enabled=false] Enabled or not
+     * @param {number} [props.track.width=1] Line width
+     * @param {string} [props.track.color=cl.Consts.COLOR_GREEN] Line color
+     * @param {number} [props.track.opacity=0.4] Line opacity
+
+
+     * @constructor
+     * @memberof cl
+     **/
+    function Rect(parent, props) {
+        var t = this;
+        cl.Shape.call(t, parent, props);
+
+        // Public methods
+        t.type = "rect";
+        t.parent = parent;
+        t.render = render;
+        t.destroy = destroy;
+        t.hitTest = hitTest;
+        t.getBounds = getBounds;
+        t.getCenterX = getCenterX;
+        t.getCenterY = getCenterY;
+        t.hitTestRect = hitTestRect;
+        t.renderHover = renderHover;
+        t.processDrag = processDrag;
+        t.calcAnimProps = calcAnimProps;
+
+        // Private
+        var opt = props || {};
+        opt.borderRadius = opt.borderRadius || 0;
+        if (t.props.color2) t.props.color2 = cl.Color.fromString(t.props.color2);
+
+        if (t.props.x2 === undefined) throw new Error(cl.Lang.get("errShapeNoParam", "x2"));
+        if (t.props.y2 === undefined) throw new Error(cl.Lang.get("errShapeNoParam", "y2"));
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /**
+         * Returns X coordinate of shape center
+         * @returns {number} X coordinate in axis space
+         * @memberof cl.Rect.prototype
+         */
+        function getCenterX() {
+            return (t.props.x + Math.abs(t.props.x2 - t.props.x) / 2);
+        }
+
+        /**
+         * Returns X coordinate of shape center
+         * @returns {number} Y coordinate in axis space
+         * @memberof cl.Rect.prototype
+         */
+        function getCenterY() {
+            return (t.props.y + Math.abs(t.props.y2 - t.props.y) / 2);
+        }
+
+        /**
+         * Used to update shape position while shape dragged
+         * @param {number} deltaX X coordinate changes
+         * @param {number} deltaY Y coordinate changes
+         * @memberof cl.Rect.prototype
+         */
+        function processDrag(deltaX, deltaY) {
+            t.props.x2 += deltaX;
+            t.props.y2 += deltaY;
+            t.constructor.prototype.processDrag.call(t, deltaX, deltaY);
+        }
+
+        /**
+         * Returns shape bounds
+         * @returns {{x: number, y: number, w: number, h: number}} Shape bounds
+         * @memberof cl.Rect.prototype
+         */
+        function getBounds() {
+            var x1, y1, x2, y2, sx, sy, ex, ey;
+            x1 = t.parent.chart.xAxis.toScreen(t.props.x);
+            y1 = t.parent.chart.yAxis.toScreen(t.props.y);
+            x2 = t.parent.chart.xAxis.toScreen(t.props.x2);
+            y2 = t.parent.chart.yAxis.toScreen(t.props.y2);
+            sx = Math.min(x1, x2);
+            sy = Math.min(y1, y2);
+            ex = Math.max(x1, x2);
+            ey = Math.max(y1, y2);
+            return {
+                x: sx,
+                y: sy,
+                w: ex - sx,
+                h: ey - sy
+            };
+        }
+
+        /**
+         * Checks if shape intersecting rectangle
+         * @param {number} rx X coordinate in pixels of rectangle center
+         * @param {number} ry Y coordinate in pixels of rectangle center
+         * @param {number} hw Half width
+         * @param {number} hh Half height
+         * @returns {boolean} Intersecting or not
+         * @memberof cl.Rect.prototype
+         */
+        function hitTestRect(rx, ry, hw, hh) {
+            var x1, y1, x2, y2, sx, sy, ex, ey;
+            x1 = t.parent.chart.xAxis.toScreen(t.props.x);
+            y1 = t.parent.chart.yAxis.toScreen(t.props.y);
+            x2 = t.parent.chart.xAxis.toScreen(t.props.x2);
+            y2 = t.parent.chart.yAxis.toScreen(t.props.y2);
+            sx = Math.min(x1, x2);
+            sy = Math.min(y1, y2);
+            ex = Math.max(x1, x2);
+            ey = Math.max(y1, y2);
+
+            // This shape half width and height
+            var thw = (ex - sx) / 2;
+            var thh = (ey - sy) / 2;
+
+            // This shape center
+            var cx = sx + thw;
+            var cy = sy + thh;
+
+            var cdx = Math.abs(cx - rx);
+            var cdy = Math.abs(cy - ry);
+
+            return ((cdx <= thw + hw) && (cdy <= thh + hh));
+        }
+
+        /**
+         * Check if point inside shape
+         * @param {number} x X coordinate in pixels
+         * @param {number} y Y coordinate in pixels
+         * @returns {boolean} Inside or not
+         * @memberof cl.Rect.prototype
+         */
+        function hitTest(x, y) {
+            var x1, y1, x2, y2;
+            x1 = t.parent.chart.xAxis.toScreen(t.props.x);
+            y1 = t.parent.chart.yAxis.toScreen(t.props.y);
+            x2 = t.parent.chart.xAxis.toScreen(t.props.x2);
+            y2 = t.parent.chart.yAxis.toScreen(t.props.y2);
+            return ((x >= x1) && (x <= x2) && (y >= y2) && (y <= y1));
+        }
+
+        /**
+         * Updates shape properties
+         * @param {object} newProps New properties
+         * @returns {boolean} Is shape changed or not
+         * @memberof cl.Rect.prototype
+         */
+        function calcAnimProps(newProps) {
+            t.animProps = {};
+            if (newProps.x2 !== undefined && newProps.x2 !== t.props.x2) {
+                t.animProps.x2 = newProps.x2;
+                t.animProps.changed = true;
+            }
+            if (newProps.y2 !== undefined && newProps.y2 !== t.props.y2) {
+                t.animProps.y2 = newProps.y2;
+                t.animProps.changed = true;
+            }
+            if (newProps.borderRadius !== undefined && newProps.borderRadius !== t.props.borderRadius) {
+                t.animProps.borderRadius = newProps.borderRadius;
+                t.animProps.changed = true;
+            }
+            if (newProps.color2 !== undefined && newProps.color2 !== t.props.color2) {
+                t.animProps.color2 = newProps.color2;
+                t.animProps.changed = true;
+            }
+            return cl.Shape.prototype.calcAnimProps.call(t, newProps) || t.animProps.changed;
+        }
+
+        /**
+         * Renders rect on canvas
+         * @param {cl.Canvas} canvas
+         * @memberof cl.Rect.prototype
+         */
+        function render(canvas) {
+            if (t._isDragged) return;
+            var chart = t.parent.chart;
+
+            // Calculate rectangle coordinates
+            var x1, y1, x2, y2;
+            x1 = chart.xAxis.toScreen(t.props.x);
+            y1 = chart.yAxis.toScreen(t.props.y);
+            x2 = chart.xAxis.toScreen(t.props.x2);
+            y2 = chart.yAxis.toScreen(t.props.y2);
+
+            canvas.setAlpha(t.props.opacity);
+            if (!t.props.color2 || t.props.color === t.props.color2) canvas.setFillColor(t.props.color); else {
+                // TODO: move calculations to single place
+                var sx, sy, ex, ey;
+                sx = Math.min(x1, x2);
+                sy = Math.min(y1, y2);
+                ex = Math.max(x1, x2);
+                ey = Math.max(y1, y2);
+
+                var gradient = canvas.ctx.createLinearGradient(sx, sy, ex, ey);
+                gradient.addColorStop(0, t.props.color);
+                gradient.addColorStop(1, t.props.color2);
+                canvas.ctx.fillStyle = gradient;
+            }
+            canvas.setLineStyle(t.props.border, cl.Utils.colorLuminance(t.props.color, -0.2));
+            if (t.props.lineDash) canvas.setLineDash(t.props.lineDash);
+            canvas.ctx.beginPath();
+            canvas.drawRect(x1, y1, x2, y2, t.props.borderRadius);
+            canvas.ctx.fill();
+            canvas.ctx.stroke();
+            canvas.ctx.closePath();
+            if (t.props.lineDash) canvas.setLineDash([]);
+
+            cl.Shape.prototype.render.call(t, canvas);
+        }
+
+        /**
+         * Renders rect hover on canvas
+         * @param {cl.Canvas} canvas
+         * @param {number} [offset=0] Hover offset
+         * @memberof cl.Rect.prototype
+         */
+        function renderHover(canvas, offset) {
+            if (t._isDragged) return;
+            var chart = t.parent.chart;
+
+            // Calculate rectangle coordinates
+            var x1, y1, x2, y2;
+            x1 = chart.xAxis.toScreen(t.props.x);
+            y1 = chart.yAxis.toScreen(t.props.y);
+            x2 = chart.xAxis.toScreen(t.props.x2);
+            y2 = chart.yAxis.toScreen(t.props.y2);
+
+            canvas.drawRect(x1, y1, x2, y2, t.props.borderRadius);
+            cl.Shape.prototype.renderHover.call(t, canvas);
+        }
+
+
+        /**
+         * Destroys rect
+         * @memberof cl.Rect.prototype
+         */
+        function destroy() {
+            cl.Shape.prototype.destroy.call(t);
+        }
+    }
+
+    cl.Utils.extend(Rect, cl.Shape);
+
+
+    return Rect;
 
 })();
 cl.Chart = (function(){
@@ -3866,6 +4269,12 @@ cl.Chart = (function(){
      *      { x: 40, y: 10, size: 4, color: "#AAFFAA", opacity: 0.7 }
      * ]);
      *
+     * // Add rectangles to chart
+     * chart.addRects([
+     *      { x: 20, y: 30, x2: 30, y2: 40 },
+     *      { x: 40, y: 10, x2: 100, y2: 20, color: "#AAFFAA", color2: "#FFFFFF", cursor: "crosshair" }
+     * ]);
+     *
      * // Change single bubble properties with animation
      * var b = chart.shapes.get(myBubbleID);
      * b.setProps({ x: 50, y: 50, size: 2}, true);
@@ -3930,6 +4339,8 @@ cl.Chart = (function(){
         t.destroy = destroy;
         t.toAxisX = toAxisX;
         t.toAxisY = toAxisY;
+        t.addRects = addRects;
+        t.setCursor = setCursor;
         t.toScreenX = toScreenX;
         t.toScreenY = toScreenY;
         t.addBubbles = addBubbles;
@@ -3969,6 +4380,14 @@ cl.Chart = (function(){
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        /**
+         * Changes chart cursor
+         * @param {string} [name] Cursor name
+         * @memberof cl.Chart.prototype
+         */
+        function setCursor(name) {
+            if (!name) t.screen.el.style.cursor = "default"; else t.screen.el.style.cursor = name;
+        }
 
         /**
          * Converts X coordinate in screen space to axis space
@@ -4019,6 +4438,17 @@ cl.Chart = (function(){
          */
         function addBubbles(items, allowAnimation, animationSpeed) {
             t.shapes.add(items, cl.Bubble, allowAnimation, animationSpeed);
+        }
+
+        /**
+         * Add rects to chart. If been added exists id's, rects will update its properties
+         * @param {array} items Array of rects. Contains only properties description, not rect class
+         * @param {boolean} [allowAnimation=false] Play animation if rect properties changed
+         * @param {number} [animationSpeed=cl.ShapeManager.ANIMATION_SPEED] Animation speed in ms
+         * @memberof cl.Chart.prototype
+         */
+        function addRects(items, allowAnimation, animationSpeed) {
+            t.shapes.add(items, cl.Rect, allowAnimation, animationSpeed);
         }
 
         /**

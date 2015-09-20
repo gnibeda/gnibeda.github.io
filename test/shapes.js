@@ -43,6 +43,7 @@ function testShapes() {
     describe("cl.ShapeManager", function() {
         var chart, shape1, shape2;
         var total = 0;
+        var total2 = 0;
 
         before(function() {
             chart = new cl.Chart({ element: document.getElementById("test") });
@@ -57,6 +58,14 @@ function testShapes() {
             expect(function(){new cl.Bubble(chart.shapes, {id: 33})}).to.throw("Can not create shape without 'size' parameter");
         });
 
+        it('should deny rect creation without x2', function(){
+            expect(function(){new cl.Rect(chart.shapes, {id: 33})}).to.throw("Can not create shape without 'x2' parameter");
+        });
+
+        it('should deny rect creation without y2', function(){
+            expect(function(){new cl.Rect(chart.shapes, {id: 33, x2: 30})}).to.throw("Can not create shape without 'y2' parameter");
+        });
+
         it('should deny add shape without id', function(){
             expect(function(){chart.addBubbles([{}])}).to.throw("Can not create shape without 'id' parameter");
         });
@@ -64,6 +73,21 @@ function testShapes() {
         it('should add bubbles', function(){
             var bubbles = [{id: 30, x: 10, y: 20, size: 40, color: "#AAFFAA", opacity: 0.4}, {id: 31, x: 20, y: 30, size: 60, color: "#EEFFAA", opacity: 0.8}];
             chart.addBubbles(bubbles);
+        });
+
+        it('should add rects', function(){
+            var rects = [{id: 40, x: 10, y: 20, x2: 20, y2: 30, color: "#AAFFAA", opacity: 0.4}, {id: 41, x: 20, y: 30, x2: 40, y2: 50, color: "#EEFFAA", opacity: 0.8}];
+            chart.addRects(rects);
+        });
+
+        it('should deny add shape as different type', function(){
+            var rects = [{id: 30, x: 10, y: 20, x2: 20, y2: 30}];
+            expect(function(){chart.addRects(rects)}).to.throw("Can not add shape, because same shape with different type already exists");
+        });
+
+        it('should deny add shape without class', function(){
+            var rects = [{id: 30, x: 10, y: 20, x2: 20, y2: 30}];
+            expect(function(){chart.shapes.add(rects)}).to.throw("Shape class is not specified");
         });
 
         it('should remove all', function(){
@@ -202,7 +226,7 @@ function testShapes() {
         });
 
         it('should remove during animation', function(done){
-            chart.shapes.add([{id: 33, x: 0, y: 0, size: 10}], true, 5000);
+            chart.shapes.add([{id: 33, x: 0, y: 0, size: 10}], cl.Bubble, true, 5000);
 
             setTimeout(function(){
                 chart.shapes.remove(chart.shapes.get(33));
@@ -238,14 +262,64 @@ function testShapes() {
             }, 600);
         });
 
-        it('should complete all animations', function(done) {
+        it('should complete all bubbles animations', function(done) {
             setInterval(function() { if (total === 4) done(); }, 100);
-        })
+        });
 
         it('should remove shapes', function() {
             chart.shapes.remove(chart.shapes.get(30));
             chart.shapes.remove(chart.shapes.get(31));
             expect(chart.shapes.shapes.length).equal(0, "Some shapes not deleted");
         });
+
+        it('should animate rectangle', function(done) {
+            this.timeout(5000);
+            total2 = 0;
+            var r = [{id: 10, x: 40, y: 40, x2: 60, y2: 60, color: "green", borderRadius: 3}];
+            chart.addRects(r);
+            shape1 = chart.shapes.get(10);
+            shape1.setProps({x: 10, y: 10, x2: 90, y2: 90, borderRadius: 20}, true, 100);
+
+            setTimeout((function(d) {
+                return function () {
+                    var p = shape1.getProps();
+                    try {
+                        expect(p.x).equal(10, "x doesn't match");
+                        expect(p.y).equal(10, "y doesn't match");
+                        expect(p.x2).equal(90, "x2 doesn't match");
+                        expect(p.y2).equal(90, "y2 doesn't match");
+                        expect(p.borderRadius).equal(20, "borderRadius doesn't match");
+                    } catch (e) {
+                        done(e)
+                    }
+                    finally {
+                        total2++;
+                    }
+                    d();
+                }
+            })(done), 300);
+        });
+
+        it('should animate rectangle colors', function(done) {
+            var int = setInterval(function() {
+                if (total2 !== 1) return;
+                clearInterval(int);
+
+                shape1.setProps({color: "red", color2: "black", opacity: 1}, true, 300);
+                setTimeout(function(){
+                    var p = shape1.getProps();
+                    expect(p.color).equal("#ff0000", "Color doesn't match");
+                    expect(p.color2).equal("#000000", "Color2 doesn't match");
+                    total2++;
+                    done();
+                }, 600);
+            }, 100);
+        });
+
+        it('should complete all rects animations', function(done) {
+            this.timeout(10000);
+            setInterval(function() { if (total2 === 2) done(); }, 100);
+        });
+
     });
 }
