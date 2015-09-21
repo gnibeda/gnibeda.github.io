@@ -60,6 +60,8 @@
 
         chart.addBubbles(bubbles);
         ch.addRects([{id: 0, x: 20, y: 30, x2: 40, y2: 70, color: 'green', links:[1, 2]}], true);
+        //ch.addRects([{id: 0, x: 30, y: 90, x2: 70, y2: 10, color: 'green', links:[1, 2]}], true);
+        ch.addLines([{id: -1, x: 30, y: 90, x2: 70, y2: 70, border: 3, color: 'green', links:[1], size: 6, size2: 4}], true);
 
         chart.addEventListener(cl.Event.click, function(e){
             var txt = "";

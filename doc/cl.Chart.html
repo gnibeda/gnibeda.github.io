@@ -1,107 +1,1127 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="utf-8">
-    <title>Chart - Documentation</title>
-
+    <title>Class: Chart</title>
+    
+    
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
+    <script src="scripts/jquery.min.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/jaguar.css">
+    
+    
+    <script>
+    var config = {"monospaceLinks":false,"cleverLinks":false,"default":{"outputSourceFiles":false}};
+    </script>
+    
+
+    
 </head>
 <body>
-
-<input type="checkbox" id="nav-trigger" class="nav-trigger" />
-<label for="nav-trigger" class="navicon-button x">
-  <div class="navicon"></div>
-</label>
-
-<label for="nav-trigger" class="overlay"></label>
-
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="cl.Axis.html">Axis</a><ul class='methods'><li data-type='method'><a href="cl.Axis.html#apply">apply</a></li><li data-type='method'><a href="cl.Axis.html#destroy">destroy</a></li><li data-type='method'><a href="cl.Axis.html#getColor">getColor</a></li><li data-type='method'><a href="cl.Axis.html#getLineWidth">getLineWidth</a></li><li data-type='method'><a href="cl.Axis.html#getMargins">getMargins</a></li><li data-type='method'><a href="cl.Axis.html#getMax">getMax</a></li><li data-type='method'><a href="cl.Axis.html#getMin">getMin</a></li><li data-type='method'><a href="cl.Axis.html#getName">getName</a></li><li data-type='method'><a href="cl.Axis.html#getOffset">getOffset</a></li><li data-type='method'><a href="cl.Axis.html#getTickInterval">getTickInterval</a></li><li data-type='method'><a href="cl.Axis.html#getTickIntervalSmall">getTickIntervalSmall</a></li><li data-type='method'><a href="cl.Axis.html#getTitleAlign">getTitleAlign</a></li><li data-type='method'><a href="cl.Axis.html#getTitleColor">getTitleColor</a></li><li data-type='method'><a href="cl.Axis.html#getTitleFont">getTitleFont</a></li><li data-type='method'><a href="cl.Axis.html#getTitleSize">getTitleSize</a></li><li data-type='method'><a href="cl.Axis.html#getTitleStyle">getTitleStyle</a></li><li data-type='method'><a href="cl.Axis.html#hide">hide</a></li><li data-type='method'><a href="cl.Axis.html#render">render</a></li><li data-type='method'><a href="cl.Axis.html#setColor">setColor</a></li><li data-type='method'><a href="cl.Axis.html#setLineWidth">setLineWidth</a></li><li data-type='method'><a href="cl.Axis.html#setMargins">setMargins</a></li><li data-type='method'><a href="cl.Axis.html#setMax">setMax</a></li><li data-type='method'><a href="cl.Axis.html#setMin">setMin</a></li><li data-type='method'><a href="cl.Axis.html#setName">setName</a></li><li data-type='method'><a href="cl.Axis.html#setOffset">setOffset</a></li><li data-type='method'><a href="cl.Axis.html#setTickInterval">setTickInterval</a></li><li data-type='method'><a href="cl.Axis.html#setTickIntervalSmall">setTickIntervalSmall</a></li><li data-type='method'><a href="cl.Axis.html#setTitleAlign">setTitleAlign</a></li><li data-type='method'><a href="cl.Axis.html#setTitleColor">setTitleColor</a></li><li data-type='method'><a href="cl.Axis.html#setTitleFont">setTitleFont</a></li><li data-type='method'><a href="cl.Axis.html#setTitleSize">setTitleSize</a></li><li data-type='method'><a href="cl.Axis.html#setTitleStyle">setTitleStyle</a></li><li data-type='method'><a href="cl.Axis.html#show">show</a></li><li data-type='method'><a href="cl.Axis.html#toAxis">toAxis</a></li><li data-type='method'><a href="cl.Axis.html#toScreen">toScreen</a></li></ul></li><li><a href="cl.AxisManager.html">AxisManager</a><ul class='methods'><li data-type='method'><a href="cl.AxisManager.html#add">add</a></li><li data-type='method'><a href="cl.AxisManager.html#apply">apply</a></li><li data-type='method'><a href="cl.AxisManager.html#destroy">destroy</a></li><li data-type='method'><a href="cl.AxisManager.html#get">get</a></li><li data-type='method'><a href="cl.AxisManager.html#hide">hide</a></li><li data-type='method'><a href="cl.AxisManager.html#remove">remove</a></li><li data-type='method'><a href="cl.AxisManager.html#render">render</a></li><li data-type='method'><a href="cl.AxisManager.html#resize">resize</a></li><li data-type='method'><a href="cl.AxisManager.html#show">show</a></li></ul></li><li><a href="cl.Background.html">Background</a><ul class='methods'><li data-type='method'><a href="cl.Background.html#apply">apply</a></li><li data-type='method'><a href="cl.Background.html#destroy">destroy</a></li><li data-type='method'><a href="cl.Background.html#hide">hide</a></li><li data-type='method'><a href="cl.Background.html#render">render</a></li><li data-type='method'><a href="cl.Background.html#resize">resize</a></li><li data-type='method'><a href="cl.Background.html#setFit">setFit</a></li><li data-type='method'><a href="cl.Background.html#setImage">setImage</a></li><li data-type='method'><a href="cl.Background.html#show">show</a></li></ul></li><li><a href="cl.Bubble.html">Bubble</a><ul class='methods'><li data-type='method'><a href="cl.Bubble.html#apply">apply</a></li><li data-type='method'><a href="cl.Bubble.html#calcAnimProps">calcAnimProps</a></li><li data-type='method'><a href="cl.Bubble.html#destroy">destroy</a></li><li data-type='method'><a href="cl.Bubble.html#getBounds">getBounds</a></li><li data-type='method'><a href="cl.Bubble.html#getCenterX">getCenterX</a></li><li data-type='method'><a href="cl.Bubble.html#getCenterY">getCenterY</a></li><li data-type='method'><a href="cl.Bubble.html#getId">getId</a></li><li data-type='method'><a href="cl.Bubble.html#getProps">getProps</a></li><li data-type='method'><a href="cl.Bubble.html#hitTest">hitTest</a></li><li data-type='method'><a href="cl.Bubble.html#hitTestRect">hitTestRect</a></li><li data-type='method'><a href="cl.Bubble.html#link">link</a></li><li data-type='method'><a href="cl.Bubble.html#processDrag">processDrag</a></li><li data-type='method'><a href="cl.Bubble.html#render">render</a></li><li data-type='method'><a href="cl.Bubble.html#renderHover">renderHover</a></li><li data-type='method'><a href="cl.Bubble.html#setProps">setProps</a></li><li data-type='method'><a href="cl.Bubble.html#startAnimation">startAnimation</a></li><li data-type='method'><a href="cl.Bubble.html#stopAnimation">stopAnimation</a></li><li data-type='method'><a href="cl.Bubble.html#unlink">unlink</a></li></ul></li><li><a href="cl.Canvas.html">Canvas</a><ul class='methods'><li data-type='method'><a href="cl.Canvas.html#clear">clear</a></li><li data-type='method'><a href="cl.Canvas.html#destroy">destroy</a></li><li data-type='method'><a href="cl.Canvas.html#draw">draw</a></li><li data-type='method'><a href="cl.Canvas.html#drawArrow">drawArrow</a></li><li data-type='method'><a href="cl.Canvas.html#drawLine">drawLine</a></li><li data-type='method'><a href="cl.Canvas.html#drawRect">drawRect</a></li><li data-type='method'><a href="cl.Canvas.html#resetTransform">resetTransform</a></li><li data-type='method'><a href="cl.Canvas.html#resize">resize</a></li><li data-type='method'><a href="cl.Canvas.html#restore">restore</a></li><li data-type='method'><a href="cl.Canvas.html#save">save</a></li><li data-type='method'><a href="cl.Canvas.html#setAlpha">setAlpha</a></li><li data-type='method'><a href="cl.Canvas.html#setFillColor">setFillColor</a></li><li data-type='method'><a href="cl.Canvas.html#setLineDash">setLineDash</a></li><li data-type='method'><a href="cl.Canvas.html#setLineStyle">setLineStyle</a></li><li data-type='method'><a href="cl.Canvas.html#~drawText">drawText</a></li></ul></li><li><a href="cl.Chart.html">Chart</a><ul class='methods'><li data-type='method'><a href="cl.Chart.html#addBubbles">addBubbles</a></li><li data-type='method'><a href="cl.Chart.html#addEventListener">addEventListener</a></li><li data-type='method'><a href="cl.Chart.html#addRects">addRects</a></li><li data-type='method'><a href="cl.Chart.html#destroy">destroy</a></li><li data-type='method'><a href="cl.Chart.html#getBackground">getBackground</a></li><li data-type='method'><a href="cl.Chart.html#hidePreloader">hidePreloader</a></li><li data-type='method'><a href="cl.Chart.html#removeEventListener">removeEventListener</a></li><li data-type='method'><a href="cl.Chart.html#resize">resize</a></li><li data-type='method'><a href="cl.Chart.html#setBackground">setBackground</a></li><li data-type='method'><a href="cl.Chart.html#setCursor">setCursor</a></li><li data-type='method'><a href="cl.Chart.html#setDirtyFlag">setDirtyFlag</a></li><li data-type='method'><a href="cl.Chart.html#showPreloader">showPreloader</a></li><li data-type='method'><a href="cl.Chart.html#toAxisX">toAxisX</a></li><li data-type='method'><a href="cl.Chart.html#toAxisY">toAxisY</a></li><li data-type='method'><a href="cl.Chart.html#toScreenX">toScreenX</a></li><li data-type='method'><a href="cl.Chart.html#toScreenY">toScreenY</a></li></ul></li><li><a href="cl.Color.html">Color</a></li><li><a href="cl.Consts.html">Consts</a></li><li><a href="cl.Event.html">Event</a></li><li><a href="cl.EventManager.html">EventManager</a><ul class='methods'><li data-type='method'><a href="cl.EventManager.html#addEventListener">addEventListener</a></li><li data-type='method'><a href="cl.EventManager.html#destroy">destroy</a></li><li data-type='method'><a href="cl.EventManager.html#hasListener">hasListener</a></li><li data-type='method'><a href="cl.EventManager.html#removeEventListener">removeEventListener</a></li></ul></li><li><a href="cl.Lang.html">Lang</a><ul class='methods'><li data-type='method'><a href="cl.Lang.html#get">get</a></li></ul></li><li><a href="cl.Layer.html">Layer</a><ul class='methods'><li data-type='method'><a href="cl.Layer.html#apply">apply</a></li><li data-type='method'><a href="cl.Layer.html#destroy">destroy</a></li><li data-type='method'><a href="cl.Layer.html#hide">hide</a></li><li data-type='method'><a href="cl.Layer.html#render">render</a></li><li data-type='method'><a href="cl.Layer.html#resize">resize</a></li><li data-type='method'><a href="cl.Layer.html#show">show</a></li></ul></li><li><a href="cl.Rect.html">Rect</a><ul class='methods'><li data-type='method'><a href="cl.Rect.html#apply">apply</a></li><li data-type='method'><a href="cl.Rect.html#calcAnimProps">calcAnimProps</a></li><li data-type='method'><a href="cl.Rect.html#destroy">destroy</a></li><li data-type='method'><a href="cl.Rect.html#getBounds">getBounds</a></li><li data-type='method'><a href="cl.Rect.html#getCenterX">getCenterX</a></li><li data-type='method'><a href="cl.Rect.html#getCenterY">getCenterY</a></li><li data-type='method'><a href="cl.Rect.html#getId">getId</a></li><li data-type='method'><a href="cl.Rect.html#getProps">getProps</a></li><li data-type='method'><a href="cl.Rect.html#hitTest">hitTest</a></li><li data-type='method'><a href="cl.Rect.html#hitTestRect">hitTestRect</a></li><li data-type='method'><a href="cl.Rect.html#link">link</a></li><li data-type='method'><a href="cl.Rect.html#processDrag">processDrag</a></li><li data-type='method'><a href="cl.Rect.html#render">render</a></li><li data-type='method'><a href="cl.Rect.html#renderHover">renderHover</a></li><li data-type='method'><a href="cl.Rect.html#setProps">setProps</a></li><li data-type='method'><a href="cl.Rect.html#startAnimation">startAnimation</a></li><li data-type='method'><a href="cl.Rect.html#stopAnimation">stopAnimation</a></li><li data-type='method'><a href="cl.Rect.html#unlink">unlink</a></li></ul></li><li><a href="cl.Selector.html">Selector</a><ul class='methods'><li data-type='method'><a href="cl.Selector.html#apply">apply</a></li><li data-type='method'><a href="cl.Selector.html#deselect">deselect</a></li><li data-type='method'><a href="cl.Selector.html#destroy">destroy</a></li><li data-type='method'><a href="cl.Selector.html#disableDrag">disableDrag</a></li><li data-type='method'><a href="cl.Selector.html#disableMultiselect">disableMultiselect</a></li><li data-type='method'><a href="cl.Selector.html#enableDrag">enableDrag</a></li><li data-type='method'><a href="cl.Selector.html#enableMultiselect">enableMultiselect</a></li><li data-type='method'><a href="cl.Selector.html#getBounds">getBounds</a></li><li data-type='method'><a href="cl.Selector.html#getSelection">getSelection</a></li><li data-type='method'><a href="cl.Selector.html#hide">hide</a></li><li data-type='method'><a href="cl.Selector.html#render">render</a></li><li data-type='method'><a href="cl.Selector.html#resize">resize</a></li><li data-type='method'><a href="cl.Selector.html#shapeFromPoint">shapeFromPoint</a></li><li data-type='method'><a href="cl.Selector.html#shapesFromPoint">shapesFromPoint</a></li><li data-type='method'><a href="cl.Selector.html#shapesFromRect">shapesFromRect</a></li><li data-type='method'><a href="cl.Selector.html#show">show</a></li><li data-type='method'><a href="cl.Selector.html#~resize">resize</a></li></ul></li><li><a href="cl.Shape.html">Shape</a><ul class='methods'><li data-type='method'><a href="cl.Shape.html#apply">apply</a></li><li data-type='method'><a href="cl.Shape.html#calcAnimProps">calcAnimProps</a></li><li data-type='method'><a href="cl.Shape.html#destroy">destroy</a></li><li data-type='method'><a href="cl.Shape.html#getBounds">getBounds</a></li><li data-type='method'><a href="cl.Shape.html#getCenterX">getCenterX</a></li><li data-type='method'><a href="cl.Shape.html#getCenterY">getCenterY</a></li><li data-type='method'><a href="cl.Shape.html#getId">getId</a></li><li data-type='method'><a href="cl.Shape.html#getProps">getProps</a></li><li data-type='method'><a href="cl.Shape.html#hitTest">hitTest</a></li><li data-type='method'><a href="cl.Shape.html#hitTestRect">hitTestRect</a></li><li data-type='method'><a href="cl.Shape.html#link">link</a></li><li data-type='method'><a href="cl.Shape.html#processDrag">processDrag</a></li><li data-type='method'><a href="cl.Shape.html#render">render</a></li><li data-type='method'><a href="cl.Shape.html#renderHover">renderHover</a></li><li data-type='method'><a href="cl.Shape.html#setProps">setProps</a></li><li data-type='method'><a href="cl.Shape.html#startAnimation">startAnimation</a></li><li data-type='method'><a href="cl.Shape.html#stopAnimation">stopAnimation</a></li><li data-type='method'><a href="cl.Shape.html#unlink">unlink</a></li></ul></li><li><a href="cl.ShapeManager.html">ShapeManager</a><ul class='methods'><li data-type='method'><a href="cl.ShapeManager.html#add">add</a></li><li data-type='method'><a href="cl.ShapeManager.html#apply">apply</a></li><li data-type='method'><a href="cl.ShapeManager.html#clear">clear</a></li><li data-type='method'><a href="cl.ShapeManager.html#destroy">destroy</a></li><li data-type='method'><a href="cl.ShapeManager.html#get">get</a></li><li data-type='method'><a href="cl.ShapeManager.html#getAnimating">getAnimating</a></li><li data-type='method'><a href="cl.ShapeManager.html#hide">hide</a></li><li data-type='method'><a href="cl.ShapeManager.html#remove">remove</a></li><li data-type='method'><a href="cl.ShapeManager.html#render">render</a></li><li data-type='method'><a href="cl.ShapeManager.html#resize">resize</a></li><li data-type='method'><a href="cl.ShapeManager.html#show">show</a></li><li data-type='method'><a href="cl.ShapeManager.html#updateStatic">updateStatic</a></li></ul></li><li><a href="cl.Utils.html">Utils</a><ul class='methods'><li data-type='method'><a href="cl.Utils.html#colorLuminance">colorLuminance</a></li><li data-type='method'><a href="cl.Utils.html#extend">extend</a></li><li data-type='method'><a href="cl.Utils.html#merge">merge</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="cl.html">cl</a></li></ul>
-</nav>
-
-<div id="main">
+<div id="wrap" class="clearfix">
     
-    <h1 class="page-title">Chart</h1>
-    
+<div class="navigation">
+    <h3 class="applicationName"><a href="index.html"></a></h3>
 
+    <div class="search">
+        <input id="search" type="text" class="form-control input-sm" placeholder="Search Documentations">
+    </div>
+    <ul class="list">
     
-
+        <li class="item" data-name="cl">
+            <span class="title">
+                <a href="cl.html">cl</a>
+                
+                <span class="static">static</span>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Color">
+            <span class="title">
+                <a href="cl.Color.html">cl.Color</a>
+                
+                <span class="static">static</span>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Consts">
+            <span class="title">
+                <a href="cl.Consts.html">cl.Consts</a>
+                
+                <span class="static">static</span>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="cl.Consts#COLOR_BLACK"><a href="cl.Consts.html#COLOR_BLACK">COLOR_BLACK</a></li>
+            
+                <li data-name="cl.Consts#COLOR_BLUE"><a href="cl.Consts.html#COLOR_BLUE">COLOR_BLUE</a></li>
+            
+                <li data-name="cl.Consts#COLOR_GRAY"><a href="cl.Consts.html#COLOR_GRAY">COLOR_GRAY</a></li>
+            
+                <li data-name="cl.Consts#COLOR_GREEN"><a href="cl.Consts.html#COLOR_GREEN">COLOR_GREEN</a></li>
+            
+                <li data-name="cl.Consts#COLOR_LIGHTBLUE"><a href="cl.Consts.html#COLOR_LIGHTBLUE">COLOR_LIGHTBLUE</a></li>
+            
+                <li data-name="cl.Consts#COLOR_RED"><a href="cl.Consts.html#COLOR_RED">COLOR_RED</a></li>
+            
+                <li data-name="cl.Consts#COLOR_WHITE"><a href="cl.Consts.html#COLOR_WHITE">COLOR_WHITE</a></li>
+            
+                <li data-name="cl.Consts#FONT_NAME"><a href="cl.Consts.html#FONT_NAME">FONT_NAME</a></li>
+            
+                <li data-name="cl.Consts#FONT_SIZE"><a href="cl.Consts.html#FONT_SIZE">FONT_SIZE</a></li>
+            
+                <li data-name="cl.Consts#HALF_PI"><a href="cl.Consts.html#HALF_PI">HALF_PI</a></li>
+            
+                <li data-name="cl.Consts#RAD_TO_DEG"><a href="cl.Consts.html#RAD_TO_DEG">RAD_TO_DEG</a></li>
+            
+                <li data-name="cl.Consts#TWO_PI"><a href="cl.Consts.html#TWO_PI">TWO_PI</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Lang">
+            <span class="title">
+                <a href="cl.Lang.html">cl.Lang</a>
+                
+                <span class="static">static</span>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Lang#get"><a href="cl.Lang.html#get">get</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Utils">
+            <span class="title">
+                <a href="cl.Utils.html">cl.Utils</a>
+                
+                <span class="static">static</span>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Utils#colorLuminance"><a href="cl.Utils.html#colorLuminance">colorLuminance</a></li>
+            
+                <li data-name="cl.Utils#distSq"><a href="cl.Utils.html#distSq">distSq</a></li>
+            
+                <li data-name="cl.Utils#distToSegmentSquared"><a href="cl.Utils.html#distToSegmentSquared">distToSegmentSquared</a></li>
+            
+                <li data-name="cl.Utils#extend"><a href="cl.Utils.html#extend">extend</a></li>
+            
+                <li data-name="cl.Utils#merge"><a href="cl.Utils.html#merge">merge</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Axis">
+            <span class="title">
+                <a href="cl.Axis.html">cl.Axis</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Axis#apply"><a href="cl.Axis.html#apply">apply</a></li>
+            
+                <li data-name="cl.Axis#destroy"><a href="cl.Axis.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Axis#getColor"><a href="cl.Axis.html#getColor">getColor</a></li>
+            
+                <li data-name="cl.Axis#getLineWidth"><a href="cl.Axis.html#getLineWidth">getLineWidth</a></li>
+            
+                <li data-name="cl.Axis#getMargins"><a href="cl.Axis.html#getMargins">getMargins</a></li>
+            
+                <li data-name="cl.Axis#getMax"><a href="cl.Axis.html#getMax">getMax</a></li>
+            
+                <li data-name="cl.Axis#getMin"><a href="cl.Axis.html#getMin">getMin</a></li>
+            
+                <li data-name="cl.Axis#getName"><a href="cl.Axis.html#getName">getName</a></li>
+            
+                <li data-name="cl.Axis#getOffset"><a href="cl.Axis.html#getOffset">getOffset</a></li>
+            
+                <li data-name="cl.Axis#getTickInterval"><a href="cl.Axis.html#getTickInterval">getTickInterval</a></li>
+            
+                <li data-name="cl.Axis#getTickIntervalSmall"><a href="cl.Axis.html#getTickIntervalSmall">getTickIntervalSmall</a></li>
+            
+                <li data-name="cl.Axis#getTitleAlign"><a href="cl.Axis.html#getTitleAlign">getTitleAlign</a></li>
+            
+                <li data-name="cl.Axis#getTitleColor"><a href="cl.Axis.html#getTitleColor">getTitleColor</a></li>
+            
+                <li data-name="cl.Axis#getTitleFont"><a href="cl.Axis.html#getTitleFont">getTitleFont</a></li>
+            
+                <li data-name="cl.Axis#getTitleSize"><a href="cl.Axis.html#getTitleSize">getTitleSize</a></li>
+            
+                <li data-name="cl.Axis#getTitleStyle"><a href="cl.Axis.html#getTitleStyle">getTitleStyle</a></li>
+            
+                <li data-name="cl.Axis#hide"><a href="cl.Axis.html#hide">hide</a></li>
+            
+                <li data-name="cl.Axis#render"><a href="cl.Axis.html#render">render</a></li>
+            
+                <li data-name="cl.Axis#setColor"><a href="cl.Axis.html#setColor">setColor</a></li>
+            
+                <li data-name="cl.Axis#setLineWidth"><a href="cl.Axis.html#setLineWidth">setLineWidth</a></li>
+            
+                <li data-name="cl.Axis#setMargins"><a href="cl.Axis.html#setMargins">setMargins</a></li>
+            
+                <li data-name="cl.Axis#setMax"><a href="cl.Axis.html#setMax">setMax</a></li>
+            
+                <li data-name="cl.Axis#setMin"><a href="cl.Axis.html#setMin">setMin</a></li>
+            
+                <li data-name="cl.Axis#setName"><a href="cl.Axis.html#setName">setName</a></li>
+            
+                <li data-name="cl.Axis#setOffset"><a href="cl.Axis.html#setOffset">setOffset</a></li>
+            
+                <li data-name="cl.Axis#setTickInterval"><a href="cl.Axis.html#setTickInterval">setTickInterval</a></li>
+            
+                <li data-name="cl.Axis#setTickIntervalSmall"><a href="cl.Axis.html#setTickIntervalSmall">setTickIntervalSmall</a></li>
+            
+                <li data-name="cl.Axis#setTitleAlign"><a href="cl.Axis.html#setTitleAlign">setTitleAlign</a></li>
+            
+                <li data-name="cl.Axis#setTitleColor"><a href="cl.Axis.html#setTitleColor">setTitleColor</a></li>
+            
+                <li data-name="cl.Axis#setTitleFont"><a href="cl.Axis.html#setTitleFont">setTitleFont</a></li>
+            
+                <li data-name="cl.Axis#setTitleSize"><a href="cl.Axis.html#setTitleSize">setTitleSize</a></li>
+            
+                <li data-name="cl.Axis#setTitleStyle"><a href="cl.Axis.html#setTitleStyle">setTitleStyle</a></li>
+            
+                <li data-name="cl.Axis#show"><a href="cl.Axis.html#show">show</a></li>
+            
+                <li data-name="cl.Axis#toAxis"><a href="cl.Axis.html#toAxis">toAxis</a></li>
+            
+                <li data-name="cl.Axis#toScreen"><a href="cl.Axis.html#toScreen">toScreen</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.AxisManager">
+            <span class="title">
+                <a href="cl.AxisManager.html">cl.AxisManager</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.AxisManager#add"><a href="cl.AxisManager.html#add">add</a></li>
+            
+                <li data-name="cl.AxisManager#apply"><a href="cl.AxisManager.html#apply">apply</a></li>
+            
+                <li data-name="cl.AxisManager#destroy"><a href="cl.AxisManager.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.AxisManager#get"><a href="cl.AxisManager.html#get">get</a></li>
+            
+                <li data-name="cl.AxisManager#hide"><a href="cl.AxisManager.html#hide">hide</a></li>
+            
+                <li data-name="cl.AxisManager#remove"><a href="cl.AxisManager.html#remove">remove</a></li>
+            
+                <li data-name="cl.AxisManager#render"><a href="cl.AxisManager.html#render">render</a></li>
+            
+                <li data-name="cl.AxisManager#resize"><a href="cl.AxisManager.html#resize">resize</a></li>
+            
+                <li data-name="cl.AxisManager#show"><a href="cl.AxisManager.html#show">show</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Background">
+            <span class="title">
+                <a href="cl.Background.html">cl.Background</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="cl.Background.Background.FIT_ALL"><a href="cl.Background.html#.Background.FIT_ALL">Background.FIT_ALL</a></li>
+            
+                <li data-name="cl.Background.Background.FIT_FILL"><a href="cl.Background.html#.Background.FIT_FILL">Background.FIT_FILL</a></li>
+            
+                <li data-name="cl.Background.Background.FIT_NONE"><a href="cl.Background.html#.Background.FIT_NONE">Background.FIT_NONE</a></li>
+            
+                <li data-name="cl.Background.Background.FIT_STRETCH"><a href="cl.Background.html#.Background.FIT_STRETCH">Background.FIT_STRETCH</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Background#apply"><a href="cl.Background.html#apply">apply</a></li>
+            
+                <li data-name="cl.Background#destroy"><a href="cl.Background.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Background#hide"><a href="cl.Background.html#hide">hide</a></li>
+            
+                <li data-name="cl.Background#render"><a href="cl.Background.html#render">render</a></li>
+            
+                <li data-name="cl.Background#resize"><a href="cl.Background.html#resize">resize</a></li>
+            
+                <li data-name="cl.Background#setFit"><a href="cl.Background.html#setFit">setFit</a></li>
+            
+                <li data-name="cl.Background#setImage"><a href="cl.Background.html#setImage">setImage</a></li>
+            
+                <li data-name="cl.Background#show"><a href="cl.Background.html#show">show</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Bubble">
+            <span class="title">
+                <a href="cl.Bubble.html">cl.Bubble</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Bubble#apply"><a href="cl.Bubble.html#apply">apply</a></li>
+            
+                <li data-name="cl.Bubble#calcAnimProps"><a href="cl.Bubble.html#calcAnimProps">calcAnimProps</a></li>
+            
+                <li data-name="cl.Bubble#destroy"><a href="cl.Bubble.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Bubble#getBounds"><a href="cl.Bubble.html#getBounds">getBounds</a></li>
+            
+                <li data-name="cl.Bubble#getCenterX"><a href="cl.Bubble.html#getCenterX">getCenterX</a></li>
+            
+                <li data-name="cl.Bubble#getCenterY"><a href="cl.Bubble.html#getCenterY">getCenterY</a></li>
+            
+                <li data-name="cl.Bubble#getId"><a href="cl.Bubble.html#getId">getId</a></li>
+            
+                <li data-name="cl.Bubble#getProps"><a href="cl.Bubble.html#getProps">getProps</a></li>
+            
+                <li data-name="cl.Bubble#hitTest"><a href="cl.Bubble.html#hitTest">hitTest</a></li>
+            
+                <li data-name="cl.Bubble#hitTestRect"><a href="cl.Bubble.html#hitTestRect">hitTestRect</a></li>
+            
+                <li data-name="cl.Bubble#link"><a href="cl.Bubble.html#link">link</a></li>
+            
+                <li data-name="cl.Bubble#onAnimationUpdate"><a href="cl.Bubble.html#onAnimationUpdate">onAnimationUpdate</a></li>
+            
+                <li data-name="cl.Bubble#processDrag"><a href="cl.Bubble.html#processDrag">processDrag</a></li>
+            
+                <li data-name="cl.Bubble#render"><a href="cl.Bubble.html#render">render</a></li>
+            
+                <li data-name="cl.Bubble#renderHover"><a href="cl.Bubble.html#renderHover">renderHover</a></li>
+            
+                <li data-name="cl.Bubble#setProps"><a href="cl.Bubble.html#setProps">setProps</a></li>
+            
+                <li data-name="cl.Bubble#startAnimation"><a href="cl.Bubble.html#startAnimation">startAnimation</a></li>
+            
+                <li data-name="cl.Bubble#stopAnimation"><a href="cl.Bubble.html#stopAnimation">stopAnimation</a></li>
+            
+                <li data-name="cl.Bubble#unlink"><a href="cl.Bubble.html#unlink">unlink</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Canvas">
+            <span class="title">
+                <a href="cl.Canvas.html">cl.Canvas</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Canvas#clear"><a href="cl.Canvas.html#clear">clear</a></li>
+            
+                <li data-name="cl.Canvas#destroy"><a href="cl.Canvas.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Canvas#draw"><a href="cl.Canvas.html#draw">draw</a></li>
+            
+                <li data-name="cl.Canvas#drawArrow"><a href="cl.Canvas.html#drawArrow">drawArrow</a></li>
+            
+                <li data-name="cl.Canvas#drawLine"><a href="cl.Canvas.html#drawLine">drawLine</a></li>
+            
+                <li data-name="cl.Canvas#drawRect"><a href="cl.Canvas.html#drawRect">drawRect</a></li>
+            
+                <li data-name="cl.Canvas#resetTransform"><a href="cl.Canvas.html#resetTransform">resetTransform</a></li>
+            
+                <li data-name="cl.Canvas#resize"><a href="cl.Canvas.html#resize">resize</a></li>
+            
+                <li data-name="cl.Canvas#restore"><a href="cl.Canvas.html#restore">restore</a></li>
+            
+                <li data-name="cl.Canvas#save"><a href="cl.Canvas.html#save">save</a></li>
+            
+                <li data-name="cl.Canvas#setAlpha"><a href="cl.Canvas.html#setAlpha">setAlpha</a></li>
+            
+                <li data-name="cl.Canvas#setFillColor"><a href="cl.Canvas.html#setFillColor">setFillColor</a></li>
+            
+                <li data-name="cl.Canvas#setLineDash"><a href="cl.Canvas.html#setLineDash">setLineDash</a></li>
+            
+                <li data-name="cl.Canvas#setLineStyle"><a href="cl.Canvas.html#setLineStyle">setLineStyle</a></li>
+            
+                <li data-name="cl.Canvas~drawText"><a href="cl.Canvas.html#~drawText">drawText</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Chart">
+            <span class="title">
+                <a href="cl.Chart.html">cl.Chart</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Chart#addBubbles"><a href="cl.Chart.html#addBubbles">addBubbles</a></li>
+            
+                <li data-name="cl.Chart#addEventListener"><a href="cl.Chart.html#addEventListener">addEventListener</a></li>
+            
+                <li data-name="cl.Chart#addLines"><a href="cl.Chart.html#addLines">addLines</a></li>
+            
+                <li data-name="cl.Chart#addRects"><a href="cl.Chart.html#addRects">addRects</a></li>
+            
+                <li data-name="cl.Chart#destroy"><a href="cl.Chart.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Chart#getBackground"><a href="cl.Chart.html#getBackground">getBackground</a></li>
+            
+                <li data-name="cl.Chart#hidePreloader"><a href="cl.Chart.html#hidePreloader">hidePreloader</a></li>
+            
+                <li data-name="cl.Chart#removeEventListener"><a href="cl.Chart.html#removeEventListener">removeEventListener</a></li>
+            
+                <li data-name="cl.Chart#resize"><a href="cl.Chart.html#resize">resize</a></li>
+            
+                <li data-name="cl.Chart#setBackground"><a href="cl.Chart.html#setBackground">setBackground</a></li>
+            
+                <li data-name="cl.Chart#setCursor"><a href="cl.Chart.html#setCursor">setCursor</a></li>
+            
+                <li data-name="cl.Chart#setDirtyFlag"><a href="cl.Chart.html#setDirtyFlag">setDirtyFlag</a></li>
+            
+                <li data-name="cl.Chart#showPreloader"><a href="cl.Chart.html#showPreloader">showPreloader</a></li>
+            
+                <li data-name="cl.Chart#toAxisX"><a href="cl.Chart.html#toAxisX">toAxisX</a></li>
+            
+                <li data-name="cl.Chart#toAxisY"><a href="cl.Chart.html#toAxisY">toAxisY</a></li>
+            
+                <li data-name="cl.Chart#toScreenX"><a href="cl.Chart.html#toScreenX">toScreenX</a></li>
+            
+                <li data-name="cl.Chart#toScreenY"><a href="cl.Chart.html#toScreenY">toScreenY</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Color">
+            <span class="title">
+                <a href="cl.Color.html">cl.Color</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Consts">
+            <span class="title">
+                <a href="cl.Consts.html">cl.Consts</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="cl.Consts#COLOR_BLACK"><a href="cl.Consts.html#COLOR_BLACK">COLOR_BLACK</a></li>
+            
+                <li data-name="cl.Consts#COLOR_BLUE"><a href="cl.Consts.html#COLOR_BLUE">COLOR_BLUE</a></li>
+            
+                <li data-name="cl.Consts#COLOR_GRAY"><a href="cl.Consts.html#COLOR_GRAY">COLOR_GRAY</a></li>
+            
+                <li data-name="cl.Consts#COLOR_GREEN"><a href="cl.Consts.html#COLOR_GREEN">COLOR_GREEN</a></li>
+            
+                <li data-name="cl.Consts#COLOR_LIGHTBLUE"><a href="cl.Consts.html#COLOR_LIGHTBLUE">COLOR_LIGHTBLUE</a></li>
+            
+                <li data-name="cl.Consts#COLOR_RED"><a href="cl.Consts.html#COLOR_RED">COLOR_RED</a></li>
+            
+                <li data-name="cl.Consts#COLOR_WHITE"><a href="cl.Consts.html#COLOR_WHITE">COLOR_WHITE</a></li>
+            
+                <li data-name="cl.Consts#FONT_NAME"><a href="cl.Consts.html#FONT_NAME">FONT_NAME</a></li>
+            
+                <li data-name="cl.Consts#FONT_SIZE"><a href="cl.Consts.html#FONT_SIZE">FONT_SIZE</a></li>
+            
+                <li data-name="cl.Consts#HALF_PI"><a href="cl.Consts.html#HALF_PI">HALF_PI</a></li>
+            
+                <li data-name="cl.Consts#RAD_TO_DEG"><a href="cl.Consts.html#RAD_TO_DEG">RAD_TO_DEG</a></li>
+            
+                <li data-name="cl.Consts#TWO_PI"><a href="cl.Consts.html#TWO_PI">TWO_PI</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Event">
+            <span class="title">
+                <a href="cl.Event.html">cl.Event</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="cl.Event.click"><a href="cl.Event.html#.click">click</a></li>
+            
+                <li data-name="cl.Event.doubleClick"><a href="cl.Event.html#.doubleClick">doubleClick</a></li>
+            
+                <li data-name="cl.Event.mouseDown"><a href="cl.Event.html#.mouseDown">mouseDown</a></li>
+            
+                <li data-name="cl.Event.mouseMove"><a href="cl.Event.html#.mouseMove">mouseMove</a></li>
+            
+                <li data-name="cl.Event.mouseUp"><a href="cl.Event.html#.mouseUp">mouseUp</a></li>
+            
+                <li data-name="cl.Event.shapeOut"><a href="cl.Event.html#.shapeOut">shapeOut</a></li>
+            
+                <li data-name="cl.Event.shapeOver"><a href="cl.Event.html#.shapeOver">shapeOver</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.EventManager">
+            <span class="title">
+                <a href="cl.EventManager.html">cl.EventManager</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.EventManager#addEventListener"><a href="cl.EventManager.html#addEventListener">addEventListener</a></li>
+            
+                <li data-name="cl.EventManager#destroy"><a href="cl.EventManager.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.EventManager#hasListener"><a href="cl.EventManager.html#hasListener">hasListener</a></li>
+            
+                <li data-name="cl.EventManager#removeEventListener"><a href="cl.EventManager.html#removeEventListener">removeEventListener</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Lang">
+            <span class="title">
+                <a href="cl.Lang.html">cl.Lang</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Lang#get"><a href="cl.Lang.html#get">get</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Layer">
+            <span class="title">
+                <a href="cl.Layer.html">cl.Layer</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Layer#apply"><a href="cl.Layer.html#apply">apply</a></li>
+            
+                <li data-name="cl.Layer#destroy"><a href="cl.Layer.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Layer#hide"><a href="cl.Layer.html#hide">hide</a></li>
+            
+                <li data-name="cl.Layer#render"><a href="cl.Layer.html#render">render</a></li>
+            
+                <li data-name="cl.Layer#resize"><a href="cl.Layer.html#resize">resize</a></li>
+            
+                <li data-name="cl.Layer#show"><a href="cl.Layer.html#show">show</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Line">
+            <span class="title">
+                <a href="cl.Line.html">cl.Line</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="cl.Line.Line.HOVER_THRESOLD"><a href="cl.Line.html#.Line.HOVER_THRESOLD">Line.HOVER_THRESOLD</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Line#apply"><a href="cl.Line.html#apply">apply</a></li>
+            
+                <li data-name="cl.Line#calcAnimProps"><a href="cl.Line.html#calcAnimProps">calcAnimProps</a></li>
+            
+                <li data-name="cl.Line#destroy"><a href="cl.Line.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Line#getBounds"><a href="cl.Line.html#getBounds">getBounds</a></li>
+            
+                <li data-name="cl.Line#getCenterX"><a href="cl.Line.html#getCenterX">getCenterX</a></li>
+            
+                <li data-name="cl.Line#getCenterY"><a href="cl.Line.html#getCenterY">getCenterY</a></li>
+            
+                <li data-name="cl.Line#getId"><a href="cl.Line.html#getId">getId</a></li>
+            
+                <li data-name="cl.Line#getProps"><a href="cl.Line.html#getProps">getProps</a></li>
+            
+                <li data-name="cl.Line#hitTest"><a href="cl.Line.html#hitTest">hitTest</a></li>
+            
+                <li data-name="cl.Line#hitTestRect"><a href="cl.Line.html#hitTestRect">hitTestRect</a></li>
+            
+                <li data-name="cl.Line#link"><a href="cl.Line.html#link">link</a></li>
+            
+                <li data-name="cl.Line#onAnimationUpdate"><a href="cl.Line.html#onAnimationUpdate">onAnimationUpdate</a></li>
+            
+                <li data-name="cl.Line#processDrag"><a href="cl.Line.html#processDrag">processDrag</a></li>
+            
+                <li data-name="cl.Line#render"><a href="cl.Line.html#render">render</a></li>
+            
+                <li data-name="cl.Line#renderHover"><a href="cl.Line.html#renderHover">renderHover</a></li>
+            
+                <li data-name="cl.Line#setProps"><a href="cl.Line.html#setProps">setProps</a></li>
+            
+                <li data-name="cl.Line#startAnimation"><a href="cl.Line.html#startAnimation">startAnimation</a></li>
+            
+                <li data-name="cl.Line#stopAnimation"><a href="cl.Line.html#stopAnimation">stopAnimation</a></li>
+            
+                <li data-name="cl.Line#unlink"><a href="cl.Line.html#unlink">unlink</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Rect">
+            <span class="title">
+                <a href="cl.Rect.html">cl.Rect</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Rect#apply"><a href="cl.Rect.html#apply">apply</a></li>
+            
+                <li data-name="cl.Rect#calcAnimProps"><a href="cl.Rect.html#calcAnimProps">calcAnimProps</a></li>
+            
+                <li data-name="cl.Rect#calcAnimProps"><a href="cl.Rect.html#calcAnimProps">calcAnimProps</a></li>
+            
+                <li data-name="cl.Rect#destroy"><a href="cl.Rect.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Rect#destroy"><a href="cl.Rect.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Rect#getBounds"><a href="cl.Rect.html#getBounds">getBounds</a></li>
+            
+                <li data-name="cl.Rect#getCenterX"><a href="cl.Rect.html#getCenterX">getCenterX</a></li>
+            
+                <li data-name="cl.Rect#getCenterX"><a href="cl.Rect.html#getCenterX">getCenterX</a></li>
+            
+                <li data-name="cl.Rect#getCenterY"><a href="cl.Rect.html#getCenterY">getCenterY</a></li>
+            
+                <li data-name="cl.Rect#getCenterY"><a href="cl.Rect.html#getCenterY">getCenterY</a></li>
+            
+                <li data-name="cl.Rect#getId"><a href="cl.Rect.html#getId">getId</a></li>
+            
+                <li data-name="cl.Rect#getProps"><a href="cl.Rect.html#getProps">getProps</a></li>
+            
+                <li data-name="cl.Rect#hitTest"><a href="cl.Rect.html#hitTest">hitTest</a></li>
+            
+                <li data-name="cl.Rect#hitTest"><a href="cl.Rect.html#hitTest">hitTest</a></li>
+            
+                <li data-name="cl.Rect#hitTestRect"><a href="cl.Rect.html#hitTestRect">hitTestRect</a></li>
+            
+                <li data-name="cl.Rect#hitTestRect"><a href="cl.Rect.html#hitTestRect">hitTestRect</a></li>
+            
+                <li data-name="cl.Rect#link"><a href="cl.Rect.html#link">link</a></li>
+            
+                <li data-name="cl.Rect#onAnimationUpdate"><a href="cl.Rect.html#onAnimationUpdate">onAnimationUpdate</a></li>
+            
+                <li data-name="cl.Rect#processDrag"><a href="cl.Rect.html#processDrag">processDrag</a></li>
+            
+                <li data-name="cl.Rect#render"><a href="cl.Rect.html#render">render</a></li>
+            
+                <li data-name="cl.Rect#renderHover"><a href="cl.Rect.html#renderHover">renderHover</a></li>
+            
+                <li data-name="cl.Rect#setProps"><a href="cl.Rect.html#setProps">setProps</a></li>
+            
+                <li data-name="cl.Rect#startAnimation"><a href="cl.Rect.html#startAnimation">startAnimation</a></li>
+            
+                <li data-name="cl.Rect#stopAnimation"><a href="cl.Rect.html#stopAnimation">stopAnimation</a></li>
+            
+                <li data-name="cl.Rect#unlink"><a href="cl.Rect.html#unlink">unlink</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Selector">
+            <span class="title">
+                <a href="cl.Selector.html">cl.Selector</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="cl.Selector.Selector.DRAG_THRESOLD"><a href="cl.Selector.html#.Selector.DRAG_THRESOLD">Selector.DRAG_THRESOLD</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Selector#apply"><a href="cl.Selector.html#apply">apply</a></li>
+            
+                <li data-name="cl.Selector#deselect"><a href="cl.Selector.html#deselect">deselect</a></li>
+            
+                <li data-name="cl.Selector#destroy"><a href="cl.Selector.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Selector#disableDrag"><a href="cl.Selector.html#disableDrag">disableDrag</a></li>
+            
+                <li data-name="cl.Selector#disableMultiselect"><a href="cl.Selector.html#disableMultiselect">disableMultiselect</a></li>
+            
+                <li data-name="cl.Selector#enableDrag"><a href="cl.Selector.html#enableDrag">enableDrag</a></li>
+            
+                <li data-name="cl.Selector#enableMultiselect"><a href="cl.Selector.html#enableMultiselect">enableMultiselect</a></li>
+            
+                <li data-name="cl.Selector#getBounds"><a href="cl.Selector.html#getBounds">getBounds</a></li>
+            
+                <li data-name="cl.Selector#getSelection"><a href="cl.Selector.html#getSelection">getSelection</a></li>
+            
+                <li data-name="cl.Selector#hide"><a href="cl.Selector.html#hide">hide</a></li>
+            
+                <li data-name="cl.Selector#render"><a href="cl.Selector.html#render">render</a></li>
+            
+                <li data-name="cl.Selector#resize"><a href="cl.Selector.html#resize">resize</a></li>
+            
+                <li data-name="cl.Selector#shapeFromPoint"><a href="cl.Selector.html#shapeFromPoint">shapeFromPoint</a></li>
+            
+                <li data-name="cl.Selector#shapesFromPoint"><a href="cl.Selector.html#shapesFromPoint">shapesFromPoint</a></li>
+            
+                <li data-name="cl.Selector#shapesFromRect"><a href="cl.Selector.html#shapesFromRect">shapesFromRect</a></li>
+            
+                <li data-name="cl.Selector#show"><a href="cl.Selector.html#show">show</a></li>
+            
+                <li data-name="cl.Selector~resize"><a href="cl.Selector.html#~resize">resize</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Shape">
+            <span class="title">
+                <a href="cl.Shape.html">cl.Shape</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Shape#apply"><a href="cl.Shape.html#apply">apply</a></li>
+            
+                <li data-name="cl.Shape#calcAnimProps"><a href="cl.Shape.html#calcAnimProps">calcAnimProps</a></li>
+            
+                <li data-name="cl.Shape#destroy"><a href="cl.Shape.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Shape#getBounds"><a href="cl.Shape.html#getBounds">getBounds</a></li>
+            
+                <li data-name="cl.Shape#getCenterX"><a href="cl.Shape.html#getCenterX">getCenterX</a></li>
+            
+                <li data-name="cl.Shape#getCenterY"><a href="cl.Shape.html#getCenterY">getCenterY</a></li>
+            
+                <li data-name="cl.Shape#getId"><a href="cl.Shape.html#getId">getId</a></li>
+            
+                <li data-name="cl.Shape#getProps"><a href="cl.Shape.html#getProps">getProps</a></li>
+            
+                <li data-name="cl.Shape#hitTest"><a href="cl.Shape.html#hitTest">hitTest</a></li>
+            
+                <li data-name="cl.Shape#hitTestRect"><a href="cl.Shape.html#hitTestRect">hitTestRect</a></li>
+            
+                <li data-name="cl.Shape#link"><a href="cl.Shape.html#link">link</a></li>
+            
+                <li data-name="cl.Shape#onAnimationUpdate"><a href="cl.Shape.html#onAnimationUpdate">onAnimationUpdate</a></li>
+            
+                <li data-name="cl.Shape#processDrag"><a href="cl.Shape.html#processDrag">processDrag</a></li>
+            
+                <li data-name="cl.Shape#render"><a href="cl.Shape.html#render">render</a></li>
+            
+                <li data-name="cl.Shape#renderHover"><a href="cl.Shape.html#renderHover">renderHover</a></li>
+            
+                <li data-name="cl.Shape#setProps"><a href="cl.Shape.html#setProps">setProps</a></li>
+            
+                <li data-name="cl.Shape#startAnimation"><a href="cl.Shape.html#startAnimation">startAnimation</a></li>
+            
+                <li data-name="cl.Shape#stopAnimation"><a href="cl.Shape.html#stopAnimation">stopAnimation</a></li>
+            
+                <li data-name="cl.Shape#unlink"><a href="cl.Shape.html#unlink">unlink</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.ShapeManager">
+            <span class="title">
+                <a href="cl.ShapeManager.html">cl.ShapeManager</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="cl.ShapeManager.ShapeManager.ANIMATION_DELAY"><a href="cl.ShapeManager.html#.ShapeManager.ANIMATION_DELAY">ShapeManager.ANIMATION_DELAY</a></li>
+            
+                <li data-name="cl.ShapeManager.ShapeManager.ANIMATION_SPEED"><a href="cl.ShapeManager.html#.ShapeManager.ANIMATION_SPEED">ShapeManager.ANIMATION_SPEED</a></li>
+            
+                <li data-name="cl.ShapeManager.ShapeManager.MAX_ANIMATED_ITEMS"><a href="cl.ShapeManager.html#.ShapeManager.MAX_ANIMATED_ITEMS">ShapeManager.MAX_ANIMATED_ITEMS</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.ShapeManager#add"><a href="cl.ShapeManager.html#add">add</a></li>
+            
+                <li data-name="cl.ShapeManager#apply"><a href="cl.ShapeManager.html#apply">apply</a></li>
+            
+                <li data-name="cl.ShapeManager#clear"><a href="cl.ShapeManager.html#clear">clear</a></li>
+            
+                <li data-name="cl.ShapeManager#destroy"><a href="cl.ShapeManager.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.ShapeManager#get"><a href="cl.ShapeManager.html#get">get</a></li>
+            
+                <li data-name="cl.ShapeManager#getAnimating"><a href="cl.ShapeManager.html#getAnimating">getAnimating</a></li>
+            
+                <li data-name="cl.ShapeManager#hide"><a href="cl.ShapeManager.html#hide">hide</a></li>
+            
+                <li data-name="cl.ShapeManager#remove"><a href="cl.ShapeManager.html#remove">remove</a></li>
+            
+                <li data-name="cl.ShapeManager#render"><a href="cl.ShapeManager.html#render">render</a></li>
+            
+                <li data-name="cl.ShapeManager#resize"><a href="cl.ShapeManager.html#resize">resize</a></li>
+            
+                <li data-name="cl.ShapeManager#show"><a href="cl.ShapeManager.html#show">show</a></li>
+            
+                <li data-name="cl.ShapeManager#updateStatic"><a href="cl.ShapeManager.html#updateStatic">updateStatic</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Utils">
+            <span class="title">
+                <a href="cl.Utils.html">cl.Utils</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Utils#colorLuminance"><a href="cl.Utils.html#colorLuminance">colorLuminance</a></li>
+            
+                <li data-name="cl.Utils#distSq"><a href="cl.Utils.html#distSq">distSq</a></li>
+            
+                <li data-name="cl.Utils#distToSegmentSquared"><a href="cl.Utils.html#distToSegmentSquared">distToSegmentSquared</a></li>
+            
+                <li data-name="cl.Utils#extend"><a href="cl.Utils.html#extend">extend</a></li>
+            
+                <li data-name="cl.Utils#merge"><a href="cl.Utils.html#merge">merge</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+    </ul>
+</div>
+    <div class="main">
+        <h1 class="page-title" data-filename="cl.Chart.html">Class: Chart</h1>
+        
 
 
 
 <section>
-
+    
 <header>
+    <h2>
+        <span class="ancestors"><a href="cl.html">cl</a>.</span>
     
-        <h2>
-            <span class="ancestors"><a href="cl.html">cl</a>.</span>
-        
-        Chart
-        </h2>
-        
+    Chart
+    </h2>
     
-</header>
+</header>  
 
 <article>
     <div class="container-overview">
     
+    
+    
         
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="Chart">
+            
+            new cl.Chart<span class="signature">(options)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            chart.js, line 125
+        </div>
+        
+    </div>
 
     
-
-    <h4 class="name" id="Chart"><span class="type-signature"></span>new Chart<span class="signature">(options)</span><span class="type-signature"></span></h4>
-
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Represent chart class
+    </div>
     
 
-
-
-<div class="description">
-    Represent chart class
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
     
+    
+    
+    
+    
+        
 
 <table class="params">
     <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>options</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -110,40 +1130,37 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Chart settings
-                <h6>Properties</h6>
+            
+            <td class="description last">
+                
+                Chart settings
                 
 
 <table class="params">
     <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>xAxis</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -152,21 +1169,21 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Settings for xAxis, described like options in <a href="cl.Axis.html">cl.Axis</a> constructor</td>
+            
+            <td class="description last">
+                
+                Settings for xAxis, described like options in <a href="cl.Axis.html">cl.Axis</a> constructor</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>yAxis</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -175,21 +1192,21 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Settings for yAxis, described like options in <a href="cl.Axis.html">cl.Axis</a> constructor</td>
+            
+            <td class="description last">
+                
+                Settings for yAxis, described like options in <a href="cl.Axis.html">cl.Axis</a> constructor</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>element</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -198,21 +1215,21 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">DOM element on which chart will be created</td>
+            
+            <td class="description last">
+                
+                DOM element on which chart will be created</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>preloader</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -221,21 +1238,21 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">preloader DOM element</td>
+            
+            <td class="description last">
+                
+                preloader DOM element</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>width</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -247,21 +1264,21 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Width of chart. If undefined, chart will fits parent element width</td>
+            
+            <td class="description last">
+                
+                Width of chart. If undefined, chart will fits parent element width</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>height</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -273,21 +1290,21 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Height of chart. If undefined, chart will fits parent element height</td>
+            
+            <td class="description last">
+                
+                Height of chart. If undefined, chart will fits parent element height</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>background</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -296,21 +1313,21 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Background options, described like options in <a href="cl.Background.html">cl.Background</a> constructor</td>
+            
+            <td class="description last">
+                
+                Background options, described like options in <a href="cl.Background.html">cl.Background</a> constructor</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>shapes</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -319,21 +1336,21 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Shapes options, described like options in <a href="cl.ShapeManager.html">cl.ShapeManager</a> constructor</td>
+            
+            <td class="description last">
+                
+                Shapes options, described like options in <a href="cl.ShapeManager.html">cl.ShapeManager</a> constructor</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>selector</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -342,59 +1359,58 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Selector options, described like options in <a href="cl.Selector.html">cl.Selector</a> constructor</td>
+            
+            <td class="description last">
+                
+                Selector options, described like options in <a href="cl.Selector.html">cl.Selector</a> constructor</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
             </td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
     
+    
+    
+<dl class="details">
+    
+        
+        <h5 class="subsection-title">Properties:</h5>
+        
+        <dl>
 
 <table class="props">
     <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>options</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -403,21 +1419,21 @@
 
             
             </td>
-
             
-
             
-
+            
+            
+            
             <td class="description last">Chart settings</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>xAxis</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -426,21 +1442,21 @@
 
             
             </td>
-
             
-
             
-
+            
+            
+            
             <td class="description last">Chart x axis</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>yAxis</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -449,21 +1465,21 @@
 
             
             </td>
-
             
-
             
-
+            
+            
+            
             <td class="description last">Chart y axis</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>axis</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -472,21 +1488,21 @@
 
             
             </td>
-
             
-
             
-
+            
+            
+            
             <td class="description last">Chart axis</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>element</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -495,21 +1511,21 @@
 
             
             </td>
-
             
-
             
-
+            
+            
+            
             <td class="description last">Parent DOM element</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>screen</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -518,21 +1534,21 @@
 
             
             </td>
-
             
-
             
-
+            
+            
+            
             <td class="description last">Main canvas. All things will be rendered here</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>shapes</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -541,21 +1557,21 @@
 
             
             </td>
-
             
-
             
-
+            
+            
+            
             <td class="description last">Chart shapes</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>selector</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -564,21 +1580,21 @@
 
             
             </td>
-
             
-
             
-
+            
+            
+            
             <td class="description last">Chart selector</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>background</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -587,21 +1603,21 @@
 
             
             </td>
-
             
-
             
-
+            
+            
+            
             <td class="description last">Chart background</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>width</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -610,21 +1626,21 @@
 
             
             </td>
-
             
-
             
-
+            
+            
+            
             <td class="description last">Chart width (readonly). To set size use <a href="cl.Chart.html#resize">cl.Chart#resize</a></td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>height</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -633,21 +1649,21 @@
 
             
             </td>
-
             
-
             
-
+            
+            
+            
             <td class="description last">Chart width (readonly). To set size use <a href="cl.Chart.html#resize">cl.Chart#resize</a></td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>isDirty</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -656,149 +1672,139 @@
 
             
             </td>
-
             
-
             
-
+            
+            
+            
             <td class="description last">Indicates that chart should be redrawed on next frame. Actual redrawing would be fired if this flag is true</td>
         </tr>
-
+	
+	
+	</tbody>
+</table></dl>
+        
     
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
+        
     
-
+    
     
 
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
+    
     
 </dl>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
     
-    <pre class="prettyprint"><code>// Minimal setupvar chart = new cl.Chart({ element: document.getElementById("myDiv") });// Setup with axisvar chart = new cl.Chart({     element: document.getElementById("myDiv")     xAxis: {        min: -10        max: 20     }}// Setup chart with custom backgroundvar chart = new cl.Chart({     element: document.getElementById("myDiv")     background: {        url: "http://www.my.com/image.png",        fit: cl.Background.FIT_NONE        pos: {           x: 50,           y: 0        }     }}// Add new axischart.axis.add({ type: "x", name: "My custom axis", offset: 30 });// Coordinate conversionvar screenX = chart.toScreenX(xValue);var axisX = chart.toAxisX(xPixel);// Refresh(redraw) chartchart.redraw()// Get custom axis by namechart.axis.get("My custom axis")// Add bubbles to chartchart.addBubbles([     { x: 20, y: 30, size: 3 },     { x: 40, y: 10, size: 4, color: "#AAFFAA", opacity: 0.7 }]);// Add rectangles to chartchart.addRects([     { x: 20, y: 30, x2: 30, y2: 40 },     { x: 40, y: 10, x2: 100, y2: 20, color: "#AAFFAA", color2: "#FFFFFF", cursor: "crosshair" }]);// Change single bubble properties with animationvar b = chart.shapes.get(myBubbleID);b.setProps({ x: 50, y: 50, size: 2}, true);// Link shape to another by idsb.link([13, 14]);// Add event listeners to chartchart.addEventListener(cl.Event.shapeOver, function(e) {     console.log("x: ", e.x, " y: ", e.y);     console.log("Shape is: ", e.target);});// Don't pass event object in callbacks, because it can be destroyed or changed// Just copy needed propertieschart.addEventListener(cl.Event.shapeOver, function(e) {    setTimeout(function() {         console.log(e.target); // WRONG    }, 1000);});chart.addEventListener(cl.Event.shapeOver, function(e) {    var target = e.target;    setTimeout(function() {         console.log(target); // right    }, 1000);});// Enable multiselect and dragchart.selector.enableMultiselect();chart.selector.enableDrag();// Get all shapes under screen pointvar shapes = chart.selector.shapeFromPoint(x, y);</code></pre>
+    
 
+    
 
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+
+    
+    <pre class="prettyprint"><code>// Minimal setupvar chart = new cl.Chart({ element: document.getElementById("myDiv") });// Setup with axisvar chart = new cl.Chart({     element: document.getElementById("myDiv")     xAxis: {        min: -10        max: 20     }}// Setup chart with custom backgroundvar chart = new cl.Chart({     element: document.getElementById("myDiv")     background: {        url: "http://www.my.com/image.png",        fit: cl.Background.FIT_NONE        pos: {           x: 50,           y: 0        }     }}// Add new axischart.axis.add({ type: "x", name: "My custom axis", offset: 30 });// Coordinate conversionvar screenX = chart.toScreenX(xValue);var axisX = chart.toAxisX(xPixel);// Refresh(redraw) chartchart.redraw()// Get custom axis by namechart.axis.get("My custom axis")// Add bubbles to chartchart.addBubbles([     { x: 20, y: 30, size: 3 },     { x: 40, y: 10, size: 4, color: "#AAFFAA", opacity: 0.7 }]);// Add rectangles to chartchart.addRects([     { x: 20, y: 30, x2: 30, y2: 40 },     { x: 40, y: 10, x2: 100, y2: 20, color: "#AAFFAA", color2: "#FFFFFF", cursor: "crosshair" }]);// Add lines to chartchart.addLines([     { x: 20, y: 30, x2: 30, y2: 40 },     { x: 40, y: 10, x2: 100, y2: 20, color: "green", size: 4, size2: 8, pointColor: "blue", pointColor2: "red" }]);// Change single bubble properties with animationvar b = chart.shapes.get(myBubbleID);b.setProps({ x: 50, y: 50, size: 2}, true);// Link shape to another by idsb.link([13, 14]);// Add event listeners to chartchart.addEventListener(cl.Event.shapeOver, function(e) {     console.log("x: ", e.x, " y: ", e.y);     console.log("Shape is: ", e.target);});// Don't pass event object in callbacks, because it can be destroyed or changed// Just copy needed propertieschart.addEventListener(cl.Event.shapeOver, function(e) {    setTimeout(function() {         console.log(e.target); // WRONG    }, 1000);});chart.addEventListener(cl.Event.shapeOver, function(e) {    var target = e.target;    setTimeout(function() {         console.log(target); // right    }, 1000);});// Enable multiselect and dragchart.selector.enableMultiselect();chart.selector.enableDrag();// Get all shapes under screen pointvar shapes = chart.selector.shapeFromPoint(x, y);</code></pre>
+    
+
+    
+</dd>
 
     
     </div>
-
     
-
     
-
     
-
-     
-
     
-
     
-
+    
+    
+    
+    
+    
+    
+    
+    
     
         <h3 class="subsection-title">Methods</h3>
-
         
+        <dl>
             
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="addBubbles">
+            
+            addBubbles<span class="signature">(items, <span class="optional">allowAnimation</span>, <span class="optional">animationSpeed</span>)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            chart.js, line 250
+        </div>
+        
+    </div>
 
     
-
-    <h4 class="name" id="addBubbles"><span class="type-signature"></span>addBubbles<span class="signature">(items, allowAnimation<span class="signature-attributes">opt</span>, animationSpeed<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Add bubbles to chart. If been added exists id's, bubbles will update its properties
+    </div>
     
 
-
-
-<div class="description">
-    Add bubbles to chart. If been added exists id's, bubbles will update its properties
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
     
+    
+    
+    
+    
+        
 
 <table class="params">
     <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Default</th>
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>items</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -807,33 +1813,30 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
                 </td>
             
-
-            <td class="description last">Array of bubbles. Contains only properties description, not bubble class</td>
+            
+            <td class="description last">
+                
+                    
+                    
+                        
+                    
+                
+                Array of bubbles. Contains only properties description, not bubble class</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>allowAnimation</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -842,19 +1845,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -862,17 +1853,26 @@
                 
                 </td>
             
-
-            <td class="description last">Play animation if bubble properties changed</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Play animation if bubble properties changed</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>animationSpeed</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -881,19 +1881,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -901,120 +1889,119 @@
                 
                 </td>
             
-
-            <td class="description last">Animation speed in ms</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Animation speed in ms</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
 </dl>
 
+    
+    
 
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+</dd>
 
         
             
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="addEventListener">
+            
+            addEventListener<span class="signature">(event, callback)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            chart.js, line 436
+        </div>
+        
+    </div>
 
     
-
-    <h4 class="name" id="addEventListener"><span class="type-signature"></span>addEventListener<span class="signature">(event, callback)</span><span class="type-signature"></span></h4>
-
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Adds event listener
+    </div>
     
 
-
-
-<div class="description">
-    Adds event listener
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
     
+    
+    
+    
+    
+        
 
 <table class="params">
     <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>event</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -1023,21 +2010,21 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Event name. See <a href="cl.Event.html">cl.Event</a> members</td>
+            
+            <td class="description last">
+                
+                Event name. See <a href="cl.Event.html">cl.Event</a> members</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>callback</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -1046,133 +2033,124 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Event callback</td>
+            
+            <td class="description last">
+                
+                Event callback</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
 </dl>
 
+    
+    
 
+    
 
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
 
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
     
     <pre class="prettyprint"><code>chart.addEventListener(cl.Event.shapeOver, function(e) { console.log(e.target); });// equals tochart.addEventListener("shapeover", function(e) { console.log(e.target); });</code></pre>
+    
 
-
+    
+</dd>
 
         
             
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="addLines">
+            
+            addLines<span class="signature">(items, <span class="optional">allowAnimation</span>, <span class="optional">animationSpeed</span>)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            chart.js, line 272
+        </div>
+        
+    </div>
 
     
-
-    <h4 class="name" id="addRects"><span class="type-signature"></span>addRects<span class="signature">(items, allowAnimation<span class="signature-attributes">opt</span>, animationSpeed<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Add lines to chart. If been added exists id's, lines will update its properties
+    </div>
     
 
-
-
-<div class="description">
-    Add rects to chart. If been added exists id's, rects will update its properties
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
     
+    
+    
+    
+    
+        
 
 <table class="params">
     <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Default</th>
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>items</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -1181,33 +2159,30 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
                 </td>
             
-
-            <td class="description last">Array of rects. Contains only properties description, not rect class</td>
+            
+            <td class="description last">
+                
+                    
+                    
+                        
+                    
+                
+                Array of lines. Contains only properties description, not rect class</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>allowAnimation</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -1216,19 +2191,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -1236,17 +2199,26 @@
                 
                 </td>
             
-
-            <td class="description last">Play animation if rect properties changed</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Play animation if rect properties changed</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>animationSpeed</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -1255,19 +2227,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -1275,369 +2235,560 @@
                 
                 </td>
             
-
-            <td class="description last">Animation speed in ms</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Animation speed in ms</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
 </dl>
 
+    
+    
 
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+</dd>
 
         
             
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="addRects">
+            
+            addRects<span class="signature">(items, <span class="optional">allowAnimation</span>, <span class="optional">animationSpeed</span>)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            chart.js, line 261
+        </div>
+        
+    </div>
 
     
-
-    <h4 class="name" id="destroy"><span class="type-signature"></span>destroy<span class="signature">()</span><span class="type-signature"></span></h4>
-
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Add rects to chart. If been added exists id's, rects will update its properties
+    </div>
     
 
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Default</th>
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>items</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
 
 
-<div class="description">
-    Destroys chart
-</div>
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                    
+                        
+                    
+                
+                Array of rects. Contains only properties description, not rect class</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>allowAnimation</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
 
 
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Play animation if rect properties changed</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>animationSpeed</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
 
 
-
-
-
-
-
-
-
-
-
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                    cl.ShapeManager.ANIMATION_SPEED
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Animation speed in ms</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
 </dl>
 
+    
+    
 
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+</dd>
 
         
             
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="destroy">
+            
+            destroy<span class="signature">()</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            chart.js, line 454
+        </div>
+        
+    </div>
 
     
-
-    <h4 class="name" id="getBackground"><span class="type-signature"></span>getBackground<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="cl.Background.html">cl.Background</a>}</span></h4>
-
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Destroys chart
+    </div>
     
 
-
-
-<div class="description">
-    Retruns chart background
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
 </dl>
 
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="cl.Background.html">cl.Background</a></span>
-
-
-    </dd>
-</dl>
+    
+    
 
     
 
-
+    
+    
+    
+    
+    
+    
+    
+</dd>
 
         
             
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="getBackground">
+            
+            getBackground<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="cl.Background.html">cl.Background</a>}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            chart.js, line 320
+        </div>
+        
+    </div>
 
     
-
-    <h4 class="name" id="hidePreloader"><span class="type-signature"></span>hidePreloader<span class="signature">()</span><span class="type-signature"></span></h4>
-
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Retruns chart background
+    </div>
     
 
-
-
-<div class="description">
-    Removes preloader from chart
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
 </dl>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
+    
+    
 
     
 
-    <h4 class="name" id="removeEventListener"><span class="type-signature"></span>removeEventListener<span class="signature">(event, callback)</span><span class="type-signature"></span></h4>
-
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
     
 
-
-
-<div class="description">
-    Removes event listener
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
 
 <table class="params">
     <thead>
     <tr>
         
-        <th>Name</th>
-        
-
         <th>Type</th>
-
-        
-
-        
-
         <th class="last">Description</th>
     </tr>
     </thead>
-
     <tbody>
     
+        <tr>
+            
+            <td class="type">
+            
+                        <a href="cl.Background.html">cl.Background</a>
+                        
+                    
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
 
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="hidePreloader">
+            
+            hidePreloader<span class="signature">()</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            chart.js, line 280
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Removes preloader from chart
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="removeEventListener">
+            
+            removeEventListener<span class="signature">(event, callback)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            chart.js, line 446
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Removes event listener
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>event</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -1646,21 +2797,21 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Event name. See <a href="cl.Event.html">cl.Event</a> members</td>
+            
+            <td class="description last">
+                
+                Event name. See <a href="cl.Event.html">cl.Event</a> members</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>callback</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -1669,124 +2820,114 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Event callback</td>
+            
+            <td class="description last">
+                
+                Event callback</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
 </dl>
 
+    
+    
 
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+</dd>
 
         
             
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="resize">
+            
+            resize<span class="signature">(width, height)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            chart.js, line 416
+        </div>
+        
+    </div>
 
     
-
-    <h4 class="name" id="resize"><span class="type-signature"></span>resize<span class="signature">(width, height)</span><span class="type-signature"></span></h4>
-
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Resizes chart
+    </div>
     
 
-
-
-<div class="description">
-    Resizes chart
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
     
+    
+    
+    
+    
+        
 
 <table class="params">
     <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>width</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -1795,21 +2936,21 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">New width</td>
+            
+            <td class="description last">
+                
+                New width</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>height</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -1818,247 +2959,225 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">New height</td>
+            
+            <td class="description last">
+                
+                New height</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
 </dl>
 
+    
+    
 
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+</dd>
 
         
             
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="setBackground">
+            
+            setBackground<span class="signature">(url)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            chart.js, line 361
+        </div>
+        
+    </div>
 
     
-
-    <h4 class="name" id="setBackground"><span class="type-signature"></span>setBackground<span class="signature">(url)</span><span class="type-signature"></span></h4>
-
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Sets chart background image
+    </div>
     
 
-
-
-<div class="description">
-    Sets chart background image
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
     
+    
+    
+    
+    
+        
 
 <table class="params">
     <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>url</code></td>
             
-
+            
             <td class="type">
             
             </td>
-
             
-
             
-
-            <td class="description last">Image url or base64 string</td>
+            
+            <td class="description last">
+                
+                Image url or base64 string</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
 </dl>
 
+    
+    
 
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+</dd>
 
         
             
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="setCursor">
+            
+            setCursor<span class="signature">(<span class="optional">name</span>)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            chart.js, line 199
+        </div>
+        
+    </div>
 
     
-
-    <h4 class="name" id="setCursor"><span class="type-signature"></span>setCursor<span class="signature">(name<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Changes chart cursor
+    </div>
     
 
-
-
-<div class="description">
-    Changes chart cursor
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
     
+    
+    
+    
+    
+        
 
 <table class="params">
     <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>name</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -2067,134 +3186,121 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
             
-
             
-
-            <td class="description last">Cursor name</td>
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Cursor name</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
 </dl>
 
+    
+    
 
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+</dd>
 
         
             
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="setDirtyFlag">
+            
+            setDirtyFlag<span class="signature">(name)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            chart.js, line 311
+        </div>
+        
+    </div>
 
     
-
-    <h4 class="name" id="setDirtyFlag"><span class="type-signature"></span>setDirtyFlag<span class="signature">(name)</span><span class="type-signature"></span></h4>
-
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Sets dirty flag
+    </div>
     
 
-
-
-<div class="description">
-    Sets dirty flag
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
     
+    
+    
+    
+    
+        
 
 <table class="params">
     <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>name</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -2203,201 +3309,185 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Dirty flag name. Can be "all" or layer name. See "dirtyFlagName" property in <a href="cl.Layer.html">cl.Layer</a></td>
+            
+            <td class="description last">
+                
+                Dirty flag name. Can be "all" or layer name. See "dirtyFlagName" property in <a href="cl.Layer.html">cl.Layer</a></td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
 </dl>
 
+    
+    
 
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+</dd>
 
         
             
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="showPreloader">
+            
+            showPreloader<span class="signature">()</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            chart.js, line 290
+        </div>
+        
+    </div>
 
     
-
-    <h4 class="name" id="showPreloader"><span class="type-signature"></span>showPreloader<span class="signature">()</span><span class="type-signature"></span></h4>
-
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Shows preloader on chart using "options.preloader" element
+    </div>
     
 
-
-
-<div class="description">
-    Shows preloader on chart using "options.preloader" element
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
 </dl>
 
+    
+    
 
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+</dd>
 
         
             
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="toAxisX">
+            
+            toAxisX<span class="signature">(v)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{number}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            chart.js, line 209
+        </div>
+        
+    </div>
 
     
-
-    <h4 class="name" id="toAxisX"><span class="type-signature"></span>toAxisX<span class="signature">(v)</span><span class="type-signature"> &rarr; {number}</span></h4>
-
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Converts X coordinate in screen space to axis space
+    </div>
     
 
-
-
-<div class="description">
-    Converts X coordinate in screen space to axis space
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
     
+    
+    
+    
+    
+        
 
 <table class="params">
     <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>v</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -2406,146 +3496,143 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Value</td>
+            
+            <td class="description last">
+                
+                Value</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
 </dl>
 
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Value in axis space
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">number</span>
-
-
-    </dd>
-</dl>
+    
+    
 
     
 
-
-
-        
-            
-
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
     
 
-    <h4 class="name" id="toAxisY"><span class="type-signature"></span>toAxisY<span class="signature">(v)</span><span class="type-signature"> &rarr; {number}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Converts Y coordinate in screen space to axis space
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
 
 <table class="params">
     <thead>
     <tr>
         
-        <th>Name</th>
-        
-
         <th>Type</th>
-
-        
-
-        
-
         <th class="last">Description</th>
     </tr>
     </thead>
-
     <tbody>
     
+        <tr>
+            
+            <td class="type">
+            
+                        number
+                        
+                    
+            </td>
+            <td class="description last">Value in axis space</td>
+        </tr>
+    
+    </tbody>
+</table>
 
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="toAxisY">
+            
+            toAxisY<span class="signature">(v)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{number}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            chart.js, line 219
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Converts Y coordinate in screen space to axis space
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>v</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -2554,146 +3641,143 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Value</td>
+            
+            <td class="description last">
+                
+                Value</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
 </dl>
 
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Value in axis space
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">number</span>
-
-
-    </dd>
-</dl>
+    
+    
 
     
 
-
-
-        
-            
-
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
     
 
-    <h4 class="name" id="toScreenX"><span class="type-signature"></span>toScreenX<span class="signature">(v)</span><span class="type-signature"> &rarr; {number}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Converts X coordinate in axis space to screen space
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
 
 <table class="params">
     <thead>
     <tr>
         
-        <th>Name</th>
-        
-
         <th>Type</th>
-
-        
-
-        
-
         <th class="last">Description</th>
     </tr>
     </thead>
-
     <tbody>
     
+        <tr>
+            
+            <td class="type">
+            
+                        number
+                        
+                    
+            </td>
+            <td class="description last">Value in axis space</td>
+        </tr>
+    
+    </tbody>
+</table>
 
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="toScreenX">
+            
+            toScreenX<span class="signature">(v)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{number}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            chart.js, line 239
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Converts X coordinate in axis space to screen space
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>v</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -2702,146 +3786,143 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Value</td>
+            
+            <td class="description last">
+                
+                Value</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
 </dl>
 
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Value in screen space
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">number</span>
-
-
-    </dd>
-</dl>
+    
+    
 
     
 
-
-
-        
-            
-
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
     
 
-    <h4 class="name" id="toScreenY"><span class="type-signature"></span>toScreenY<span class="signature">(v)</span><span class="type-signature"> &rarr; {number}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Converts Y coordinate in axis space to screen space
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
 
 <table class="params">
     <thead>
     <tr>
         
-        <th>Name</th>
-        
-
         <th>Type</th>
-
-        
-
-        
-
         <th class="last">Description</th>
     </tr>
     </thead>
-
     <tbody>
     
+        <tr>
+            
+            <td class="type">
+            
+                        number
+                        
+                    
+            </td>
+            <td class="description last">Value in screen space</td>
+        </tr>
+    
+    </tbody>
+</table>
 
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="toScreenY">
+            
+            toScreenY<span class="signature">(v)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{number}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            chart.js, line 229
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Converts Y coordinate in axis space to screen space
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>v</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -2850,117 +3931,110 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Value</td>
+            
+            <td class="description last">
+                
+                Value</td>
         </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        number
+                        
+                    
+            </td>
+            <td class="description last">Value in screen space</td>
+        </tr>
     
     </tbody>
 </table>
 
-
-
-
-
-
-<dl class="details">
-
     
-
     
-
     
+</dd>
 
+        </dl>
     
-
     
-
     
-
     
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Value in screen space
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-    
-
-    
-
     
 </article>
 
-</section>
+</section>  
 
 
 
 
+
+        
+
+        <footer>
+            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Mon Sep 21 2015 15:48:46 GMT+0300 (Финляндия (лето))
+        </footer>
+    </div>
 </div>
-
-<br class="clear">
-
-<footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Sun Sep 20 2015 19:31:57 GMT+0300 (Финляндия (лето)) using the Minami theme.
-</footer>
-
 <script>prettyPrint();</script>
 <script src="scripts/linenumber.js"></script>
+<script src="scripts/main.js"></script>
 </body>
 </html>

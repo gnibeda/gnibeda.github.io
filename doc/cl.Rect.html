@@ -1,107 +1,1127 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="utf-8">
-    <title>Rect - Documentation</title>
-
+    <title>Class: Rect</title>
+    
+    
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
+    <script src="scripts/jquery.min.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/jaguar.css">
+    
+    
+    <script>
+    var config = {"monospaceLinks":false,"cleverLinks":false,"default":{"outputSourceFiles":false}};
+    </script>
+    
+
+    
 </head>
 <body>
-
-<input type="checkbox" id="nav-trigger" class="nav-trigger" />
-<label for="nav-trigger" class="navicon-button x">
-  <div class="navicon"></div>
-</label>
-
-<label for="nav-trigger" class="overlay"></label>
-
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="cl.Axis.html">Axis</a><ul class='methods'><li data-type='method'><a href="cl.Axis.html#apply">apply</a></li><li data-type='method'><a href="cl.Axis.html#destroy">destroy</a></li><li data-type='method'><a href="cl.Axis.html#getColor">getColor</a></li><li data-type='method'><a href="cl.Axis.html#getLineWidth">getLineWidth</a></li><li data-type='method'><a href="cl.Axis.html#getMargins">getMargins</a></li><li data-type='method'><a href="cl.Axis.html#getMax">getMax</a></li><li data-type='method'><a href="cl.Axis.html#getMin">getMin</a></li><li data-type='method'><a href="cl.Axis.html#getName">getName</a></li><li data-type='method'><a href="cl.Axis.html#getOffset">getOffset</a></li><li data-type='method'><a href="cl.Axis.html#getTickInterval">getTickInterval</a></li><li data-type='method'><a href="cl.Axis.html#getTickIntervalSmall">getTickIntervalSmall</a></li><li data-type='method'><a href="cl.Axis.html#getTitleAlign">getTitleAlign</a></li><li data-type='method'><a href="cl.Axis.html#getTitleColor">getTitleColor</a></li><li data-type='method'><a href="cl.Axis.html#getTitleFont">getTitleFont</a></li><li data-type='method'><a href="cl.Axis.html#getTitleSize">getTitleSize</a></li><li data-type='method'><a href="cl.Axis.html#getTitleStyle">getTitleStyle</a></li><li data-type='method'><a href="cl.Axis.html#hide">hide</a></li><li data-type='method'><a href="cl.Axis.html#render">render</a></li><li data-type='method'><a href="cl.Axis.html#setColor">setColor</a></li><li data-type='method'><a href="cl.Axis.html#setLineWidth">setLineWidth</a></li><li data-type='method'><a href="cl.Axis.html#setMargins">setMargins</a></li><li data-type='method'><a href="cl.Axis.html#setMax">setMax</a></li><li data-type='method'><a href="cl.Axis.html#setMin">setMin</a></li><li data-type='method'><a href="cl.Axis.html#setName">setName</a></li><li data-type='method'><a href="cl.Axis.html#setOffset">setOffset</a></li><li data-type='method'><a href="cl.Axis.html#setTickInterval">setTickInterval</a></li><li data-type='method'><a href="cl.Axis.html#setTickIntervalSmall">setTickIntervalSmall</a></li><li data-type='method'><a href="cl.Axis.html#setTitleAlign">setTitleAlign</a></li><li data-type='method'><a href="cl.Axis.html#setTitleColor">setTitleColor</a></li><li data-type='method'><a href="cl.Axis.html#setTitleFont">setTitleFont</a></li><li data-type='method'><a href="cl.Axis.html#setTitleSize">setTitleSize</a></li><li data-type='method'><a href="cl.Axis.html#setTitleStyle">setTitleStyle</a></li><li data-type='method'><a href="cl.Axis.html#show">show</a></li><li data-type='method'><a href="cl.Axis.html#toAxis">toAxis</a></li><li data-type='method'><a href="cl.Axis.html#toScreen">toScreen</a></li></ul></li><li><a href="cl.AxisManager.html">AxisManager</a><ul class='methods'><li data-type='method'><a href="cl.AxisManager.html#add">add</a></li><li data-type='method'><a href="cl.AxisManager.html#apply">apply</a></li><li data-type='method'><a href="cl.AxisManager.html#destroy">destroy</a></li><li data-type='method'><a href="cl.AxisManager.html#get">get</a></li><li data-type='method'><a href="cl.AxisManager.html#hide">hide</a></li><li data-type='method'><a href="cl.AxisManager.html#remove">remove</a></li><li data-type='method'><a href="cl.AxisManager.html#render">render</a></li><li data-type='method'><a href="cl.AxisManager.html#resize">resize</a></li><li data-type='method'><a href="cl.AxisManager.html#show">show</a></li></ul></li><li><a href="cl.Background.html">Background</a><ul class='methods'><li data-type='method'><a href="cl.Background.html#apply">apply</a></li><li data-type='method'><a href="cl.Background.html#destroy">destroy</a></li><li data-type='method'><a href="cl.Background.html#hide">hide</a></li><li data-type='method'><a href="cl.Background.html#render">render</a></li><li data-type='method'><a href="cl.Background.html#resize">resize</a></li><li data-type='method'><a href="cl.Background.html#setFit">setFit</a></li><li data-type='method'><a href="cl.Background.html#setImage">setImage</a></li><li data-type='method'><a href="cl.Background.html#show">show</a></li></ul></li><li><a href="cl.Bubble.html">Bubble</a><ul class='methods'><li data-type='method'><a href="cl.Bubble.html#apply">apply</a></li><li data-type='method'><a href="cl.Bubble.html#calcAnimProps">calcAnimProps</a></li><li data-type='method'><a href="cl.Bubble.html#destroy">destroy</a></li><li data-type='method'><a href="cl.Bubble.html#getBounds">getBounds</a></li><li data-type='method'><a href="cl.Bubble.html#getCenterX">getCenterX</a></li><li data-type='method'><a href="cl.Bubble.html#getCenterY">getCenterY</a></li><li data-type='method'><a href="cl.Bubble.html#getId">getId</a></li><li data-type='method'><a href="cl.Bubble.html#getProps">getProps</a></li><li data-type='method'><a href="cl.Bubble.html#hitTest">hitTest</a></li><li data-type='method'><a href="cl.Bubble.html#hitTestRect">hitTestRect</a></li><li data-type='method'><a href="cl.Bubble.html#link">link</a></li><li data-type='method'><a href="cl.Bubble.html#processDrag">processDrag</a></li><li data-type='method'><a href="cl.Bubble.html#render">render</a></li><li data-type='method'><a href="cl.Bubble.html#renderHover">renderHover</a></li><li data-type='method'><a href="cl.Bubble.html#setProps">setProps</a></li><li data-type='method'><a href="cl.Bubble.html#startAnimation">startAnimation</a></li><li data-type='method'><a href="cl.Bubble.html#stopAnimation">stopAnimation</a></li><li data-type='method'><a href="cl.Bubble.html#unlink">unlink</a></li></ul></li><li><a href="cl.Canvas.html">Canvas</a><ul class='methods'><li data-type='method'><a href="cl.Canvas.html#clear">clear</a></li><li data-type='method'><a href="cl.Canvas.html#destroy">destroy</a></li><li data-type='method'><a href="cl.Canvas.html#draw">draw</a></li><li data-type='method'><a href="cl.Canvas.html#drawArrow">drawArrow</a></li><li data-type='method'><a href="cl.Canvas.html#drawLine">drawLine</a></li><li data-type='method'><a href="cl.Canvas.html#drawRect">drawRect</a></li><li data-type='method'><a href="cl.Canvas.html#resetTransform">resetTransform</a></li><li data-type='method'><a href="cl.Canvas.html#resize">resize</a></li><li data-type='method'><a href="cl.Canvas.html#restore">restore</a></li><li data-type='method'><a href="cl.Canvas.html#save">save</a></li><li data-type='method'><a href="cl.Canvas.html#setAlpha">setAlpha</a></li><li data-type='method'><a href="cl.Canvas.html#setFillColor">setFillColor</a></li><li data-type='method'><a href="cl.Canvas.html#setLineDash">setLineDash</a></li><li data-type='method'><a href="cl.Canvas.html#setLineStyle">setLineStyle</a></li><li data-type='method'><a href="cl.Canvas.html#~drawText">drawText</a></li></ul></li><li><a href="cl.Chart.html">Chart</a><ul class='methods'><li data-type='method'><a href="cl.Chart.html#addBubbles">addBubbles</a></li><li data-type='method'><a href="cl.Chart.html#addEventListener">addEventListener</a></li><li data-type='method'><a href="cl.Chart.html#addRects">addRects</a></li><li data-type='method'><a href="cl.Chart.html#destroy">destroy</a></li><li data-type='method'><a href="cl.Chart.html#getBackground">getBackground</a></li><li data-type='method'><a href="cl.Chart.html#hidePreloader">hidePreloader</a></li><li data-type='method'><a href="cl.Chart.html#removeEventListener">removeEventListener</a></li><li data-type='method'><a href="cl.Chart.html#resize">resize</a></li><li data-type='method'><a href="cl.Chart.html#setBackground">setBackground</a></li><li data-type='method'><a href="cl.Chart.html#setCursor">setCursor</a></li><li data-type='method'><a href="cl.Chart.html#setDirtyFlag">setDirtyFlag</a></li><li data-type='method'><a href="cl.Chart.html#showPreloader">showPreloader</a></li><li data-type='method'><a href="cl.Chart.html#toAxisX">toAxisX</a></li><li data-type='method'><a href="cl.Chart.html#toAxisY">toAxisY</a></li><li data-type='method'><a href="cl.Chart.html#toScreenX">toScreenX</a></li><li data-type='method'><a href="cl.Chart.html#toScreenY">toScreenY</a></li></ul></li><li><a href="cl.Color.html">Color</a></li><li><a href="cl.Consts.html">Consts</a></li><li><a href="cl.Event.html">Event</a></li><li><a href="cl.EventManager.html">EventManager</a><ul class='methods'><li data-type='method'><a href="cl.EventManager.html#addEventListener">addEventListener</a></li><li data-type='method'><a href="cl.EventManager.html#destroy">destroy</a></li><li data-type='method'><a href="cl.EventManager.html#hasListener">hasListener</a></li><li data-type='method'><a href="cl.EventManager.html#removeEventListener">removeEventListener</a></li></ul></li><li><a href="cl.Lang.html">Lang</a><ul class='methods'><li data-type='method'><a href="cl.Lang.html#get">get</a></li></ul></li><li><a href="cl.Layer.html">Layer</a><ul class='methods'><li data-type='method'><a href="cl.Layer.html#apply">apply</a></li><li data-type='method'><a href="cl.Layer.html#destroy">destroy</a></li><li data-type='method'><a href="cl.Layer.html#hide">hide</a></li><li data-type='method'><a href="cl.Layer.html#render">render</a></li><li data-type='method'><a href="cl.Layer.html#resize">resize</a></li><li data-type='method'><a href="cl.Layer.html#show">show</a></li></ul></li><li><a href="cl.Rect.html">Rect</a><ul class='methods'><li data-type='method'><a href="cl.Rect.html#apply">apply</a></li><li data-type='method'><a href="cl.Rect.html#calcAnimProps">calcAnimProps</a></li><li data-type='method'><a href="cl.Rect.html#destroy">destroy</a></li><li data-type='method'><a href="cl.Rect.html#getBounds">getBounds</a></li><li data-type='method'><a href="cl.Rect.html#getCenterX">getCenterX</a></li><li data-type='method'><a href="cl.Rect.html#getCenterY">getCenterY</a></li><li data-type='method'><a href="cl.Rect.html#getId">getId</a></li><li data-type='method'><a href="cl.Rect.html#getProps">getProps</a></li><li data-type='method'><a href="cl.Rect.html#hitTest">hitTest</a></li><li data-type='method'><a href="cl.Rect.html#hitTestRect">hitTestRect</a></li><li data-type='method'><a href="cl.Rect.html#link">link</a></li><li data-type='method'><a href="cl.Rect.html#processDrag">processDrag</a></li><li data-type='method'><a href="cl.Rect.html#render">render</a></li><li data-type='method'><a href="cl.Rect.html#renderHover">renderHover</a></li><li data-type='method'><a href="cl.Rect.html#setProps">setProps</a></li><li data-type='method'><a href="cl.Rect.html#startAnimation">startAnimation</a></li><li data-type='method'><a href="cl.Rect.html#stopAnimation">stopAnimation</a></li><li data-type='method'><a href="cl.Rect.html#unlink">unlink</a></li></ul></li><li><a href="cl.Selector.html">Selector</a><ul class='methods'><li data-type='method'><a href="cl.Selector.html#apply">apply</a></li><li data-type='method'><a href="cl.Selector.html#deselect">deselect</a></li><li data-type='method'><a href="cl.Selector.html#destroy">destroy</a></li><li data-type='method'><a href="cl.Selector.html#disableDrag">disableDrag</a></li><li data-type='method'><a href="cl.Selector.html#disableMultiselect">disableMultiselect</a></li><li data-type='method'><a href="cl.Selector.html#enableDrag">enableDrag</a></li><li data-type='method'><a href="cl.Selector.html#enableMultiselect">enableMultiselect</a></li><li data-type='method'><a href="cl.Selector.html#getBounds">getBounds</a></li><li data-type='method'><a href="cl.Selector.html#getSelection">getSelection</a></li><li data-type='method'><a href="cl.Selector.html#hide">hide</a></li><li data-type='method'><a href="cl.Selector.html#render">render</a></li><li data-type='method'><a href="cl.Selector.html#resize">resize</a></li><li data-type='method'><a href="cl.Selector.html#shapeFromPoint">shapeFromPoint</a></li><li data-type='method'><a href="cl.Selector.html#shapesFromPoint">shapesFromPoint</a></li><li data-type='method'><a href="cl.Selector.html#shapesFromRect">shapesFromRect</a></li><li data-type='method'><a href="cl.Selector.html#show">show</a></li><li data-type='method'><a href="cl.Selector.html#~resize">resize</a></li></ul></li><li><a href="cl.Shape.html">Shape</a><ul class='methods'><li data-type='method'><a href="cl.Shape.html#apply">apply</a></li><li data-type='method'><a href="cl.Shape.html#calcAnimProps">calcAnimProps</a></li><li data-type='method'><a href="cl.Shape.html#destroy">destroy</a></li><li data-type='method'><a href="cl.Shape.html#getBounds">getBounds</a></li><li data-type='method'><a href="cl.Shape.html#getCenterX">getCenterX</a></li><li data-type='method'><a href="cl.Shape.html#getCenterY">getCenterY</a></li><li data-type='method'><a href="cl.Shape.html#getId">getId</a></li><li data-type='method'><a href="cl.Shape.html#getProps">getProps</a></li><li data-type='method'><a href="cl.Shape.html#hitTest">hitTest</a></li><li data-type='method'><a href="cl.Shape.html#hitTestRect">hitTestRect</a></li><li data-type='method'><a href="cl.Shape.html#link">link</a></li><li data-type='method'><a href="cl.Shape.html#processDrag">processDrag</a></li><li data-type='method'><a href="cl.Shape.html#render">render</a></li><li data-type='method'><a href="cl.Shape.html#renderHover">renderHover</a></li><li data-type='method'><a href="cl.Shape.html#setProps">setProps</a></li><li data-type='method'><a href="cl.Shape.html#startAnimation">startAnimation</a></li><li data-type='method'><a href="cl.Shape.html#stopAnimation">stopAnimation</a></li><li data-type='method'><a href="cl.Shape.html#unlink">unlink</a></li></ul></li><li><a href="cl.ShapeManager.html">ShapeManager</a><ul class='methods'><li data-type='method'><a href="cl.ShapeManager.html#add">add</a></li><li data-type='method'><a href="cl.ShapeManager.html#apply">apply</a></li><li data-type='method'><a href="cl.ShapeManager.html#clear">clear</a></li><li data-type='method'><a href="cl.ShapeManager.html#destroy">destroy</a></li><li data-type='method'><a href="cl.ShapeManager.html#get">get</a></li><li data-type='method'><a href="cl.ShapeManager.html#getAnimating">getAnimating</a></li><li data-type='method'><a href="cl.ShapeManager.html#hide">hide</a></li><li data-type='method'><a href="cl.ShapeManager.html#remove">remove</a></li><li data-type='method'><a href="cl.ShapeManager.html#render">render</a></li><li data-type='method'><a href="cl.ShapeManager.html#resize">resize</a></li><li data-type='method'><a href="cl.ShapeManager.html#show">show</a></li><li data-type='method'><a href="cl.ShapeManager.html#updateStatic">updateStatic</a></li></ul></li><li><a href="cl.Utils.html">Utils</a><ul class='methods'><li data-type='method'><a href="cl.Utils.html#colorLuminance">colorLuminance</a></li><li data-type='method'><a href="cl.Utils.html#extend">extend</a></li><li data-type='method'><a href="cl.Utils.html#merge">merge</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="cl.html">cl</a></li></ul>
-</nav>
-
-<div id="main">
+<div id="wrap" class="clearfix">
     
-    <h1 class="page-title">Rect</h1>
-    
+<div class="navigation">
+    <h3 class="applicationName"><a href="index.html"></a></h3>
 
+    <div class="search">
+        <input id="search" type="text" class="form-control input-sm" placeholder="Search Documentations">
+    </div>
+    <ul class="list">
     
-
+        <li class="item" data-name="cl">
+            <span class="title">
+                <a href="cl.html">cl</a>
+                
+                <span class="static">static</span>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Color">
+            <span class="title">
+                <a href="cl.Color.html">cl.Color</a>
+                
+                <span class="static">static</span>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Consts">
+            <span class="title">
+                <a href="cl.Consts.html">cl.Consts</a>
+                
+                <span class="static">static</span>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="cl.Consts#COLOR_BLACK"><a href="cl.Consts.html#COLOR_BLACK">COLOR_BLACK</a></li>
+            
+                <li data-name="cl.Consts#COLOR_BLUE"><a href="cl.Consts.html#COLOR_BLUE">COLOR_BLUE</a></li>
+            
+                <li data-name="cl.Consts#COLOR_GRAY"><a href="cl.Consts.html#COLOR_GRAY">COLOR_GRAY</a></li>
+            
+                <li data-name="cl.Consts#COLOR_GREEN"><a href="cl.Consts.html#COLOR_GREEN">COLOR_GREEN</a></li>
+            
+                <li data-name="cl.Consts#COLOR_LIGHTBLUE"><a href="cl.Consts.html#COLOR_LIGHTBLUE">COLOR_LIGHTBLUE</a></li>
+            
+                <li data-name="cl.Consts#COLOR_RED"><a href="cl.Consts.html#COLOR_RED">COLOR_RED</a></li>
+            
+                <li data-name="cl.Consts#COLOR_WHITE"><a href="cl.Consts.html#COLOR_WHITE">COLOR_WHITE</a></li>
+            
+                <li data-name="cl.Consts#FONT_NAME"><a href="cl.Consts.html#FONT_NAME">FONT_NAME</a></li>
+            
+                <li data-name="cl.Consts#FONT_SIZE"><a href="cl.Consts.html#FONT_SIZE">FONT_SIZE</a></li>
+            
+                <li data-name="cl.Consts#HALF_PI"><a href="cl.Consts.html#HALF_PI">HALF_PI</a></li>
+            
+                <li data-name="cl.Consts#RAD_TO_DEG"><a href="cl.Consts.html#RAD_TO_DEG">RAD_TO_DEG</a></li>
+            
+                <li data-name="cl.Consts#TWO_PI"><a href="cl.Consts.html#TWO_PI">TWO_PI</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Lang">
+            <span class="title">
+                <a href="cl.Lang.html">cl.Lang</a>
+                
+                <span class="static">static</span>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Lang#get"><a href="cl.Lang.html#get">get</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Utils">
+            <span class="title">
+                <a href="cl.Utils.html">cl.Utils</a>
+                
+                <span class="static">static</span>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Utils#colorLuminance"><a href="cl.Utils.html#colorLuminance">colorLuminance</a></li>
+            
+                <li data-name="cl.Utils#distSq"><a href="cl.Utils.html#distSq">distSq</a></li>
+            
+                <li data-name="cl.Utils#distToSegmentSquared"><a href="cl.Utils.html#distToSegmentSquared">distToSegmentSquared</a></li>
+            
+                <li data-name="cl.Utils#extend"><a href="cl.Utils.html#extend">extend</a></li>
+            
+                <li data-name="cl.Utils#merge"><a href="cl.Utils.html#merge">merge</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Axis">
+            <span class="title">
+                <a href="cl.Axis.html">cl.Axis</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Axis#apply"><a href="cl.Axis.html#apply">apply</a></li>
+            
+                <li data-name="cl.Axis#destroy"><a href="cl.Axis.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Axis#getColor"><a href="cl.Axis.html#getColor">getColor</a></li>
+            
+                <li data-name="cl.Axis#getLineWidth"><a href="cl.Axis.html#getLineWidth">getLineWidth</a></li>
+            
+                <li data-name="cl.Axis#getMargins"><a href="cl.Axis.html#getMargins">getMargins</a></li>
+            
+                <li data-name="cl.Axis#getMax"><a href="cl.Axis.html#getMax">getMax</a></li>
+            
+                <li data-name="cl.Axis#getMin"><a href="cl.Axis.html#getMin">getMin</a></li>
+            
+                <li data-name="cl.Axis#getName"><a href="cl.Axis.html#getName">getName</a></li>
+            
+                <li data-name="cl.Axis#getOffset"><a href="cl.Axis.html#getOffset">getOffset</a></li>
+            
+                <li data-name="cl.Axis#getTickInterval"><a href="cl.Axis.html#getTickInterval">getTickInterval</a></li>
+            
+                <li data-name="cl.Axis#getTickIntervalSmall"><a href="cl.Axis.html#getTickIntervalSmall">getTickIntervalSmall</a></li>
+            
+                <li data-name="cl.Axis#getTitleAlign"><a href="cl.Axis.html#getTitleAlign">getTitleAlign</a></li>
+            
+                <li data-name="cl.Axis#getTitleColor"><a href="cl.Axis.html#getTitleColor">getTitleColor</a></li>
+            
+                <li data-name="cl.Axis#getTitleFont"><a href="cl.Axis.html#getTitleFont">getTitleFont</a></li>
+            
+                <li data-name="cl.Axis#getTitleSize"><a href="cl.Axis.html#getTitleSize">getTitleSize</a></li>
+            
+                <li data-name="cl.Axis#getTitleStyle"><a href="cl.Axis.html#getTitleStyle">getTitleStyle</a></li>
+            
+                <li data-name="cl.Axis#hide"><a href="cl.Axis.html#hide">hide</a></li>
+            
+                <li data-name="cl.Axis#render"><a href="cl.Axis.html#render">render</a></li>
+            
+                <li data-name="cl.Axis#setColor"><a href="cl.Axis.html#setColor">setColor</a></li>
+            
+                <li data-name="cl.Axis#setLineWidth"><a href="cl.Axis.html#setLineWidth">setLineWidth</a></li>
+            
+                <li data-name="cl.Axis#setMargins"><a href="cl.Axis.html#setMargins">setMargins</a></li>
+            
+                <li data-name="cl.Axis#setMax"><a href="cl.Axis.html#setMax">setMax</a></li>
+            
+                <li data-name="cl.Axis#setMin"><a href="cl.Axis.html#setMin">setMin</a></li>
+            
+                <li data-name="cl.Axis#setName"><a href="cl.Axis.html#setName">setName</a></li>
+            
+                <li data-name="cl.Axis#setOffset"><a href="cl.Axis.html#setOffset">setOffset</a></li>
+            
+                <li data-name="cl.Axis#setTickInterval"><a href="cl.Axis.html#setTickInterval">setTickInterval</a></li>
+            
+                <li data-name="cl.Axis#setTickIntervalSmall"><a href="cl.Axis.html#setTickIntervalSmall">setTickIntervalSmall</a></li>
+            
+                <li data-name="cl.Axis#setTitleAlign"><a href="cl.Axis.html#setTitleAlign">setTitleAlign</a></li>
+            
+                <li data-name="cl.Axis#setTitleColor"><a href="cl.Axis.html#setTitleColor">setTitleColor</a></li>
+            
+                <li data-name="cl.Axis#setTitleFont"><a href="cl.Axis.html#setTitleFont">setTitleFont</a></li>
+            
+                <li data-name="cl.Axis#setTitleSize"><a href="cl.Axis.html#setTitleSize">setTitleSize</a></li>
+            
+                <li data-name="cl.Axis#setTitleStyle"><a href="cl.Axis.html#setTitleStyle">setTitleStyle</a></li>
+            
+                <li data-name="cl.Axis#show"><a href="cl.Axis.html#show">show</a></li>
+            
+                <li data-name="cl.Axis#toAxis"><a href="cl.Axis.html#toAxis">toAxis</a></li>
+            
+                <li data-name="cl.Axis#toScreen"><a href="cl.Axis.html#toScreen">toScreen</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.AxisManager">
+            <span class="title">
+                <a href="cl.AxisManager.html">cl.AxisManager</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.AxisManager#add"><a href="cl.AxisManager.html#add">add</a></li>
+            
+                <li data-name="cl.AxisManager#apply"><a href="cl.AxisManager.html#apply">apply</a></li>
+            
+                <li data-name="cl.AxisManager#destroy"><a href="cl.AxisManager.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.AxisManager#get"><a href="cl.AxisManager.html#get">get</a></li>
+            
+                <li data-name="cl.AxisManager#hide"><a href="cl.AxisManager.html#hide">hide</a></li>
+            
+                <li data-name="cl.AxisManager#remove"><a href="cl.AxisManager.html#remove">remove</a></li>
+            
+                <li data-name="cl.AxisManager#render"><a href="cl.AxisManager.html#render">render</a></li>
+            
+                <li data-name="cl.AxisManager#resize"><a href="cl.AxisManager.html#resize">resize</a></li>
+            
+                <li data-name="cl.AxisManager#show"><a href="cl.AxisManager.html#show">show</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Background">
+            <span class="title">
+                <a href="cl.Background.html">cl.Background</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="cl.Background.Background.FIT_ALL"><a href="cl.Background.html#.Background.FIT_ALL">Background.FIT_ALL</a></li>
+            
+                <li data-name="cl.Background.Background.FIT_FILL"><a href="cl.Background.html#.Background.FIT_FILL">Background.FIT_FILL</a></li>
+            
+                <li data-name="cl.Background.Background.FIT_NONE"><a href="cl.Background.html#.Background.FIT_NONE">Background.FIT_NONE</a></li>
+            
+                <li data-name="cl.Background.Background.FIT_STRETCH"><a href="cl.Background.html#.Background.FIT_STRETCH">Background.FIT_STRETCH</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Background#apply"><a href="cl.Background.html#apply">apply</a></li>
+            
+                <li data-name="cl.Background#destroy"><a href="cl.Background.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Background#hide"><a href="cl.Background.html#hide">hide</a></li>
+            
+                <li data-name="cl.Background#render"><a href="cl.Background.html#render">render</a></li>
+            
+                <li data-name="cl.Background#resize"><a href="cl.Background.html#resize">resize</a></li>
+            
+                <li data-name="cl.Background#setFit"><a href="cl.Background.html#setFit">setFit</a></li>
+            
+                <li data-name="cl.Background#setImage"><a href="cl.Background.html#setImage">setImage</a></li>
+            
+                <li data-name="cl.Background#show"><a href="cl.Background.html#show">show</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Bubble">
+            <span class="title">
+                <a href="cl.Bubble.html">cl.Bubble</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Bubble#apply"><a href="cl.Bubble.html#apply">apply</a></li>
+            
+                <li data-name="cl.Bubble#calcAnimProps"><a href="cl.Bubble.html#calcAnimProps">calcAnimProps</a></li>
+            
+                <li data-name="cl.Bubble#destroy"><a href="cl.Bubble.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Bubble#getBounds"><a href="cl.Bubble.html#getBounds">getBounds</a></li>
+            
+                <li data-name="cl.Bubble#getCenterX"><a href="cl.Bubble.html#getCenterX">getCenterX</a></li>
+            
+                <li data-name="cl.Bubble#getCenterY"><a href="cl.Bubble.html#getCenterY">getCenterY</a></li>
+            
+                <li data-name="cl.Bubble#getId"><a href="cl.Bubble.html#getId">getId</a></li>
+            
+                <li data-name="cl.Bubble#getProps"><a href="cl.Bubble.html#getProps">getProps</a></li>
+            
+                <li data-name="cl.Bubble#hitTest"><a href="cl.Bubble.html#hitTest">hitTest</a></li>
+            
+                <li data-name="cl.Bubble#hitTestRect"><a href="cl.Bubble.html#hitTestRect">hitTestRect</a></li>
+            
+                <li data-name="cl.Bubble#link"><a href="cl.Bubble.html#link">link</a></li>
+            
+                <li data-name="cl.Bubble#onAnimationUpdate"><a href="cl.Bubble.html#onAnimationUpdate">onAnimationUpdate</a></li>
+            
+                <li data-name="cl.Bubble#processDrag"><a href="cl.Bubble.html#processDrag">processDrag</a></li>
+            
+                <li data-name="cl.Bubble#render"><a href="cl.Bubble.html#render">render</a></li>
+            
+                <li data-name="cl.Bubble#renderHover"><a href="cl.Bubble.html#renderHover">renderHover</a></li>
+            
+                <li data-name="cl.Bubble#setProps"><a href="cl.Bubble.html#setProps">setProps</a></li>
+            
+                <li data-name="cl.Bubble#startAnimation"><a href="cl.Bubble.html#startAnimation">startAnimation</a></li>
+            
+                <li data-name="cl.Bubble#stopAnimation"><a href="cl.Bubble.html#stopAnimation">stopAnimation</a></li>
+            
+                <li data-name="cl.Bubble#unlink"><a href="cl.Bubble.html#unlink">unlink</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Canvas">
+            <span class="title">
+                <a href="cl.Canvas.html">cl.Canvas</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Canvas#clear"><a href="cl.Canvas.html#clear">clear</a></li>
+            
+                <li data-name="cl.Canvas#destroy"><a href="cl.Canvas.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Canvas#draw"><a href="cl.Canvas.html#draw">draw</a></li>
+            
+                <li data-name="cl.Canvas#drawArrow"><a href="cl.Canvas.html#drawArrow">drawArrow</a></li>
+            
+                <li data-name="cl.Canvas#drawLine"><a href="cl.Canvas.html#drawLine">drawLine</a></li>
+            
+                <li data-name="cl.Canvas#drawRect"><a href="cl.Canvas.html#drawRect">drawRect</a></li>
+            
+                <li data-name="cl.Canvas#resetTransform"><a href="cl.Canvas.html#resetTransform">resetTransform</a></li>
+            
+                <li data-name="cl.Canvas#resize"><a href="cl.Canvas.html#resize">resize</a></li>
+            
+                <li data-name="cl.Canvas#restore"><a href="cl.Canvas.html#restore">restore</a></li>
+            
+                <li data-name="cl.Canvas#save"><a href="cl.Canvas.html#save">save</a></li>
+            
+                <li data-name="cl.Canvas#setAlpha"><a href="cl.Canvas.html#setAlpha">setAlpha</a></li>
+            
+                <li data-name="cl.Canvas#setFillColor"><a href="cl.Canvas.html#setFillColor">setFillColor</a></li>
+            
+                <li data-name="cl.Canvas#setLineDash"><a href="cl.Canvas.html#setLineDash">setLineDash</a></li>
+            
+                <li data-name="cl.Canvas#setLineStyle"><a href="cl.Canvas.html#setLineStyle">setLineStyle</a></li>
+            
+                <li data-name="cl.Canvas~drawText"><a href="cl.Canvas.html#~drawText">drawText</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Chart">
+            <span class="title">
+                <a href="cl.Chart.html">cl.Chart</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Chart#addBubbles"><a href="cl.Chart.html#addBubbles">addBubbles</a></li>
+            
+                <li data-name="cl.Chart#addEventListener"><a href="cl.Chart.html#addEventListener">addEventListener</a></li>
+            
+                <li data-name="cl.Chart#addLines"><a href="cl.Chart.html#addLines">addLines</a></li>
+            
+                <li data-name="cl.Chart#addRects"><a href="cl.Chart.html#addRects">addRects</a></li>
+            
+                <li data-name="cl.Chart#destroy"><a href="cl.Chart.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Chart#getBackground"><a href="cl.Chart.html#getBackground">getBackground</a></li>
+            
+                <li data-name="cl.Chart#hidePreloader"><a href="cl.Chart.html#hidePreloader">hidePreloader</a></li>
+            
+                <li data-name="cl.Chart#removeEventListener"><a href="cl.Chart.html#removeEventListener">removeEventListener</a></li>
+            
+                <li data-name="cl.Chart#resize"><a href="cl.Chart.html#resize">resize</a></li>
+            
+                <li data-name="cl.Chart#setBackground"><a href="cl.Chart.html#setBackground">setBackground</a></li>
+            
+                <li data-name="cl.Chart#setCursor"><a href="cl.Chart.html#setCursor">setCursor</a></li>
+            
+                <li data-name="cl.Chart#setDirtyFlag"><a href="cl.Chart.html#setDirtyFlag">setDirtyFlag</a></li>
+            
+                <li data-name="cl.Chart#showPreloader"><a href="cl.Chart.html#showPreloader">showPreloader</a></li>
+            
+                <li data-name="cl.Chart#toAxisX"><a href="cl.Chart.html#toAxisX">toAxisX</a></li>
+            
+                <li data-name="cl.Chart#toAxisY"><a href="cl.Chart.html#toAxisY">toAxisY</a></li>
+            
+                <li data-name="cl.Chart#toScreenX"><a href="cl.Chart.html#toScreenX">toScreenX</a></li>
+            
+                <li data-name="cl.Chart#toScreenY"><a href="cl.Chart.html#toScreenY">toScreenY</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Color">
+            <span class="title">
+                <a href="cl.Color.html">cl.Color</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Consts">
+            <span class="title">
+                <a href="cl.Consts.html">cl.Consts</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="cl.Consts#COLOR_BLACK"><a href="cl.Consts.html#COLOR_BLACK">COLOR_BLACK</a></li>
+            
+                <li data-name="cl.Consts#COLOR_BLUE"><a href="cl.Consts.html#COLOR_BLUE">COLOR_BLUE</a></li>
+            
+                <li data-name="cl.Consts#COLOR_GRAY"><a href="cl.Consts.html#COLOR_GRAY">COLOR_GRAY</a></li>
+            
+                <li data-name="cl.Consts#COLOR_GREEN"><a href="cl.Consts.html#COLOR_GREEN">COLOR_GREEN</a></li>
+            
+                <li data-name="cl.Consts#COLOR_LIGHTBLUE"><a href="cl.Consts.html#COLOR_LIGHTBLUE">COLOR_LIGHTBLUE</a></li>
+            
+                <li data-name="cl.Consts#COLOR_RED"><a href="cl.Consts.html#COLOR_RED">COLOR_RED</a></li>
+            
+                <li data-name="cl.Consts#COLOR_WHITE"><a href="cl.Consts.html#COLOR_WHITE">COLOR_WHITE</a></li>
+            
+                <li data-name="cl.Consts#FONT_NAME"><a href="cl.Consts.html#FONT_NAME">FONT_NAME</a></li>
+            
+                <li data-name="cl.Consts#FONT_SIZE"><a href="cl.Consts.html#FONT_SIZE">FONT_SIZE</a></li>
+            
+                <li data-name="cl.Consts#HALF_PI"><a href="cl.Consts.html#HALF_PI">HALF_PI</a></li>
+            
+                <li data-name="cl.Consts#RAD_TO_DEG"><a href="cl.Consts.html#RAD_TO_DEG">RAD_TO_DEG</a></li>
+            
+                <li data-name="cl.Consts#TWO_PI"><a href="cl.Consts.html#TWO_PI">TWO_PI</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Event">
+            <span class="title">
+                <a href="cl.Event.html">cl.Event</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="cl.Event.click"><a href="cl.Event.html#.click">click</a></li>
+            
+                <li data-name="cl.Event.doubleClick"><a href="cl.Event.html#.doubleClick">doubleClick</a></li>
+            
+                <li data-name="cl.Event.mouseDown"><a href="cl.Event.html#.mouseDown">mouseDown</a></li>
+            
+                <li data-name="cl.Event.mouseMove"><a href="cl.Event.html#.mouseMove">mouseMove</a></li>
+            
+                <li data-name="cl.Event.mouseUp"><a href="cl.Event.html#.mouseUp">mouseUp</a></li>
+            
+                <li data-name="cl.Event.shapeOut"><a href="cl.Event.html#.shapeOut">shapeOut</a></li>
+            
+                <li data-name="cl.Event.shapeOver"><a href="cl.Event.html#.shapeOver">shapeOver</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.EventManager">
+            <span class="title">
+                <a href="cl.EventManager.html">cl.EventManager</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.EventManager#addEventListener"><a href="cl.EventManager.html#addEventListener">addEventListener</a></li>
+            
+                <li data-name="cl.EventManager#destroy"><a href="cl.EventManager.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.EventManager#hasListener"><a href="cl.EventManager.html#hasListener">hasListener</a></li>
+            
+                <li data-name="cl.EventManager#removeEventListener"><a href="cl.EventManager.html#removeEventListener">removeEventListener</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Lang">
+            <span class="title">
+                <a href="cl.Lang.html">cl.Lang</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Lang#get"><a href="cl.Lang.html#get">get</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Layer">
+            <span class="title">
+                <a href="cl.Layer.html">cl.Layer</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Layer#apply"><a href="cl.Layer.html#apply">apply</a></li>
+            
+                <li data-name="cl.Layer#destroy"><a href="cl.Layer.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Layer#hide"><a href="cl.Layer.html#hide">hide</a></li>
+            
+                <li data-name="cl.Layer#render"><a href="cl.Layer.html#render">render</a></li>
+            
+                <li data-name="cl.Layer#resize"><a href="cl.Layer.html#resize">resize</a></li>
+            
+                <li data-name="cl.Layer#show"><a href="cl.Layer.html#show">show</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Line">
+            <span class="title">
+                <a href="cl.Line.html">cl.Line</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="cl.Line.Line.HOVER_THRESOLD"><a href="cl.Line.html#.Line.HOVER_THRESOLD">Line.HOVER_THRESOLD</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Line#apply"><a href="cl.Line.html#apply">apply</a></li>
+            
+                <li data-name="cl.Line#calcAnimProps"><a href="cl.Line.html#calcAnimProps">calcAnimProps</a></li>
+            
+                <li data-name="cl.Line#destroy"><a href="cl.Line.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Line#getBounds"><a href="cl.Line.html#getBounds">getBounds</a></li>
+            
+                <li data-name="cl.Line#getCenterX"><a href="cl.Line.html#getCenterX">getCenterX</a></li>
+            
+                <li data-name="cl.Line#getCenterY"><a href="cl.Line.html#getCenterY">getCenterY</a></li>
+            
+                <li data-name="cl.Line#getId"><a href="cl.Line.html#getId">getId</a></li>
+            
+                <li data-name="cl.Line#getProps"><a href="cl.Line.html#getProps">getProps</a></li>
+            
+                <li data-name="cl.Line#hitTest"><a href="cl.Line.html#hitTest">hitTest</a></li>
+            
+                <li data-name="cl.Line#hitTestRect"><a href="cl.Line.html#hitTestRect">hitTestRect</a></li>
+            
+                <li data-name="cl.Line#link"><a href="cl.Line.html#link">link</a></li>
+            
+                <li data-name="cl.Line#onAnimationUpdate"><a href="cl.Line.html#onAnimationUpdate">onAnimationUpdate</a></li>
+            
+                <li data-name="cl.Line#processDrag"><a href="cl.Line.html#processDrag">processDrag</a></li>
+            
+                <li data-name="cl.Line#render"><a href="cl.Line.html#render">render</a></li>
+            
+                <li data-name="cl.Line#renderHover"><a href="cl.Line.html#renderHover">renderHover</a></li>
+            
+                <li data-name="cl.Line#setProps"><a href="cl.Line.html#setProps">setProps</a></li>
+            
+                <li data-name="cl.Line#startAnimation"><a href="cl.Line.html#startAnimation">startAnimation</a></li>
+            
+                <li data-name="cl.Line#stopAnimation"><a href="cl.Line.html#stopAnimation">stopAnimation</a></li>
+            
+                <li data-name="cl.Line#unlink"><a href="cl.Line.html#unlink">unlink</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Rect">
+            <span class="title">
+                <a href="cl.Rect.html">cl.Rect</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Rect#apply"><a href="cl.Rect.html#apply">apply</a></li>
+            
+                <li data-name="cl.Rect#calcAnimProps"><a href="cl.Rect.html#calcAnimProps">calcAnimProps</a></li>
+            
+                <li data-name="cl.Rect#calcAnimProps"><a href="cl.Rect.html#calcAnimProps">calcAnimProps</a></li>
+            
+                <li data-name="cl.Rect#destroy"><a href="cl.Rect.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Rect#destroy"><a href="cl.Rect.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Rect#getBounds"><a href="cl.Rect.html#getBounds">getBounds</a></li>
+            
+                <li data-name="cl.Rect#getCenterX"><a href="cl.Rect.html#getCenterX">getCenterX</a></li>
+            
+                <li data-name="cl.Rect#getCenterX"><a href="cl.Rect.html#getCenterX">getCenterX</a></li>
+            
+                <li data-name="cl.Rect#getCenterY"><a href="cl.Rect.html#getCenterY">getCenterY</a></li>
+            
+                <li data-name="cl.Rect#getCenterY"><a href="cl.Rect.html#getCenterY">getCenterY</a></li>
+            
+                <li data-name="cl.Rect#getId"><a href="cl.Rect.html#getId">getId</a></li>
+            
+                <li data-name="cl.Rect#getProps"><a href="cl.Rect.html#getProps">getProps</a></li>
+            
+                <li data-name="cl.Rect#hitTest"><a href="cl.Rect.html#hitTest">hitTest</a></li>
+            
+                <li data-name="cl.Rect#hitTest"><a href="cl.Rect.html#hitTest">hitTest</a></li>
+            
+                <li data-name="cl.Rect#hitTestRect"><a href="cl.Rect.html#hitTestRect">hitTestRect</a></li>
+            
+                <li data-name="cl.Rect#hitTestRect"><a href="cl.Rect.html#hitTestRect">hitTestRect</a></li>
+            
+                <li data-name="cl.Rect#link"><a href="cl.Rect.html#link">link</a></li>
+            
+                <li data-name="cl.Rect#onAnimationUpdate"><a href="cl.Rect.html#onAnimationUpdate">onAnimationUpdate</a></li>
+            
+                <li data-name="cl.Rect#processDrag"><a href="cl.Rect.html#processDrag">processDrag</a></li>
+            
+                <li data-name="cl.Rect#render"><a href="cl.Rect.html#render">render</a></li>
+            
+                <li data-name="cl.Rect#renderHover"><a href="cl.Rect.html#renderHover">renderHover</a></li>
+            
+                <li data-name="cl.Rect#setProps"><a href="cl.Rect.html#setProps">setProps</a></li>
+            
+                <li data-name="cl.Rect#startAnimation"><a href="cl.Rect.html#startAnimation">startAnimation</a></li>
+            
+                <li data-name="cl.Rect#stopAnimation"><a href="cl.Rect.html#stopAnimation">stopAnimation</a></li>
+            
+                <li data-name="cl.Rect#unlink"><a href="cl.Rect.html#unlink">unlink</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Selector">
+            <span class="title">
+                <a href="cl.Selector.html">cl.Selector</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="cl.Selector.Selector.DRAG_THRESOLD"><a href="cl.Selector.html#.Selector.DRAG_THRESOLD">Selector.DRAG_THRESOLD</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Selector#apply"><a href="cl.Selector.html#apply">apply</a></li>
+            
+                <li data-name="cl.Selector#deselect"><a href="cl.Selector.html#deselect">deselect</a></li>
+            
+                <li data-name="cl.Selector#destroy"><a href="cl.Selector.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Selector#disableDrag"><a href="cl.Selector.html#disableDrag">disableDrag</a></li>
+            
+                <li data-name="cl.Selector#disableMultiselect"><a href="cl.Selector.html#disableMultiselect">disableMultiselect</a></li>
+            
+                <li data-name="cl.Selector#enableDrag"><a href="cl.Selector.html#enableDrag">enableDrag</a></li>
+            
+                <li data-name="cl.Selector#enableMultiselect"><a href="cl.Selector.html#enableMultiselect">enableMultiselect</a></li>
+            
+                <li data-name="cl.Selector#getBounds"><a href="cl.Selector.html#getBounds">getBounds</a></li>
+            
+                <li data-name="cl.Selector#getSelection"><a href="cl.Selector.html#getSelection">getSelection</a></li>
+            
+                <li data-name="cl.Selector#hide"><a href="cl.Selector.html#hide">hide</a></li>
+            
+                <li data-name="cl.Selector#render"><a href="cl.Selector.html#render">render</a></li>
+            
+                <li data-name="cl.Selector#resize"><a href="cl.Selector.html#resize">resize</a></li>
+            
+                <li data-name="cl.Selector#shapeFromPoint"><a href="cl.Selector.html#shapeFromPoint">shapeFromPoint</a></li>
+            
+                <li data-name="cl.Selector#shapesFromPoint"><a href="cl.Selector.html#shapesFromPoint">shapesFromPoint</a></li>
+            
+                <li data-name="cl.Selector#shapesFromRect"><a href="cl.Selector.html#shapesFromRect">shapesFromRect</a></li>
+            
+                <li data-name="cl.Selector#show"><a href="cl.Selector.html#show">show</a></li>
+            
+                <li data-name="cl.Selector~resize"><a href="cl.Selector.html#~resize">resize</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Shape">
+            <span class="title">
+                <a href="cl.Shape.html">cl.Shape</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Shape#apply"><a href="cl.Shape.html#apply">apply</a></li>
+            
+                <li data-name="cl.Shape#calcAnimProps"><a href="cl.Shape.html#calcAnimProps">calcAnimProps</a></li>
+            
+                <li data-name="cl.Shape#destroy"><a href="cl.Shape.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Shape#getBounds"><a href="cl.Shape.html#getBounds">getBounds</a></li>
+            
+                <li data-name="cl.Shape#getCenterX"><a href="cl.Shape.html#getCenterX">getCenterX</a></li>
+            
+                <li data-name="cl.Shape#getCenterY"><a href="cl.Shape.html#getCenterY">getCenterY</a></li>
+            
+                <li data-name="cl.Shape#getId"><a href="cl.Shape.html#getId">getId</a></li>
+            
+                <li data-name="cl.Shape#getProps"><a href="cl.Shape.html#getProps">getProps</a></li>
+            
+                <li data-name="cl.Shape#hitTest"><a href="cl.Shape.html#hitTest">hitTest</a></li>
+            
+                <li data-name="cl.Shape#hitTestRect"><a href="cl.Shape.html#hitTestRect">hitTestRect</a></li>
+            
+                <li data-name="cl.Shape#link"><a href="cl.Shape.html#link">link</a></li>
+            
+                <li data-name="cl.Shape#onAnimationUpdate"><a href="cl.Shape.html#onAnimationUpdate">onAnimationUpdate</a></li>
+            
+                <li data-name="cl.Shape#processDrag"><a href="cl.Shape.html#processDrag">processDrag</a></li>
+            
+                <li data-name="cl.Shape#render"><a href="cl.Shape.html#render">render</a></li>
+            
+                <li data-name="cl.Shape#renderHover"><a href="cl.Shape.html#renderHover">renderHover</a></li>
+            
+                <li data-name="cl.Shape#setProps"><a href="cl.Shape.html#setProps">setProps</a></li>
+            
+                <li data-name="cl.Shape#startAnimation"><a href="cl.Shape.html#startAnimation">startAnimation</a></li>
+            
+                <li data-name="cl.Shape#stopAnimation"><a href="cl.Shape.html#stopAnimation">stopAnimation</a></li>
+            
+                <li data-name="cl.Shape#unlink"><a href="cl.Shape.html#unlink">unlink</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.ShapeManager">
+            <span class="title">
+                <a href="cl.ShapeManager.html">cl.ShapeManager</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="cl.ShapeManager.ShapeManager.ANIMATION_DELAY"><a href="cl.ShapeManager.html#.ShapeManager.ANIMATION_DELAY">ShapeManager.ANIMATION_DELAY</a></li>
+            
+                <li data-name="cl.ShapeManager.ShapeManager.ANIMATION_SPEED"><a href="cl.ShapeManager.html#.ShapeManager.ANIMATION_SPEED">ShapeManager.ANIMATION_SPEED</a></li>
+            
+                <li data-name="cl.ShapeManager.ShapeManager.MAX_ANIMATED_ITEMS"><a href="cl.ShapeManager.html#.ShapeManager.MAX_ANIMATED_ITEMS">ShapeManager.MAX_ANIMATED_ITEMS</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.ShapeManager#add"><a href="cl.ShapeManager.html#add">add</a></li>
+            
+                <li data-name="cl.ShapeManager#apply"><a href="cl.ShapeManager.html#apply">apply</a></li>
+            
+                <li data-name="cl.ShapeManager#clear"><a href="cl.ShapeManager.html#clear">clear</a></li>
+            
+                <li data-name="cl.ShapeManager#destroy"><a href="cl.ShapeManager.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.ShapeManager#get"><a href="cl.ShapeManager.html#get">get</a></li>
+            
+                <li data-name="cl.ShapeManager#getAnimating"><a href="cl.ShapeManager.html#getAnimating">getAnimating</a></li>
+            
+                <li data-name="cl.ShapeManager#hide"><a href="cl.ShapeManager.html#hide">hide</a></li>
+            
+                <li data-name="cl.ShapeManager#remove"><a href="cl.ShapeManager.html#remove">remove</a></li>
+            
+                <li data-name="cl.ShapeManager#render"><a href="cl.ShapeManager.html#render">render</a></li>
+            
+                <li data-name="cl.ShapeManager#resize"><a href="cl.ShapeManager.html#resize">resize</a></li>
+            
+                <li data-name="cl.ShapeManager#show"><a href="cl.ShapeManager.html#show">show</a></li>
+            
+                <li data-name="cl.ShapeManager#updateStatic"><a href="cl.ShapeManager.html#updateStatic">updateStatic</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="cl.Utils">
+            <span class="title">
+                <a href="cl.Utils.html">cl.Utils</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Utils#colorLuminance"><a href="cl.Utils.html#colorLuminance">colorLuminance</a></li>
+            
+                <li data-name="cl.Utils#distSq"><a href="cl.Utils.html#distSq">distSq</a></li>
+            
+                <li data-name="cl.Utils#distToSegmentSquared"><a href="cl.Utils.html#distToSegmentSquared">distToSegmentSquared</a></li>
+            
+                <li data-name="cl.Utils#extend"><a href="cl.Utils.html#extend">extend</a></li>
+            
+                <li data-name="cl.Utils#merge"><a href="cl.Utils.html#merge">merge</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+    </ul>
+</div>
+    <div class="main">
+        <h1 class="page-title" data-filename="cl.Rect.html">Class: Rect</h1>
+        
 
 
 
 <section>
-
+    
 <header>
+    <h2>
+        <span class="ancestors"><a href="cl.html">cl</a>.</span>
     
-        <h2>
-            <span class="ancestors"><a href="cl.html">cl</a>.</span>
-        
-        Rect
-        </h2>
-        
+    Rect
+    </h2>
     
-</header>
+</header>  
 
 <article>
     <div class="container-overview">
     
+    
+    
         
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="Rect">
+            
+            new cl.Rect<span class="signature">(parent, props)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/rect.js, line 33
+        </div>
+        
+    </div>
 
     
-
-    <h4 class="name" id="Rect"><span class="type-signature"></span>new Rect<span class="signature">(parent, props)</span><span class="type-signature"></span></h4>
-
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Represent rectangle shape class
+    </div>
     
 
-
-
-<div class="description">
-    Represent rectangle shape class
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
     
+    
+    
+    
+    
+        
 
 <table class="params">
     <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>parent</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -110,21 +1130,21 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Parent shape manager</td>
+            
+            <td class="description last">
+                
+                Parent shape manager</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>props</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -133,44 +1153,39 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">shape settings
-                <h6>Properties</h6>
+            
+            <td class="description last">
+                
+                shape settings
                 
 
 <table class="params">
     <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Default</th>
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>id</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -179,33 +1194,30 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
                 </td>
             
-
-            <td class="description last">Shape id</td>
+            
+            <td class="description last">
+                
+                    
+                    
+                        
+                    
+                
+                Shape id</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>cursor</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -214,35 +1226,32 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
                 </td>
             
-
-            <td class="description last">Change cursor to specified when shape is hovered</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Change cursor to specified when shape is hovered</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>x</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -251,19 +1260,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -271,17 +1268,26 @@
                 
                 </td>
             
-
-            <td class="description last">First corner X coordinate</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                First corner X coordinate</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>y</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -290,19 +1296,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -310,17 +1304,26 @@
                 
                 </td>
             
-
-            <td class="description last">First corner Y coordinate</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                First corner Y coordinate</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>x2</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -329,33 +1332,30 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
                 </td>
             
-
-            <td class="description last">Second corner X coordinate</td>
+            
+            <td class="description last">
+                
+                    
+                    
+                        
+                    
+                
+                Second corner X coordinate</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>y2</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -364,33 +1364,30 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
                 </td>
             
-
-            <td class="description last">Second corner Y coordinate</td>
+            
+            <td class="description last">
+                
+                    
+                    
+                        
+                    
+                
+                Second corner Y coordinate</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>color</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -399,19 +1396,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -419,17 +1404,26 @@
                 
                 </td>
             
-
-            <td class="description last">First corner color</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                First corner color</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>color2</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -438,35 +1432,32 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
                 </td>
             
-
-            <td class="description last">Second corner color</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Second corner color</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>border</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -475,19 +1466,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -495,17 +1474,26 @@
                 
                 </td>
             
-
-            <td class="description last">Shape border width</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Shape border width</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>borderRadius</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -514,19 +1502,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -534,17 +1510,26 @@
                 
                 </td>
             
-
-            <td class="description last">Border radius</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Border radius</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>opacity</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -553,19 +1538,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -573,17 +1546,26 @@
                 
                 </td>
             
-
-            <td class="description last">Shape opacity</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Shape opacity</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>lineDash</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -592,19 +1574,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -612,17 +1582,26 @@
                 
                 </td>
             
-
-            <td class="description last">Shape line dash. Example: [2, 2]</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Shape line dash. Example: [2, 2]</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>links</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -631,19 +1610,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -651,17 +1618,26 @@
                 
                 </td>
             
-
-            <td class="description last">Array of linked shapes id's</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Array of linked shapes id's</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>draggable</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -670,19 +1646,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -690,17 +1654,26 @@
                 
                 </td>
             
-
-            <td class="description last">Is shape draggable</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Is shape draggable</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>track</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -709,58 +1682,50 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
                 </td>
             
-
-            <td class="description last">Shape track. Can be displayed while shape is animating
-                <h6>Properties</h6>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Shape track. Can be displayed while shape is animating
                 
 
 <table class="params">
     <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Default</th>
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>enabled</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -769,19 +1734,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -789,17 +1742,26 @@
                 
                 </td>
             
-
-            <td class="description last">Enabled or not</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Enabled or not</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>width</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -808,19 +1770,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -828,17 +1778,26 @@
                 
                 </td>
             
-
-            <td class="description last">Line width</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Line width</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>color</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -847,19 +1806,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -867,17 +1814,26 @@
                 
                 </td>
             
-
-            <td class="description last">Line color</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Line color</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>opacity</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -886,19 +1842,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -906,245 +1850,228 @@
                 
                 </td>
             
-
-            <td class="description last">Line opacity</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Line opacity</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
             </td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
             </td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
 </dl>
 
+    
+    
 
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+</dd>
 
     
     </div>
-
+    
     
         <h3 class="subsection-title">Extends</h3>
-
         
-
-
-    <ul>
-        <li><a href="cl.Shape.html">cl.Shape</a></li>
-    </ul>
-
-
+        <ul>
+            <li><a href="cl.Shape.html">cl.Shape</a></li>
+        </ul>
     
-
     
-
     
-
-     
-
     
-
     
-
+    
+    
+    
+    
+    
+    
+    
     
         <h3 class="subsection-title">Methods</h3>
-
         
+        <dl>
             
+<dt>
+    <div class="nameContainer inherited">
+        <h4 class="name" id="apply">
+            
+                <span class="inherited"><a href="cl.Shape.html#apply">inherited</a></span>
+            
+            apply<span class="signature">()</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/shape.js, line 349
+        </div>
+        
+    </div>
 
     
-
-    <h4 class="name" id="apply"><span class="type-signature"></span>apply<span class="signature">()</span><span class="type-signature"></span></h4>
-
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Apply shape changes
+    </div>
     
 
-
-
-<div class="description">
-    Apply shape changes
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="cl.Shape.html#apply">cl.Shape#apply</a>
-    </li></ul></dd>
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
-    
-
     
 </dl>
 
+    
+    
 
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+</dd>
 
         
             
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="calcAnimProps">
+            
+            calcAnimProps<span class="signature">(newProps)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{boolean}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/rect.js, line 181
+        </div>
+        
+    </div>
 
     
-
-    <h4 class="name" id="calcAnimProps"><span class="type-signature"></span>calcAnimProps<span class="signature">(newProps)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
-
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Updates shape properties
+    </div>
     
 
-
-
-<div class="description">
-    Updates shape properties
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
     
+    
+    
+    
+    
+        
 
 <table class="params">
     <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>newProps</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -1153,753 +2080,1134 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">New properties</td>
+            
+            <td class="description last">
+                
+                New properties</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="cl.Shape.html#calcAnimProps">cl.Shape#calcAnimProps</a>
-    </li></ul></dd>
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
-    
-
     
 </dl>
 
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Is shape changed or not
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="destroy"><span class="type-signature"></span>destroy<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Destroys rect
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="cl.Shape.html#destroy">cl.Shape#destroy</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getBounds"><span class="type-signature"></span>getBounds<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Returns shape bounds
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="cl.Shape.html#getBounds">cl.Shape#getBounds</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Shape bounds
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getCenterX"><span class="type-signature"></span>getCenterX<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Returns X coordinate of shape center
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="cl.Shape.html#getCenterX">cl.Shape#getCenterX</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    X coordinate in axis space
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getCenterY"><span class="type-signature"></span>getCenterY<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Returns X coordinate of shape center
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="cl.Shape.html#getCenterY">cl.Shape#getCenterY</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Y coordinate in axis space
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getId"><span class="type-signature"></span>getId<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Returns shape id
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="cl.Shape.html#getId">cl.Shape#getId</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
     
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Id
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getProps"><span class="type-signature"></span>getProps<span class="signature">()</span><span class="type-signature"> &rarr; {object}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Returns shape properties
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="cl.Shape.html#getProps">cl.Shape#getProps</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
     
 
     
 
     
-
     
-
     
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Shape properties
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">object</span>
-
-
-    </dd>
-</dl>
-
     
-
-
-
-        
-            
-
     
-
-    <h4 class="name" id="hitTest"><span class="type-signature"></span>hitTest<span class="signature">(x, y)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
-
+    <h5>Returns:</h5>
     
-
-
-
-<div class="description">
-    Check if point inside shape
-</div>
-
 
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
 
 <table class="params">
     <thead>
     <tr>
         
-        <th>Name</th>
-        
-
         <th>Type</th>
-
-        
-
-        
-
         <th class="last">Description</th>
     </tr>
     </thead>
-
     <tbody>
     
+        <tr>
+            
+            <td class="type">
+            
+                        boolean
+                        
+                    
+            </td>
+            <td class="description last">Is shape changed or not</td>
+        </tr>
+    
+    </tbody>
+</table>
 
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="calcAnimProps">
+            
+            calcAnimProps<span class="signature">(newProps)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{boolean}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/line.js, line 232
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Updates shape properties
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>newProps</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                New properties</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        boolean
+                        
+                    
+            </td>
+            <td class="description last">Is shape changed or not</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="destroy">
+            
+            destroy<span class="signature">()</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/rect.js, line 270
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Destroys rect
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="destroy">
+            
+            destroy<span class="signature">()</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/line.js, line 348
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Destroys line
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="getBounds">
+            
+            getBounds<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Object}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/rect.js, line 102
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Returns shape bounds
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        Object
+                        
+                    
+            </td>
+            <td class="description last">Shape bounds</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="getCenterX">
+            
+            getCenterX<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{number}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/line.js, line 131
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Returns X coordinate of shape center
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        number
+                        
+                    
+            </td>
+            <td class="description last">X coordinate in axis space</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="getCenterX">
+            
+            getCenterX<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{number}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/rect.js, line 66
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Returns X coordinate of shape center
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        number
+                        
+                    
+            </td>
+            <td class="description last">X coordinate in axis space</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="getCenterY">
+            
+            getCenterY<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{number}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/line.js, line 143
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Returns Y coordinate of shape center
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        number
+                        
+                    
+            </td>
+            <td class="description last">Y coordinate in axis space</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="getCenterY">
+            
+            getCenterY<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{number}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/rect.js, line 78
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Returns Y coordinate of shape center
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        number
+                        
+                    
+            </td>
+            <td class="description last">Y coordinate in axis space</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer inherited">
+        <h4 class="name" id="getId">
+            
+                <span class="inherited"><a href="cl.Shape.html#getId">inherited</a></span>
+            
+            getId<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{number}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/shape.js, line 271
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Returns shape id
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        number
+                        
+                    
+            </td>
+            <td class="description last">Id</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer inherited">
+        <h4 class="name" id="getProps">
+            
+                <span class="inherited"><a href="cl.Shape.html#getProps">inherited</a></span>
+            
+            getProps<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{object}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/shape.js, line 310
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Returns shape properties
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        object
+                        
+                    
+            </td>
+            <td class="description last">Shape properties</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="hitTest">
+            
+            hitTest<span class="signature">(x, y)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{boolean}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/rect.js, line 161
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Check if point inside shape
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>x</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -1908,21 +3216,21 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">X coordinate in pixels</td>
+            
+            <td class="description last">
+                
+                X coordinate in pixels</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>y</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -1931,151 +3239,311 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Y coordinate in pixels</td>
+            
+            <td class="description last">
+                
+                Y coordinate in pixels</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="cl.Shape.html#hitTest">cl.Shape#hitTest</a>
-    </li></ul></dd>
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
-    
-
     
 </dl>
 
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Inside or not
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-    </dd>
-</dl>
+    
+    
 
     
 
-
-
-        
-            
-
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
     
 
-    <h4 class="name" id="hitTestRect"><span class="type-signature"></span>hitTestRect<span class="signature">(rx, ry, hw, hh)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Checks if shape intersecting rectangle
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
 
 <table class="params">
     <thead>
     <tr>
         
-        <th>Name</th>
-        
-
         <th>Type</th>
-
-        
-
-        
-
         <th class="last">Description</th>
     </tr>
     </thead>
-
     <tbody>
     
+        <tr>
+            
+            <td class="type">
+            
+                        boolean
+                        
+                    
+            </td>
+            <td class="description last">Inside or not</td>
+        </tr>
+    
+    </tbody>
+</table>
 
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="hitTest">
+            
+            hitTest<span class="signature">(x, y)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{boolean}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/line.js, line 211
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Check if point inside shape
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                X coordinate in pixels</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                Y coordinate in pixels</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        boolean
+                        
+                    
+            </td>
+            <td class="description last">Inside or not</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="hitTestRect">
+            
+            hitTestRect<span class="signature">(rx, ry, hw, hh)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{boolean}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/line.js, line 194
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Checks if shape intersecting rectangle
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>rx</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -2084,21 +3552,21 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">X coordinate in pixels of rectangle center</td>
+            
+            <td class="description last">
+                
+                X coordinate in pixels of rectangle center</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>ry</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -2107,21 +3575,21 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Y coordinate in pixels of rectangle center</td>
+            
+            <td class="description last">
+                
+                Y coordinate in pixels of rectangle center</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>hw</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -2130,21 +3598,21 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Half width</td>
+            
+            <td class="description last">
+                
+                Half width</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>hh</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -2153,151 +3621,359 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Half height</td>
+            
+            <td class="description last">
+                
+                Half height</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="cl.Shape.html#hitTestRect">cl.Shape#hitTestRect</a>
-    </li></ul></dd>
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
-    
-
     
 </dl>
 
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Intersecting or not
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-    </dd>
-</dl>
+    
+    
 
     
 
-
-
-        
-            
-
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
     
 
-    <h4 class="name" id="link"><span class="type-signature"></span>link<span class="signature">(ids)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Link shape to other shapes
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
 
 <table class="params">
     <thead>
     <tr>
         
-        <th>Name</th>
-        
-
         <th>Type</th>
-
-        
-
-        
-
         <th class="last">Description</th>
     </tr>
     </thead>
-
     <tbody>
     
+        <tr>
+            
+            <td class="type">
+            
+                        boolean
+                        
+                    
+            </td>
+            <td class="description last">Intersecting or not</td>
+        </tr>
+    
+    </tbody>
+</table>
 
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="hitTestRect">
+            
+            hitTestRect<span class="signature">(rx, ry, hw, hh)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{boolean}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/rect.js, line 129
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Checks if shape intersecting rectangle
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>rx</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                X coordinate in pixels of rectangle center</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>ry</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                Y coordinate in pixels of rectangle center</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>hw</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                Half width</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>hh</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                Half height</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        boolean
+                        
+                    
+            </td>
+            <td class="description last">Intersecting or not</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer inherited">
+        <h4 class="name" id="link">
+            
+                <span class="inherited"><a href="cl.Shape.html#link">inherited</a></span>
+            
+            link<span class="signature">(ids)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/shape.js, line 135
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Link shape to other shapes
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>ids</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -2306,129 +3982,190 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Array with id's</td>
+            
+            <td class="description last">
+                
+                Array with id's</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="cl.Shape.html#link">cl.Shape#link</a>
-    </li></ul></dd>
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
-    
-
     
 </dl>
 
+    
+    
 
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+</dd>
 
         
             
+<dt>
+    <div class="nameContainer inherited">
+        <h4 class="name" id="onAnimationUpdate">
+            
+                <span class="inherited"><a href="cl.Shape.html#onAnimationUpdate">inherited</a></span>
+            
+            onAnimationUpdate<span class="signature">()</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/shape.js, line 175
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called each frame when animation was updated
+    </div>
+    
+
+    
+    
+    
+        <h5>This:</h5>
+        <ul><li>current</li></ul>
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
 
     
 
-    <h4 class="name" id="processDrag"><span class="type-signature"></span>processDrag<span class="signature">(deltaX, deltaY)</span><span class="type-signature"></span></h4>
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="processDrag">
+            
+            processDrag<span class="signature">(deltaX, deltaY)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/rect.js, line 91
+        </div>
+        
+    </div>
 
     
-
-
-
-<div class="description">
-    Used to update shape position while shape dragged
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
+</dt>
+<dd>
     
+    
+    <div class="description">
+        Used to update shape position while shape dragged
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
 
 <table class="params">
     <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>deltaX</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -2437,21 +4174,21 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">X coordinate changes</td>
+            
+            <td class="description last">
+                
+                X coordinate changes</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>deltaY</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -2460,129 +4197,114 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Y coordinate changes</td>
+            
+            <td class="description last">
+                
+                Y coordinate changes</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="cl.Shape.html#processDrag">cl.Shape#processDrag</a>
-    </li></ul></dd>
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
-    
-
     
 </dl>
 
+    
+    
 
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+</dd>
 
         
             
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="render">
+            
+            render<span class="signature">(canvas)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/rect.js, line 207
+        </div>
+        
+    </div>
 
     
-
-    <h4 class="name" id="render"><span class="type-signature"></span>render<span class="signature">(canvas)</span><span class="type-signature"></span></h4>
-
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Renders rect on canvas
+    </div>
     
 
-
-
-<div class="description">
-    Renders rect on canvas
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
     
+    
+    
+    
+    
+        
 
 <table class="params">
     <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>canvas</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -2591,168 +4313,148 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="cl.Shape.html#render">cl.Shape#render</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
             
-
-    
-
-    <h4 class="name" id="renderHover"><span class="type-signature"></span>renderHover<span class="signature">(canvas, offset<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Renders rect hover on canvas
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>canvas</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="cl.Canvas.html">cl.Canvas</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
+            <td class="description last">
                 
                 </td>
-            
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="renderHover">
+            
+            renderHover<span class="signature">(canvas, <span class="optional">offset</span>)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/rect.js, line 250
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Renders rect hover on canvas
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Default</th>
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>canvas</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type"><a href="cl.Canvas.html">cl.Canvas</a></span>
+
+
+            
+            </td>
+            
             
                 <td class="default">
                 
                 </td>
             
-
-            <td class="description last"></td>
+            
+            <td class="description last">
+                
+                    
+                    
+                        
+                    
+                
+                </td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>offset</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -2761,19 +4463,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -2781,129 +4471,123 @@
                 
                 </td>
             
-
-            <td class="description last">Hover offset</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Hover offset</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-
     
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="cl.Shape.html#renderHover">cl.Shape#renderHover</a>
-    </li></ul></dd>
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
-    
-
     
 </dl>
 
+    
+    
 
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+</dd>
 
         
             
+<dt>
+    <div class="nameContainer inherited">
+        <h4 class="name" id="setProps">
+            
+                <span class="inherited"><a href="cl.Shape.html#setProps">inherited</a></span>
+            
+            setProps<span class="signature">(newProps, <span class="optional">animate</span>, <span class="optional">animationSpeed</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{boolean}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/shape.js, line 282
+        </div>
+        
+    </div>
 
     
-
-    <h4 class="name" id="setProps"><span class="type-signature"></span>setProps<span class="signature">(newProps, animate<span class="signature-attributes">opt</span>, animationSpeed<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
-
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Updates shape properties
+    </div>
     
 
-
-
-<div class="description">
-    Updates shape properties
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
     
+    
+    
+    
+    
+        
 
 <table class="params">
     <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Default</th>
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>newProps</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -2912,33 +4596,30 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
                 </td>
             
-
-            <td class="description last">New properties</td>
+            
+            <td class="description last">
+                
+                    
+                    
+                        
+                    
+                
+                New properties</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>animate</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -2947,19 +4628,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -2967,17 +4636,26 @@
                 
                 </td>
             
-
-            <td class="description last">Animate properties change</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Animate properties change</td>
         </tr>
-
-    
-
+	
+	
+	
         <tr>
             
                 <td class="name"><code>animationSpeed</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -2986,19 +4664,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -3006,233 +4672,225 @@
                 
                 </td>
             
-
-            <td class="description last">Animation speed in ms</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Animation speed in ms</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="cl.Shape.html#setProps">cl.Shape#setProps</a>
-    </li></ul></dd>
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
-    
-
     
 </dl>
 
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Is shape changed or not
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-    </dd>
-</dl>
-
     
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="startAnimation"><span class="type-signature"></span>startAnimation<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Starts animation of shape. Will tween "props" to "animProps". "animProps" should be exist
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
     
 
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="cl.Shape.html#startAnimation">cl.Shape#startAnimation</a>
-    </li></ul></dd>
+    
+    
+    
+    
+    <h5>Returns:</h5>
     
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="stopAnimation"><span class="type-signature"></span>stopAnimation<span class="signature">(dontStopTween<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Stops animation
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
 
 <table class="params">
     <thead>
     <tr>
         
-        <th>Name</th>
-        
-
         <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
         <th class="last">Description</th>
     </tr>
     </thead>
-
     <tbody>
     
+        <tr>
+            
+            <td class="type">
+            
+                        boolean
+                        
+                    
+            </td>
+            <td class="description last">Is shape changed or not</td>
+        </tr>
+    
+    </tbody>
+</table>
 
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer inherited">
+        <h4 class="name" id="startAnimation">
+            
+                <span class="inherited"><a href="cl.Shape.html#startAnimation">inherited</a></span>
+            
+            startAnimation<span class="signature">()</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/shape.js, line 182
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Starts animation of shape. Will tween "props" to "animProps". "animProps" should be exist
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer inherited">
+        <h4 class="name" id="stopAnimation">
+            
+                <span class="inherited"><a href="cl.Shape.html#stopAnimation">inherited</a></span>
+            
+            stopAnimation<span class="signature">(<span class="optional">dontStopTween</span>)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/shape.js, line 376
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Stops animation
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Default</th>
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>dontStopTween</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -3241,19 +4899,7 @@
 
             
             </td>
-
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
             
                 <td class="default">
                 
@@ -3261,125 +4907,121 @@
                 
                 </td>
             
-
-            <td class="description last">Don't stop tween. Not usable in general cases. Used only if method called from onComplete tween event</td>
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Don't stop tween. Not usable in general cases. Used only if method called from onComplete tween event</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="cl.Shape.html#stopAnimation">cl.Shape#stopAnimation</a>
-    </li></ul></dd>
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
-    
-
     
 </dl>
 
+    
+    
 
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+</dd>
 
         
             
+<dt>
+    <div class="nameContainer inherited">
+        <h4 class="name" id="unlink">
+            
+                <span class="inherited"><a href="cl.Shape.html#unlink">inherited</a></span>
+            
+            unlink<span class="signature">(ids)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/shape.js, line 157
+        </div>
+        
+    </div>
 
     
-
-    <h4 class="name" id="unlink"><span class="type-signature"></span>unlink<span class="signature">(ids)</span><span class="type-signature"></span></h4>
-
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Unlink shape from other shapes
+    </div>
     
 
-
-
-<div class="description">
-    Unlink shape from other shapes
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
     
+    
+    
+    
+    
+        
 
 <table class="params">
     <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
         <tr>
             
                 <td class="name"><code>ids</code></td>
             
-
+            
             <td class="type">
             
                 
@@ -3388,100 +5030,81 @@
 
             
             </td>
-
             
-
             
-
-            <td class="description last">Array with id's</td>
+            
+            <td class="description last">
+                
+                Array with id's</td>
         </tr>
-
-    
-    </tbody>
+	
+	
+	</tbody>
 </table>
-
-
-
-
-
-
+    
+    
+    
 <dl class="details">
-
+    
+        
+    
+    
     
 
     
-
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="cl.Shape.html#unlink">cl.Shape#unlink</a>
-    </li></ul></dd>
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
     
-
-    
-
     
 </dl>
 
+    
+    
 
+    
 
+    
+    
+    
+    
+    
+    
+    
+</dd>
 
+        </dl>
+    
+    
+    
+    
+    
+</article>
 
-
-
-
-
-
-
+</section>  
 
 
 
 
 
         
-    
 
-    
-
-    
-</article>
-
-</section>
-
-
-
-
+        <footer>
+            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Mon Sep 21 2015 15:48:46 GMT+0300 (Финляндия (лето))
+        </footer>
+    </div>
 </div>
-
-<br class="clear">
-
-<footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Sun Sep 20 2015 19:31:57 GMT+0300 (Финляндия (лето)) using the Minami theme.
-</footer>
-
 <script>prettyPrint();</script>
 <script src="scripts/linenumber.js"></script>
+<script src="scripts/main.js"></script>
 </body>
 </html>
