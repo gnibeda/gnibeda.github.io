@@ -1,3 +1,17 @@
+/*
+ - возможность управлять слоями из кода
+ [*] рисование произвольных линий или упростить создание новых модулей для рисования
+ - более расширенное управление цветами и рамками
+ [*] более расширенные настройки анимации (время,  положение, цвет)
+ - управление подписями к графику (поворот для названия оси и подстановка перед и/или после)
+ - [*] некоторые кружки показываются но выделить их нельзя http://screencast.com/t/kRzpabN3
+ - [*] начало отсчета 0/0 стоит сдвинуть на 1 большую клетку, что-бы кружки сайтов не наползали на оси абсцисс и ординат http://screencast.com/t/SD4tQc1yzL
+ - [*] границы графика добавить по 1 квадрату без цифровой подписи http://screencast.com/t/AZ6IX8I1
+ - кружки на странице прогресса (прозрачные), наследники bubble
+ - [*] проверил offset для осей. положительный смещает, отрицательный оставляет на том же месте наверное из-за этого: if (offset < t.chart.xAxis.getMin()) offset = t.chart.xAxis.getMin();
+ */
+// TODO: add poly class
+
 (function () {
     'use strict';
 
@@ -18,13 +32,21 @@
             },
             xAxis: {
                 name: "X axis",
+                min: -10,
+                max: 110,
                 margin:{ start: 40, end: 10},
                 ticks: {
                     big: {
-                        align: "center"
+                        align: "center",
+                        interval: 10,
+                        first: false,
+                        last: false
                     },
                     small: {
-                        align: "center"
+                        align: "center",
+                        interval: 5,
+                        first: false,
+                        last: false
                     }
                 },
                 style: {
@@ -32,14 +54,22 @@
                 }
             },
             yAxis: {
+                min: -10,
+                max: 110,
                 name: "Y axis",
                 margin:{ start: 40, end: 10},
                 ticks: {
                     big: {
-                        align: "center"
+                        align: "center",
+                        interval: 10,
+                        first: false,
+                        last: false
                     },
                     small: {
-                        align: "center"
+                        align: "center",
+                        interval: 5,
+                        first: false,
+                        last: false
                     }
                 },
                 style: {
@@ -52,16 +82,22 @@
         var bubbles = [];
         var i;
 
-        bubbles = [
+        /*bubbles = [
             {id: 1, x: 10, y: 10, size: 20},
             {id: 2, x: 80, y: 10, size: 20, lineDash: [2, 2] },
             {id: 3, x: 50, y: 50, size: 40, links: [1, 2] }
+        ];*/
+
+        bubbles = [
+            { id: 1, x: 50, y: 50, size: 50 },
+            { id: 2, x: 50, y: 50, size: 30 },
+            { id: 3, x: 50, y: 50, size: 20 }
         ];
 
         chart.addBubbles(bubbles);
-        ch.addRects([{id: 0, x: 20, y: 30, x2: 40, y2: 70, color: 'green', links:[1, 2]}], true);
+        ch.addRects([{id: 0, x: 40, y: 30, x2: 60, y2: 70, color: 'green', links:[1, 2]}], true);
         //ch.addRects([{id: 0, x: 30, y: 90, x2: 70, y2: 10, color: 'green', links:[1, 2]}], true);
-        ch.addLines([{id: -1, x: 30, y: 90, x2: 70, y2: 70, border: 3, color: 'green', links:[1], size: 6, size2: 4}], true);
+        ch.addLines([{id: -1, x: 30, y: 30, x2: 70, y2: 70, border: 3, color: 'green', links:[1], size: 6, size2: 4}], true);
 
         chart.addEventListener(cl.Event.click, function(e){
             var txt = "";
