@@ -470,6 +470,67 @@
             </ul>
         </li>
     
+        <li class="item" data-name="cl.Centroid">
+            <span class="title">
+                <a href="cl.Centroid.html">cl.Centroid</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Centroid#apply"><a href="cl.Centroid.html#apply">apply</a></li>
+            
+                <li data-name="cl.Centroid#calcAnimProps"><a href="cl.Centroid.html#calcAnimProps">calcAnimProps</a></li>
+            
+                <li data-name="cl.Centroid#destroy"><a href="cl.Centroid.html#destroy">destroy</a></li>
+            
+                <li data-name="cl.Centroid#getBounds"><a href="cl.Centroid.html#getBounds">getBounds</a></li>
+            
+                <li data-name="cl.Centroid#getCenterX"><a href="cl.Centroid.html#getCenterX">getCenterX</a></li>
+            
+                <li data-name="cl.Centroid#getCenterY"><a href="cl.Centroid.html#getCenterY">getCenterY</a></li>
+            
+                <li data-name="cl.Centroid#getId"><a href="cl.Centroid.html#getId">getId</a></li>
+            
+                <li data-name="cl.Centroid#getPixelArea"><a href="cl.Centroid.html#getPixelArea">getPixelArea</a></li>
+            
+                <li data-name="cl.Centroid#getProps"><a href="cl.Centroid.html#getProps">getProps</a></li>
+            
+                <li data-name="cl.Centroid#hitTest"><a href="cl.Centroid.html#hitTest">hitTest</a></li>
+            
+                <li data-name="cl.Centroid#hitTestRect"><a href="cl.Centroid.html#hitTestRect">hitTestRect</a></li>
+            
+                <li data-name="cl.Centroid#link"><a href="cl.Centroid.html#link">link</a></li>
+            
+                <li data-name="cl.Centroid#onAnimationUpdate"><a href="cl.Centroid.html#onAnimationUpdate">onAnimationUpdate</a></li>
+            
+                <li data-name="cl.Centroid#processDrag"><a href="cl.Centroid.html#processDrag">processDrag</a></li>
+            
+                <li data-name="cl.Centroid#render"><a href="cl.Centroid.html#render">render</a></li>
+            
+                <li data-name="cl.Centroid#renderHover"><a href="cl.Centroid.html#renderHover">renderHover</a></li>
+            
+                <li data-name="cl.Centroid#setProps"><a href="cl.Centroid.html#setProps">setProps</a></li>
+            
+                <li data-name="cl.Centroid#startAnimation"><a href="cl.Centroid.html#startAnimation">startAnimation</a></li>
+            
+                <li data-name="cl.Centroid#stopAnimation"><a href="cl.Centroid.html#stopAnimation">stopAnimation</a></li>
+            
+                <li data-name="cl.Centroid#unlink"><a href="cl.Centroid.html#unlink">unlink</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
         <li class="item" data-name="cl.Chart">
             <span class="title">
                 <a href="cl.Chart.html">cl.Chart</a>
@@ -1008,6 +1069,8 @@
             
                 <li data-name="cl.ShapeManager#hide"><a href="cl.ShapeManager.html#hide">hide</a></li>
             
+                <li data-name="cl.ShapeManager#hideCenters"><a href="cl.ShapeManager.html#hideCenters">hideCenters</a></li>
+            
                 <li data-name="cl.ShapeManager#remove"><a href="cl.ShapeManager.html#remove">remove</a></li>
             
                 <li data-name="cl.ShapeManager#render"><a href="cl.ShapeManager.html#render">render</a></li>
@@ -1015,6 +1078,8 @@
                 <li data-name="cl.ShapeManager#resize"><a href="cl.ShapeManager.html#resize">resize</a></li>
             
                 <li data-name="cl.ShapeManager#show"><a href="cl.ShapeManager.html#show">show</a></li>
+            
+                <li data-name="cl.ShapeManager#showCenters"><a href="cl.ShapeManager.html#showCenters">showCenters</a></li>
             
                 <li data-name="cl.ShapeManager#updateStatic"><a href="cl.ShapeManager.html#updateStatic">updateStatic</a></li>
             
@@ -1089,7 +1154,7 @@
     
         
         <div class="tag-source">
-            shapes/shapeManager.js, line 22
+            shapes/shapeManager.js, line 29
         </div>
         
     </div>
@@ -1355,6 +1420,240 @@
                     
                 
                 Link opacity</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+            </td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>centers</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Shapes center display settings
+                
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Default</th>
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>visible</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Visible or not</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>width</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Line width</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>size</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                    3
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Radius</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>opacity</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                    0.3
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Opacity</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                    cl.Consts.COLOR_BLACK
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Line color</td>
         </tr>
 	
 	
@@ -1739,7 +2038,7 @@
     
         
         <div class="tag-source">
-            shapes/shapeManager.js, line 241
+            shapes/shapeManager.js, line 313
         </div>
         
     </div>
@@ -2046,7 +2345,7 @@
     
         
         <div class="tag-source">
-            shapes/shapeManager.js, line 343
+            shapes/shapeManager.js, line 415
         </div>
         
     </div>
@@ -2117,7 +2416,7 @@
     
         
         <div class="tag-source">
-            shapes/shapeManager.js, line 369
+            shapes/shapeManager.js, line 441
         </div>
         
     </div>
@@ -2188,7 +2487,7 @@
     
         
         <div class="tag-source">
-            shapes/shapeManager.js, line 316
+            shapes/shapeManager.js, line 388
         </div>
         
     </div>
@@ -2336,7 +2635,7 @@
     
         
         <div class="tag-source">
-            shapes/shapeManager.js, line 70
+            shapes/shapeManager.js, line 108
         </div>
         
     </div>
@@ -2531,6 +2830,77 @@
             
 <dt>
     <div class="nameContainer">
+        <h4 class="name" id="hideCenters">
+            
+            hideCenters<span class="signature">()</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/shapeManager.js, line 85
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Hides shapes centers
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
         <h4 class="name" id="remove">
             
             remove<span class="signature">(item)</span>
@@ -2538,7 +2908,7 @@
     
         
         <div class="tag-source">
-            shapes/shapeManager.js, line 352
+            shapes/shapeManager.js, line 424
         </div>
         
     </div>
@@ -2657,7 +3027,7 @@
     
         
         <div class="tag-source">
-            shapes/shapeManager.js, line 114
+            shapes/shapeManager.js, line 180
         </div>
         
     </div>
@@ -2728,7 +3098,7 @@
     
         
         <div class="tag-source">
-            shapes/shapeManager.js, line 388
+            shapes/shapeManager.js, line 460
         </div>
         
     </div>
@@ -2991,6 +3361,77 @@
             
 <dt>
     <div class="nameContainer">
+        <h4 class="name" id="showCenters">
+            
+            showCenters<span class="signature">()</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/shapeManager.js, line 96
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Shows shapes centers
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
         <h4 class="name" id="updateStatic">
             
             updateStatic<span class="signature">()</span>
@@ -2998,7 +3439,7 @@
     
         
         <div class="tag-source">
-            shapes/shapeManager.js, line 399
+            shapes/shapeManager.js, line 471
         </div>
         
     </div>
@@ -3075,7 +3516,7 @@
         
 
         <footer>
-            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Mon Sep 21 2015 18:33:53 GMT+0300 (Финляндия (лето))
+            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Mon Sep 21 2015 22:34:03 GMT+0300 (Финляндия (лето))
         </footer>
     </div>
 </div>
