@@ -50,6 +50,10 @@
                         last: false
                     }
                 },
+                labels: {
+                    big: { after: "%" },
+                    small: { after: "%" }
+                },
                 style: {
                     arrowSize: 0
                 }
@@ -73,6 +77,10 @@
                         first: false,
                         last: false
                     }
+                },
+                labels: {
+                    big: { after: "%" },
+                    small: { after: "%" }
                 },
                 style: {
                     arrowSize: 0
