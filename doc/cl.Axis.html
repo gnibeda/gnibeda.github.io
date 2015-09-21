@@ -387,6 +387,8 @@
             
                 <li data-name="cl.Bubble#getId"><a href="cl.Bubble.html#getId">getId</a></li>
             
+                <li data-name="cl.Bubble#getPixelArea"><a href="cl.Bubble.html#getPixelArea">getPixelArea</a></li>
+            
                 <li data-name="cl.Bubble#getProps"><a href="cl.Bubble.html#getProps">getProps</a></li>
             
                 <li data-name="cl.Bubble#hitTest"><a href="cl.Bubble.html#hitTest">hitTest</a></li>
@@ -740,6 +742,8 @@
             
                 <li data-name="cl.Line#getId"><a href="cl.Line.html#getId">getId</a></li>
             
+                <li data-name="cl.Line#getPixelArea"><a href="cl.Line.html#getPixelArea">getPixelArea</a></li>
+            
                 <li data-name="cl.Line#getProps"><a href="cl.Line.html#getProps">getProps</a></li>
             
                 <li data-name="cl.Line#hitTest"><a href="cl.Line.html#hitTest">hitTest</a></li>
@@ -763,6 +767,10 @@
                 <li data-name="cl.Line#stopAnimation"><a href="cl.Line.html#stopAnimation">stopAnimation</a></li>
             
                 <li data-name="cl.Line#unlink"><a href="cl.Line.html#unlink">unlink</a></li>
+            
+                <li data-name="cl.Line~onAnimationUpdate"><a href="cl.Line.html#~onAnimationUpdate">onAnimationUpdate</a></li>
+            
+                <li data-name="cl.Line~startAnimation"><a href="cl.Line.html#~startAnimation">startAnimation</a></li>
             
             </ul>
             <ul class="events itemMembers">
@@ -806,6 +814,8 @@
                 <li data-name="cl.Rect#getCenterY"><a href="cl.Rect.html#getCenterY">getCenterY</a></li>
             
                 <li data-name="cl.Rect#getId"><a href="cl.Rect.html#getId">getId</a></li>
+            
+                <li data-name="cl.Rect#getPixelArea"><a href="cl.Rect.html#getPixelArea">getPixelArea</a></li>
             
                 <li data-name="cl.Rect#getProps"><a href="cl.Rect.html#getProps">getProps</a></li>
             
@@ -928,6 +938,8 @@
                 <li data-name="cl.Shape#getCenterY"><a href="cl.Shape.html#getCenterY">getCenterY</a></li>
             
                 <li data-name="cl.Shape#getId"><a href="cl.Shape.html#getId">getId</a></li>
+            
+                <li data-name="cl.Shape#getPixelArea"><a href="cl.Shape.html#getPixelArea">getPixelArea</a></li>
             
                 <li data-name="cl.Shape#getProps"><a href="cl.Shape.html#getProps">getProps</a></li>
             
@@ -1077,7 +1089,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 112
+            axis/axis.js, line 136
         </div>
         
     </div>
@@ -1722,6 +1734,78 @@
         </tr>
 	
 	
+	
+        <tr>
+            
+                <td class="name"><code>first</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Is first tick visible or not</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>last</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Is last tick visible or not</td>
+        </tr>
+	
+	
 	</tbody>
 </table>
             </td>
@@ -1989,6 +2073,78 @@
                     
                 
                 Small ticks type. "line" or "dot"</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>first</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Is first tick visible or not</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>last</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Is last tick visible or not</td>
         </tr>
 	
 	
@@ -3783,7 +3939,7 @@
         
 
     
-    <pre class="prettyprint"><code>// All property changes can be made in chain style. After that call "apply"// "apply" can be called multiple times, but actual redraw would be called onceaxis   .setMin(0)   .setColor("#AAFFEE")   .setLineWidth(2)   .apply();// Properties can be changed via options too, like thisaxis.options.min = 0;axis.style.color = "#AAFFEE";axis.style.lineWidth = 2;axis.apply();// Convert screen coordinate to axis coordinatevar scr = axis.toAxis(value);// Convert axis coordinate to screen coordinatevar ac = axis.toScreen(value);// Change axis title, align it left and make boldaxis   .setName("My custom title")   .setTitleAlign("left")   .setTitleStyle("bold")   .apply();</code></pre>
+    <pre class="prettyprint"><code>// All property changes can be made in chain style. After that call "apply"// "apply" can be called multiple times, but actual redraw would be called onceaxis   .setMin(0)   .setColor("#AAFFEE")   .setLineWidth(2)   .apply();// Properties can be changed via options too, like thisaxis.options.min = 0;axis.style.color = "#AAFFEE";axis.style.lineWidth = 2;axis.apply();// Convert screen coordinate to axis coordinatevar scr = axis.toAxis(value);// Convert axis coordinate to screen coordinatevar ac = axis.toScreen(value);// Change axis title, align it left and make boldaxis   .setName("My custom title")   .setTitleAlign("left")   .setTitleStyle("bold")   .apply();// Add cells before and after axis and disable labels and ticks on this cellsvar chart = new cl.Chart({    xAxis: {        min: -10,        max: 110,        ticks: {            big: {                interval: 10,                first: false,                last: false            },            small: {                interval: 5,                first: false,                last: false            }        },    },});</code></pre>
     
 
     
@@ -3818,7 +3974,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 812
+            axis/axis.js, line 847
         </div>
         
     </div>
@@ -3918,7 +4074,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 843
+            axis/axis.js, line 878
         </div>
         
     </div>
@@ -3989,7 +4145,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 419
+            axis/axis.js, line 447
         </div>
         
     </div>
@@ -4089,7 +4245,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 835
+            axis/axis.js, line 870
         </div>
         
     </div>
@@ -4189,7 +4345,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 428
+            axis/axis.js, line 456
         </div>
         
     </div>
@@ -4289,7 +4445,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 472
+            axis/axis.js, line 500
         </div>
         
     </div>
@@ -4389,7 +4545,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 481
+            axis/axis.js, line 509
         </div>
         
     </div>
@@ -4489,7 +4645,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 523
+            axis/axis.js, line 551
         </div>
         
     </div>
@@ -4589,7 +4745,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 463
+            axis/axis.js, line 491
         </div>
         
     </div>
@@ -4689,7 +4845,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 248
+            axis/axis.js, line 276
         </div>
         
     </div>
@@ -4789,7 +4945,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 268
+            axis/axis.js, line 296
         </div>
         
     </div>
@@ -4889,7 +5045,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 388
+            axis/axis.js, line 416
         </div>
         
     </div>
@@ -4989,7 +5145,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 328
+            axis/axis.js, line 356
         </div>
         
     </div>
@@ -5089,7 +5245,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 348
+            axis/axis.js, line 376
         </div>
         
     </div>
@@ -5189,7 +5345,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 368
+            axis/axis.js, line 396
         </div>
         
     </div>
@@ -5289,7 +5445,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 308
+            axis/axis.js, line 336
         </div>
         
     </div>
@@ -5389,7 +5545,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 288
+            axis/axis.js, line 316
         </div>
         
     </div>
@@ -5489,7 +5645,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 532
+            axis/axis.js, line 560
         </div>
         
     </div>
@@ -5605,7 +5761,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 409
+            axis/axis.js, line 437
         </div>
         
     </div>
@@ -5750,7 +5906,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 825
+            axis/axis.js, line 860
         </div>
         
     </div>
@@ -5903,7 +6059,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 441
+            axis/axis.js, line 469
         </div>
         
     </div>
@@ -6042,7 +6198,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 491
+            axis/axis.js, line 519
         </div>
         
     </div>
@@ -6187,7 +6343,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 502
+            axis/axis.js, line 530
         </div>
         
     </div>
@@ -6332,7 +6488,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 513
+            axis/axis.js, line 541
         </div>
         
     </div>
@@ -6477,7 +6633,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 453
+            axis/axis.js, line 481
         </div>
         
     </div>
@@ -6622,7 +6778,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 258
+            axis/axis.js, line 286
         </div>
         
     </div>
@@ -6767,7 +6923,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 278
+            axis/axis.js, line 306
         </div>
         
     </div>
@@ -6912,7 +7068,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 398
+            axis/axis.js, line 426
         </div>
         
     </div>
@@ -7057,7 +7213,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 338
+            axis/axis.js, line 366
         </div>
         
     </div>
@@ -7202,7 +7358,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 358
+            axis/axis.js, line 386
         </div>
         
     </div>
@@ -7347,7 +7503,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 378
+            axis/axis.js, line 406
         </div>
         
     </div>
@@ -7492,7 +7648,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 318
+            axis/axis.js, line 346
         </div>
         
     </div>
@@ -7637,7 +7793,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 298
+            axis/axis.js, line 326
         </div>
         
     </div>
@@ -7737,7 +7893,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 777
+            axis/axis.js, line 812
         </div>
         
     </div>
@@ -7882,7 +8038,7 @@
     
         
         <div class="tag-source">
-            axis/axis.js, line 795
+            axis/axis.js, line 830
         </div>
         
     </div>
@@ -8033,7 +8189,7 @@
         
 
         <footer>
-            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Mon Sep 21 2015 15:48:46 GMT+0300 (Финляндия (лето))
+            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Mon Sep 21 2015 18:15:12 GMT+0300 (Финляндия (лето))
         </footer>
     </div>
 </div>

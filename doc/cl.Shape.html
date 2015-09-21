@@ -387,6 +387,8 @@
             
                 <li data-name="cl.Bubble#getId"><a href="cl.Bubble.html#getId">getId</a></li>
             
+                <li data-name="cl.Bubble#getPixelArea"><a href="cl.Bubble.html#getPixelArea">getPixelArea</a></li>
+            
                 <li data-name="cl.Bubble#getProps"><a href="cl.Bubble.html#getProps">getProps</a></li>
             
                 <li data-name="cl.Bubble#hitTest"><a href="cl.Bubble.html#hitTest">hitTest</a></li>
@@ -740,6 +742,8 @@
             
                 <li data-name="cl.Line#getId"><a href="cl.Line.html#getId">getId</a></li>
             
+                <li data-name="cl.Line#getPixelArea"><a href="cl.Line.html#getPixelArea">getPixelArea</a></li>
+            
                 <li data-name="cl.Line#getProps"><a href="cl.Line.html#getProps">getProps</a></li>
             
                 <li data-name="cl.Line#hitTest"><a href="cl.Line.html#hitTest">hitTest</a></li>
@@ -763,6 +767,10 @@
                 <li data-name="cl.Line#stopAnimation"><a href="cl.Line.html#stopAnimation">stopAnimation</a></li>
             
                 <li data-name="cl.Line#unlink"><a href="cl.Line.html#unlink">unlink</a></li>
+            
+                <li data-name="cl.Line~onAnimationUpdate"><a href="cl.Line.html#~onAnimationUpdate">onAnimationUpdate</a></li>
+            
+                <li data-name="cl.Line~startAnimation"><a href="cl.Line.html#~startAnimation">startAnimation</a></li>
             
             </ul>
             <ul class="events itemMembers">
@@ -806,6 +814,8 @@
                 <li data-name="cl.Rect#getCenterY"><a href="cl.Rect.html#getCenterY">getCenterY</a></li>
             
                 <li data-name="cl.Rect#getId"><a href="cl.Rect.html#getId">getId</a></li>
+            
+                <li data-name="cl.Rect#getPixelArea"><a href="cl.Rect.html#getPixelArea">getPixelArea</a></li>
             
                 <li data-name="cl.Rect#getProps"><a href="cl.Rect.html#getProps">getProps</a></li>
             
@@ -928,6 +938,8 @@
                 <li data-name="cl.Shape#getCenterY"><a href="cl.Shape.html#getCenterY">getCenterY</a></li>
             
                 <li data-name="cl.Shape#getId"><a href="cl.Shape.html#getId">getId</a></li>
+            
+                <li data-name="cl.Shape#getPixelArea"><a href="cl.Shape.html#getPixelArea">getPixelArea</a></li>
             
                 <li data-name="cl.Shape#getProps"><a href="cl.Shape.html#getProps">getProps</a></li>
             
@@ -1935,7 +1947,7 @@
     
         
         <div class="tag-source">
-            shapes/shape.js, line 349
+            shapes/shape.js, line 357
         </div>
         
     </div>
@@ -2006,7 +2018,7 @@
     
         
         <div class="tag-source">
-            shapes/shape.js, line 319
+            shapes/shape.js, line 327
         </div>
         
     </div>
@@ -2151,7 +2163,7 @@
     
         
         <div class="tag-source">
-            shapes/shape.js, line 389
+            shapes/shape.js, line 397
         </div>
         
     </div>
@@ -2222,7 +2234,7 @@
     
         
         <div class="tag-source">
-            shapes/shape.js, line 105
+            shapes/shape.js, line 113
         </div>
         
     </div>
@@ -2322,7 +2334,7 @@
     
         
         <div class="tag-source">
-            shapes/shape.js, line 79
+            shapes/shape.js, line 87
         </div>
         
     </div>
@@ -2422,7 +2434,7 @@
     
         
         <div class="tag-source">
-            shapes/shape.js, line 87
+            shapes/shape.js, line 95
         </div>
         
     </div>
@@ -2522,7 +2534,7 @@
     
         
         <div class="tag-source">
-            shapes/shape.js, line 271
+            shapes/shape.js, line 279
         </div>
         
     </div>
@@ -2615,6 +2627,106 @@
             
 <dt>
     <div class="nameContainer">
+        <h4 class="name" id="getPixelArea">
+            
+            getPixelArea<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{number}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            shapes/shape.js, line 79
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Returns shape area in pixels. Function used in shape selection to determine smallest shape
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        number
+                        
+                    
+            </td>
+            <td class="description last">Shape area</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
         <h4 class="name" id="getProps">
             
             getProps<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{object}</span>
@@ -2622,7 +2734,7 @@
     
         
         <div class="tag-source">
-            shapes/shape.js, line 310
+            shapes/shape.js, line 318
         </div>
         
     </div>
@@ -2722,7 +2834,7 @@
     
         
         <div class="tag-source">
-            shapes/shape.js, line 127
+            shapes/shape.js, line 135
         </div>
         
     </div>
@@ -2890,7 +3002,7 @@
     
         
         <div class="tag-source">
-            shapes/shape.js, line 117
+            shapes/shape.js, line 125
         </div>
         
     </div>
@@ -3104,7 +3216,7 @@
     
         
         <div class="tag-source">
-            shapes/shape.js, line 135
+            shapes/shape.js, line 143
         </div>
         
     </div>
@@ -3220,7 +3332,7 @@
     
         
         <div class="tag-source">
-            shapes/shape.js, line 175
+            shapes/shape.js, line 183
         </div>
         
     </div>
@@ -3294,7 +3406,7 @@
     
         
         <div class="tag-source">
-            shapes/shape.js, line 96
+            shapes/shape.js, line 104
         </div>
         
     </div>
@@ -3433,7 +3545,7 @@
     
         
         <div class="tag-source">
-            shapes/shape.js, line 358
+            shapes/shape.js, line 366
         </div>
         
     </div>
@@ -3572,7 +3684,7 @@
     
         
         <div class="tag-source">
-            shapes/shape.js, line 368
+            shapes/shape.js, line 376
         </div>
         
     </div>
@@ -3767,7 +3879,7 @@
     
         
         <div class="tag-source">
-            shapes/shape.js, line 282
+            shapes/shape.js, line 290
         </div>
         
     </div>
@@ -3995,7 +4107,7 @@
     
         
         <div class="tag-source">
-            shapes/shape.js, line 182
+            shapes/shape.js, line 190
         </div>
         
     </div>
@@ -4066,7 +4178,7 @@
     
         
         <div class="tag-source">
-            shapes/shape.js, line 376
+            shapes/shape.js, line 384
         </div>
         
     </div>
@@ -4197,7 +4309,7 @@
     
         
         <div class="tag-source">
-            shapes/shape.js, line 157
+            shapes/shape.js, line 165
         </div>
         
     </div>
@@ -4319,7 +4431,7 @@
         
 
         <footer>
-            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Mon Sep 21 2015 15:48:46 GMT+0300 (Финляндия (лето))
+            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Mon Sep 21 2015 18:15:12 GMT+0300 (Финляндия (лето))
         </footer>
     </div>
 </div>
