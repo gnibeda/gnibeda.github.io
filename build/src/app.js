@@ -34,6 +34,7 @@
                 name: "X axis",
                 min: -10,
                 max: 110,
+                offset: -5,
                 margin:{ start: 40, end: 10},
                 ticks: {
                     big: {
@@ -56,6 +57,7 @@
             yAxis: {
                 min: -10,
                 max: 110,
+                offset: -5,
                 name: "Y axis",
                 margin:{ start: 40, end: 10},
                 ticks: {
