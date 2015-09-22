@@ -257,5 +257,50 @@ function testEvents() {
             expect(ev.target.length).equal(2, "Wrong selected shapes count");
         });
 
+        it('should fire drag start event', function() {
+            chart.selector.enableDrag();
+            chart.shapes.clear();
+            chart.addBubbles([{id: 11, x: 50, y: 50, size: 30}]);
+
+            var ev;
+            function onDragStart(e) {
+                ev = cl.Utils.merge({}, e);
+                chart.removeEventListener(cl.Event.dragStart, onDragStart);
+            }
+
+            chart.addEventListener(cl.Event.dragStart, onDragStart);
+            fireEvent("mousemove", 400, 300, chart);
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mousemove", 404, 304, chart);
+            fireEvent("mousemove", 100, 100, chart);
+            assert.ok(ev, "Event not fired");
+            expect(ev.target).to.exists;
+            expect(ev.target.length).equal(1, "Wrong shape count");
+            expect(ev.target[0].props.id).equal(11, "Wrong shape id");
+
+            fireEvent("mouseup", 100, 100, chart);
+        });
+
+        it('should fire drag end event', function() {
+            var ev;
+            function onDragEnd(e) {
+                ev = cl.Utils.merge({}, e);
+                chart.removeEventListener(cl.Event.dragEnd, onDragEnd);
+            }
+
+            chart.addEventListener(cl.Event.dragStart, onDragEnd);
+            fireEvent("mousemove", 100, 100, chart);
+            fireEvent("mousedown", 100, 100, chart);
+            fireEvent("mousemove", 104, 104, chart);
+            fireEvent("mousemove", 300, 400, chart);
+            fireEvent("mouseup", 300, 400, chart);
+
+            assert.ok(ev, "Event not fired");
+            expect(ev.target).to.exists;
+            expect(ev.target.length).equal(1, "Wrong shape count");
+            expect(ev.target[0].props.id).equal(11, "Wrong shape id");
+        });
+
+
     })
 }

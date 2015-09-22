@@ -33,7 +33,7 @@ describe('Chart library', function(){
     canvasTest();
     chartTest();
     axisTest();
-    testShapes();
     testEvents();
     testSelector();
+    testShapes();
 });
