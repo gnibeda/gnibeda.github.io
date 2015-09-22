@@ -99,9 +99,16 @@
         var i;
 
         bubbles = [
-            //{id: 1, x: 10, y: 10, size: 20, opacity: 1},
-            //{id: 2, x: 80, y: 10, size: 20, lineDash: [2, 2], opacity: 1 },
-            {id: 3, x: 50, y: 50, size: 40, opacity: 1, zIndex: 2 }
+            //{id: 1, x: 10, y: 10, size: 20},
+            //{id: 2, x: 80, y: 10, size: 20, lineDash: [2, 2] },
+            {id: 3, x: 50, y: 50, size: 40, borderColor: "black", border: 10,
+                hover: {
+                    color: "green",
+                    opacity: 1,
+                    border: 2,
+                    offset: 0
+                }
+            }
         ];
 
         /*bubbles = [
@@ -111,15 +118,18 @@
         ];*/
 
         chart.addBubbles(bubbles);
-        ch.addRects([{id: 0, x: 40, y: 30, x2: 60, y2: 70, color: 'green', links:[1, 2], opacity: 1, zIndex: 0}], true);
-        //ch.addRects([{id: 0, x: 30, y: 90, x2: 70, y2: 10, color: 'green', links:[1, 2]}], true);
-        ch.addLines([{id: -1, x: 30, y: 30, x2: 70, y2: 70, border: 3, color: 'blue', links:[1], size: 6, size2: 4, opacity: 1, zIndex: 1}], true);
+        //ch.addRects([{id: 0, x: 40, y: 30, x2: 60, y2: 70, color: 'green', links:[1, 2], borderColor: "red", border: 10}], true);
+        //ch.addLines([{id: -1, x: 30, y: 30, x2: 70, y2: 70, border: 3, color: 'blue', links:[1], size: 6, size2: 4 }], true);
 
-        chart.addEventListener(cl.Event.click, function(e){
-            var txt = "";
-            if (e.target) txt = JSON.stringify(e.target.getProps());
-            document.getElementById("txt").innerHTML = txt;
+        chart.addEventListener(cl.Event.shapeOver, function(e){
+            //var txt = "";
+            //if (e.target) txt = JSON.stringify(e.target.getProps());
+            //document.getElementById("txt").innerHTML = txt;
+            //e.target.setProps({border: 0});
         });
+
+        ch.selector.enableDrag();
+        ch.selector.enableMultiselect();
     }
 })();
 
