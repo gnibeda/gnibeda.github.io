@@ -2,7 +2,8 @@ function axisTest() {
     'use strict';
 
     var chart;
-
+    // TODO: write test for "before" and "after"
+    // TODO: write test for "first" and "last"
     describe("cl.Axis", function() {
 
         before(function() {

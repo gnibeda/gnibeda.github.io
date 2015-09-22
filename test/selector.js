@@ -3,6 +3,7 @@ function testSelector() {
     describe("cl.Selector", function() {
 
         var chart;
+        // TODO: write test for custom hover
 
         before(function() {
             chart = new cl.Chart({
@@ -186,6 +187,131 @@ function testSelector() {
             fireEvent("mouseup", 20, 20, chart);
             expect(chart.shapes.get(1).props.x).equal(0, "Wrong shape X coordinate");
             expect(chart.shapes.get(1).props.y).equal(100, "Wrong shape Y coordinate");
+        });
+        // TODO: remove shape. should be removed from selection
+
+        it("should remove shape from selection after shapes was removed", function() {
+            expect(chart.selector.selection.length).equal(1, "Nothing was selected");
+            chart.shapes.remove(chart.selector.selection[0]);
+            expect(chart.selector.selection.length).equal(0, "Selection was not cleared");
+        });
+
+        it("should clear selection after shapes was cleared", function() {
+            chart.addBubbles([{id: 1, x: 50, y: 50, size: 20}]);
+            fireEvent("mousemove", 400, 300, chart);
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mouseup", 400, 300, chart);
+            expect(chart.selector.selection.length).equal(1, "Nothing was selected");
+            chart.shapes.clear();
+            expect(chart.selector.selection.length).equal(0, "Selection was not cleared");
+        });
+
+        it("should select rectangle", function(){
+            chart.addRects([{id: 11, x: 40, y: 40, x2: 60, y2: 60}]);
+            fireEvent("mousemove", 400, 300, chart);
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mouseup", 400, 300, chart);
+
+            expect(chart.selector.selection.length).equal(1, "Rect was not selected");
+            expect(chart.selector.selection[0]).to.exists;
+            expect(chart.selector.selection[0].props.id).equal(11, "Wrong shape id");
+        });
+
+        it("should select line", function(){
+            chart.shapes.clear();
+            chart.addLines([{id: 11, x: 40, y: 40, x2: 60, y2: 60}]);
+            fireEvent("mousemove", 400, 300, chart);
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mouseup", 400, 300, chart);
+
+            expect(chart.selector.selection.length).equal(1, "Line was not selected");
+            expect(chart.selector.selection[0]).to.exists;
+            expect(chart.selector.selection[0].props.id).equal(11, "Wrong shape id");
+        });
+
+        it("should select line by clicking in the range of line selection threshold", function(){
+            chart.selector.deselect();
+            fireEvent("mousemove", 405, 300, chart);
+            fireEvent("mousedown", 405, 300, chart);
+            fireEvent("mouseup", 405, 300, chart);
+
+            expect(chart.selector.selection.length).equal(1, "Line was not selected");
+            expect(chart.selector.selection[0]).to.exists;
+            expect(chart.selector.selection[0].props.id).equal(11, "Wrong shape id");
+        });
+
+        it("should don't select line by clicking out the range of line selection threshold", function(){
+            chart.selector.deselect();
+            fireEvent("mousemove", 406, 300, chart);
+            fireEvent("mousedown", 406, 300, chart);
+            fireEvent("mouseup", 406, 300, chart);
+
+            expect(chart.selector.selection.length).equal(1, "Line was not selected");
+            expect(chart.selector.selection[0]).to.exists;
+            expect(chart.selector.selection[0].props.id).equal(11, "Wrong shape id");
+        });
+
+        it("should don't select line with increased selection threshold", function(){
+            cl.Line.HOVER_THRESHOLD = 100;
+            chart.selector.deselect();
+            fireEvent("mousemove", 410, 300, chart);
+            fireEvent("mousedown", 410, 300, chart);
+            fireEvent("mouseup", 410, 300, chart);
+
+            expect(chart.selector.selection.length).equal(1, "Line was not selected");
+            expect(chart.selector.selection[0]).to.exists;
+            expect(chart.selector.selection[0].props.id).equal(11, "Wrong shape id");
+            cl.Line.HOVER_THRESHOLD = 25;
+        });
+
+        it("should hover shapes depending on shape size", function(){
+            chart.shapes.clear();
+            chart.addBubbles([{id: 1, x: 50, y: 50, size: 20}, {id: 2, x: 50, y: 50, size: 30},{id: 3, x: 50, y: 50, size: 40}]);
+            chart.addRects([{id: 4, x: 10, y: 10, x2: 90, y2: 90}]);
+            chart.addLines([{id: 5, x: 30, y: 50, x2: 80, y2: 50}]);
+
+            fireEvent("mousemove", 400, 303, chart);
+            expect(chart.selector.hover).to.exists;
+            expect(chart.selector.hover.props.id).equal(5, "Wrong shape hovered. Should be a line");
+
+            fireEvent("mousemove", 400, 315, chart);
+            expect(chart.selector.hover).to.exists;
+            expect(chart.selector.hover.props.id).equal(1, "Wrong shape hovered. Should be a smallest bubble");
+
+            fireEvent("mousemove", 400, 325, chart);
+            expect(chart.selector.hover).to.exists;
+            expect(chart.selector.hover.props.id).equal(2, "Wrong shape hovered. Should be a middle bubble");
+
+            fireEvent("mousemove", 400, 335, chart);
+            expect(chart.selector.hover).to.exists;
+            expect(chart.selector.hover.props.id).equal(3, "Wrong shape hovered. Should be a bigger bubble");
+
+            fireEvent("mousemove", 400, 345, chart);
+            expect(chart.selector.hover).to.exists;
+            expect(chart.selector.hover.props.id).equal(4, "Wrong shape hovered. Should be a rectangle");
+
+            chart.shapes.clear();
+        });
+
+        it("should support custom hover", function(done){
+            chart.addBubbles([{id: 1, x: 50, y: 50, size: 20, hover:{
+                color: "yellow",
+                border: 20,
+                opacity: 1
+            }}]);
+            fireEvent("mousemove", 400, 300, chart);
+
+            setTimeout(function(){
+                try {
+                    var pixel = chart.screen.ctx.getImageData(400, 300 - 22, 1, 1).data;
+                    expect(pixel).to.deep.equal({"0": 255, "1": 255, "2": 0, "3": 255}, "Wrong color of top shape");
+                }
+                catch (e) {
+                    done(e);
+                }
+                chart.shapes.options.zIndexUsage = false;
+                done();
+            }, 100);
         });
 
         it('should disable drag', function() {

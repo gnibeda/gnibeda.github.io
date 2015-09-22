@@ -19,6 +19,11 @@
 
     function init() {
 
+        /*var chart = new cl.Chart({
+            element: document.getElementById("testDiv"),
+        });*/
+
+
         var chart = new cl.Chart({
             element: document.getElementById("testDiv"),
             preloader: document.getElementById("preloader"),
@@ -99,16 +104,9 @@
         var i;
 
         bubbles = [
-            //{id: 1, x: 10, y: 10, size: 20},
-            //{id: 2, x: 80, y: 10, size: 20, lineDash: [2, 2] },
-            {id: 3, x: 50, y: 50, size: 40, borderColor: "black", border: 10,
-                hover: {
-                    color: "green",
-                    opacity: 1,
-                    border: 2,
-                    offset: 0
-                }
-            }
+            {id: 1, x: 10, y: 10, size: 20},
+            {id: 2, x: 80, y: 10, size: 20, lineDash: [2, 2] },
+            {id: 3, x: 50, y: 50, size: 40, border: 10 }
         ];
 
         /*bubbles = [
@@ -119,17 +117,19 @@
 
         chart.addBubbles(bubbles);
         //ch.addRects([{id: 0, x: 40, y: 30, x2: 60, y2: 70, color: 'green', links:[1, 2], borderColor: "red", border: 10}], true);
-        //ch.addLines([{id: -1, x: 30, y: 30, x2: 70, y2: 70, border: 3, color: 'blue', links:[1], size: 6, size2: 4 }], true);
+        //ch.addLines([{id: -1, x: 30, y: 30, x2: 70, y2: 70, border: 3, color: 'blue', links:[1], size: 20, size2: 40 }], true);
 
-        chart.addEventListener(cl.Event.shapeOver, function(e){
-            //var txt = "";
-            //if (e.target) txt = JSON.stringify(e.target.getProps());
-            //document.getElementById("txt").innerHTML = txt;
-            //e.target.setProps({border: 0});
+        chart.addEventListener(cl.Event.click, function(e){
+            console.log("clicked");
         });
 
+        /*
+        chart.addEventListener(cl.Event.mouseUp, function(e){
+            console.log(2, e.target);
+        });*/
+
         ch.selector.enableDrag();
-        ch.selector.enableMultiselect();
+        //ch.selector.enableMultiselect();
     }
 })();
 

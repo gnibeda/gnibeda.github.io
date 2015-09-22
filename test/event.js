@@ -46,7 +46,9 @@ function testEvents() {
             }
 
             chart.addEventListener(cl.Event.click, onClick);
-            fireEvent("click", 400, 300, chart);
+            fireEvent("mousemove", 400, 300, chart);
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mouseup", 400, 300, chart);
 
             assert.ok(ev, "Event was not fired");
             var found = ev.target !== undefined && ev.target.props !== undefined && ev.target.props.id === 1;
@@ -113,8 +115,6 @@ function testEvents() {
             expect(count).equal(1, "Event was fired twice");
         });
 
-
-
         it('should fire mouse down event', function() {
             var ev;
             function onEvent(e) {
@@ -158,6 +158,103 @@ function testEvents() {
             assert.ok(ev, "Event not fired");
             expect(ev.x).equal(50, "Wrong x coordinate");
             expect(ev.y).equal(50, "Wrong y coordinate");
+        });
+
+        it('should fire event on deselect', function() {
+            fireEvent("mousemove", 400, 300, chart);
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mouseup", 400, 300, chart);
+            expect(chart.selector.selection.length).equal(1, "Nothing was selected");
+            var ev;
+            function onDeselect(e) {
+                ev = cl.Utils.merge({}, e);
+                chart.removeEventListener(cl.Event.deselect, onDeselect);
+            }
+
+            chart.addEventListener(cl.Event.deselect, onDeselect);
+            chart.selector.deselect();
+
+            assert.ok(ev, "Event not fired");
+            var found = ev.target !== undefined && ev.target.length !== 0 && ev.target[0].props !== undefined && ev.target[0].props.id === 1;
+            assert.ok(found, "Shape was not found");
+        });
+
+        it('should return shape in select event', function() {
+            chart.selector.deselect();
+            var ev;
+            function onSelect(e) {
+                ev = cl.Utils.merge({}, e);
+                chart.removeEventListener(cl.Event.select, onSelect);
+            }
+
+            chart.addEventListener(cl.Event.select, onSelect);
+            fireEvent("mousemove", 400, 300, chart);
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mouseup", 400, 300, chart);
+
+            assert.ok(ev, "Event not fired");
+            var found = ev.target !== undefined && ev.target.length !== 0 && ev.target[0].props !== undefined && ev.target[0].props.id === 1;
+            assert.ok(found, "Shape was not found");
+        });
+
+        it('should return shape in deselect event', function() {
+            var ev;
+            function onDeselect(e) {
+                ev = cl.Utils.merge({}, e);
+                chart.removeEventListener(cl.Event.deselect, onDeselect);
+            }
+
+            chart.addEventListener(cl.Event.deselect, onDeselect);
+            fireEvent("mousemove", 0, 0, chart);
+            fireEvent("mousemove", 400, 300, chart);
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mouseup", 400, 300, chart);
+
+            assert.ok(ev, "Event not fired");
+            var found = ev.target !== undefined && ev.target.length !== 0 && ev.target[0].props !== undefined && ev.target[0].props.id === 1;
+            assert.ok(found, "Shape was not found");
+        });
+
+        it('should return shapes after rectangular selection', function() {
+            chart.selector.deselect();
+            chart.selector.enableMultiselect();
+            chart.addBubbles([{id: 2, x: 10, y: 50, size: 30}]);
+
+            var ev;
+            function onSelect(e) {
+                ev = cl.Utils.merge({}, e);
+                chart.removeEventListener(cl.Event.select, onSelect);
+            }
+
+            chart.addEventListener(cl.Event.select, onSelect);
+            fireEvent("mousemove", 0, 300, chart);
+            fireEvent("mousedown", 0, 300, chart);
+            fireEvent("mousemove", 700, 310, chart);
+            fireEvent("mouseup", 700, 310, chart);
+
+            assert.ok(ev, "Event not fired");
+            var found = ev.target !== undefined;
+            assert.ok(found, "Shape was not found");
+            expect(ev.target.length).equal(2, "Wrong selected shapes count");
+        });
+
+        it('should return multiple shapes after rectangular deselection', function() {
+            var ev;
+            function onDeselect(e) {
+                ev = cl.Utils.merge({}, e);
+                chart.removeEventListener(cl.Event.deselect, onDeselect);
+            }
+
+            chart.addEventListener(cl.Event.deselect, onDeselect);
+            fireEvent("mousemove", 0, 0, chart);
+            fireEvent("mousedown", 0, 0, chart);
+            fireEvent("mousemove", 40, 40, chart);
+            fireEvent("mouseup", 40, 40, chart);
+
+            assert.ok(ev, "Event not fired");
+            var found = ev.target !== undefined;
+            assert.ok(found, "Shape was not found");
+            expect(ev.target.length).equal(2, "Wrong selected shapes count");
         });
 
     })
