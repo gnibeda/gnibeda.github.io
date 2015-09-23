@@ -106,7 +106,7 @@
         bubbles = [
             {id: 1, x: 10, y: 10, size: 20},
             {id: 2, x: 80, y: 10, size: 20, lineDash: [2, 2] },
-            {id: 3, x: 50, y: 50, size: 40, border: 10 }
+            {id: 3, x: 50, y: 50, size: 40, border: 10, borderColor: "yellow" }
         ];
 
         /*bubbles = [

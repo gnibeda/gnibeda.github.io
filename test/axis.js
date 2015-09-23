@@ -2,8 +2,7 @@ function axisTest() {
     'use strict';
 
     var chart;
-    // TODO: write test for "before" and "after"
-    // TODO: write test for "first" and "last"
+
     describe("cl.Axis", function() {
 
         before(function() {
@@ -44,12 +43,12 @@ function axisTest() {
 
         it('should deny X axis removing', function(){
             expect(function(){chart.axis.remove(0)}).to.throw("Can not delete base 'x' axis");
-            expect(chart.axis.shapes.length).to.equal(3);
+            expect(chart.axis.count).to.equal(3);
         });
 
         it('should deny Y axis removing', function(){
             expect(function(){chart.axis.remove(1)}).to.throw("Can not delete base 'y' axis");
-            expect(chart.axis.shapes.length).to.equal(3);
+            expect(chart.axis.count).to.equal(3);
         });
 
         it('should set axis min', function(){
@@ -183,6 +182,184 @@ function axisTest() {
             }, 10);
         });
 
+        it('should remove axis',function() {
+            expect(chart.axis.count).equal(3, "Wrong axis count");
+            chart.axis.remove(chart.axis.get(2));
+            expect(chart.axis.count).equal(2, "Wrong axis count");
+        });
+
+        it('should hide titles', function(done){
+            chart.yAxis.setMin(-0);
+            chart.yAxis.setMax(20);
+            chart.yAxis.setTickIntervalSmall(5);
+            chart.yAxis.setTickInterval(10);
+            //chart.yAxis.options.labels.big.size = 0;
+            //chart.yAxis.options.labels.small.size = 0;
+            chart.yAxis.options.title.size = 0;
+            chart.xAxis.options.title.size = 0;
+            chart.yAxis.apply();
+            chart.xAxis.apply();
+
+            var labels = [];
+            var oldFunc = chart.axis.surface.drawText;
+            chart.axis.surface.drawText = function(text, x, y, size, align, valign, fontName, style, width) {
+                labels.push(text);
+                oldFunc.call(chart.screen, text, x, y, size, align, valign, fontName, style, width);
+            };
+
+            setTimeout(function() {
+                chart.axis.surface.drawText = oldFunc;
+                try {
+                    expect(labels).to.deep.equal(["-10", "-5", "0", "5", "10", "15", "20", "0", "5", "10", "15", "20"], "Wrong labels");
+                } catch (e) { done(e) }
+                done();
+            }, 100);
+        });
+
+
+        it('should hide big labels', function(done){
+            chart.yAxis.options.labels.big.size = 0;
+            chart.xAxis.options.labels.big.size = 0;
+            chart.yAxis.apply();
+            chart.xAxis.apply();
+
+            var labels = [];
+            var oldFunc = chart.axis.surface.drawText;
+            chart.axis.surface.drawText = function(text, x, y, size, align, valign, fontName, style, width) {
+                labels.push(text);
+                oldFunc.call(chart.screen, text, x, y, size, align, valign, fontName, style, width);
+            };
+
+            setTimeout(function() {
+                chart.axis.surface.drawText = oldFunc;
+                try {
+                    expect(labels).to.deep.equal(["-5", "5", "15", "5", "15"], "Wrong labels");
+                } catch (e) { done(e) }
+                done();
+            }, 100);
+        });
+
+        it('should hide small labels', function(done){
+            chart.yAxis.options.labels.small.size = 0;
+            chart.xAxis.options.labels.small.size = 0;
+            chart.yAxis.apply();
+            chart.xAxis.apply();
+
+            var labels = [];
+            var oldFunc = chart.axis.surface.drawText;
+            chart.axis.surface.drawText = function(text, x, y, size, align, valign, fontName, style, width) {
+                labels.push(text);
+                oldFunc.call(chart.screen, text, x, y, size, align, valign, fontName, style, width);
+            };
+
+            setTimeout(function() {
+                chart.axis.surface.drawText = oldFunc;
+                try {
+                    expect(labels).to.deep.equal([], "Wrong labels");
+                } catch (e) { done(e) }
+                done();
+            }, 100);
+        });
+
+        it('should support before and after for big labels', function(done){
+            chart.yAxis.options.labels.big.size = 12;
+            chart.yAxis.options.labels.big.before = "$";
+            chart.yAxis.options.labels.big.after = "%";
+            chart.xAxis.options.labels.big.size = 12;
+            chart.xAxis.options.labels.big.before = "$";
+            chart.xAxis.options.labels.big.after = "%";
+            chart.yAxis.apply();
+            chart.xAxis.apply();
+
+            var labels = [];
+            var oldFunc = chart.axis.surface.drawText;
+            chart.axis.surface.drawText = function(text, x, y, size, align, valign, fontName, style, width) {
+                labels.push(text);
+                oldFunc.call(chart.screen, text, x, y, size, align, valign, fontName, style, width);
+            };
+
+            setTimeout(function() {
+                chart.axis.surface.drawText = oldFunc;
+                try {
+                    expect(labels).to.deep.equal(["$-10%", "$0%", "$10%", "$20%", "$0%", "$10%", "$20%"], "Wrong labels");
+                } catch (e) { done(e) }
+                done();
+            }, 100);
+        });
+
+        it('should support before and after for small labels', function(done){
+            chart.yAxis.options.labels.big.size = 0;
+            chart.yAxis.options.labels.small.size = 12;
+            chart.yAxis.options.labels.small.before = "$";
+            chart.yAxis.options.labels.small.after = "%";
+            chart.xAxis.options.labels.big.size = 0;
+            chart.xAxis.options.labels.small.size = 12;
+            chart.xAxis.options.labels.small.before = "$";
+            chart.xAxis.options.labels.small.after = "%";
+            chart.yAxis.apply();
+            chart.xAxis.apply();
+
+            var labels = [];
+            var oldFunc = chart.axis.surface.drawText;
+            chart.axis.surface.drawText = function(text, x, y, size, align, valign, fontName, style, width) {
+                labels.push(text);
+                oldFunc.call(chart.screen, text, x, y, size, align, valign, fontName, style, width);
+            };
+
+            setTimeout(function() {
+                chart.axis.surface.drawText = oldFunc;
+                try {
+                    expect(labels).to.deep.equal(["$-5%", "$5%", "$15%", "$5%", "$15%"], "Wrong labels");
+                } catch (e) { done(e) }
+                done();
+            }, 100);
+        });
+
+        it('should support first and last for ticks and labels', function(done){
+            chart.yAxis.setMin(-20);
+            chart.yAxis.setMax(20);
+            chart.xAxis.setMin(-20);
+            chart.xAxis.setMax(20);
+            chart.yAxis.options.labels.big.size = 12;
+            chart.yAxis.options.labels.big.before = "";
+            chart.yAxis.options.labels.big.after = "";
+            chart.yAxis.options.labels.small.size = 12;
+            chart.yAxis.options.labels.small.before = "";
+            chart.yAxis.options.labels.small.after = "";
+            chart.xAxis.options.labels.big.size = 12;
+            chart.xAxis.options.labels.big.before = "";
+            chart.xAxis.options.labels.big.after = "";
+            chart.xAxis.options.labels.small.size = 12;
+            chart.xAxis.options.labels.small.before = "";
+            chart.xAxis.options.labels.small.after = "";
+
+            chart.xAxis.options.ticks.big.first = false;
+            chart.xAxis.options.ticks.big.last = false;
+            chart.xAxis.options.ticks.small.first = false;
+            chart.xAxis.options.ticks.small.last = false;
+            chart.yAxis.options.ticks.big.first = false;
+            chart.yAxis.options.ticks.big.last = false;
+            chart.yAxis.options.ticks.small.first = false;
+            chart.yAxis.options.ticks.small.last = false;
+
+            chart.yAxis.apply();
+            chart.xAxis.apply();
+
+            var labels = [];
+            var oldFunc = chart.axis.surface.drawText;
+            chart.axis.surface.drawText = function(text, x, y, size, align, valign, fontName, style, width) {
+                labels.push(text);
+                oldFunc.call(chart.screen, text, x, y, size, align, valign, fontName, style, width);
+            };
+
+            setTimeout(function() {
+                chart.axis.surface.drawText = oldFunc;
+                try {
+                    expect(labels).to.deep.equal(["-10", "-5", "0", "5", "10", "-10", "-5", "0", "5", "10"], "Wrong labels");
+                } catch (e) { done(e) }
+                done();
+            }, 100);
+        });
     });
 
 }

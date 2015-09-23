@@ -2,10 +2,10 @@
 void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=TWEEN||function(){var n=[];return{REVISION:"14",getAll:function(){return n},removeAll:function(){n=[]},add:function(t){n.push(t)},remove:function(t){var r=n.indexOf(t);-1!==r&&n.splice(r,1)},update:function(t){if(0===n.length)return!1;var r=0;for(t=void 0!==t?t:"undefined"!=typeof window&&void 0!==window.performance&&void 0!==window.performance.now?window.performance.now():Date.now();r<n.length;)n[r].update(t)?r++:n.splice(r,1);return!0}}}();TWEEN.Tween=function(n){var t=n,r={},i={},u={},o=1e3,e=0,a=!1,f=!1,c=!1,s=0,h=null,l=TWEEN.Easing.Linear.None,p=TWEEN.Interpolation.Linear,E=[],d=null,v=!1,I=null,w=null,M=null;for(var O in n)r[O]=parseFloat(n[O],10);this.to=function(n,t){return void 0!==t&&(o=t),i=n,this},this.start=function(n){TWEEN.add(this),f=!0,v=!1,h=void 0!==n?n:"undefined"!=typeof window&&void 0!==window.performance&&void 0!==window.performance.now?window.performance.now():Date.now(),h+=s;for(var o in i){if(i[o]instanceof Array){if(0===i[o].length)continue;i[o]=[t[o]].concat(i[o])}r[o]=t[o],r[o]instanceof Array==!1&&(r[o]*=1),u[o]=r[o]||0}return this},this.stop=function(){return f?(TWEEN.remove(this),f=!1,null!==M&&M.call(t),this.stopChainedTweens(),this):this},this.stopChainedTweens=function(){for(var n=0,t=E.length;t>n;n++)E[n].stop()},this.delay=function(n){return s=n,this},this.repeat=function(n){return e=n,this},this.yoyo=function(n){return a=n,this},this.easing=function(n){return l=n,this},this.interpolation=function(n){return p=n,this},this.chain=function(){return E=arguments,this},this.onStart=function(n){return d=n,this},this.onUpdate=function(n){return I=n,this},this.onComplete=function(n){return w=n,this},this.onStop=function(n){return M=n,this},this.update=function(n){var f;if(h>n)return!0;v===!1&&(null!==d&&d.call(t),v=!0);var M=(n-h)/o;M=M>1?1:M;var O=l(M);for(f in i){var m=r[f]||0,N=i[f];N instanceof Array?t[f]=p(N,O):("string"==typeof N&&(N=m+parseFloat(N,10)),"number"==typeof N&&(t[f]=m+(N-m)*O))}if(null!==I&&I.call(t,O),1==M){if(e>0){isFinite(e)&&e--;for(f in u){if("string"==typeof i[f]&&(u[f]=u[f]+parseFloat(i[f],10)),a){var T=u[f];u[f]=i[f],i[f]=T}r[f]=u[f]}return a&&(c=!c),h=n+s,!0}null!==w&&w.call(t);for(var g=0,W=E.length;W>g;g++)E[g].start(n);return!1}return!0}},TWEEN.Easing={Linear:{None:function(n){return n}},Quadratic:{In:function(n){return n*n},Out:function(n){return n*(2-n)},InOut:function(n){return(n*=2)<1?.5*n*n:-.5*(--n*(n-2)-1)}},Cubic:{In:function(n){return n*n*n},Out:function(n){return--n*n*n+1},InOut:function(n){return(n*=2)<1?.5*n*n*n:.5*((n-=2)*n*n+2)}},Quartic:{In:function(n){return n*n*n*n},Out:function(n){return 1- --n*n*n*n},InOut:function(n){return(n*=2)<1?.5*n*n*n*n:-.5*((n-=2)*n*n*n-2)}},Quintic:{In:function(n){return n*n*n*n*n},Out:function(n){return--n*n*n*n*n+1},InOut:function(n){return(n*=2)<1?.5*n*n*n*n*n:.5*((n-=2)*n*n*n*n+2)}},Sinusoidal:{In:function(n){return 1-Math.cos(n*Math.PI/2)},Out:function(n){return Math.sin(n*Math.PI/2)},InOut:function(n){return.5*(1-Math.cos(Math.PI*n))}},Exponential:{In:function(n){return 0===n?0:Math.pow(1024,n-1)},Out:function(n){return 1===n?1:1-Math.pow(2,-10*n)},InOut:function(n){return 0===n?0:1===n?1:(n*=2)<1?.5*Math.pow(1024,n-1):.5*(-Math.pow(2,-10*(n-1))+2)}},Circular:{In:function(n){return 1-Math.sqrt(1-n*n)},Out:function(n){return Math.sqrt(1- --n*n)},InOut:function(n){return(n*=2)<1?-.5*(Math.sqrt(1-n*n)-1):.5*(Math.sqrt(1-(n-=2)*n)+1)}},Elastic:{In:function(n){var t,r=.1,i=.4;return 0===n?0:1===n?1:(!r||1>r?(r=1,t=i/4):t=i*Math.asin(1/r)/(2*Math.PI),-(r*Math.pow(2,10*(n-=1))*Math.sin(2*(n-t)*Math.PI/i)))},Out:function(n){var t,r=.1,i=.4;return 0===n?0:1===n?1:(!r||1>r?(r=1,t=i/4):t=i*Math.asin(1/r)/(2*Math.PI),r*Math.pow(2,-10*n)*Math.sin(2*(n-t)*Math.PI/i)+1)},InOut:function(n){var t,r=.1,i=.4;return 0===n?0:1===n?1:(!r||1>r?(r=1,t=i/4):t=i*Math.asin(1/r)/(2*Math.PI),(n*=2)<1?-.5*r*Math.pow(2,10*(n-=1))*Math.sin(2*(n-t)*Math.PI/i):r*Math.pow(2,-10*(n-=1))*Math.sin(2*(n-t)*Math.PI/i)*.5+1)}},Back:{In:function(n){var t=1.70158;return n*n*((t+1)*n-t)},Out:function(n){var t=1.70158;return--n*n*((t+1)*n+t)+1},InOut:function(n){var t=2.5949095;return(n*=2)<1?.5*n*n*((t+1)*n-t):.5*((n-=2)*n*((t+1)*n+t)+2)}},Bounce:{In:function(n){return 1-TWEEN.Easing.Bounce.Out(1-n)},Out:function(n){return 1/2.75>n?7.5625*n*n:2/2.75>n?7.5625*(n-=1.5/2.75)*n+.75:2.5/2.75>n?7.5625*(n-=2.25/2.75)*n+.9375:7.5625*(n-=2.625/2.75)*n+.984375},InOut:function(n){return.5>n?.5*TWEEN.Easing.Bounce.In(2*n):.5*TWEEN.Easing.Bounce.Out(2*n-1)+.5}}},TWEEN.Interpolation={Linear:function(n,t){var r=n.length-1,i=r*t,u=Math.floor(i),o=TWEEN.Interpolation.Utils.Linear;return 0>t?o(n[0],n[1],i):t>1?o(n[r],n[r-1],r-i):o(n[u],n[u+1>r?r:u+1],i-u)},Bezier:function(n,t){var r,i=0,u=n.length-1,o=Math.pow,e=TWEEN.Interpolation.Utils.Bernstein;for(r=0;u>=r;r++)i+=o(1-t,u-r)*o(t,r)*n[r]*e(u,r);return i},CatmullRom:function(n,t){var r=n.length-1,i=r*t,u=Math.floor(i),o=TWEEN.Interpolation.Utils.CatmullRom;return n[0]===n[r]?(0>t&&(u=Math.floor(i=r*(1+t))),o(n[(u-1+r)%r],n[u],n[(u+1)%r],n[(u+2)%r],i-u)):0>t?n[0]-(o(n[0],n[0],n[1],n[1],-i)-n[0]):t>1?n[r]-(o(n[r],n[r],n[r-1],n[r-1],i-r)-n[r]):o(n[u?u-1:0],n[u],n[u+1>r?r:u+1],n[u+2>r?r:u+2],i-u)},Utils:{Linear:function(n,t,r){return(t-n)*r+n},Bernstein:function(n,t){var r=TWEEN.Interpolation.Utils.Factorial;return r(n)/r(t)/r(n-t)},Factorial:function(){var n=[1];return function(t){var r,i=1;if(n[t])return n[t];for(r=t;r>1;r--)i*=r;return n[t]=i}}(),CatmullRom:function(n,t,r,i,u){var o=.5*(r-n),e=.5*(i-t),a=u*u,f=u*a;return(2*t-2*r+o+e)*f+(-3*t+3*r-2*o-e)*a+o*u+t}}},"undefined"!=typeof module&&module.exports&&(module.exports=TWEEN);
 /** @namespace */
 var cl= (function(){
-    var ver = "1.0.2";
+    var ver = "1.0.3";
     if (ver !== "{{Package.Json.Version}}".toLowerCase()) console.log("%c ˖•● ChartLibrary v." + ver + " ●•˖ ", 'background: #44A; color: #FFF');
     return {
-        version: "1.0.2"
+        version: "1.0.3"
     };
 })();
 /** @namespace */
@@ -1064,6 +1064,7 @@ cl.Axis = (function() {
      * @param {number} [options.labels.big.opacity=1] Label opacity
      * @param {string} [options.labels.big.before=""] Text that will be inserted before label text
      * @param {string} [options.labels.big.after=""] Text that will be inserted after label text
+     * @param {number} [options.labels.big.margin=0] Text offset in th plane of the axis
      * @param {object} [options.labels.small] Small interval labels
      * @param {number} [options.labels.small.size=8] Label size
      * @param {number} [options.labels.small.align="center"] Label align. "center", "left", "right", "top", "bottom"
@@ -1073,6 +1074,7 @@ cl.Axis = (function() {
      * @param {number} [options.labels.small.opacity=1] Label opacity
      * @param {string} [options.labels.small.before=""] Text that will be inserted before label text
      * @param {string} [options.labels.small.after=""] Text that will be inserted after label text
+     * @param {number} [options.labels.small.margin=0] Text offset in th plane of the axis
      *
      * @param {object} [options.grid] Grid lines settings
      * @param {object} [options.grid.big] Grid lines settings for big interval
@@ -1236,7 +1238,8 @@ cl.Axis = (function() {
                     style: "",
                     opacity: 1,
                     before: "",
-                    after: ""
+                    after: "",
+                    margin: 0
                 },
                 small: {
                     size: 8,
@@ -1246,7 +1249,8 @@ cl.Axis = (function() {
                     style: "",
                     opacity: 1,
                     before: "",
-                    after: ""
+                    after: "",
+                    margin: 0
                 }
             },
             grid: {
@@ -1781,8 +1785,9 @@ cl.Axis = (function() {
             while (k <= o.max) {
                 x = Math.floor(t.toScreen(k));
                 if ((k / o.ticks.big.interval) === parseInt((k / o.ticks.big.interval).toFixed(0))) {
-                    if (o.ticks.big.size !== 0) {
+                    if (o.labels.big.size !== 0) {
                         if ((k + o.ticks.big.interval <= o.max || o.ticks.big.last) && (k != o.min || o.ticks.big.first)) {
+                            x += (o.type === "y" ? -1 : 1) * o.labels.big.margin;
                             canvas.setFillColor(o.labels.big.color);
                             canvas.setAlpha(o.labels.big.opacity);
                             if (o.type === "y") {
@@ -1796,8 +1801,9 @@ cl.Axis = (function() {
                         }
                     }
                 } else {
-                    if (o.ticks.small.size !== 0) {
+                    if (o.labels.small.size !== 0) {
                         if ((k + o.ticks.big.interval <= o.max || o.ticks.small.last) && (k != o.min + o.ticks.small.interval || o.ticks.small.first)) {
+                            x += (o.type === "y" ? -1 : 1) * o.labels.small.margin;
                             canvas.setFillColor(o.labels.small.color);
                             canvas.setAlpha(o.labels.small.opacity);
                             if (o.type === "y") {
@@ -1913,7 +1919,8 @@ cl.AxisManager = (function() {
      * @constructor
      *
      * @property {cl.Chart} chart Parent chart
-     * @property {array<cl.Axis>} shapes Axis shapes
+     * @property {array<cl.Axis>} items Axis items
+     * @property {number} count Axis count
      */
     function AxisManager(chart) {
         var t = this;
@@ -1927,8 +1934,11 @@ cl.AxisManager = (function() {
 
         // Properties
         t.chart = chart;
-        t.shapes = [];
+        t.items = [];
         t.dirtyFlagName = "axis";
+        Object.defineProperties(t, {
+            count: { get: function() { return t.items.length; } }
+        });
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1940,7 +1950,7 @@ cl.AxisManager = (function() {
             var i, l;
             t.surface.resetTransform();
             t.surface.clear();
-            for (i = 0, l = t.shapes.length; i < l; i++) t.shapes[i].render(t.surface);
+            for (i = 0, l = t.items.length; i < l; i++) t.items[i].render(t.surface);
         }
 
         /**
@@ -1951,7 +1961,7 @@ cl.AxisManager = (function() {
          */
         function add(axisOptions) {
             var axis = new cl.Axis(t, axisOptions || {});
-            t.shapes.push(axis);
+            t.items.push(axis);
             t.apply();
             return axis;
         }
@@ -1965,12 +1975,12 @@ cl.AxisManager = (function() {
         function get(indexOrName) {
             var i, l;
             if (typeof indexOrName === "string") {
-                for (i = 0, l = t.shapes.length; i < l; i++) if (t.shapes[i].getName() === indexOrName) return t.shapes[i];
-            } else return t.shapes[indexOrName];
+                for (i = 0, l = t.items.length; i < l; i++) if (t.items[i].getName() === indexOrName) return t.items[i];
+            } else return t.items[indexOrName];
         }
 
         /**
-         * Removes axis from shapes
+         * Removes axis from items
          * @param {object} axis Axis
          * @private
          */
@@ -1978,9 +1988,9 @@ cl.AxisManager = (function() {
             if (!axis) return;
             // Deny base axis remove
             if (axis === t.chart.xAxis || axis === t.chart.yAxis) throw cl.Lang.get("errDelBaseAxis", axis.options.type);
-            var idx = t.shapes.indexOf(axis);
-            if (idx === -1 || !t.shapes[idx]) return;
-            t.shapes.splice(idx, 1);
+            var idx = t.items.indexOf(axis);
+            if (idx === -1 || !t.items[idx]) return;
+            t.items.splice(idx, 1);
             t.apply();
 
             axis.destroy();
@@ -2010,9 +2020,9 @@ cl.AxisManager = (function() {
          */
         function destroy() {
             var i, l;
-            for (i = 0, l = t.shapes.length; i < l; i++) t.shapes[i].destroy();
+            for (i = 0, l = t.items.length; i < l; i++) t.items[i].destroy();
 
-            t.shapes = null;
+            t.items = null;
 
             t.constructor.superclass.destroy.call(t);
         }

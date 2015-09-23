@@ -3,7 +3,6 @@ function testSelector() {
     describe("cl.Selector", function() {
 
         var chart;
-        // TODO: write test for custom hover
 
         before(function() {
             chart = new cl.Chart({
@@ -188,7 +187,6 @@ function testSelector() {
             expect(chart.shapes.get(1).props.x).equal(0, "Wrong shape X coordinate");
             expect(chart.shapes.get(1).props.y).equal(100, "Wrong shape Y coordinate");
         });
-        // TODO: remove shape. should be removed from selection
 
         it("should remove shape from selection after shapes was removed", function() {
             expect(chart.selector.selection.length).equal(1, "Nothing was selected");
