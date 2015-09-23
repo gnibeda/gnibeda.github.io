@@ -2,10 +2,10 @@
 void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=TWEEN||function(){var n=[];return{REVISION:"14",getAll:function(){return n},removeAll:function(){n=[]},add:function(t){n.push(t)},remove:function(t){var r=n.indexOf(t);-1!==r&&n.splice(r,1)},update:function(t){if(0===n.length)return!1;var r=0;for(t=void 0!==t?t:"undefined"!=typeof window&&void 0!==window.performance&&void 0!==window.performance.now?window.performance.now():Date.now();r<n.length;)n[r].update(t)?r++:n.splice(r,1);return!0}}}();TWEEN.Tween=function(n){var t=n,r={},i={},u={},o=1e3,e=0,a=!1,f=!1,c=!1,s=0,h=null,l=TWEEN.Easing.Linear.None,p=TWEEN.Interpolation.Linear,E=[],d=null,v=!1,I=null,w=null,M=null;for(var O in n)r[O]=parseFloat(n[O],10);this.to=function(n,t){return void 0!==t&&(o=t),i=n,this},this.start=function(n){TWEEN.add(this),f=!0,v=!1,h=void 0!==n?n:"undefined"!=typeof window&&void 0!==window.performance&&void 0!==window.performance.now?window.performance.now():Date.now(),h+=s;for(var o in i){if(i[o]instanceof Array){if(0===i[o].length)continue;i[o]=[t[o]].concat(i[o])}r[o]=t[o],r[o]instanceof Array==!1&&(r[o]*=1),u[o]=r[o]||0}return this},this.stop=function(){return f?(TWEEN.remove(this),f=!1,null!==M&&M.call(t),this.stopChainedTweens(),this):this},this.stopChainedTweens=function(){for(var n=0,t=E.length;t>n;n++)E[n].stop()},this.delay=function(n){return s=n,this},this.repeat=function(n){return e=n,this},this.yoyo=function(n){return a=n,this},this.easing=function(n){return l=n,this},this.interpolation=function(n){return p=n,this},this.chain=function(){return E=arguments,this},this.onStart=function(n){return d=n,this},this.onUpdate=function(n){return I=n,this},this.onComplete=function(n){return w=n,this},this.onStop=function(n){return M=n,this},this.update=function(n){var f;if(h>n)return!0;v===!1&&(null!==d&&d.call(t),v=!0);var M=(n-h)/o;M=M>1?1:M;var O=l(M);for(f in i){var m=r[f]||0,N=i[f];N instanceof Array?t[f]=p(N,O):("string"==typeof N&&(N=m+parseFloat(N,10)),"number"==typeof N&&(t[f]=m+(N-m)*O))}if(null!==I&&I.call(t,O),1==M){if(e>0){isFinite(e)&&e--;for(f in u){if("string"==typeof i[f]&&(u[f]=u[f]+parseFloat(i[f],10)),a){var T=u[f];u[f]=i[f],i[f]=T}r[f]=u[f]}return a&&(c=!c),h=n+s,!0}null!==w&&w.call(t);for(var g=0,W=E.length;W>g;g++)E[g].start(n);return!1}return!0}},TWEEN.Easing={Linear:{None:function(n){return n}},Quadratic:{In:function(n){return n*n},Out:function(n){return n*(2-n)},InOut:function(n){return(n*=2)<1?.5*n*n:-.5*(--n*(n-2)-1)}},Cubic:{In:function(n){return n*n*n},Out:function(n){return--n*n*n+1},InOut:function(n){return(n*=2)<1?.5*n*n*n:.5*((n-=2)*n*n+2)}},Quartic:{In:function(n){return n*n*n*n},Out:function(n){return 1- --n*n*n*n},InOut:function(n){return(n*=2)<1?.5*n*n*n*n:-.5*((n-=2)*n*n*n-2)}},Quintic:{In:function(n){return n*n*n*n*n},Out:function(n){return--n*n*n*n*n+1},InOut:function(n){return(n*=2)<1?.5*n*n*n*n*n:.5*((n-=2)*n*n*n*n+2)}},Sinusoidal:{In:function(n){return 1-Math.cos(n*Math.PI/2)},Out:function(n){return Math.sin(n*Math.PI/2)},InOut:function(n){return.5*(1-Math.cos(Math.PI*n))}},Exponential:{In:function(n){return 0===n?0:Math.pow(1024,n-1)},Out:function(n){return 1===n?1:1-Math.pow(2,-10*n)},InOut:function(n){return 0===n?0:1===n?1:(n*=2)<1?.5*Math.pow(1024,n-1):.5*(-Math.pow(2,-10*(n-1))+2)}},Circular:{In:function(n){return 1-Math.sqrt(1-n*n)},Out:function(n){return Math.sqrt(1- --n*n)},InOut:function(n){return(n*=2)<1?-.5*(Math.sqrt(1-n*n)-1):.5*(Math.sqrt(1-(n-=2)*n)+1)}},Elastic:{In:function(n){var t,r=.1,i=.4;return 0===n?0:1===n?1:(!r||1>r?(r=1,t=i/4):t=i*Math.asin(1/r)/(2*Math.PI),-(r*Math.pow(2,10*(n-=1))*Math.sin(2*(n-t)*Math.PI/i)))},Out:function(n){var t,r=.1,i=.4;return 0===n?0:1===n?1:(!r||1>r?(r=1,t=i/4):t=i*Math.asin(1/r)/(2*Math.PI),r*Math.pow(2,-10*n)*Math.sin(2*(n-t)*Math.PI/i)+1)},InOut:function(n){var t,r=.1,i=.4;return 0===n?0:1===n?1:(!r||1>r?(r=1,t=i/4):t=i*Math.asin(1/r)/(2*Math.PI),(n*=2)<1?-.5*r*Math.pow(2,10*(n-=1))*Math.sin(2*(n-t)*Math.PI/i):r*Math.pow(2,-10*(n-=1))*Math.sin(2*(n-t)*Math.PI/i)*.5+1)}},Back:{In:function(n){var t=1.70158;return n*n*((t+1)*n-t)},Out:function(n){var t=1.70158;return--n*n*((t+1)*n+t)+1},InOut:function(n){var t=2.5949095;return(n*=2)<1?.5*n*n*((t+1)*n-t):.5*((n-=2)*n*((t+1)*n+t)+2)}},Bounce:{In:function(n){return 1-TWEEN.Easing.Bounce.Out(1-n)},Out:function(n){return 1/2.75>n?7.5625*n*n:2/2.75>n?7.5625*(n-=1.5/2.75)*n+.75:2.5/2.75>n?7.5625*(n-=2.25/2.75)*n+.9375:7.5625*(n-=2.625/2.75)*n+.984375},InOut:function(n){return.5>n?.5*TWEEN.Easing.Bounce.In(2*n):.5*TWEEN.Easing.Bounce.Out(2*n-1)+.5}}},TWEEN.Interpolation={Linear:function(n,t){var r=n.length-1,i=r*t,u=Math.floor(i),o=TWEEN.Interpolation.Utils.Linear;return 0>t?o(n[0],n[1],i):t>1?o(n[r],n[r-1],r-i):o(n[u],n[u+1>r?r:u+1],i-u)},Bezier:function(n,t){var r,i=0,u=n.length-1,o=Math.pow,e=TWEEN.Interpolation.Utils.Bernstein;for(r=0;u>=r;r++)i+=o(1-t,u-r)*o(t,r)*n[r]*e(u,r);return i},CatmullRom:function(n,t){var r=n.length-1,i=r*t,u=Math.floor(i),o=TWEEN.Interpolation.Utils.CatmullRom;return n[0]===n[r]?(0>t&&(u=Math.floor(i=r*(1+t))),o(n[(u-1+r)%r],n[u],n[(u+1)%r],n[(u+2)%r],i-u)):0>t?n[0]-(o(n[0],n[0],n[1],n[1],-i)-n[0]):t>1?n[r]-(o(n[r],n[r],n[r-1],n[r-1],i-r)-n[r]):o(n[u?u-1:0],n[u],n[u+1>r?r:u+1],n[u+2>r?r:u+2],i-u)},Utils:{Linear:function(n,t,r){return(t-n)*r+n},Bernstein:function(n,t){var r=TWEEN.Interpolation.Utils.Factorial;return r(n)/r(t)/r(n-t)},Factorial:function(){var n=[1];return function(t){var r,i=1;if(n[t])return n[t];for(r=t;r>1;r--)i*=r;return n[t]=i}}(),CatmullRom:function(n,t,r,i,u){var o=.5*(r-n),e=.5*(i-t),a=u*u,f=u*a;return(2*t-2*r+o+e)*f+(-3*t+3*r-2*o-e)*a+o*u+t}}},"undefined"!=typeof module&&module.exports&&(module.exports=TWEEN);
 /** @namespace */
 var cl= (function(){
-    var ver = "1.0.3";
+    var ver = "1.0.4";
     if (ver !== "{{Package.Json.Version}}".toLowerCase()) console.log("%c ˖•● ChartLibrary v." + ver + " ●•˖ ", 'background: #44A; color: #FFF');
     return {
-        version: "1.0.3"
+        version: "1.0.4"
     };
 })();
 /** @namespace */
@@ -2304,10 +2304,12 @@ cl.Canvas = (function(){
         t.drawRect = drawRect;
         t.setAlpha = setAlpha;
         t.drawArrow = drawArrow;
+        t.drawCircle = drawCircle;
         t.setLineDash = setLineDash;
         t.setLineStyle = setLineStyle;
         t.setFillColor = setFillColor;
         t.resetTransform = resetTransform;
+        t.restoreLineFix = restoreLineFix;
 
         // Properties
         t.el = document.createElement("canvas");
@@ -2355,6 +2357,16 @@ cl.Canvas = (function(){
          */
         function setFillColor(color) {
             t.ctx.fillStyle = color;
+        }
+
+        /**
+         * Restores canvas translation for 1px blurred lines fix
+         * @memberof cl.Canvas.prototype
+         */
+        function restoreLineFix() {
+            _currentLineWidth = null;
+            if (_pixelOffset !== 0) t.ctx.translate(-_pixelOffset, -_pixelOffset);
+            _pixelOffset = 0;
         }
 
         /**
@@ -2479,6 +2491,17 @@ cl.Canvas = (function(){
             } else {
                 t.ctx.rect(sx, sy, ex - sx, ey - sy);
             }
+        }
+
+        /**
+         * Draws circle on canvas
+         * @param {number} x X coordinate
+         * @param {number} y Y coordinate
+         * @param {number} r Circle radius
+         * @memberof cl.Canvas.prototype
+         */
+        function drawCircle(x, y, r) {
+            t.ctx.arc(x, y, r, 0, cl.Consts.TWO_PI, false);
         }
 
         /**
@@ -2983,7 +3006,7 @@ cl.Selector = (function() {
         function shapesFromRect(rx, ry, hw, hh) {
             var i, l, res = [];
             l = t.chart.shapes.count;
-            for (i = 0; i < l; i++) if (t.chart.shapes.shapes[i].hitTestRect(rx, ry, hw, hh)) res.push(t.chart.shapes.shapes[i]);
+            for (i = 0; i < l; i++) if (t.chart.shapes.items[i].hitTestRect(rx, ry, hw, hh)) res.push(t.chart.shapes.items[i]);
             return res;
         }
 
@@ -2998,7 +3021,7 @@ cl.Selector = (function() {
         function shapesFromPoint(x, y) {
             var i, l, res = [];
             l = t.chart.shapes.count;
-            for (i = 0; i < l; i++) if (t.chart.shapes.shapes[i].hitTest(x, y)) res.push(t.chart.shapes.shapes[i]);
+            for (i = 0; i < l; i++) if (t.chart.shapes.items[i].hitTest(x, y)) res.push(t.chart.shapes.items[i]);
             return res;
         }
 
@@ -3045,6 +3068,7 @@ cl.Selector = (function() {
                     if (t.chart.shapes.isAnimating && !drag.active) t.hover = t.shapeFromPoint(t.chart.events.mouseX, t.chart.events.mouseY);
                     // Render hover if exists
                     if (t.hover && !(t.hover.props.hover && t.hover.props.hover.enabled === false)) {
+                        if (t.hover.props.lineDash && t.hover.props.lineDash.length !== 0) t.surface.setLineDash(t.hover.props.lineDash);
                         if (t.hover.props.hover) {
                             t.surface.ctx.strokeStyle = t.hover.props.hover.color !== undefined ? t.hover.props.hover.color : t.options.hover.color;
                             t.surface.ctx.lineWidth = t.hover.props.hover.border !== undefined ? t.hover.props.hover.border : t.options.hover.width;
@@ -3058,6 +3082,7 @@ cl.Selector = (function() {
                         t.hover.renderHover(t.surface, t.options.hover.width / 2 + (t.hover.props.hover ? (t.hover.props.hover.offset || 0) : 0));
                         t.surface.ctx.stroke();
                         t.surface.ctx.closePath();
+                        if (t.hover.props.lineDash && t.hover.props.lineDash.length !== 0) t.surface.setLineDash([]);
                     }
                 }
 
@@ -3636,7 +3661,7 @@ cl.ShapeManager = (function() {
      * @constructor
      *
      * @property {cl.Chart} chart Parent chart
-     * @property {array} shapes Shapes
+     * @property {array} items Shapes array
      * @property {number} count Shapes count
      * @property {boolean} isAnimating True if any shapes is in animation state
      * @property {number} animCount Count of shapes currently animated
@@ -3663,7 +3688,8 @@ cl.ShapeManager = (function() {
 
         // Properties
         t.chart = chart;
-        t.shapes = [];
+        // TODO: rename this to items
+        t.items = [];
         t.dirtyFlagName = "items";
         t.static = new cl.Canvas(chart.width, chart.height);
         t.options = {
@@ -3689,7 +3715,7 @@ cl.ShapeManager = (function() {
                 set: function(v) { _animCount = v; if (_animCount === 0) endAnimation(); }
             },
             isAnimating: { get: getAnimating },
-            count: { get: function() { return t.shapes.length; } }
+            count: { get: function() { return t.items.length; } }
         });
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -3708,7 +3734,6 @@ cl.ShapeManager = (function() {
          * @memberof cl.ShapeManager.prototype
          */
         function showCenters() {
-            // TODO: bug. calling this will move all shapes by 1px after redraw!?
             t.options.centers.visible = true;
             t.updateStatic();
             t.apply();
@@ -3729,13 +3754,13 @@ cl.ShapeManager = (function() {
             canvas.setAlpha(t.options.centers.opacity);
             canvas.setLineStyle(t.options.centers.width, t.options.centers.color);
             canvas.ctx.beginPath();
-            for (i = 0, l = t.shapes.length; i < l; i++) {
-                if (staticPass && t.shapes[i].isAnimating) continue;
-                if (!staticPass && !t.shapes[i].isAnimating) continue;
-                x = t.chart.toScreenX(t.shapes[i].getCenterX());
-                y = t.chart.toScreenY(t.shapes[i].getCenterY());
+            for (i = 0, l = t.items.length; i < l; i++) {
+                if (staticPass && t.items[i].isAnimating) continue;
+                if (!staticPass && !t.items[i].isAnimating) continue;
+                x = t.chart.toScreenX(t.items[i].getCenterX());
+                y = t.chart.toScreenY(t.items[i].getCenterY());
                 canvas.ctx.moveTo(x + t.options.centers.size, y);
-                canvas.ctx.arc(x, y, t.options.centers.size, 0, cl.Consts.TWO_PI, false);
+                canvas.drawCircle(x, y, t.options.centers.size);
             }
             canvas.ctx.stroke();
             canvas.ctx.closePath();
@@ -3757,16 +3782,16 @@ cl.ShapeManager = (function() {
             canvas.setAlpha(t.options.links.opacity);
             canvas.ctx.beginPath();
             //var count = 0;
-            for (i = 0, l = t.shapes.length; i < l; i++) {
-                var isStatic = !t.shapes[i].isAnimating;
+            for (i = 0, l = t.items.length; i < l; i++) {
+                var isStatic = !t.items[i].isAnimating;
                 if (!isStatic && staticPass) continue;
-                lc = t.shapes[i].props.links.length;
+                lc = t.items[i].props.links.length;
                 if (lc === 0) continue;
-                var x = chart.xAxis.toScreen(t.shapes[i].getCenterX());
-                var y = chart.yAxis.toScreen(t.shapes[i].getCenterY());
+                var x = chart.xAxis.toScreen(t.items[i].getCenterX());
+                var y = chart.yAxis.toScreen(t.items[i].getCenterY());
                 for (k = 0; k < lc; k++) {
-                    if (t.shapes[i].props.links[k] == t.shapes[i].props.id) continue;
-                    var obj = t.get(t.shapes[i].props.links[k]);
+                    if (t.items[i].props.links[k] == t.items[i].props.id) continue;
+                    var obj = t.get(t.items[i].props.links[k]);
                     if (!obj) continue;
                     if (obj.isAnimating && staticPass) continue;
                     if (!staticPass && (isStatic && !obj.isAnimating)) continue;
@@ -3793,12 +3818,12 @@ cl.ShapeManager = (function() {
          */
         function render() {
             var i, l;
-            var items = t.shapes;
+            var items = t.items;
             //console.log("render objects")
             //if (t.options.zIndexUsage)
             if (t.options.zIndexUsage === true) {
                 // Sort shapes based on zIndex
-                items = t.shapes.sort(zIndexSorter);
+                items = t.items.sort(zIndexSorter);
             }
 
             if (_shouldRedrawStatic) {
@@ -3944,7 +3969,7 @@ cl.ShapeManager = (function() {
                     }
                 } else {
                     var shape = new ShapeClass(t, it[i]);
-                    t.shapes.push(shape);
+                    t.items.push(shape);
                     hash[it[i].id] = shape;
                     t.updateStatic();
                 }
@@ -3976,18 +4001,18 @@ cl.ShapeManager = (function() {
             var i, l;
             var found = false;
             var itemsMovOnTop = [];
-            for (i = 0, l = t.shapes.length; i < l; i++) if (t.shapes[i].isAnimating && t.shapes[i].tween === null) {
-                t.shapes[i].isAnimating = false;
+            for (i = 0, l = t.items.length; i < l; i++) if (t.items[i].isAnimating && t.items[i].tween === null) {
+                t.items[i].isAnimating = false;
                 found = true;
-                itemsMovOnTop.push(t.shapes[i]);
+                itemsMovOnTop.push(t.items[i]);
             }
             // Move animated shapes on top
             for (i = 0, l = itemsMovOnTop.length; i < l; i++) {
-                var idx = t.shapes.indexOf( itemsMovOnTop[i]);
-                t.shapes.splice(idx, 1);
+                var idx = t.items.indexOf( itemsMovOnTop[i]);
+                t.items.splice(idx, 1);
             }
             for (i = 0, l = itemsMovOnTop.length; i < l; i++) {
-                t.shapes.push(itemsMovOnTop[i]);
+                t.items.push(itemsMovOnTop[i]);
             }
             t.updateStatic();
             t.apply();
@@ -4012,14 +4037,14 @@ cl.ShapeManager = (function() {
         function removeItem(item) {
             if (!item) return;
             // Find item index
-            var idx = t.shapes.indexOf(item);
-            if (idx === -1 || !t.shapes[idx]) return;
+            var idx = t.items.indexOf(item);
+            if (idx === -1 || !t.items[idx]) return;
 
             // Clear ids hash
             delete hash[item.props.id];
 
             // Remove item from shapes array
-            t.shapes.splice(idx, 1);
+            t.items.splice(idx, 1);
             t.apply();
 
             // Remove item from selection
@@ -4039,7 +4064,7 @@ cl.ShapeManager = (function() {
          */
         function clear() {
             // Remove shapes. Destroy would be called in remove function
-            while (t.count !== 0) t.remove(t.shapes[0]);
+            while (t.count !== 0) t.remove(t.items[0]);
 
             // Remove shapes from selection
             t.chart.selector.selection = [];
@@ -4074,9 +4099,9 @@ cl.ShapeManager = (function() {
          */
         function destroy() {
             var i, l;
-            for (i = 0, l = t.shapes.length; i < l; i++) t.shapes[i].destroy();
+            for (i = 0, l = t.items.length; i < l; i++) t.items[i].destroy();
 
-            t.shapes = null;
+            t.items = null;
             t.static.destroy();
 
             hash = null;
@@ -4635,7 +4660,10 @@ cl.Rect = (function() {
             canvas.ctx.beginPath();
             canvas.drawRect(x1, y1, x2, y2, t.props.borderRadius);
             canvas.ctx.fill();
-            if (t.props.border) canvas.ctx.stroke();
+            if (t.props.border) {
+                canvas.ctx.stroke();
+                canvas.restoreLineFix();
+            }
             canvas.ctx.closePath();
             if (t.props.lineDash) canvas.setLineDash([]);
 

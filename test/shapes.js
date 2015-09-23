@@ -4,7 +4,6 @@ function testShapes() {
     describe("cl.Shape ", function() {
         var chart, shape;
 
-        // TODO: Add test to display shapes centers
         before(function() {
             chart = new cl.Chart({ element: document.getElementById("test") });
         });
@@ -114,11 +113,14 @@ function testShapes() {
             setTimeout(function(){
                 try {
                     var pixel = chart.screen.ctx.getImageData(450, 350, 1, 1).data;
-                    expect(pixel).to.deep.equal({"0": 0, "1": 128, "2": 0, "3": 255}, "Wrong color of top shape");
+                    var p = {r: pixel[0], g: pixel[1], b: pixel[2]};
+                    expect(p).to.deep.equal({r: 0, g: 128, b: 0}, "Wrong color of top shape");
                     pixel = chart.screen.ctx.getImageData(450, 350 + 25, 1, 1).data;
-                    expect(pixel).to.deep.equal({"0": 0, "1": 0, "2": 255, "3": 255}, "Wrong color of middle shape");
+                    p = {r: pixel[0], g: pixel[1], b: pixel[2]};
+                    expect(p).to.deep.equal({r: 0, g: 0, b: 255}, "Wrong color of middle shape");
                     pixel = chart.screen.ctx.getImageData(450, 350 + 45, 1, 1).data;
-                    expect(pixel).to.deep.equal({"0": 255, "1": 0, "2": 0, "3": 255}, "Wrong color of bottom shape");
+                    p = {r: pixel[0], g: pixel[1], b: pixel[2]};
+                    expect(p).to.deep.equal({r: 255, g: 0, b: 0}, "Wrong color of bottom shape");
                 }
                 catch (e) {
                     done(e);
@@ -202,7 +204,7 @@ function testShapes() {
         it('should update props using add', function(){
             var bubbles = [{id: 30, x: 1, y: 2, size: 40}, {id: 33, x: 20, y: 30, size: 60, color: "#EEFFAA", opacity: 0.8}];
             chart.addBubbles(bubbles);
-            expect(chart.shapes.shapes.length).equal(3, "Wrong shapes number");
+            expect(chart.shapes.count).equal(3, "Wrong shapes number");
             var b = chart.shapes.get(30);
             expect(b.props.x).equal(1, "property x doesn't match");
             expect(b.props.y).equal(2, "property y doesn't match");
@@ -255,7 +257,7 @@ function testShapes() {
             shape1.stopAnimation();
             setTimeout(function() {
                 var found = false;
-                for (var i = 0; i < chart.shapes.shapes.length; i++) if (chart.shapes.shapes[i].isAnimating) found = true;
+                for (var i = 0; i < chart.shapes.count; i++) if (chart.shapes.items[i].isAnimating) found = true;
                 assert.ok(!found, "Some shapes are not in static");
                 total++;
                 done();
@@ -268,7 +270,7 @@ function testShapes() {
             setTimeout(function(){
                 chart.shapes.remove(chart.shapes.get(33));
 
-                expect(chart.shapes.shapes.length).equal(2, "Shape not deleted");
+                expect(chart.shapes.count).equal(2, "Shape not deleted");
                 expect(chart.shapes.animCount).equal(0, "Wrong animation count");
 
                 total++;
@@ -322,7 +324,7 @@ function testShapes() {
         it('should remove shapes', function() {
             chart.shapes.remove(chart.shapes.get(30));
             chart.shapes.remove(chart.shapes.get(31));
-            expect(chart.shapes.shapes.length).equal(0, "Some shapes not deleted");
+            expect(chart.shapes.count).equal(0, "Some shapes not deleted");
         });
 
         it('should animate rectangle', function(done) {
@@ -461,6 +463,44 @@ function testShapes() {
             }, 100);
         });
 
+        it('should render centers after enabling', function(done) {
+            var bubbles = [{id: 30, x: 10, y: 20, size: 40, color: "#AAFFAA", opacity: 0.4}, {id: 31, x: 20, y: 30, size: 60, color: "#EEFFAA", opacity: 0.8}];
+            chart.addBubbles(bubbles);
+
+            var calls = 0;
+            var oldFunc = chart.shapes.static.drawCircle;
+            chart.shapes.static.drawCircle = function(x, y, r) {
+                oldFunc(x, y, r);
+                calls++;
+            };
+
+            chart.shapes.showCenters();
+            setTimeout(function() {
+                chart.shapes.static.drawCircle = oldFunc;
+                try {
+                    expect(calls).equal(chart.shapes.count, "Wrong centers count");
+                } catch (e) { done(e) }
+                done();
+            }, 100);
+        });
+
+        it('should dont render centers after disabling', function(done) {
+            var calls = 0;
+            var oldFunc = chart.shapes.static.drawCircle;
+            chart.shapes.static.drawCircle = function(x, y, r) {
+                oldFunc(x, y, r);
+                calls++;
+            };
+
+            chart.shapes.hideCenters();
+            setTimeout(function() {
+                chart.shapes.static.drawCircle = oldFunc;
+                try {
+                    expect(calls).equal(0, "Wrong centers count");
+                } catch (e) { done(e) }
+                done();
+            }, 100);
+        });
 
     });
 }

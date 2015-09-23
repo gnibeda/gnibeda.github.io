@@ -3,6 +3,12 @@ function colorTest() {
     describe('cl.Color', function () {
         var msg = "Wrong color component";
 
+        it('shold convert from name to hex', function () {
+            var c;
+            c = cl.Color.fromString("darkslategray");
+            expect(c).equal('#2f4f4f', "Wring color");
+        });
+
         it('shold convert from color name to rgb', function () {
             var c;
 

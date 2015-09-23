@@ -302,7 +302,8 @@ function testSelector() {
             setTimeout(function(){
                 try {
                     var pixel = chart.screen.ctx.getImageData(400, 300 - 22, 1, 1).data;
-                    expect(pixel).to.deep.equal({"0": 255, "1": 255, "2": 0, "3": 255}, "Wrong color of top shape");
+                    var p = {r: pixel[0], g: pixel[1], b: pixel[2]};
+                    expect(p).to.deep.equal({r: 255, g: 255, b: 0}, "Wrong color of top shape");
                 }
                 catch (e) {
                     done(e);

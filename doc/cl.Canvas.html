@@ -446,6 +446,8 @@
             
                 <li data-name="cl.Canvas#drawArrow"><a href="cl.Canvas.html#drawArrow">drawArrow</a></li>
             
+                <li data-name="cl.Canvas#drawCircle"><a href="cl.Canvas.html#drawCircle">drawCircle</a></li>
+            
                 <li data-name="cl.Canvas#drawLine"><a href="cl.Canvas.html#drawLine">drawLine</a></li>
             
                 <li data-name="cl.Canvas#drawRect"><a href="cl.Canvas.html#drawRect">drawRect</a></li>
@@ -455,6 +457,8 @@
                 <li data-name="cl.Canvas#resize"><a href="cl.Canvas.html#resize">resize</a></li>
             
                 <li data-name="cl.Canvas#restore"><a href="cl.Canvas.html#restore">restore</a></li>
+            
+                <li data-name="cl.Canvas#restoreLineFix"><a href="cl.Canvas.html#restoreLineFix">restoreLineFix</a></li>
             
                 <li data-name="cl.Canvas#save"><a href="cl.Canvas.html#save">save</a></li>
             
@@ -1413,7 +1417,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 274
+            canvas.js, line 297
         </div>
         
     </div>
@@ -1484,7 +1488,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 264
+            canvas.js, line 287
         </div>
         
     </div>
@@ -1555,7 +1559,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 254
+            canvas.js, line 277
         </div>
         
     </div>
@@ -1717,7 +1721,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 149
+            canvas.js, line 161
         </div>
         
     </div>
@@ -1969,6 +1973,168 @@
             
 <dt>
     <div class="nameContainer">
+        <h4 class="name" id="drawCircle">
+            
+            drawCircle<span class="signature">(x, y, r)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            canvas.js, line 231
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Draws circle on canvas
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                X coordinate</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                Y coordinate</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>r</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                Circle radius</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
         <h4 class="name" id="drawLine">
             
             drawLine<span class="signature">(x1, y1, x2, y2, <span class="optional">dontCreatePath</span>)</span>
@@ -1976,7 +2142,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 221
+            canvas.js, line 244
         </div>
         
     </div>
@@ -2211,7 +2377,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 181
+            canvas.js, line 193
         </div>
         
     </div>
@@ -2474,7 +2640,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 243
+            canvas.js, line 266
         </div>
         
     </div>
@@ -2545,7 +2711,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 286
+            canvas.js, line 309
         </div>
         
     </div>
@@ -2684,7 +2850,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 66
+            canvas.js, line 68
         </div>
         
     </div>
@@ -2748,6 +2914,77 @@
             
 <dt>
     <div class="nameContainer">
+        <h4 class="name" id="restoreLineFix">
+            
+            restoreLineFix<span class="signature">()</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            canvas.js, line 94
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Restores canvas translation for 1px blurred lines fix
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
         <h4 class="name" id="save">
             
             save<span class="signature">()</span>
@@ -2755,7 +2992,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 74
+            canvas.js, line 76
         </div>
         
     </div>
@@ -2826,7 +3063,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 234
+            canvas.js, line 257
         </div>
         
     </div>
@@ -2971,7 +3208,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 84
+            canvas.js, line 86
         </div>
         
     </div>
@@ -3087,7 +3324,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 58
+            canvas.js, line 60
         </div>
         
     </div>
@@ -3203,7 +3440,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 95
+            canvas.js, line 107
         </div>
         
     </div>
@@ -3401,7 +3638,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 124
+            canvas.js, line 136
         </div>
         
     </div>
@@ -3816,7 +4053,7 @@
         
 
         <footer>
-            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Wed Sep 23 2015 13:54:36 GMT+0300 (Финляндия (лето))
+            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Wed Sep 23 2015 16:55:45 GMT+0300 (Финляндия (лето))
         </footer>
     </div>
 </div>
