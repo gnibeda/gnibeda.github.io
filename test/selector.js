@@ -87,6 +87,33 @@ function testSelector() {
             expect(shapes.length).equal(2, "Wrong shapes count");
         });
 
+        it('should hover shape', function() {
+            fireEvent("mousemove", 400, 300, chart);
+            expect(chart.selector.hover).to.exists;
+        });
+
+        it('should select shape', function() {
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mouseup", 400, 300, chart);
+            expect(chart.selector.getSelection().length).equal(1, "Wrong selected shapes count");
+        });
+
+        it('should deselect shape', function() {
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mouseup", 400, 300, chart);
+            expect(chart.selector.getSelection().length).equal(0, "Wrong selected shapes count");
+        });
+
+        it('should deselect shape clicking on empty space', function() {
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mouseup", 400, 300, chart);
+            expect(chart.selector.getSelection().length).equal(1, "Wrong selected shapes count");
+            fireEvent("mousemove", 800, 0, chart);
+            fireEvent("mousedown", 600, 0, chart);
+            fireEvent("mouseup", 10, 0, chart);
+            expect(chart.selector.getSelection().length).equal(0, "Wrong selected shapes count");
+        });
+
         it('should enable drag', function() {
             chart.selector.enableDrag();
             expect(chart.selector.options.draggable).to.be.true;
@@ -99,18 +126,12 @@ function testSelector() {
             expect(chart.selector.options.selection.rect.enabled).to.be.true;
         });
 
-        it('should hover shape', function() {
-            fireEvent("mousemove", 400, 300, chart);
-            expect(chart.selector.hover).to.exists;
-        });
-
-        it('should select shape', function() {
-            fireEvent("mouseup", 400, 300, chart);
-            expect(chart.selector.getSelection().length).equal(1, "Wrong selected shapes count");
-        });
-
         it('should select multiple shapes', function() {
+            fireEvent("mousemove", 400, 300, chart);
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mouseup", 400, 300, chart);
             fireEvent("mousemove", 628, 300, chart);
+            fireEvent("mousedown", 628, 300, chart);
             fireEvent("mouseup", 628, 300, chart);
             expect(chart.selector.getSelection().length).equal(2, "Wrong selected shapes count");
         });

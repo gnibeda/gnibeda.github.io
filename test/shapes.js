@@ -45,6 +45,7 @@ function testShapes() {
         var total = 0;
         var total2 = 0;
         var total3 = 0;
+        var total4 = 0;
 
         before(function() {
             chart = new cl.Chart({ element: document.getElementById("test") });
@@ -83,12 +84,36 @@ function testShapes() {
 
         it('should add lines', function(){
             var lines = [{id: 80, x: 80, y: 80, x2: 90, y2: 90, color: "#AAFFAA", opacity: 0.4}];
-            chart.addRects(lines);
+            chart.addLines(lines);
+        });
+
+        it('should add poly line', function(){
+            chart.shapes.add({ id: 90, border: 10, color: "black", closed: true, lineJoin: "round", points: [0, 0, 90, 10, 80, 90, 70, 20]}, cl.PolyLine);
         });
 
         it('should add centroid', function(){
             var lines = [];
             chart.shapes.add({id: 100, x: 100, y: 100, size: 4}, cl.Centroid);
+        });
+
+        it('should get pixel area of bubble', function(){
+            var a = Math.floor(chart.shapes.get(30).getPixelArea());
+            expect(a).equal(Math.floor(40 * 40 * Math.PI), "Wrong bubble area");
+        });
+
+        it('should get pixel area of rect', function(){
+            var a = Math.floor(chart.shapes.get(40).getPixelArea());
+            expect(a).equal(5676, "Wrong rect area");
+        });
+
+        it('should get pixel area of line', function(){
+            var a = Math.floor(chart.shapes.get(80).getPixelArea());
+            expect(a).equal(14, "Wrong rect area");
+        });
+
+        it('should get pixel area of poly line', function(){
+            var a = Math.floor(chart.shapes.get(90).getPixelArea());
+            expect(a).equal(314, "Wrong rect area");
         });
 
         it('should deny add shape as different type', function(){
@@ -202,13 +227,18 @@ function testShapes() {
         });
 
         it('should update props using add', function(){
-            var bubbles = [{id: 30, x: 1, y: 2, size: 40}, {id: 33, x: 20, y: 30, size: 60, color: "#EEFFAA", opacity: 0.8}];
+            var bubbles = [{id: 30, x: 1, y: 2, size: 40}, {id: 33, x: 20, y: 30, size: 60, color: "blue", opacity: 0.8}];
             chart.addBubbles(bubbles);
             expect(chart.shapes.count).equal(3, "Wrong shapes number");
             var b = chart.shapes.get(30);
             expect(b.props.x).equal(1, "property x doesn't match");
             expect(b.props.y).equal(2, "property y doesn't match");
             expect(b.props.size).equal(40, "property size doesn't match");
+        });
+
+        it("should not changed if added with same props", function(){
+            var changed = chart.shapes.get(33).calcAnimProps({id: 33, x: 20, y: 30, size: 60, color: "blue", opacity: 0.8});
+            expect(changed).to.be.false;
         });
 
         it('should limit animations when setProps was called', function() {
@@ -484,7 +514,7 @@ function testShapes() {
             }, 100);
         });
 
-        it('should dont render centers after disabling', function(done) {
+        it("should don't render centers after disabling", function(done) {
             var calls = 0;
             var oldFunc = chart.shapes.static.drawCircle;
             chart.shapes.static.drawCircle = function(x, y, r) {
@@ -501,6 +531,140 @@ function testShapes() {
                 done();
             }, 100);
         });
+
+
+        it('should animate poly line points', function(done) {
+            chart.shapes.clear();
+            chart.shapes.add({
+                id: -22, border: 6, color: "green", opacity: 0.8, closed: true, lineJoin: "round",
+                points: [0, 0, 90, 10, 80, 90, 70, 20]
+            }, cl.PolyLine);
+            shape1 = chart.shapes.get(-22);
+
+            this.timeout(5000);
+            var int = setInterval(function() {
+                if (total4 !== 0) return;
+                clearInterval(int);
+                shape1.setProps({ points: [10, 10, 30, 80, 40, 40, 20, 90] }, true, 300);
+                setTimeout(function () {
+                    var p = shape1.getProps().points;
+                    expect(p[0]).equal(10, "Wrong 1 point X coordinate");
+                    expect(p[1]).equal(10, "Wrong 1 point Y coordinate");
+                    expect(p[2]).equal(30, "Wrong 2 point X coordinate");
+                    expect(p[3]).equal(80, "Wrong 2 point Y coordinate");
+                    expect(p[4]).equal(40, "Wrong 3 point X coordinate");
+                    expect(p[5]).equal(40, "Wrong 3 point Y coordinate");
+                    expect(p[6]).equal(20, "Wrong 4 point X coordinate");
+                    expect(p[7]).equal(90, "Wrong 4 point Y coordinate");
+                    total4++;
+                    done();
+                }, 600);
+            }, 100);
+        });
+
+        it('should animate poly line "closed" property to false', function(done) {
+            this.timeout(5000);
+            var int = setInterval(function() {
+                if (total4 !== 1) return;
+                clearInterval(int);
+                shape1.setProps({ closed: false }, true, 300);
+                setTimeout(function () {
+                    var p = shape1.getProps();
+                    expect(p.closed).to.be.false;
+                    total4++;
+                    done();
+                }, 600);
+            }, 100);
+        });
+
+        it('should animate poly line "closed" property to true', function(done) {
+            this.timeout(5000);
+            var int = setInterval(function() {
+                if (total4 !== 2) return;
+                clearInterval(int);
+                shape1.setProps({ closed: true }, true, 300);
+                setTimeout(function () {
+                    var p = shape1.getProps();
+                    expect(p.closed).to.be.true;
+                    total4++;
+                    done();
+                }, 600);
+            }, 100);
+        });
+
+        it('should animate poly line points with new points added ', function(done) {
+            this.timeout(5000);
+            var int = setInterval(function() {
+                if (total4 !== 3) return;
+                clearInterval(int);
+                shape1.setProps({points: [0, 0, 90, 10, 80, 90, 70, 20, 100, 40, 70, 90]}, true, 300);
+                setTimeout(function () {
+                    var p = shape1.getProps().points;
+                    expect(p.length).equal(12, "Wrong point count");
+                    expect(p[8]).equal(100, "Wrong 5 point X coordinate");
+                    expect(p[9]).equal(40, "Wrong 5 point Y coordinate");
+                    expect(p[10]).equal(70, "Wrong 6 point X coordinate");
+                    expect(p[11]).equal(90, "Wrong 6 point Y coordinate");
+                    total4++;
+                    done();
+                }, 600);
+            }, 100);
+        });
+
+        it('should animate poly line points with old points removed', function(done) {
+            this.timeout(5000);
+            var int = setInterval(function() {
+                if (total4 !== 4) return;
+                clearInterval(int);
+                shape1.setProps({points: [80, 80, 10, 80, 50, 10]}, true, 300);
+                setTimeout(function () {
+                    var p = shape1.getProps().points;
+                    expect(p.length).equal(6, "Wrong point count");
+                    expect(p[0]).equal(80, "Wrong 1 point X coordinate");
+                    expect(p[1]).equal(80, "Wrong 1 point Y coordinate");
+                    expect(p[2]).equal(10, "Wrong 2 point X coordinate");
+                    expect(p[3]).equal(80, "Wrong 2 point Y coordinate");
+                    expect(p[4]).equal(50, "Wrong 3 point X coordinate");
+                    expect(p[5]).equal(10, "Wrong 3 point Y coordinate");
+                    total4++;
+                    done();
+                }, 600);
+            }, 100);
+        });
+
+        it('should set poly line points to end position after stopAnimation', function(done) {
+            this.timeout(5000);
+            var int = setInterval(function() {
+                if (total4 !== 5) return;
+                clearInterval(int);
+                shape1.setProps({points: [10, 10, 10, 50, 90, 10]}, true, 2000);
+                setTimeout(function() { shape1.stopAnimation(); }, 300);
+                setTimeout(function () {
+                    var p = shape1.getProps().points;
+                    expect(p.length).equal(6, "Wrong point count");
+                    expect(p[0]).equal(10, "Wrong 1 point X coordinate");
+                    expect(p[1]).equal(10, "Wrong 1 point Y coordinate");
+                    expect(p[2]).equal(10, "Wrong 2 point X coordinate");
+                    expect(p[3]).equal(50, "Wrong 2 point Y coordinate");
+                    expect(p[4]).equal(90, "Wrong 3 point X coordinate");
+                    expect(p[5]).equal(10, "Wrong 3 point Y coordinate");
+                    total4++;
+                    done();
+                }, 600);
+            }, 100);
+        });
+
+        it('should complete all poly line animations', function(done) {
+            this.timeout(10000);
+            var int = setInterval(function() {
+                if (total4 === 6) {
+                    clearInterval(int);
+                    chart.shapes.remove(shape1);
+                    done();
+                }
+            }, 100);
+        });
+
 
     });
 }
