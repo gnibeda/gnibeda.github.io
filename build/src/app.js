@@ -10,7 +10,7 @@
 
         var chart = new cl.Chart({
             element: document.getElementById("testDiv"),
-            "preloader":null,"selector":{"draggable":true,"hover":{"enabled":true,"width":1,"color":"#000000","opacity":0.5,"showHand":true},"selection":{enabled:false}},"xAxis":{"name":"Sentiment score","min":-10,"max":110,"margin":{"start":50,"end":0},"ticks":{"big":{"align":"center","interval":10,"first":false,"last":false},"small":{"align":"center","interval":5,"first":false,"last":false,"opacity":0}},"title":{"offset":10},"labels":{"big":{"size":10,"align":"bottom","font":"Arial","color":"#000000","style":"","opacity":1,"after":"%"},"small":{"size":8,"align":"bottom","font":"Arial","color":"#000000","style":"","opacity":0,"after":"%"}},"style":{"arrowSize":0},"offset":-10},"yAxis":{"name":"Visibility score","min":-10,"max":110,"margin":{"start":50,"end":0},"ticks":{"big":{"align":"center","interval":10,"first":false,"last":false},"small":{"align":"center","interval":5,"first":false,"last":false,"opacity":0}},"title":{"offset":20},"labels":{"big":{"size":10,"align":"bottom","font":"Arial","color":"#000000","style":"","opacity":1,"after":"%"},"small":{"size":8,"align":"bottom","font":"Arial","color":"#000000","style":"","opacity":0,"after":"%"}},"style":{"arrowSize":0},"offset":-10},"shapes":{"links":{"width":0.2,"color":"#000000","opacity":1}}
+            "preloader":null,"selector":{"draggable":true,"hover":{"enabled":true,"width":1,"color":"#000000","opacity":0.5,"showHand":true},"selection":{enabled:true}},"xAxis":{"name":"Sentiment score","min":-10,"max":110,"margin":{"start":50,"end":0},"ticks":{"big":{"align":"center","interval":10,"first":false,"last":false},"small":{"align":"center","interval":5,"first":false,"last":false,"opacity":0}},"title":{"offset":10},"labels":{"big":{"size":10,"align":"bottom","font":"Arial","color":"#000000","style":"","opacity":1,"after":"%"},"small":{"size":8,"align":"bottom","font":"Arial","color":"#000000","style":"","opacity":0,"after":"%"}},"style":{"arrowSize":0},"offset":-10},"yAxis":{"name":"Visibility score","min":-10,"max":110,"margin":{"start":50,"end":0},"ticks":{"big":{"align":"center","interval":10,"first":false,"last":false},"small":{"align":"center","interval":5,"first":false,"last":false,"opacity":0}},"title":{"offset":20},"labels":{"big":{"size":10,"align":"bottom","font":"Arial","color":"#000000","style":"","opacity":1,"after":"%"},"small":{"size":8,"align":"bottom","font":"Arial","color":"#000000","style":"","opacity":0,"after":"%"}},"style":{"arrowSize":0},"offset":-10},"shapes":{"links":{"width":0.2,"color":"#000000","opacity":1}}
         });
         //chart.xAxis.options.grid.big.width = 0;
         //chart.xAxis.options.grid.small.width = 0;
@@ -98,46 +98,28 @@
         bubbles = [
             {id: 1, x: 10, y: 10, size: 20},
             {id: 2, x: 80, y: 10, size: 20, lineDash: [2, 2] },
-            {id: 3, x: 50, y: 50, size: 40, border: 10, borderColor: "yellow" }
+            {id: 3, x: 50, y: 50, size: 40, border: 20, borderColor: "yellow" }
         ];
 
-        bubbles = [{"id":5044,"year_week":"201534","keyword":"Bmw","general_type":"organization","classify_type":null,"classify_industry":null,"classify_category":null,"classify_subcategory":null,"last_updated_at":"2015-09-03 08:40:00","sentiment_score":"-0.07127000","discussion_level":"0.88362600","sentiment_percentile":32,"discussion_level_percentile":95,"domain":"thechive.com","rank":"80","score_id":38215056,"size":40,"x":32,"y":95,"c":95,"site":"thechive.com","week":"201534","radius":40,"sizenew":40,"opacity":0.9,"borderColor":"lightgrey","color":"rgba(253,174,97,0.7)","border":0.2,"draggable":false},{"id":5369,"year_week":"201534","keyword":"iPhone","general_type":"consumer product","classify_type":"Brand","classify_industry":"Electronics & Computers","classify_category":"Electronics & Computers","classify_subcategory":"Mobile phone","last_updated_at":"2015-09-02 23:35:00","sentiment_score":"-0.07370200","discussion_level":"0.60997700","sentiment_percentile":32,"discussion_level_percentile":36,"domain":"cnsnews.com","rank":"535","score_id":39192881,"size":20,"x":32,"y":36,"c":36,"site":"cnsnews.com","week":"201534","radius":20,"sizenew":20,"opacity":0.9,"borderColor":"lightgrey","color":"rgba(253,174,97,0.7)","border":0.2,"draggable":false},{"id":9749,"year_week":"201534","keyword":"iPhone","general_type":"consumer product","classify_type":"Brand","classify_industry":"Electronics & Computers","classify_category":"Electronics & Computers","classify_subcategory":"Mobile phone","last_updated_at":"2015-08-26 02:18:00","sentiment_score":"-0.52122600","discussion_level":"0.58770300","sentiment_percentile":18,"discussion_level_percentile":19,"domain":"batman-news.com","rank":"6128","clone":"clone","score_id":37489387123,"size":10,"x":18,"y":19,"c":19,"site":"batman-news.com","week":"201534","radius":10,"sizenew":10,"opacity":0.9,"borderColor":"lightgrey","color":"rgba(215,48,39,0.7)","border":0.2,"draggable":false},{"id":5389,"year_week":"201534","keyword":"Iphone","general_type":"consumer product","classify_type":"Brand","classify_industry":"Electronics & Computers","classify_category":"Electronics & Computers","classify_subcategory":"Mobile phone","last_updated_at":"2015-09-03 11:09:00","sentiment_score":"-0.15597700","discussion_level":"0.43435800","sentiment_percentile":22,"discussion_level_percentile":1,"domain":"patheos.com","rank":"410","score_id":39245581,"size":35,"x":22,"y":1,"c":1,"site":"patheos.com","week":"201534","radius":35,"sizenew":35,"opacity":0.9,"borderColor":"lightgrey","color":"rgba(244,109,67,0.7)","border":0.2,"draggable":false},{"id":9652,"year_week":"201534","keyword":"iPod","general_type":"brand","classify_type":"Brand","classify_industry":"Automotive & Industrial","classify_category":"Automotive & Industrial","classify_subcategory":"Gadget","last_updated_at":"2015-08-27 00:39:00","sentiment_score":"-0.60394200","discussion_level":"0.49600100","sentiment_percentile":17,"discussion_level_percentile":3,"domain":"usmagazine.com","rank":"43","clone":"clone","score_id":36961774123,"size":40,"x":17,"y":3,"c":3,"site":"usmagazine.com","week":"201534","radius":40,"sizenew":40,"opacity":0.9,"borderColor":"lightgrey","color":"rgba(215,48,39,0.7)","border":0.2,"draggable":false},{"id":4984,"year_week":"201534","keyword":"Ford","general_type":"brand","classify_type":"Brand","classify_industry":"Automotive & Industrial","classify_category":"Automotive & Industrial","classify_subcategory":"Automobile Make","last_updated_at":"2015-09-02 17:39:00","sentiment_score":"0.34599200","discussion_level":"0.70847400","sentiment_percentile":85,"discussion_level_percentile":70,"domain":"ew.com","rank":"213","score_id":38032170,"size":35,"x":85,"y":70,"c":70,"site":"ew.com","week":"201534","radius":35,"sizenew":35,"opacity":0.9,"borderColor":"lightgrey","color":"rgba(102,189,99,0.7)","border":0.2,"draggable":false},{"id":5076,"year_week":"201534","keyword":"Ford","general_type":"brand","classify_type":"Brand","classify_industry":"Automotive & Industrial","classify_category":"Automotive & Industrial","classify_subcategory":"Automobile Make","last_updated_at":"2015-09-04 01:12:00","sentiment_score":"0.14760900","discussion_level":"0.74583000","sentiment_percentile":64,"discussion_level_percentile":79,"domain":"avclub.com","rank":"433","score_id":38311003,"size":35,"x":64,"y":79,"c":79,"site":"avclub.com","week":"201534","radius":35,"sizenew":35,"opacity":0.9,"borderColor":"lightgrey","color":"rgba(217,239,139,0.7)","border":0.2,"draggable":false}];
-
-        bubbles = [{"id":5031,"year_week":"201534","keyword":"iPhone","general_type":"consumer product","classify_type":"Brand","classify_industry":"Electronics & Computers","classify_category":"Electronics & Computers","classify_subcategory":"Mobile phone","last_updated_at":"2015-09-03 08:40:00","sentiment_score":"-0.51766900","discussion_level":"0.71735000","sentiment_percentile":3,"discussion_level_percentile":73,"domain":"thechive.com","rank":"80","score_id":38171224,"size":40,"x":3,"y":73,"c":73,"site":"thechive.com","week":"201534","radius":40,"sizenew":40,"opacity":0.9,"borderColor":"lightgrey","color":"rgba(215,48,39,0.7)","border":0.2,"draggable":false},{"id":9315,"year_week":"201534","keyword":"BMW","general_type":"company","classify_type":"Brand","classify_industry":"Automotive & Industrial","classify_category":"Automotive & Industrial","classify_subcategory":"Automobile Manufacturer","last_updated_at":"2015-08-19 14:13:00","sentiment_score":"-0.40556900","discussion_level":"0.62587000","sentiment_percentile":35,"discussion_level_percentile":14,"domain":"examiner.com","rank":"79","clone":"clone","score_id":35752057123,"size":40,"x":35,"y":14,"c":14,"site":"examiner.com","week":"201534","radius":40,"sizenew":40,"opacity":0.9,"borderColor":"lightgrey","color":"rgba(253,174,97,0.7)","border":0.2,"draggable":false},{"id":5116,"year_week":"201534","keyword":"Ford","general_type":"brand","classify_type":"Brand","classify_industry":"Automotive & Industrial","classify_category":"Automotive & Industrial","classify_subcategory":"Automobile Make","last_updated_at":"2015-09-02 15:44:00","sentiment_score":"0.25047100","discussion_level":"0.72312100","sentiment_percentile":77,"discussion_level_percentile":74,"domain":"cinemablend.com","rank":"296","score_id":38432719,"size":35,"x":77,"y":74,"c":74,"site":"cinemablend.com","week":"201534","radius":35,"sizenew":35,"opacity":0.9,"borderColor":"lightgrey","color":"rgba(166,217,106,0.7)","border":0.2,"draggable":false},{"id":5389,"year_week":"201534","keyword":"Iphone","general_type":"consumer product","classify_type":"Brand","classify_industry":"Electronics & Computers","classify_category":"Electronics & Computers","classify_subcategory":"Mobile phone","last_updated_at":"2015-09-03 11:09:00","sentiment_score":"-0.15597700","discussion_level":"0.43435800","sentiment_percentile":22,"discussion_level_percentile":1,"domain":"patheos.com","rank":"410","score_id":39245581,"size":35,"x":22,"y":1,"c":1,"site":"patheos.com","week":"201534","radius":35,"sizenew":35,"opacity":0.9,"borderColor":"lightgrey","color":"rgba(244,109,67,0.7)","border":0.2,"draggable":false},{"id":9720,"year_week":"201534","keyword":"iPhone","general_type":"consumer product","classify_type":"Brand","classify_industry":"Electronics & Computers","classify_category":"Electronics & Computers","classify_subcategory":"Mobile phone","last_updated_at":"2015-08-25 17:37:00","sentiment_score":"-0.06033200","discussion_level":"0.82022000","sentiment_percentile":39,"discussion_level_percentile":60,"domain":"youngcons.com","rank":"206","clone":"clone","score_id":37342167123,"size":35,"x":39,"y":60,"c":60,"site":"youngcons.com","week":"201534","radius":35,"sizenew":35,"opacity":0.9,"borderColor":"lightgrey","color":"rgba(253,174,97,0.7)","border":0.2,"draggable":false},{"id":"cog","radius":10,"size":10,"links":[5031,5116,5389,9315,9720],"x":35.2,"y":44.4,"draggable":false,"border":0.1,"color":"rgba(253,174,97,0.7)"}];
-
-        chart.addRects([
-            {
-                id: 'goal',
-                x: 10,
-                y: 10,
-                x2: 100,
-                y2: 100,
-                size: 100,
-                color: 'transparent',
-                opacity: 0.5,
-                border: 1.5,
-                borderColor: '#009900',
-                lineDash: [10, 10],
-                draggable: false,
-                hover: {
-                    enabled: true,
-                    border: 2,
-                    opacity: 0.1
-                }
-            }
-        ]);
         /*bubbles = [
             { id: 1, x: 50, y: 50, size: 50 },
             { id: 2, x: 50, y: 50, size: 30 },
             { id: 3, x: 50, y: 50, size: 20 }
         ];*/
 
-        chart.addBubbles(bubbles);
+        //chart.addBubbles(bubbles);
         //ch.addRects([{id: 0, x: 0, y: 100, x2: 10, y2: 40, color: 'green', links:[5044, 5369, 9652], borderColor: "black", border: 1}], true);
         //ch.addLines([{id: -1, x: 30, y: 30, x2: 70, y2: 70, border: 3, color: 'blue', links:[1], size: 20, size2: 40 }], true);
 
+        //chart.shapes.add({ id: -22, border: 20, color: "black", closed: true, lineJoin: "round", points: [0, 0, 10, 10, 40, 20, 50, 50, 30, 90]}, cl.PolyLine);
+        //chart.shapes.add({ id: -33, border: 10, color: "black", closed: false, points: [0, 0, 10, 0, 10, 0, 20, 0, 20, 10]}, cl.PolyLine);
+        chart.shapes.add({
+            id: -22, border: 6, color: "green", opacity: 0.8, closed: true, lineJoin: "round",
+            points: [0, 0, 90, 10, 80, 90, 70, 20]
+        }, cl.PolyLine);
+
         chart.addEventListener(cl.Event.click, function(e){
-            console.log(e.target.getBounds());
+            //console.log(e.target.getBounds());
         });
 
         /*
@@ -177,7 +159,7 @@ function animate100() {
     var bubbles = [];
     var i, l;
     for (i = 0; i < 100; i++) {
-        if (!ch.shapes.get(i)) continue;
+        if (!ch.shapes.get(i + 4)) continue;
         bubbles.push({
             id: i + 4,
             x: ch.shapes.get(i+4).props.x + (Math.random() - Math.random()) * 10,
@@ -217,22 +199,66 @@ function enableMultiselect() {
 }
 
 
+function addPolyLine() {
+    var count = 3 + Math.floor(Math.random() * 4);
+    var points = [];
+    for (var i = 0; i < count; i++) {
+        points.push(Math.random() * 100);
+        points.push(Math.random() * 100);
+    }
+    ch.shapes.add({ id: -22, closed: true, color: getRandomColor(), border: 1 + Math.random() * 10, points: points}, cl.PolyLine, true);
+}
+
+function changePolyStyle() {
+    var line = ch.shapes.get(-22);
+    if (!line) return;
+    var t;
+    switch (line.props.lineJoin) {
+        case undefined:case "bevel": t = "miter"; break;
+        case "miter": t = "round"; break;
+        case "round": t = "bevel"; break;
+    }
+    ch.shapes.add({ id: -22, lineJoin: t }, cl.PolyLine);
+}
+
+function toggleClose() {
+    var line = ch.shapes.get(-22);
+    if (!line) return;
+    line.stopAnimation();
+    ch.shapes.add({ id: -22, closed: !line.props.closed }, cl.PolyLine, true);
+}
+
 function addAllLinks() {
     for (i = 0; i < ch.shapes.count; i++) for (j = 0; j < ch.shapes.count; j++) if (i !== j) ch.shapes.shapes[i].link([ch.shapes.shapes[j].props.id]);
 }
 
 
 function buildGraph() {
-    function fn(a) {
-        return a/10 * a/10;
-    }
-    for (var i = 0; i < 100; i += 4) {
+    var fns = [
+        function(a) {
+            a = a / 10;
+            return a * a;
+        },
+        function(a) {
+            a = a / 10;
+            return 100 / (a + 1);
+        },
+        function(a) {
+            a = a / 10;
+            return 10 + (1 + Math.sin(a)) * 40;
+        }
+    ];
+    var points = [];
+    buildGraph.cur = (buildGraph.cur || 0) + 1;
+    if (buildGraph.cur == 3) buildGraph.cur = 0;
+    var fn = fns[buildGraph.cur];
+    for (var i = 0; i < 104; i += 2) {
         var x = i;
         var y = fn(x);
-        var x2 = i + 4;
-        var y2 = fn(x2);
-        ch.addLines([{id: 7000 + i, x: x, y: y, x2: x2, y2: y2, border: 3, color: "blue" }]);
+        points.push(x);
+        points.push(y);
     }
+    ch.shapes.add([{id: -22, closed: false, points: points, border: 3, color: getRandomColor(), border: 1 + Math.random() * 10, opacity: 0.8 }], cl.PolyLine, true);
 }
 
 

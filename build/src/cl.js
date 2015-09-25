@@ -2,10 +2,10 @@
 void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=TWEEN||function(){var n=[];return{REVISION:"14",getAll:function(){return n},removeAll:function(){n=[]},add:function(t){n.push(t)},remove:function(t){var r=n.indexOf(t);-1!==r&&n.splice(r,1)},update:function(t){if(0===n.length)return!1;var r=0;for(t=void 0!==t?t:"undefined"!=typeof window&&void 0!==window.performance&&void 0!==window.performance.now?window.performance.now():Date.now();r<n.length;)n[r].update(t)?r++:n.splice(r,1);return!0}}}();TWEEN.Tween=function(n){var t=n,r={},i={},u={},o=1e3,e=0,a=!1,f=!1,c=!1,s=0,h=null,l=TWEEN.Easing.Linear.None,p=TWEEN.Interpolation.Linear,E=[],d=null,v=!1,I=null,w=null,M=null;for(var O in n)r[O]=parseFloat(n[O],10);this.to=function(n,t){return void 0!==t&&(o=t),i=n,this},this.start=function(n){TWEEN.add(this),f=!0,v=!1,h=void 0!==n?n:"undefined"!=typeof window&&void 0!==window.performance&&void 0!==window.performance.now?window.performance.now():Date.now(),h+=s;for(var o in i){if(i[o]instanceof Array){if(0===i[o].length)continue;i[o]=[t[o]].concat(i[o])}r[o]=t[o],r[o]instanceof Array==!1&&(r[o]*=1),u[o]=r[o]||0}return this},this.stop=function(){return f?(TWEEN.remove(this),f=!1,null!==M&&M.call(t),this.stopChainedTweens(),this):this},this.stopChainedTweens=function(){for(var n=0,t=E.length;t>n;n++)E[n].stop()},this.delay=function(n){return s=n,this},this.repeat=function(n){return e=n,this},this.yoyo=function(n){return a=n,this},this.easing=function(n){return l=n,this},this.interpolation=function(n){return p=n,this},this.chain=function(){return E=arguments,this},this.onStart=function(n){return d=n,this},this.onUpdate=function(n){return I=n,this},this.onComplete=function(n){return w=n,this},this.onStop=function(n){return M=n,this},this.update=function(n){var f;if(h>n)return!0;v===!1&&(null!==d&&d.call(t),v=!0);var M=(n-h)/o;M=M>1?1:M;var O=l(M);for(f in i){var m=r[f]||0,N=i[f];N instanceof Array?t[f]=p(N,O):("string"==typeof N&&(N=m+parseFloat(N,10)),"number"==typeof N&&(t[f]=m+(N-m)*O))}if(null!==I&&I.call(t,O),1==M){if(e>0){isFinite(e)&&e--;for(f in u){if("string"==typeof i[f]&&(u[f]=u[f]+parseFloat(i[f],10)),a){var T=u[f];u[f]=i[f],i[f]=T}r[f]=u[f]}return a&&(c=!c),h=n+s,!0}null!==w&&w.call(t);for(var g=0,W=E.length;W>g;g++)E[g].start(n);return!1}return!0}},TWEEN.Easing={Linear:{None:function(n){return n}},Quadratic:{In:function(n){return n*n},Out:function(n){return n*(2-n)},InOut:function(n){return(n*=2)<1?.5*n*n:-.5*(--n*(n-2)-1)}},Cubic:{In:function(n){return n*n*n},Out:function(n){return--n*n*n+1},InOut:function(n){return(n*=2)<1?.5*n*n*n:.5*((n-=2)*n*n+2)}},Quartic:{In:function(n){return n*n*n*n},Out:function(n){return 1- --n*n*n*n},InOut:function(n){return(n*=2)<1?.5*n*n*n*n:-.5*((n-=2)*n*n*n-2)}},Quintic:{In:function(n){return n*n*n*n*n},Out:function(n){return--n*n*n*n*n+1},InOut:function(n){return(n*=2)<1?.5*n*n*n*n*n:.5*((n-=2)*n*n*n*n+2)}},Sinusoidal:{In:function(n){return 1-Math.cos(n*Math.PI/2)},Out:function(n){return Math.sin(n*Math.PI/2)},InOut:function(n){return.5*(1-Math.cos(Math.PI*n))}},Exponential:{In:function(n){return 0===n?0:Math.pow(1024,n-1)},Out:function(n){return 1===n?1:1-Math.pow(2,-10*n)},InOut:function(n){return 0===n?0:1===n?1:(n*=2)<1?.5*Math.pow(1024,n-1):.5*(-Math.pow(2,-10*(n-1))+2)}},Circular:{In:function(n){return 1-Math.sqrt(1-n*n)},Out:function(n){return Math.sqrt(1- --n*n)},InOut:function(n){return(n*=2)<1?-.5*(Math.sqrt(1-n*n)-1):.5*(Math.sqrt(1-(n-=2)*n)+1)}},Elastic:{In:function(n){var t,r=.1,i=.4;return 0===n?0:1===n?1:(!r||1>r?(r=1,t=i/4):t=i*Math.asin(1/r)/(2*Math.PI),-(r*Math.pow(2,10*(n-=1))*Math.sin(2*(n-t)*Math.PI/i)))},Out:function(n){var t,r=.1,i=.4;return 0===n?0:1===n?1:(!r||1>r?(r=1,t=i/4):t=i*Math.asin(1/r)/(2*Math.PI),r*Math.pow(2,-10*n)*Math.sin(2*(n-t)*Math.PI/i)+1)},InOut:function(n){var t,r=.1,i=.4;return 0===n?0:1===n?1:(!r||1>r?(r=1,t=i/4):t=i*Math.asin(1/r)/(2*Math.PI),(n*=2)<1?-.5*r*Math.pow(2,10*(n-=1))*Math.sin(2*(n-t)*Math.PI/i):r*Math.pow(2,-10*(n-=1))*Math.sin(2*(n-t)*Math.PI/i)*.5+1)}},Back:{In:function(n){var t=1.70158;return n*n*((t+1)*n-t)},Out:function(n){var t=1.70158;return--n*n*((t+1)*n+t)+1},InOut:function(n){var t=2.5949095;return(n*=2)<1?.5*n*n*((t+1)*n-t):.5*((n-=2)*n*((t+1)*n+t)+2)}},Bounce:{In:function(n){return 1-TWEEN.Easing.Bounce.Out(1-n)},Out:function(n){return 1/2.75>n?7.5625*n*n:2/2.75>n?7.5625*(n-=1.5/2.75)*n+.75:2.5/2.75>n?7.5625*(n-=2.25/2.75)*n+.9375:7.5625*(n-=2.625/2.75)*n+.984375},InOut:function(n){return.5>n?.5*TWEEN.Easing.Bounce.In(2*n):.5*TWEEN.Easing.Bounce.Out(2*n-1)+.5}}},TWEEN.Interpolation={Linear:function(n,t){var r=n.length-1,i=r*t,u=Math.floor(i),o=TWEEN.Interpolation.Utils.Linear;return 0>t?o(n[0],n[1],i):t>1?o(n[r],n[r-1],r-i):o(n[u],n[u+1>r?r:u+1],i-u)},Bezier:function(n,t){var r,i=0,u=n.length-1,o=Math.pow,e=TWEEN.Interpolation.Utils.Bernstein;for(r=0;u>=r;r++)i+=o(1-t,u-r)*o(t,r)*n[r]*e(u,r);return i},CatmullRom:function(n,t){var r=n.length-1,i=r*t,u=Math.floor(i),o=TWEEN.Interpolation.Utils.CatmullRom;return n[0]===n[r]?(0>t&&(u=Math.floor(i=r*(1+t))),o(n[(u-1+r)%r],n[u],n[(u+1)%r],n[(u+2)%r],i-u)):0>t?n[0]-(o(n[0],n[0],n[1],n[1],-i)-n[0]):t>1?n[r]-(o(n[r],n[r],n[r-1],n[r-1],i-r)-n[r]):o(n[u?u-1:0],n[u],n[u+1>r?r:u+1],n[u+2>r?r:u+2],i-u)},Utils:{Linear:function(n,t,r){return(t-n)*r+n},Bernstein:function(n,t){var r=TWEEN.Interpolation.Utils.Factorial;return r(n)/r(t)/r(n-t)},Factorial:function(){var n=[1];return function(t){var r,i=1;if(n[t])return n[t];for(r=t;r>1;r--)i*=r;return n[t]=i}}(),CatmullRom:function(n,t,r,i,u){var o=.5*(r-n),e=.5*(i-t),a=u*u,f=u*a;return(2*t-2*r+o+e)*f+(-3*t+3*r-2*o-e)*a+o*u+t}}},"undefined"!=typeof module&&module.exports&&(module.exports=TWEEN);
 /** @namespace */
 var cl= (function(){
-    var ver = "1.0.4";
+    var ver = "1.0.5";
     if (ver !== "{{Package.Json.Version}}".toLowerCase()) console.log("%c ˖•● ChartLibrary v." + ver + " ●•˖ ", 'background: #44A; color: #FFF');
     return {
-        version: "1.0.4"
+        version: "1.0.5"
     };
 })();
 /** @namespace */
@@ -2970,9 +2970,9 @@ cl.Selector = (function() {
                         // Multiple selection. Add or remove shape from selection
                         var idx = t.selection.indexOf(t.hover);
                         if (idx === -1) t.selection.push(t.hover); else t.selection.splice(idx, 1);
-                    } else if (clickedOnShape) {
+                    } else {
                         // Single selection
-                        if (t.hover) {
+                        if (t.hover && clickedOnShape) {
                             if (t.selection.length === 1 && t.selection[0] === t.hover) {
                                 t.chart.events.callListeners(cl.Event.deselect, e, t.selection);
                                 t.selection = [];
@@ -3385,9 +3385,10 @@ cl.Shape = (function() {
 
     /**
      * Called each frame when animation was updated
+     * @param {number} p Animation progress [0..1]
      * @this current object "props" with animated properties
      */
-    Shape.prototype.onAnimationUpdate = function() {
+    Shape.prototype.onAnimationUpdate = function(p) {
 
     };
 
@@ -3425,6 +3426,7 @@ cl.Shape = (function() {
             this.animProps.color_r = rgbTo.r;
             this.animProps.color_g = rgbTo.g;
             this.animProps.color_b = rgbTo.b;
+            // TODO: don't use delete because v8 performance issues with changed objects. Replace property name
             delete this.animProps.color;
         }
         if (this.animProps.color2) {
@@ -3436,6 +3438,7 @@ cl.Shape = (function() {
             this.animProps.color2_r = rgbTo.r;
             this.animProps.color2_g = rgbTo.g;
             this.animProps.color2_b = rgbTo.b;
+            // TODO: don't use delete because v8 performance issues with changed objects. Replace property name
             delete this.animProps.color2;
         }
         if (this.animProps.borderColor) {
@@ -3447,6 +3450,7 @@ cl.Shape = (function() {
             this.animProps.borderColor_r = rgbTo.r;
             this.animProps.borderColor_g = rgbTo.g;
             this.animProps.borderColor_b = rgbTo.b;
+            // TODO: don't use delete because v8 performance issues with changed objects. Replace property name
             delete this.animProps.borderColor;
         }
         // Create tween for animation
@@ -3454,8 +3458,8 @@ cl.Shape = (function() {
             .to(this.animProps, animationSpeed || cl.ShapeManager.ANIMATION_SPEED)
             .easing(TWEEN.Easing.Quadratic.Out)
             .delay(cl.ShapeManager.ANIMATION_DELAY)
-            .onUpdate(function () {
-                _this.onAnimationUpdate.call(this);
+            .onUpdate(function (time) {
+                _this.onAnimationUpdate.apply(this, arguments);
                 var r, g, b;
                 if (this.color_r !== undefined) {
                     r = Math.floor(this.color_r);
@@ -3554,7 +3558,9 @@ cl.Shape = (function() {
      * @returns {boolean} Is shape changed or not
      */
     Shape.prototype.calcAnimProps = function(newProps) {
-        this.animProps = {};
+        this.animProps = {
+            changed: false
+        };
         this.animProps.owner = this;
         if (this._isDragged) return false;
         if (newProps.x !== undefined && newProps.x !== this.props.x) {
@@ -3565,11 +3571,11 @@ cl.Shape = (function() {
             this.animProps.y = newProps.y;
             this.animProps.changed = true;
         }
-        if (newProps.color !== undefined && newProps.color !== this.props.color) {
+        if (newProps.color !== undefined && cl.Color.fromString(newProps.color) !== cl.Color.fromString(this.props.color)) {
             this.animProps.color = newProps.color;
             this.animProps.changed = true;
         }
-        if (newProps.borderColor !== undefined && newProps.borderColor !== this.props.borderColor) {
+        if (newProps.borderColor !== undefined && cl.Color.fromString(newProps.borderColor) !== cl.Color.fromString(this.props.borderColor)) {
             this.animProps.borderColor = newProps.borderColor;
             this.animProps.changed = true;
         }
@@ -3641,6 +3647,7 @@ cl.Shape = (function() {
 cl.ShapeManager = (function() {
     'use strict';
 
+    // TODO: move function definitions to prototype
     /**
      * Represent shapes manager class. Stores bubbles, polys and other chart shapes.
      * @extends cl.Layer
@@ -3688,7 +3695,6 @@ cl.ShapeManager = (function() {
 
         // Properties
         t.chart = chart;
-        // TODO: rename this to items
         t.items = [];
         t.dirtyFlagName = "items";
         t.static = new cl.Canvas(chart.width, chart.height);
@@ -3955,7 +3961,6 @@ cl.ShapeManager = (function() {
             var aa = allowAnimation || false;
             if (!ShapeClass) throw new Error(cl.Lang.get("errNoShapeClass"));
             if (!(item instanceof Array)) it = [item];  else it = item;
-            var changedItems = [];
 
             for (i = 0, l = it.length; i < l; i++) {
                 if (it[i].id === undefined) throw new Error(cl.Lang.get("errShapeNoParam", "id"));
@@ -3964,7 +3969,6 @@ cl.ShapeManager = (function() {
                     if (obj.constructor !== ShapeClass) throw new Error(cl.Lang.get("errShapeType"));
                     var changed = obj.setProps(it[i], aa, animationSpeed);
                     if (changed) {
-                        changedItems.push(obj);
                         if (!obj.isAnimating) t.updateStatic();
                     }
                 } else {
@@ -3974,21 +3978,6 @@ cl.ShapeManager = (function() {
                     t.updateStatic();
                 }
             }
-            if (changedItems.length !== 0 && aa) {
-                // Animate maximum allowed shapes
-                l = changedItems.length;
-                if (l > ShapeManager.MAX_ANIMATED_ITEMS) l = ShapeManager.MAX_ANIMATED_ITEMS;
-                for (i = 0; i < l; i++) if (changedItems[i].animProps) {
-                    changedItems[i].startAnimation(animationSpeed);
-                }
-                // Other shapes must change properties immediately
-                for (i = ShapeManager.MAX_ANIMATED_ITEMS, l = changedItems.length; i < l; i++) {
-                    cl.Utils.merge(changedItems[i].props, changedItems[i].animProps);
-                }
-            } else {
-                t.updateStatic();
-            }
-            changedItems = null;
 
             t.apply();
         }
@@ -4480,7 +4469,7 @@ cl.Rect = (function() {
          */
         function getPixelArea() {
             var bounds = t.getBounds();
-            return t.w * t.h;
+            return bounds.w * bounds.h;
         }
 
         /**
@@ -4618,7 +4607,7 @@ cl.Rect = (function() {
                 t.animProps.borderRadius = newProps.borderRadius;
                 t.animProps.changed = true;
             }
-            if (newProps.color2 !== undefined && newProps.color2 !== t.props.color2) {
+            if (newProps.color2 !== undefined && cl.Color.fromString(newProps.color2) !== cl.Color.fromString(t.props.color2)) {
                 t.animProps.color2 = newProps.color2;
                 t.animProps.changed = true;
             }
@@ -4771,7 +4760,6 @@ cl.Line = (function() {
 
         // Private
         var opt = props || {};
-        opt.borderRadius = opt.borderRadius || 0;
         if (t.props.pointColor) t.props.pointColor = cl.Color.fromString(t.props.pointColor);
         if (t.props.pointColor2) t.props.pointColor2 = cl.Color.fromString(t.props.pointColor2);
 
@@ -4859,7 +4847,7 @@ cl.Line = (function() {
         /**
          * Returns X coordinate of shape center
          * @returns {number} X coordinate in axis space
-         * @memberof cl.Rect.prototype
+         * @memberof cl.Line.prototype
          */
         function getCenterX() {
             var x1, x2;
@@ -4871,7 +4859,7 @@ cl.Line = (function() {
         /**
          * Returns Y coordinate of shape center
          * @returns {number} Y coordinate in axis space
-         * @memberof cl.Rect.prototype
+         * @memberof cl.Line.prototype
          */
         function getCenterY() {
             var y1, y2;
@@ -4939,7 +4927,7 @@ cl.Line = (function() {
          * @param {number} hw Half width
          * @param {number} hh Half height
          * @returns {boolean} Intersecting or not
-         * @memberof cl.Rect.prototype
+         * @memberof cl.Line.prototype
          */
         function hitTestRect(rx, ry, hw, hh) {
             var x1, y1, x2, y2;
@@ -4956,7 +4944,7 @@ cl.Line = (function() {
          * @param {number} x X coordinate in pixels
          * @param {number} y Y coordinate in pixels
          * @returns {boolean} Inside or not
-         * @memberof cl.Rect.prototype
+         * @memberof cl.Line.prototype
          */
         function hitTest(x, y) {
             var x1, y1, x2, y2, sx, sy, ex, ey;
@@ -4977,7 +4965,7 @@ cl.Line = (function() {
          * Updates shape properties
          * @param {object} newProps New properties
          * @returns {boolean} Is shape changed or not
-         * @memberof cl.Rect.prototype
+         * @memberof cl.Line.prototype
          */
         function calcAnimProps(newProps) {
             t.constructor.superclass.calcAnimProps.call(t, newProps);
@@ -4998,11 +4986,11 @@ cl.Line = (function() {
                 t.animProps.size2 = newProps.size2;
                 t.animProps.changed = true;
             }
-            if (newProps.pointColor !== undefined && newProps.pointColor !== t.props.pointColor) {
+            if (newProps.pointColor !== undefined && cl.Color.fromString(newProps.pointColor) !== cl.Color.fromString(t.props.pointColor)) {
                 t.animProps.pointColor = newProps.pointColor;
                 t.animProps.changed = true;
             }
-            if (newProps.pointColor2 !== undefined && newProps.pointColor2 !== t.props.pointColor2) {
+            if (newProps.pointColor2 !== undefined && cl.Color.fromString(newProps.pointColor2) !== cl.Color.fromString(t.props.pointColor2)) {
                 t.animProps.pointColor2 = newProps.pointColor2;
                 t.animProps.changed = true;
             }
@@ -5094,7 +5082,7 @@ cl.Line = (function() {
 
         /**
          * Destroys line
-         * @memberof cl.Rect.prototype
+         * @memberof cl.Line.prototype
          */
         function destroy() {
             t.constructor.superclass.destroy.call(t);
@@ -5112,6 +5100,449 @@ cl.Line = (function() {
     Line.HOVER_THRESHOLD = 25;
 
     return Line;
+
+})();
+cl.PolyLine = (function() {
+    'use strict';
+
+    /**
+     * Represent line segment shape class
+     * @extends cl.Shape
+     * @param {object} parent Parent shape manager
+     * @param {object} props shape settings
+     * @param {object} props.id Shape id
+     * @param {array<number>} props.points Line points coordinates. Contains [x1, y1, x2, y2, x3, y3, ...]
+     * @param {boolean} [props.closed=false] Is poly line closed or not
+     * @param {string} [props.cursor] Change cursor to specified when shape is hovered
+     * @param {string} [props.color=cl.Consts.COLOR_RED] Line color
+     * @param {object} [props.border=1] Shape border width
+     * @param {object} [props.opacity=0.3] Shape opacity
+     * @param {string} [props.lineJoin="miter"] Line join. Can be "miter", "round", "bevel"
+     * @param {array} [props.lineDash=[]] Shape line dash. Example: [2, 2]
+     * @param {array} [props.links=[]] Array of linked shapes id's
+     * @param {boolean} [props.draggable=true] Is shape draggable
+     * @param {object} [props.track] Shape track. Can be displayed while shape is animating
+     * @param {boolean} [props.track.enabled=false] Enabled or not
+     * @param {number} [props.track.width=1] Line width
+     * @param {string} [props.track.color=cl.Consts.COLOR_GREEN] Line color
+     * @param {number} [props.track.opacity=0.4] Line opacity
+     * @param {object} [props.hover] Hover style
+     * @param {boolean} [props.hover.enabled=true] Is hover enabled
+     * @param {number} [props.hover.border] Hover border size
+     * @param {string} [props.hover.color] Hover color
+     * @param {number} [props.hover.opacity] Hover opacity
+     * @param {number} [props.hover.offset] Hover offset
+     *
+     * @constructor
+     * @memberof cl
+     **/
+    function PolyLine(parent, props) {
+        var t = this;
+        cl.Shape.call(t, parent, props);
+
+        // Public methods
+        t.type = "polyline";
+        t.parent = parent;
+        t.render = render;
+        t.destroy = destroy;
+        t.hitTest = hitTest;
+        t.getBounds = getBounds;
+        t.getCenterX = getCenterX;
+        t.getCenterY = getCenterY;
+        t.hitTestRect = hitTestRect;
+        t.renderHover = renderHover;
+        t.processDrag = processDrag;
+        t.getPixelArea = getPixelArea;
+        t.calcAnimProps = calcAnimProps;
+        t.onAnimationUpdate = onAnimationUpdate;
+        t.stopAnimation = stopAnimation;
+
+        // Private
+        var opt = props || {};
+        opt.borderRadius = opt.borderRadius || 0;
+        if (t.props.pointColor) t.props.pointColor = cl.Color.fromString(t.props.pointColor);
+        if (t.props.pointColor2) t.props.pointColor2 = cl.Color.fromString(t.props.pointColor2);
+
+        if (t.props.points === undefined) throw new Error(cl.Lang.get("errShapeNoParam", "points"));
+        if (t.props.points.length < 4) throw new Error(cl.Lang.get("errShapeNoParam", "points"));
+
+        // Used for store animation variables
+        // TODO: try to make it without anim object. All animation specific properties should be in animProps
+        var anim = {
+            pointsFrom: [],
+            pointsTo: [],
+            closedFrom: false,
+            closedTo: false,
+            closedWidth: 0
+        };
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /**
+         * Stops animation
+         * @param {boolean} [dontStopTween=false] Don't stop tween. Not usable in general cases. Used only if method called from onComplete tween event
+         * @memberof cl.PolyLine.prototype
+         */
+        function stopAnimation(dontStopTween) {
+            var i, l;
+            if (t.tween && anim.pointsTo.length !== 0) {
+                for (i = 0, l = t.props.points.length; i < l; i++) t.props.points[i] = anim.pointsTo[i];
+                if (t.props.delPoints) t.props.points.splice(t.props.points.length - t.props.delPoints * 2, t.props.delPoints * 2);
+            }
+            anim.closedWidth = 0;
+            anim.pointsFrom = [];
+            anim.pointsTo = [];
+            anim.closedFrom = t.props.closed;
+            anim.closedTo = t.props.closed;
+            t.constructor.superclass.stopAnimation.call(t, dontStopTween);
+        }
+
+        /**
+         * Returns shape area in pixels
+         * @returns {number} Shape area
+         * @memberof cl.PolyLine.prototype
+         */
+        function getPixelArea() {
+            var i, l, dist = 0;
+            for (i = 0, l = t.props.points.length; i < l - 2; i += 2) dist += Math.sqrt(cl.Utils.distSq(t.props.points[i], t.props.points[i+1], t.props.points[i+2], t.props.points[i+3]));
+            if (t.props.closed) dist += Math.sqrt(cl.Utils.distSq(t.props.points[l-2], t.props.points[l-1], t.props.points[0], t.props.points[1]));
+            return dist;
+        }
+
+        /**
+         * Uses to update point colors
+         * @param {number} p Animation progress [0..1]
+         */
+        function onAnimationUpdate(p) {
+            /*jshint validthis:true */
+            var i, l, idx, _this = this;
+            if (anim.pointsFrom.length !== 0 && anim.pointsTo.length !== 0) {
+                for (i = 0, l = _this.points.length; i < l; i++) _this.points[i] = anim.pointsFrom[i] + (anim.pointsTo[i] - anim.pointsFrom[i]) * p;
+            }
+
+            if (anim.closedFrom !== anim.closedTo) {
+                if (anim.closedTo) anim.closedWidth = p * t.props.border; else anim.closedWidth = (1 - p) * t.props.border;
+            }
+        }
+
+        function getArea() {
+            var area = 0, i, l, point1, point2;
+            for (i = 0, l = t.props.points.length; i < l - 2; i += 2) {
+                area += t.props.points[i] * t.props.points[i + 3];
+                area -= t.props.points[i + 1] * t.props.points[i + 2];
+            }
+            if (t.props.closed) {
+                area += t.props.points[l - 1] * t.props.points[1];
+                area -= t.props.points[l - 2] * t.props.points[0];
+                //point1.x * point2.y;
+                //point1.y * point2.x;
+            }
+            area /= 2;
+            return area;
+        }
+
+        /**
+         * Returns X coordinate of shape center
+         * @returns {number} X coordinate in axis space
+         * @memberof cl.PolyLine.prototype
+         */
+        function getCenterX() {
+            var twicearea = 0, x = 0, y = 0, i, l, f;
+            for (i = 0, l = t.props.points.length; i < l - 2; i += 2) {
+                f = t.props.points[i] * t.props.points[i + 3] - t.props.points[i + 2] * t.props.points[i + 1];
+                twicearea += f;
+                x += ( t.props.points[i] + t.props.points[i + 2] ) * f;
+                //y += ( t.props.points[i + 1] + t.props.points[i + 3] ) * f;
+            }
+            f = t.props.points[l - 2] * t.props.points[1] - t.props.points[0] * t.props.points[l - 1];
+            twicearea += f;
+            x += ( t.props.points[l - 2] + t.props.points[0] ) * f;
+            //y += ( t.props.points[l - 1] + t.props.points[1] ) * f;
+
+            f = twicearea * 3;
+            return x/f;
+        }
+
+        /**
+         * Returns Y coordinate of shape center
+         * @returns {number} Y coordinate in axis space
+         * @memberof cl.PolyLine.prototype
+         */
+        function getCenterY() {
+            var twicearea = 0, x = 0, y = 0, i, l, f;
+            for (i = 0, l = t.props.points.length; i < l - 2; i += 2) {
+                f = t.props.points[i] * t.props.points[i + 3] - t.props.points[i + 2] * t.props.points[i + 1];
+                twicearea += f;
+                //x += ( t.props.points[i] + t.props.points[i + 2] ) * f;
+                y += ( t.props.points[i + 1] + t.props.points[i + 3] ) * f;
+            }
+            f = t.props.points[l - 2] * t.props.points[1] - t.props.points[0] * t.props.points[l - 1];
+            twicearea += f;
+            //x += ( t.props.points[l - 2] + t.props.points[0] ) * f;
+            y += ( t.props.points[l - 1] + t.props.points[1] ) * f;
+
+            f = twicearea * 3;
+            return y/f;
+        }
+
+        /**
+         * Used to update shape position while shape dragged
+         * @param {number} deltaX X coordinate changes
+         * @param {number} deltaY Y coordinate changes
+         * @memberof cl.PolyLine.prototype
+         */
+        function processDrag(deltaX, deltaY) {
+            var i, l;
+            for (i = 0, l = t.props.points.length; i < l; i += 2) {
+                t.props.points[i] += deltaX;
+                t.props.points[i + 1] += deltaY;
+            }
+
+            t.constructor.superclass.processDrag.call(t, deltaX, deltaY);
+        }
+
+        /**
+         * Returns shape bounds
+         * @returns {{x: number, y: number, w: number, h: number}} Shape bounds
+         * @memberof cl.PolyLine.prototype
+         */
+        function getBounds() {
+            // TODO: extend bounds with line width?
+            var i, l, px, py, x1, y1, x2, y2;
+            x1 = Number.MAX_VALUE;
+            y1 = Number.MAX_VALUE;
+            x2 = Number.MIN_VALUE;
+            y2 = Number.MIN_VALUE;
+            for (i = 0, l = t.props.points.length; i < l; i += 2) {
+                px = t.parent.chart.xAxis.toScreen(t.props.points[i]);
+                py = t.parent.chart.yAxis.toScreen(t.props.points[i + 1]);
+                if (px < x1) x1 = px;
+                if (px > x2) x2 = px;
+                if (py < y1) y1 = py;
+                if (py > y2) y2 = py;
+            }
+            return {
+                x: x1,
+                y: y1,
+                w: x2 - x1,
+                h: y2-  y1
+            };
+        }
+
+        /**
+         * Checks if shape intersecting rectangle
+         * @param {number} rx X coordinate in pixels of rectangle center
+         * @param {number} ry Y coordinate in pixels of rectangle center
+         * @param {number} hw Half width
+         * @param {number} hh Half height
+         * @returns {boolean} Intersecting or not
+         * @memberof cl.PolyLine.prototype
+         */
+        function hitTestRect(rx, ry, hw, hh) {
+            var i, l, x1, y1, x2, y2;
+            for (i = 0, l = t.props.points.length; i < l - 2; i += 2) {
+                x1 = t.parent.chart.xAxis.toScreen(t.props.points[i]);
+                y1 = t.parent.chart.yAxis.toScreen(t.props.points[i + 1]);
+                x2 = t.parent.chart.xAxis.toScreen(t.props.points[i + 2]);
+                y2 = t.parent.chart.yAxis.toScreen(t.props.points[i + 3]);
+                if (cl.Utils.lineRectIntersect(rx - hw, ry - hh, rx + hw, ry + hh, x1, y1, x2, y2)) return true;
+            }
+            if (t.props.closed) {
+                x1 = t.parent.chart.xAxis.toScreen(t.props.points[l - 2]);
+                y1 = t.parent.chart.yAxis.toScreen(t.props.points[l - 1]);
+                x2 = t.parent.chart.xAxis.toScreen(t.props.points[0]);
+                y2 = t.parent.chart.yAxis.toScreen(t.props.points[1]);
+                if (cl.Utils.lineRectIntersect(rx - hw, ry - hh, rx + hw, ry + hh, x1, y1, x2, y2)) return true;
+            }
+
+            return false;
+        }
+
+        /**
+         * Check if point inside shape
+         * @param {number} x X coordinate in pixels
+         * @param {number} y Y coordinate in pixels
+         * @returns {boolean} Inside or not
+         * @memberof cl.PolyLine.prototype
+         */
+        function hitTest(x, y) {
+            var i, l, x1, y1, x2, y2;
+            for (i = 0, l = t.props.points.length; i < l - 2; i += 2) {
+                x1 = t.parent.chart.xAxis.toScreen(t.props.points[i]);
+                y1 = t.parent.chart.yAxis.toScreen(t.props.points[i + 1]);
+                x2 = t.parent.chart.xAxis.toScreen(t.props.points[i + 2]);
+                y2 = t.parent.chart.yAxis.toScreen(t.props.points[i + 3]);
+                if (cl.Utils.distToSegmentSquared(x, y, x1, y1, x2, y2) < cl.Line.HOVER_THRESHOLD) return true;
+            }
+            if (t.props.closed) {
+                x1 = t.parent.chart.xAxis.toScreen(t.props.points[l - 2]);
+                y1 = t.parent.chart.yAxis.toScreen(t.props.points[l - 1]);
+                x2 = t.parent.chart.xAxis.toScreen(t.props.points[0]);
+                y2 = t.parent.chart.yAxis.toScreen(t.props.points[1]);
+                if (cl.Utils.distToSegmentSquared(x, y, x1, y1, x2, y2) < cl.Line.HOVER_THRESHOLD) return true;
+            }
+
+            return false;
+        }
+
+        /**
+         * Updates shape properties
+         * @param {object} newProps New properties
+         * @returns {boolean} Is shape changed or not
+         * @memberof cl.PolyLine.prototype
+         */
+        function calcAnimProps(newProps) {
+            var i, l, k;
+            t.constructor.superclass.calcAnimProps.call(t, newProps);
+
+            if (newProps.lineJoin !== undefined && t.props.lineJoin !== newProps.lineJoin) {
+                t.animProps.lineJoin = newProps.lineJoin;
+                t.animProps.changed = true;
+            }
+
+            if (newProps.closed !== undefined && t.props.closed !== newProps.closed) {
+                anim.closedFrom = t.props.closed;
+                anim.closedTo = newProps.closed;
+                t.animProps.closed = newProps.closed;
+                t.animProps.changed = true;
+            }
+
+            // Check points
+            if (newProps.points !== undefined) {
+                // If length equal, check for changes
+                if (newProps.points.length === t.props.points.length) {
+                    for (i = 0, l = newProps.points.length; i < l; i++) if (t.props.points[i] !== newProps.points[i]) {
+                        t.animProps.changed = true;
+                        break;
+                    }
+                } else t.animProps.changed = true;
+                if (t.animProps.changed) {
+                    // Find out new points to be added or old to be deleted
+                    t.props.delPoints = 0;
+                    if (t.props.points.length < newProps.points.length) {
+                        // NewProps has more points. New points should be added
+                        k = t.props.points.length - 2;
+                        for (i = t.props.points.length, l = newProps.points.length; i < l; i+=2) {
+                            t.props.points.push(t.props.points[k]);
+                            t.props.points.push(t.props.points[k + 1]);
+                        }
+                    } else
+                    if (t.props.points.length > newProps.points.length) {
+                        // NewProps has less points. Old points should be deleted
+                        k = newProps.points.length - 2;
+                        for (i = newProps.points.length, l = t.props.points.length; i < l; i+=2) {
+                            newProps.points.push(newProps.points[k]);
+                            newProps.points.push(newProps.points[k + 1]);
+                            t.props.delPoints++;
+                        }
+                    }
+
+                    // Fill arrays for animation calculations
+                    anim.pointsFrom = [];
+                    anim.pointsTo = [];
+                    for (i = 0, l = t.props.points.length; i < l; i++) anim.pointsFrom.push(t.props.points[i]);
+                    for (i = 0, l = newProps.points.length; i < l; i++) anim.pointsTo.push(newProps.points[i]);
+                }
+            }
+
+            return t.animProps.changed;
+        }
+
+        /**
+         * Renders line on canvas
+         * @param {cl.Canvas} canvas
+         * @memberof cl.PolyLine.prototype
+         */
+        function render(canvas) {
+            if (t._isDragged) return;
+            var chart = t.parent.chart;
+
+            // Calculate line coordinates
+            var i, l;
+            var x = [];
+            var y = [];
+            for (i = 0, l = t.props.points.length; i < l; i+=2) {
+                x.push(chart.xAxis.toScreen(t.props.points[i]));
+                y.push(chart.yAxis.toScreen(t.props.points[i + 1]));
+            }
+
+            // Set drawing style
+            canvas.setAlpha(t.props.opacity);
+            canvas.setLineStyle(t.props.border, t.props.color, true);
+            if (t.props.lineJoin ) canvas.ctx.lineJoin  = t.props.lineJoin;
+            if (t.props.lineDash) canvas.setLineDash(t.props.lineDash);
+
+            // Draw lines
+            canvas.ctx.beginPath();
+            canvas.ctx.moveTo(x[0], y[0]);
+            for (i = 1; i < l; i++) canvas.ctx.lineTo(x[i], y[i]);
+
+            // Close poly line if closed === true
+            if (t.props.closed || anim.closedWidth) {
+                if (anim.closedWidth) {
+                    canvas.ctx.stroke();
+                    canvas.ctx.beginPath();
+                    canvas.setLineStyle(anim.closedWidth, t.props.color, true);
+                    canvas.ctx.moveTo(x[x.length - 1], y[y.length - 1]);
+                    canvas.ctx.lineTo(x[0], y[0]);
+                } else {
+                    canvas.ctx.lineTo(x[0], y[0]);
+                    canvas.ctx.closePath();
+                }
+            }
+            canvas.ctx.stroke();
+            // Restore line dash style
+            if (t.props.lineDash) canvas.setLineDash([]);
+            if (t.props.lineJoin) canvas.ctx.lineJoin = "miter";
+            t.constructor.superclass.render.call(t,canvas);
+        }
+
+        /**
+         * Renders line hover on canvas
+         * @param {cl.Canvas} canvas
+         * @param {number} [offset=0] Hover offset
+         * @memberof cl.PolyLine.prototype
+         */
+        function renderHover(canvas, offset) {
+            if (t._isDragged) return;
+            var chart = t.parent.chart;
+
+            // Calculate line coordinates
+            var i, l;
+            var x = [];
+            var y = [];
+            for (i = 0, l = t.props.points.length; i < l; i+=2) {
+                x.push(chart.xAxis.toScreen(t.props.points[i]));
+                y.push(chart.yAxis.toScreen(t.props.points[i + 1]));
+            }
+
+            // Draw lines
+            canvas.ctx.beginPath();
+            canvas.ctx.moveTo(x[0], y[0]);
+            for (i = 1; i < l; i++) canvas.ctx.lineTo(x[i], y[i]);
+
+            // Close poly line if closed === true
+            if (t.props.closed) {
+                canvas.ctx.lineTo(x[0], y[0]);
+                canvas.ctx.closePath();
+            }
+            canvas.ctx.stroke();
+
+            t.constructor.superclass.renderHover.call(t,canvas);
+        }
+
+        /**
+         * Destroys polyline
+         * @memberof cl.PolyLine.prototype
+         */
+        function destroy() {
+            t.constructor.superclass.destroy.call(t);
+        }
+    }
+
+    cl.Utils.extend(PolyLine, cl.Shape);
+
+    return PolyLine;
 
 })();
 cl.Chart = (function(){
@@ -5212,6 +5643,9 @@ cl.Chart = (function(){
      * // Add custom shapes to chart
      * chart.shapes.add(bubblesArray, cl.Bubble, allowAnimation, animationSpeed);
      * chart.shapes.add(itemsArray, cl.MyCustomClass, allowAnimation, animationSpeed);
+     *
+     * // Add poly line
+     * chart.shapes.add({ id: -22, border: 10, color: "black", closed: true, lineJoin: "round", points: [0, 0, 90, 10, 80, 90, 70, 20]}, cl.PolyLine);
      *
      * // Change single bubble properties with animation
      * var b = chart.shapes.get(myBubbleID);
