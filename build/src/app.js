@@ -98,7 +98,11 @@
         bubbles = [
             {id: 1, x: 10, y: 10, size: 20},
             {id: 2, x: 80, y: 10, size: 20, lineDash: [2, 2] },
-            {id: 3, x: 50, y: 50, size: 40, border: 20, borderColor: "yellow" }
+            {id: 3, x: 50, y: 50, size: 40, hover: {
+                color: "green",
+                border: 10,
+                animation: 3000
+            }}
         ];
 
         /*bubbles = [
@@ -107,7 +111,7 @@
             { id: 3, x: 50, y: 50, size: 20 }
         ];*/
 
-        //chart.addBubbles(bubbles);
+        chart.addBubbles(bubbles);
         //ch.addRects([{id: 0, x: 0, y: 100, x2: 10, y2: 40, color: 'green', links:[5044, 5369, 9652], borderColor: "black", border: 1}], true);
         //ch.addLines([{id: -1, x: 30, y: 30, x2: 70, y2: 70, border: 3, color: 'blue', links:[1], size: 20, size2: 40 }], true);
 
@@ -261,6 +265,12 @@ function buildGraph() {
     ch.shapes.add([{id: -22, closed: false, points: points, border: 3, color: getRandomColor(), border: 1 + Math.random() * 10, opacity: 0.8 }], cl.PolyLine, true);
 }
 
+var o1 = {a: [3, 4]};
+var o2 = { a: [5] };
+var r = cl.Utils.merge(o1, o2)
+console.log(r.a);
+r.a.push(6);
+console.log(o2.a);
 
 
 
@@ -289,3 +299,6 @@ Function.prototype.mybind = function(ctx) {
         t.apply(ctx, args);
     };
 };
+
+
+

@@ -2,7 +2,7 @@ function colorTest() {
 
     describe('cl.Color', function () {
         var msg = "Wrong color component";
-
+        // TODO: write tests for rgb and rgba conversion
         it('shold convert from name to hex', function () {
             var c;
             c = cl.Color.fromString("darkslategray");
