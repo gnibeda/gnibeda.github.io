@@ -38,7 +38,7 @@ function testEvents() {
             chart.removeEventListener(cl.Event.shapeOver, tempListener);
         });
 
-        it('should return shape in click event', function() {
+        it('should return shape in click event', function(done) {
             var ev;
             function onClick(e) {
                 ev = cl.Utils.merge({}, e);
@@ -50,11 +50,19 @@ function testEvents() {
             fireEvent("mousedown", 400, 300, chart);
             fireEvent("mouseup", 400, 300, chart);
 
-            assert.ok(ev, "Event was not fired");
-            var found = ev.target !== undefined && ev.target.props !== undefined && ev.target.props.id === 1;
-            assert.ok(found, "Shape was not found");
-            expect(ev.x).equal(50, "Wrong x coordinate");
-            expect(ev.y).equal(50, "Wrong y coordinate");
+
+            setTimeout(function() {
+                try {
+                    assert.ok(ev, "Event was not fired");
+                    var found = ev.target !== undefined && ev.target.props !== undefined && ev.target.props.id === 1;
+                    assert.ok(found, "Shape was not found");
+                    expect(ev.x).equal(50, "Wrong x coordinate");
+                    expect(ev.y).equal(50, "Wrong y coordinate");
+                    done();
+                } catch (e) { done(e); }
+
+            }, 700);
+
         });
 
         it('should return shape in double click event', function() {
@@ -65,7 +73,10 @@ function testEvents() {
             }
 
             chart.addEventListener(cl.Event.doubleClick, onClick);
-            fireEvent("dblclick", 400, 300, chart);
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mouseup", 400, 300, chart);
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mouseup", 400, 300, chart);
 
             assert.ok(ev, "Event not fired");
             var found = ev.target !== undefined && ev.target.props !== undefined && ev.target.props.id === 1;
@@ -73,6 +84,31 @@ function testEvents() {
             expect(ev.x).equal(50, "Wrong x coordinate");
             expect(ev.y).equal(50, "Wrong y coordinate");
         });
+
+        it("should don't fire click in doubleclick event", function(done) {
+            var ev;
+            function onClick(e) {
+                ev = cl.Utils.merge({}, e);
+                chart.removeEventListener(cl.Event.click, onClick);
+            }
+
+            chart.addEventListener(cl.Event.click, onClick);
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mouseup", 400, 300, chart);
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mouseup", 400, 300, chart);
+
+
+            setTimeout(function() {
+                try {
+                    expect(ev).equal(undefined, "Click event was fired");
+                    done();
+                } catch (e) { done(e); }
+
+            }, 700);
+
+        });
+
 
         it('should return shape, in shapeover event', function() {
             var ev;

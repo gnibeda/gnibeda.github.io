@@ -2,7 +2,7 @@ function colorTest() {
 
     describe('cl.Color', function () {
         var msg = "Wrong color component";
-        // TODO: write tests for rgb and rgba conversion
+
         it('shold convert from name to hex', function () {
             var c;
             c = cl.Color.fromString("darkslategray");
@@ -63,6 +63,18 @@ function colorTest() {
 
             c = cl.Color.toHex(128, 128, 255);
             expect(c).equal("#8080ff", "Wrong color");
+        });
+
+        it('should convert from rgb string to hex', function () {
+            var c;
+            c = cl.Color.toRGB("rgb(255,128,128)");
+            expect(c).to.deep.equal({ r: 255, g: 128, b: 128}, "Wrong color");
+        });
+
+        it('should convert from rgba string to hex', function () {
+            var c;
+            c = cl.Color.toRGB("rgba(255,128,128, 0.4)");
+            expect(c).to.deep.equal({ r: 255, g: 128, b: 128}, "Wrong color");
         });
 
     });
