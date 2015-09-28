@@ -500,7 +500,7 @@ function testShapes() {
             var calls = 0;
             var oldFunc = chart.shapes.static.drawCircle;
             chart.shapes.static.drawCircle = function(x, y, r) {
-                oldFunc(x, y, r);
+                oldFunc.call(chart.shapes.static, x, y, r);
                 calls++;
             };
 

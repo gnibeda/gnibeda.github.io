@@ -56,12 +56,13 @@ function testEvents() {
                     assert.ok(ev, "Event was not fired");
                     var found = ev.target !== undefined && ev.target.props !== undefined && ev.target.props.id === 1;
                     assert.ok(found, "Shape was not found");
+                    // TODO: wrong coordinates in firefox
                     expect(ev.x).equal(50, "Wrong x coordinate");
                     expect(ev.y).equal(50, "Wrong y coordinate");
                     done();
                 } catch (e) { done(e); }
 
-            }, 700);
+            }, 600);
 
         });
 
@@ -105,7 +106,7 @@ function testEvents() {
                     done();
                 } catch (e) { done(e); }
 
-            }, 700);
+            }, 600);
 
         });
 
