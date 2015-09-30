@@ -3,15 +3,15 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
 (function(namespace){
 
     // Log current library version
-    var ver = "1.0.9b";
+    var ver = "1.0.10";
     if (ver !== "{{Package.Json.Version}}".toLowerCase()) console.log("%c ˖•● ChartLibrary v." + ver + " ●•˖ ", 'background: #44A; color: #FFF');
 
     /**
      * @namespace {object} cl
      * @description Global object which stores all chart classes
      */
-    window.cl = {
-        version: "1.0.9b"
+    namespace.cl = {
+        version: "1.0.10"
     };
 
 })(window);
@@ -230,6 +230,44 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
 
         // If Y-projections do not intersect return false
         return minY <= maxY;
+    };
+
+    /**
+     * Checks if point is inside polygon
+     * @param {number} x Point X coordinate
+     * @param {number} y Point Y coordinate
+     * @param {Array.<number>} points Points array: [x, y, x, y, x, y, ...]
+     * @returns {boolean} Is insude or not
+     * @example
+     * var inside = cl.Utils.pointInPoly(15, 15, [10, 10, 10, 20, 20, 20, 20, 10]);
+     * console.log(inside); // true
+     */
+    Utils.prototype.pointInPoly = function(x, y, points) {
+        var i, j;
+        var p = points;
+
+        // Check bounds first
+        var minX = p[0];
+        var maxX = p[0];
+        var minY = p[1];
+        var maxY = p[1];
+        for (i = 1; i < p.length; i += 2) {
+            minX = Math.min(p[i], minX);
+            maxX = Math.max(p[i], maxX);
+            minY = Math.min(p[i+1], minY);
+            maxY = Math.max(p[i+1], maxY);
+        }
+
+        if (x < minX || x > maxX || y < minY || y > maxY) return false;
+
+        // If point in bounds, check point inside poly
+        var inside = false;
+        for (i = 0, j = p.length / 2 - 1 ; i < p.length / 2; j = i++ ) {
+            if ((p[i * 2 + 1] > y ) != ( p[j * 2 + 1] > y ) && x < (p[j * 2] - p[i * 2]) * (y - p[i * 2 + 1]) / (p[j * 2 + 1] - p[i * 2 + 1]) + p[i * 2])
+                inside = !inside;
+        }
+
+        return inside;
     };
 
     namespace.Utils = new Utils();
@@ -722,25 +760,43 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
 (function(namespace) {
     'use strict';
 
-
     /**
      * Represent event class
      * @memberof cl
      * @constructor
-     *
-     * @property {number} x X coordinate in chart space
-     * @property {number} y Y coordinate in chart space
-     * @property {cl.Shape|Array<cl.Shape>} target Shapes affected by event
-     * @property {Object} originalEvent Original event
-     * @property {string} type Event type. See event names below
      */
     function Event() {
-        this.x = null;
-        this.y = null;
-        this.target = null;
-        this.originalEvent = null;
-        this.type = null;
     }
+
+    /**
+     * X coordinate in chart space
+     * @type {null}
+     */
+    Event.prototype.x = null;
+
+    /**
+     * Y coordinate in chart space
+     * @type {number}
+     */
+    Event.prototype.y = null;
+
+    /**
+     * Shapes affected by event
+     * @type {cl.Shape|Array<cl.Shape>}
+     */
+    Event.prototype.target = null;
+
+    /**
+     * Original event
+     * @type {Object}
+     */
+    Event.prototype.originalEvent = null;
+
+    /**
+     * Event type. See event names below
+     * @type {string}
+     */
+    Event.prototype.type = null;
 
     /**
      * Define allowed event names
@@ -842,11 +898,6 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
      * @param {cl.Chart} chart Parent chart
      * @memberof cl
      * @constructor
-     *
-     * @property {cl.Chart} chart Parent chart
-     * @property {number} mouseX Mouse X coordinate in screen space
-     * @property {number} mouseY Mouse Y coordinate in screen space
-     * @property {boolean} mouseDown Is mouse left button pressed or not
      */
     function EventManager(chart) {
         var t = this;
@@ -859,71 +910,101 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
         t._prevClickTime = null;
         t._clickTimeout = null;
 
+        // Bind this to event listeners
+        t._onMouseMoveListener = t._onMouseMove.bind(t);
+        t._onMouseDownListener = t._onMouseDown.bind(t);
+        t._onMouseUpListener = t._onMouseUp.bind(t);
+
         // Properties
         t.chart = chart;
-        t.mouseX = 0;
-        t.mouseY = 0;
-        t.mouseDown = false;
 
         // Create arrays in listeners for each event
         for (var name in cl.Event) if (cl.Event.hasOwnProperty(name)) t._listeners[cl.Event[name]] = [];
 
-        /**
-         * On mouse down event handler
-         * @param {Object} e Event
-         * @private
-         */
-        t._onMouseDown = function(e) {
-            t.mouseDown = true;
-            t._callListeners(cl.Event.mouseDown, e);
-
-            // Save shape for click and double click event
-            if (t.hasListener(cl.Event.click) || t.hasListener(cl.Event.doubleClick)) {
-                t._pressedShape = t.chart.selector.shapeFromPoint(e.offsetX, e.offsetY);
-            }
-        };
-
-        /**
-         * On mouse up event handler
-         * @param {object} e Event
-         * @private
-         */
-        t._onMouseUp = function(e) {
-            if (!t.mouseDown && e.currentTarget === document) return;
-            t.mouseDown = false;
-            t._callListeners(cl.Event.mouseUp, e);
-            // Stop event propagation, no need to fire document onMouseUp
-            e.stopPropagation();
-
-            if (t.hasListener(cl.Event.click) || t.hasListener(cl.Event.doubleClick)) {
-                var shape = t.chart.selector.shapeFromPoint(e.offsetX, e.offsetY);
-                if (t._pressedShape === shape) t._requestClick(e, t._pressedShape);
-            }
-        };
-
-        /**
-         * On mouse move event handler
-         * @param {Object} e Event
-         * @private
-         */
-        t._onMouseMove = function(e) {
-            t.mouseX = e.offsetX;
-            t.mouseY = e.offsetY;
-            if (t.hasListener(cl.Event.shapeOver) || t.hasListener(cl.Event.shapeOut)) {
-                var h = t.chart.selector.shapeFromPoint(t.mouseX, t.mouseY);
-                if (h) {
-                    if (t._hoveredShape !== h) t._callListeners(cl.Event.shapeOver, e, h);
-                } else {
-                    if (t._hoveredShape !== null) t._callListeners(cl.Event.shapeOut, e, t._hoveredShape);
-                }
-                t._hoveredShape = h;
-            }
-            t._callListeners(cl.Event.mouseMove, e);
-        };
-
         // Bind all mouse event listeners to screen canvas element
         t._bindBaseEventListeners();
     }
+
+    /**
+     * Parent chart
+     * @type {cl.Chart}
+     */
+    EventManager.prototype.chart = null;
+
+    /**
+     * Mouse X coordinate in screen space
+     * @type {number}
+     */
+    EventManager.prototype.mouseX = 0;
+
+    /**
+     * Mouse Y coordinate in screen space
+     * @type {number}
+     */
+    EventManager.prototype.mouseY = 0;
+
+    /**
+     * Is mouse left button pressed or not
+     * @type {boolean}
+     */
+    EventManager.prototype.mouseDown = false;
+
+
+    /**
+     * On mouse down event handler
+     * @param {Object} e Event
+     * @private
+     */
+    EventManager.prototype._onMouseDown = function(e) {
+        var t = this;
+        t.mouseDown = true;
+        t._callListeners(cl.Event.mouseDown, e);
+
+        // Save shape for click and double click event
+        if (t.hasListener(cl.Event.click) || t.hasListener(cl.Event.doubleClick)) {
+            t._pressedShape = t.chart.selector.shapeFromPoint(e.offsetX, e.offsetY);
+        }
+    };
+
+    /**
+     * On mouse up event handler
+     * @param {Object} e Event
+     * @private
+     */
+    EventManager.prototype._onMouseUp = function(e) {
+        var t = this;
+        if (!t.mouseDown && e.currentTarget === document) return;
+        t.mouseDown = false;
+        t._callListeners(cl.Event.mouseUp, e);
+        // Stop event propagation, no need to fire document onMouseUp
+        e.stopPropagation();
+
+        if (t.hasListener(cl.Event.click) || t.hasListener(cl.Event.doubleClick)) {
+            var shape = t.chart.selector.shapeFromPoint(e.offsetX, e.offsetY);
+            if (t._pressedShape === shape) t._requestClick(e, t._pressedShape);
+        }
+    };
+
+    /**
+     * On mouse move event handler
+     * @param {Object} e Event
+     * @private
+     */
+    EventManager.prototype._onMouseMove = function(e) {
+        var t = this;
+        t.mouseX = e.offsetX;
+        t.mouseY = e.offsetY;
+        if (t.hasListener(cl.Event.shapeOver) || t.hasListener(cl.Event.shapeOut)) {
+            var h = t.chart.selector.shapeFromPoint(t.mouseX, t.mouseY);
+            if (h) {
+                if (t._hoveredShape !== h) t._callListeners(cl.Event.shapeOver, e, h);
+            } else {
+                if (t._hoveredShape !== null) t._callListeners(cl.Event.shapeOut, e, t._hoveredShape);
+            }
+            t._hoveredShape = h;
+        }
+        t._callListeners(cl.Event.mouseMove, e);
+    };
 
     /**
      * Function used to request click or double click event
@@ -1006,7 +1087,6 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
         return this._listeners[eventName].length !== 0;
     };
 
-
     /**
      * Bind all mouse event listeners to screen canvas element
      * @private
@@ -1014,10 +1094,10 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
     EventManager.prototype._bindBaseEventListeners = function() {
         var t = this;
         var el = t.chart.screen.el;
-        el.addEventListener(cl.Event.mouseMove, t._onMouseMove);
-        el.addEventListener(cl.Event.mouseDown, t._onMouseDown);
-        el.addEventListener(cl.Event.mouseUp, t._onMouseUp);
-        document.addEventListener(cl.Event.mouseUp, t._onMouseUp);
+        el.addEventListener(cl.Event.mouseMove, t._onMouseMoveListener);
+        el.addEventListener(cl.Event.mouseDown, t._onMouseDownListener);
+        el.addEventListener(cl.Event.mouseUp, t._onMouseUpListener);
+        document.addEventListener(cl.Event.mouseUp, t._onMouseUpListener);
     };
 
     /**
@@ -1027,10 +1107,10 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
     EventManager.prototype._unbindBaseEventListeners = function() {
         var t = this;
         var el = this.chart.screen.el;
-        el.removeEventListener(cl.Event.mouseMove, t._onMouseMove);
-        el.removeEventListener(cl.Event.mouseDown, t._onMouseDown);
-        el.removeEventListener(cl.Event.mouseUp, t._onMouseUp);
-        document.removeEventListener(cl.Event.mouseUp, t._onMouseUp);
+        el.removeEventListener(cl.Event.mouseMove, t._onMouseMoveListener);
+        el.removeEventListener(cl.Event.mouseDown, t._onMouseDownListener);
+        el.removeEventListener(cl.Event.mouseUp, t._onMouseUpListener);
+        document.removeEventListener(cl.Event.mouseUp, t._onMouseUpListener);
     };
 
     /**
@@ -1068,30 +1148,35 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
      * @param {cl.Chart} chart Parent chart
      * @memberof cl
      * @constructor
-     *
-     * @property {cl.Chart} chart Parent chart
-     * @property {cl.Canvas} surface Render surface
-     * @property {string} dirtyFlagName Name of dirty flag. Should be unique for all layers
-     * @property {boolean} visible Is layer visible or not
-     * @property {cl.Canvas} surface Layer canvas
      */
     function Layer(chart) {
         var t = this;
-
         t.chart = chart;
         t.options = {
             visible: true
         };
         t.surface = new cl.Canvas(chart.width, chart.height);
         t.dirtyFlagName = "";
-
-        Object.defineProperties(t, {
-            visible: {
-                get: function () { return t.options.visible; },
-                set: function (v) { t.options.visible = v; }
-            }
-        });
     }
+
+    /**
+     * Parent chart
+     * @type {cl.Chart}
+     */
+    Layer.prototype.chart = null;
+
+    /**
+     * Layer surface
+     * @type {cl.Canvas}
+     */
+    Layer.prototype.surface = null;
+
+    /**
+     * Name of dirty flag. Should be unique for all layers
+     * @type {string}
+     * @private
+     */
+    Layer.prototype.dirtyFlagName = "";
 
     /**
      * Show layer
@@ -1247,9 +1332,6 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
      * @param {string} [options.grid.small.color="#EFEFEF"] Line color
      * @param {number} [options.grid.small.opacity=0.5] Line opacity
      *
-     * @property {cl.AxisManager} parent Parent axis manager
-     * @property {object} options Axis settings
-     *
      * @example
      * // All property changes can be made in chain style. After that call "apply"
      * // "apply" can be called multiple times, but actual redraw would be called once
@@ -1383,7 +1465,7 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
                     opacity: 0.5
                 },
                 small: {
-                    width: 1,
+                    width4: 1,
                     dash: [10, 10],
                     color: "#EFEFEF",
                     opacity: 0.5
@@ -1401,6 +1483,18 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
             if (!options.ticks || !options.ticks.small || !options.ticks.small.interval) t.options.ticks.small.interval = parseFloat(((t.options.max - t.options.min) / 20).toFixed(4));
         }
     }
+
+    /**
+     * Parent axis manager
+     * @type {cl.AxisManager}
+     */
+    Axis.prototype.parent = null;
+
+    /**
+     * Axis settings
+     * @type {Object}
+     */
+    Axis.prototype.options = null;
 
     /**
      * Returns big tick interval
@@ -2011,16 +2105,14 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
      *
      * @param {cl.Chart} chart Parent chart
      *
-     * @property {cl.Chart} chart Parent chart
-     * @property {Array.<cl.Axis>} items Axis items
      * @property {number} count Axis count
      */
     function AxisManager(chart) {
         var t = this;
-        t.constructor.superclass.constructor.call(t, chart);
+        cl.Layer.call(t, chart);
 
-        t.chart = chart;
         t.items = [];
+        t.chart = chart;
         t.dirtyFlagName = "axis";
         Object.defineProperties(t, {
             count: { get: function() { return t.items.length; } }
@@ -2028,6 +2120,19 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
     }
 
     cl.Utils.extend(AxisManager, cl.Layer);
+
+    /**
+     * Parent chart
+     * @type {null}
+     */
+    AxisManager.prototype.chart  = null;
+
+    /**
+     * Axis items
+     * @type {Array.<cl.Axis>}
+     */
+    AxisManager.prototype.items = null;
+
 
     /**
      * Renders all axis on surface
@@ -2150,10 +2255,6 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
      * @param {object} [options.pos] Background position
      * @param {number} [options.pos.x=0] X coordinate in axis units of background position
      * @param {number} [options.pos.y=0] Y coordinate in axis units of background position
-     *
-     * @property {object} image Background image
-     * @property {boolean} isLoaded Is image loaded or not
-     * @property {object} options Background settings. Same as "options" in constructor
      */
     function Background(chart, options) {
         var t = this;
@@ -2161,8 +2262,6 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
 
         // Public fields
         t.dirtyFlagName = "bg";
-        t.image = null;
-        t.isLoaded = false;
 
         // Default settings
         cl.Utils.merge(t.options, {
@@ -2186,6 +2285,25 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
     }
 
     cl.Utils.extend(Background, cl.Layer);
+
+
+    /**
+     * Background image
+     * @type {Object}
+     */
+    Background.prototype.image = null;
+
+    /**
+     *  Is image loaded or not
+     * @type {boolean}
+     */
+    Background.prototype.isLoaded = false;
+
+    /**
+     * Background settings. Same as "options" in constructor
+     * @type {Object}
+     */
+    Background.prototype.options = null;
 
 
     /**
@@ -2372,9 +2490,6 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
      *
      * @param {number} width Width of canvas
      * @param {number} height Height of canvas
-     *
-     * @property {Element} el Canvas DOM element
-     * @property {Object} ctx Canvas 2d context
      */
     function Canvas(width, height) {
         var t = this;
@@ -2394,6 +2509,18 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
         // Set size
         t.resize(width, height);
     }
+
+    /**
+     * Canvas 2d context
+     * @type {Object}
+     */
+    Canvas.prototype.ctx = null;
+
+    /**
+     * Canvas DOM element
+     * @type {Element}
+     */
+    Canvas.prototype.el = null;
 
     /**
      * Sets canvas line dash style
@@ -2526,13 +2653,15 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
      * @param {number} y2 Second point Y coordinate
      * @param {number} r Border radius
      * @param {boolean} [dontCreatePath] If true, function will not call "beginPath" and "stroke". Used in batch draws
+     * @param {number} [offset=0] Expand rect by offset. Like padding
      */
-    Canvas.prototype.drawRect = function(x1, y1, x2, y2, r, dontCreatePath) {
+    Canvas.prototype.drawRect = function(x1, y1, x2, y2, r, dontCreatePath, offset) {
         var sx, sy, ex, ey, t = this;
-        sx = Math.min(x1, x2);
-        sy = Math.min(y1, y2);
-        ex = Math.max(x1, x2);
-        ey = Math.max(y1, y2);
+        offset = offset || 0;
+        sx = Math.min(x1, x2) - offset;
+        sy = Math.min(y1, y2) - offset;
+        ex = Math.max(x1, x2) + offset;
+        ey = Math.max(y1, y2) + offset;
         if (r) {
             // Ensure that the radius isn't too large for x
             if (( ex - sx ) - ( 2 * r ) < 0) {
@@ -2646,12 +2775,21 @@ void 0===Date.now&&(Date.now=function(){return(new Date).valueOf()});var TWEEN=T
 
 })(cl);
 
-cl.Selector = (function() {
+/**
+ * @module shapes/selector
+ * @description Module describes selector class. Class used to interact with shapes
+ * @author Anton Gnibeda
+ */
+(function(namespace) {
     'use strict';
 
     /**
      * Represent selector class. All shapes selections done with help of current class. Also this class does dragging.
+     *
      * @extends cl.Layer
+     * @constructor
+     * @memberof cl
+     *
      * @param {cl.Chart} chart Parent chart
      * @param {object} [options] Selector settings
      * @param {boolean} [options.draggable=false] Shapes drag enabled or not
@@ -2675,22 +2813,13 @@ cl.Selector = (function() {
      * @param {number} [options.selection.rect.width=1] Selected shape line width
      * @param {string} [options.selection.rect.color=cl.Consts.COLOR_LIGHTBLUE] Selected shape line color
      * @param {number} [options.selection.rect.opacity=0.3] Selected shape line opacity
-     *
-     * @memberof cl
-     * @constructor
-     *
-     * @property {object} options Selector settings. Same as "options" in constructor
-     * @property {Array<cl.Shape>} selection Current selection
      */
     function Selector(chart, options) {
         var t = this;
         cl.Layer.call(t, chart);
 
-        // Public fields
-        t.selection = [];
-        t.hover = null;
         t.dirtyFlagName = "sel";
-        // TODO: wrong hover offset when rendering
+
         // Default settings
         cl.Utils.merge(t.options, {
             draggable: false,
@@ -2720,542 +2849,519 @@ cl.Selector = (function() {
         cl.Utils.merge(t.options, options || {});
 
         // Private
-        var
-            drag = {
-                active : false, // Is dragging active or not
-                prepared: false,  // Is dragging prepared or not. Used to determine if we start drag shape or empty space
-                items: [], // Items have been dragged
-                bounds: null, // Bounds of items
-                sx: 0, // Current drag x coordinate
-                sy: 0, // Current drag y coordinate
-                lx: 0, // Drag start x coordinate
-                ly: 0,// Drag start y coordinate
-                layer: new cl.Canvas(t.chart.width, t.chart.height) // Layer to hold cache shapes have been dragging
-            },
-            rect = { active: false, sx: 0, sy: 0, ex: 0, ey: 0},
-            hovers = [], // Store hovered shapes for animations
-            click = {down: null, up: null}; // Store shapes to call click evet. Down - shape o mouse down, up - shape on mouse up
-
-        // Public methods
-        t.resize = resize;
-        t._render = render;
-        t.destroy = destroy;
-        t.deselect = deselect;
-        t.getBounds = getBounds;
-        t.enableDrag = enableDrag;
-        //t.isSelecting = isSelecting;
-        t.disableDrag = disableDrag;
-        t.getSelection = getSelection;
-        t.shapesFromRect = shapesFromRect;
-        t.shapeFromPoint = shapeFromPoint;
-        t.shapesFromPoint = shapesFromPoint;
-        t.enableMultiselect = enableMultiselect;
-        t.disableMultiselect = disableMultiselect;
+        t._drag = {
+            active : false, // Is dragging active or not
+            prepared: false,  // Is dragging prepared or not. Used to determine if we start drag shape or empty space
+            items: [], // Items have been dragged
+            bounds: null, // Bounds of items
+            sx: 0, // Current drag x coordinate
+            sy: 0, // Current drag y coordinate
+            lx: 0, // Drag start x coordinate
+            ly: 0,// Drag start y coordinate
+            layer: new cl.Canvas(t.chart.width, t.chart.height) // Layer to hold cache shapes have been dragging
+        };
+        // Selection rectangle
+        t._rect = { active: false, sx: 0, sy: 0, ex: 0, ey: 0};
+        // Store hovered shapes for animations
+        t._hovers = [];
+        // Used to store shape. For mousedown and mouseup
+        t._click = {up: null, down: null};
 
         // Bind mouse move event
-        t.chart.addEventListener(cl.Event.shapeOver, onShapeOver);
-        t.chart.addEventListener(cl.Event.shapeOut, onShapeOut);
-        t.chart.addEventListener(cl.Event.mouseDown, onMouseDown);
-        t.chart.addEventListener(cl.Event.mouseUp, onMouseUp);
-        t.chart.addEventListener(cl.Event.mouseMove, onMouseMove);
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        /*function isSelecting() {
-            return rect.active;
-        }*/
-
-        /**
-         * Removes selection
-         * @memberof cl.Selector.prototype
-         */
-        function deselect() {
-            if (t.selection.length === 0) return;
-            t.chart.events._callListeners(cl.Event.deselect, null, t.selection);
-            t.selection = [];
-            t.apply();
-        }
-
-        /**
-         * Returns selection
-         * @returns {array.<cl.Shape>}
-         * @memberof cl.Selector.prototype
-         */
-        function getSelection() {
-            return t.selection;
-        }
-
-        /**
-         * Enables multiselection
-         * @memberof cl.Selector.prototype
-         */
-        function enableMultiselect() {
-            t.options.selection.enabled = true;
-            t.options.selection.rect.enabled = true;
-            t.options.selection.multiple = true;
-        }
-
-        /**
-         * Disables multiselection
-         * @memberof cl.Selector.prototype
-         */
-        function disableMultiselect() {
-            t.options.selection.multiple = false;
-        }
-
-        /**
-         * Enables dragging
-         * @memberof cl.Selector.prototype
-         */
-        function enableDrag() {
-            t.options.draggable = true;
-        }
-
-        /**
-         * Disables dragging
-         * @memberof cl.Selector.prototype
-         */
-        function disableDrag() {
-            t.options.draggable = false;
-        }
-
-        /**
-         * Shape over event handler
-         * @param {cl.Event} e
-         * @private
-         */
-        function onShapeOver(e) {
-            if (drag.active || rect.active) return;
-            if (e.target && e.target.props.cursor) t.chart.setCursor(e.target.props.cursor);
-                else if (t.options.hover.showHand) showHand();
-            t.hover = e.target;
-            // TODO: add hovers to animate
-            //if (t.hover && t.hover.props.hover.animation) addHover(t.hover);
-            t.apply();
-        }
-
-        function addHover(shape) {
-            var idx = hovers.indexOf(shape);
-            if (idx === -1) hovers.push(shape);
-            // TODO: animate here
-        }
-
-        /**
-         * Shape out event handler
-         * @param {cl.Event} e
-         * @private
-         */
-        function onShapeOut(e) {
-            if (drag.active || rect.active) return;
-            if (t.hover && ((e.target && e.target.props.cursor) || t.options.hover.showHand)) resetCursor();
-            t.hover = null;
-            t.apply();
-        }
-
-        /**
-         * Returns bounds of shapes
-         * @param {array<cl.Shape>} items Items array
-         * @returns {{x: Number, y: Number, w: number, h: number}} Bounds
-         * @memberof cl.Selector.prototype
-         */
-        function getBounds(items) {
-            var x1, y1, x2, y2, i, l, b;
-            x1 = Number.MAX_VALUE;
-            y1 = Number.MAX_VALUE;
-            x2 = Number.MIN_VALUE;
-            y2 = Number.MIN_VALUE;
-            for (i = 0, l = items.length; i < l; i++) {
-                b = items[i].getBounds();
-                if (b.x < x1) x1 = b.x;
-                if (b.y < y1) y1 = b.y;
-                if (b.x + b.w > x2) x2 = b.x + b.w;
-                if (b.y + b.h > y2) y2 = b.y + b.h;
-            }
-            return {x: x1, y: y1, w: x2 - x1, h: y2 - y1};
-        }
-
-        /**
-         * Starts dragging process
-         * @param {object} e Event
-         * @private
-         */
-        function startDrag(e) {
-            if (!t.options.draggable) return;
-            // Check if there shape under cursor
-            var currentItem = t.shapeFromPoint(t.chart.events.mouseX, t.chart.events.mouseY);
-            if (!currentItem) return;
-            // Make selection if not exists
-            if (currentItem && t.selection.indexOf(currentItem) === -1) {
-                t.selection = [currentItem];
-                t.chart.events._callListeners(cl.Event.select, e.originalEvent, t.selection);
-            }
-            if (t.selection.length === 0) return;
-
-            var i, l;
-            var sel = t.selection;
-
-            // Initialise
-            drag.items = [];
-            drag.sx = t.chart.xAxis.toAxis(drag.sx);
-            drag.sy = t.chart.yAxis.toAxis(drag.sy);
-
-            // Calculate bounds of draggable shapes
-            drag.bounds = t.getBounds(sel);
-            drag.bounds.x = Math.floor(drag.bounds.x) - 10;
-            drag.bounds.y = Math.floor(drag.bounds.y) - 10;
-
-            // Prepare drag layer for drawing
-            drag.layer.resize(drag.bounds.w + 20, drag.bounds.h + 20);
-            drag.layer.resetTransform();
-            drag.layer.clear();
-            drag.layer.ctx.translate(-drag.bounds.x, -drag.bounds.y);
-
-            for (i = 0, l = sel.length; i < l; i++) if (sel[i].props.draggable) {
-                // Add draggable item
-                drag.items.push(sel[i]);
-                // Render draggable shape in drag layer
-                sel[i]._render(drag.layer);
-                if (!sel[i].isAnimating) {
-                    // Update static layer if draggable shapes was in static
-                    t.chart.shapes.updateStatic();
-                    t.chart.shapes.apply();
-                }
-                sel[i].isAnimating = true;
-            }
-            // Renders selection of draggable shapes
-            renderSelection(drag.layer, drag.items);
-
-            // Sets _isDragged flag to hide shapes from rendering in ShapeManager
-            for (i = 0, l = drag.items.length; i < l; i++) drag.items[i]._isDragged = true;
-
-            drag.active = true;
-            t.apply();
-
-            t.chart.events._callListeners(cl.Event.dragStart, e.originalEvent, drag.items);
-        }
-
-        /**
-         * Mouse move callback
-         * @private
-         * @param {cl.Event} e Event
-         */
-        function onMouseMove(e) {
-            var i, l;
-            if (drag.active) {
-                // Move all draggable shapes
-                for (i = 0, l = drag.items.length; i < l; i++) drag.items[i].processDrag(e.x - drag.sx, e.y - drag.sy);//{
-                    //drag.items[i].props.x += e.x - drag.sx;
-                    //drag.items[i].props.y += e.y - drag.sy;
-                //}
-                // Request shapes and selector redraw
-                t.apply();
-                t.chart.shapes.apply();
-                // Store new coordinates
-                drag.sx = e.x;
-                drag.sy = e.y;
-
-            } else
-            // Start drag if moved by Selector.DRAG_THRESOLD pixels
-            if (drag.prepared && t.chart.events.mouseDown && ((Math.abs(drag.sx - e.originalEvent.offsetX) > Selector.DRAG_THRESOLD) || (Math.abs(drag.sy - e.originalEvent.offsetY) > Selector.DRAG_THRESOLD))) startDrag(e);
-
-            // Change selection rectangle coordinates
-            if (rect.active) {
-                rect.ex = e.originalEvent.offsetX;
-                rect.ey = e.originalEvent.offsetY;
-                t.apply();
-            }
-        }
-
-        /**
-         * Mouse down event listener
-         * @private
-         * @param {cl.Event} e Event
-         */
-        function onMouseDown(e) {
-            click.down = t.hover;
-            if (!drag.active && t.hover && t.options.draggable) {
-                // Store drag parameters
-                drag.prepared = true;
-                drag.sx = e.originalEvent.offsetX;
-                drag.sy = e.originalEvent.offsetY;
-                drag.lx = drag.sx;
-                drag.ly = drag.sy;
-            } else drag.prepared = false;
-            if ((!t.hover || !t.options.draggable) && t.options.selection.enabled && t.options.selection.rect.enabled && t.options.selection.multiple) {
-                // Store selection rectangle parameters
-                rect.sx = e.originalEvent.offsetX;
-                rect.sy = e.originalEvent.offsetY;
-                rect.ex = rect.sx;
-                rect.ey = rect.sy;
-                rect.active = true;
-            }
-        }
-
-        /**
-         * Mouse down event listener
-         * @private
-         * @param {cl.Event} e Event
-         */
-        function onMouseUp(e) {
-            var i, l, res;
-            click.up = t.hover;
-            var clickedOnShape = click.down && click.up && click.down === click.up;
-            if (rect.active) {
-                // Calculate selection
-                var hw = Math.abs(rect.ex - rect.sx) / 2;
-                var hh = Math.abs(rect.ey - rect.sy) / 2;
-                var rx = Math.max(rect.sx, rect.ex) - hw;
-                var ry = Math.max(rect.sy, rect.ey) - hh;
-                res = t.shapesFromRect(rx, ry, hw, hh);
-                if (res.length === 0)
-                    t.chart.events._callListeners(cl.Event.deselect, e, t.selection);
-                else
-                    t.chart.events._callListeners(cl.Event.select, e, res);
-                t.selection = res;
-                rect.active = false;
-                t.apply();
-            } else
-            if (drag.active) {
-                // Move all dragged shapes in static layer
-                for (i = 0, l = drag.items.length; i < l; i++) {
-                    drag.items[i]._isDragged = false;
-                    if (!drag.items[i].tween) {
-                        drag.items[i].isAnimating = false;
-                        t.chart.shapes.updateStatic();
-                        t.chart.shapes.apply();
-                    }
-                }
-                // Stop dragging
-                t.chart.events._callListeners(cl.Event.dragEnd, e.originalEvent, drag.items);
-                drag.items = null;
-                drag.active = false;
-                drag.prepared = false;
-                t.apply();
-            } else {
-                // Select shapes
-                if (t.options.selection.enabled) {
-                    if (t.options.selection.multiple && t.hover) {
-                        // Multiple selection. Add or remove shape from selection
-                        var idx = t.selection.indexOf(t.hover);
-                        if (idx === -1) t.selection.push(t.hover); else t.selection.splice(idx, 1);
-                    } else {
-                        // Single selection
-                        if (t.hover && clickedOnShape) {
-                            if (t.selection.length === 1 && t.selection[0] === t.hover) {
-                                t.chart.events._callListeners(cl.Event.deselect, e, t.selection);
-                                t.selection = [];
-                            } else {
-                                t.selection = [t.hover];
-                                t.chart.events._callListeners(cl.Event.select, e, t.selection);
-                            }
-                        } else {
-                            t.chart.events._callListeners(cl.Event.deselect, e, t.selection);
-                            t.selection = [];
-                        }
-                    }
-                    t.apply();
-                }
-
-                // Fire click event
-                // TODO: move click handler to EventManager
-                //if (clickedOnShape) t.chart.events._callListeners(cl.Event.click, e.originalEvent, click.up);
-                  //  else if (click.down === null && click.up === null ) t.chart.events._callListeners(cl.Event.click, e.originalEvent, null);
-            }
-        }
-
-        /**
-         * Returns all shapes intersecting rectangle
-         * @param {number} rx X coordinate in pixels of rectangle center
-         * @param {number} ry Y coordinate in pixels of rectangle center
-         * @param {number} hw Half width
-         * @param {number} hh Half height
-         * @returns {Array<cl.Shape>} Array of shapes intersecting rectangle
-         * @memberof cl.Selector.prototype
-         */
-        function shapesFromRect(rx, ry, hw, hh) {
-            var i, l, res = [];
-            l = t.chart.shapes.count;
-            for (i = 0; i < l; i++) if (t.chart.shapes.items[i].hitTestRect(rx, ry, hw, hh)) res.push(t.chart.shapes.items[i]);
-            return res;
-        }
-
-
-        /**
-         * Returns all shapes under point in screen coordinates
-         * @param {number} x X coordinate in pixels
-         * @param {number} y Y coordinate in pixels
-         * @returns {Array} Array of shapes under point
-         * @memberof cl.Selector.prototype
-         */
-        function shapesFromPoint(x, y) {
-            var i, l, res = [];
-            l = t.chart.shapes.count;
-            for (i = 0; i < l; i++) if (t.chart.shapes.items[i].hitTest(x, y)) res.push(t.chart.shapes.items[i]);
-            return res;
-        }
-
-        /**
-         * Returns one closest shape under point in screen coordinates
-         * @param {number} x X coordinate in pixels
-         * @param {number} y Y coordinate in pixels
-         * @returns {cl.Shape|undefined} Shape under point
-         * @memberof cl.Selector.prototype
-         */
-        function shapeFromPoint(x, y) {
-            var shapes = t.chart.selector.shapesFromPoint(x, y);
-            if (shapes.length !== 0) {
-                var min = Number.MAX_VALUE;
-                var idx = 0;
-                // Find closest shape
-                for (var i = 0, l = shapes.length; i < l; i++) {
-                    var size = shapes[i].getPixelArea();
-                    if (size < min) {
-                        min = size;
-                        idx = i;
-                    }
-                }
-                return shapes[idx];
-            }
-        }
-
-        /**
-         * Renders selector
-         * @memberof cl.Selector.prototype
-         */
-        function render() {
-            if (!t.options.visible) return;
-            var i, l;
-
-            t.surface.clear();
-            if (drag.active) t.surface.draw(drag.layer, drag.bounds.x -drag.lx + t.chart.events.mouseX, drag.bounds.y -drag.ly + t.chart.events.mouseY); else {
-
-                // Render selection
-                renderSelection(t.surface, t.selection);
-
-                if (t.options.hover.enabled && !rect.active) {
-                    // Recalculate hover if shapes is moving, but not when dragging
-                    if (t.chart.shapes.isAnimating && !drag.active) t.hover = t.shapeFromPoint(t.chart.events.mouseX, t.chart.events.mouseY);
-                    // Render hover if exists
-                    if (t.hover && !(t.hover.props.hover && t.hover.props.hover.enabled === false)) {
-                        if (t.hover.props.lineDash && t.hover.props.lineDash.length !== 0) t.surface.setLineDash(t.hover.props.lineDash);
-                        if (t.hover.props.hover) {
-                            t.surface.ctx.strokeStyle = t.hover.props.hover.color !== undefined ? t.hover.props.hover.color : t.options.hover.color;
-                            t.surface.ctx.lineWidth = t.hover.props.hover.border !== undefined ? t.hover.props.hover.border : t.options.hover.width;
-                            t.surface.ctx.globalAlpha = t.hover.props.hover.opacity !== undefined ? t.hover.props.hover.opacity : t.options.hover.opacity;
-                        } else {
-                            t.surface.ctx.strokeStyle = t.options.hover.color;
-                            t.surface.ctx.lineWidth = t.options.hover.width;
-                            t.surface.ctx.globalAlpha = t.options.hover.opacity;
-                        }
-                        t.surface.ctx.beginPath();
-                        t.hover.renderHover(t.surface, t.options.hover.width / 2 + (t.hover.props.hover ? (t.hover.props.hover.offset || 0) : 0));
-                        t.surface.ctx.stroke();
-                        t.surface.ctx.closePath();
-                        if (t.hover.props.lineDash && t.hover.props.lineDash.length !== 0) t.surface.setLineDash([]);
-                    }
-                }
-
-                // Render selection rectangle
-                if (rect.active) {
-                    t.surface.ctx.strokeStyle = cl.Utils.colorLuminance(t.options.selection.rect.color, -0.2);
-                    t.surface.ctx.fillStyle = t.options.selection.rect.color;
-                    t.surface.ctx.lineWidth = t.options.selection.rect.width;
-                    t.surface.ctx.globalAlpha = t.options.selection.rect.opacity;
-                    t.surface.ctx.beginPath();
-                    t.surface.ctx.rect(rect.sx + 0.5, rect.sy + 0.5, rect.ex - rect.sx, rect.ey - rect.sy);
-                    t.surface.ctx.fill();
-                    t.surface.ctx.stroke();
-                    t.surface.ctx.closePath();
-                }
-            }
-
-            t.constructor.superclass._render.call(t);
-        }
-
-        /**
-         * Renders selection
-         * @param {cl.Canvas} canvas Canvas
-         * @param {array<cl.Shape>} shapes Shapes to draw
-         * @private
-         */
-        function renderSelection(canvas, shapes) {
-            var i, l;
-
-            if (t.options.selection.enabled && t.selection.length !== 0) {
-                canvas.ctx.strokeStyle = t.options.selection.shape.color;
-                canvas.ctx.lineWidth = t.options.selection.shape.width;
-                canvas.ctx.globalAlpha = t.options.selection.shape.opacity;
-                canvas.ctx.beginPath();
-                for (i = 0, l = shapes.length; i < l; i++) shapes[i].renderHover(canvas);
-                canvas.ctx.stroke();
-                canvas.ctx.closePath();
-            }
-        }
-
-        /**
-         * Resizes layer
-         * @param {number} width New width
-         * @param {number} height New height
-         * @returns {cl.Layer}
-         */
-        function resize(width, height) {
-            if (drag.layer) drag.layer.resize(width, height);
-
-            t.constructor.superclass.resize.call(t, width, height);
-            return t;
-        }
-
-        /**
-         * Destroys selector
-         * @memberof cl.Selector.prototype
-         */
-        function destroy() {
-            if (drag.layer) drag.layer.destroy();
-            click.up = null;
-            click.down = null;
-            t.hover = null;
-            t.options = null;
-            drag.layer = null;
-            t.selection = [];
-            t.constructor.superclass.destroy.call(t);
-        }
-
-        /**
-         * Shows hand cursor
-         * @private
-         */
-        function showHand() {
-            t.chart.setCursor("pointer");
-        }
-
-        /**
-         * Hides hand cursor
-         * @private
-         */
-        function resetCursor() {
-            t.chart.setCursor();
-        }
-
+        t.chart.addEventListener(cl.Event.shapeOver, t._onShapeOver.bind(t));
+        t.chart.addEventListener(cl.Event.shapeOut, t._onShapeOut.bind(t));
+        t.chart.addEventListener(cl.Event.mouseDown, t._onMouseDown.bind(t));
+        t.chart.addEventListener(cl.Event.mouseUp, t._onMouseUp.bind(t));
+        t.chart.addEventListener(cl.Event.mouseMove, t._onMouseMove.bind(t));
     }
     cl.Utils.extend(Selector, cl.Layer);
 
+
+    /**
+     * Selector settings. Same as "options" in constructor
+     * @type {Object}
+     */
+    Selector.prototype.options = null;
+
+    /**
+     * Current selection
+     * @type {Array<cl.Shape>}
+     */
+    Selector.prototype.selection = [];
+
+    /**
+     * Hovered shape
+     * @type {cl.Shape}
+     */
+    Selector.prototype.hover = null;
+
+
+    /**
+     * Shape over event handler
+     * @param {cl.Event} e
+     * @private
+     */
+    Selector.prototype._onShapeOver = function(e) {
+        var t = this;
+        if (t._drag.active || t._rect.active) return;
+        if (e.target && e.target.props.cursor) t.chart.setCursor(e.target.props.cursor);
+        else if (t.options.hover.showHand) t._showHand();
+        t.hover = e.target;
+        // TODO: add hovers to animate
+        //if (t.hover && t.hover.props.hover.animation) addHover(t.hover);
+        t.apply();
+    };
+
+    /**
+     * Shape out event handler
+     * @param {cl.Event} e
+     * @private
+     */
+    Selector.prototype._onShapeOut = function(e) {
+        var t = this;
+        if (t._drag.active || t._rect.active) return;
+        if (t.hover && ((e.target && e.target.props.cursor) || t.options.hover.showHand)) t._resetCursor();
+        t.hover = null;
+        t.apply();
+    };
+
+    /**
+     * Mouse move callback
+     * @param {cl.Event} e Event
+     * @private
+     */
+    Selector.prototype._onMouseMove = function(e) {
+        var i, l, t = this;
+        if (t._drag.active) {
+            // Move all draggable shapes
+            for (i = 0, l = t._drag.items.length; i < l; i++) t._drag.items[i]._processDrag(e.x - t._drag.sx, e.y - t._drag.sy);
+            // Request shapes and selector redraw
+            t.apply();
+            t.chart.shapes.apply();
+            // Store new coordinates
+            t._drag.sx = e.x;
+            t._drag.sy = e.y;
+
+        } else
+        // Start drag if moved by Selector.DRAG_THRESOLD pixels
+        if (t._drag.prepared && t.chart.events.mouseDown && ((Math.abs(t._drag.sx - e.originalEvent.offsetX) > Selector.DRAG_THRESOLD) || (Math.abs(t._drag.sy - e.originalEvent.offsetY) > Selector.DRAG_THRESOLD))) t._startDrag(e);
+
+        // Change selection rectangle coordinates
+        if (t._rect.active) {
+            t._rect.ex = e.originalEvent.offsetX;
+            t._rect.ey = e.originalEvent.offsetY;
+            t.apply();
+        }
+    };
+
+    /**
+     * Mouse down event listener
+     * @param {cl.Event} e Event
+     * @private
+     */
+    Selector.prototype._onMouseDown = function(e) {
+        var t = this;
+        t._click.down = t.hover;
+        if (!t._drag.active && t.hover && t.options.draggable) {
+            // Store drag parameters
+            t._drag.prepared = true;
+            t._drag.sx = e.originalEvent.offsetX;
+            t._drag.sy = e.originalEvent.offsetY;
+            t._drag.lx = t._drag.sx;
+            t._drag.ly = t._drag.sy;
+        } else t._drag.prepared = false;
+        if ((!t.hover || !t.options.draggable) && t.options.selection.enabled && t.options.selection.rect.enabled && t.options.selection.multiple) {
+            // Store selection rectangle parameters
+            t._rect.sx = e.originalEvent.offsetX;
+            t._rect.sy = e.originalEvent.offsetY;
+            t._rect.ex = t._rect.sx;
+            t._rect.ey = t._rect.sy;
+            t._rect.active = true;
+        }
+    };
+
+    /**
+     * Mouse down event listener
+     * @param {cl.Event} e Event
+     * @private
+     */
+    Selector.prototype._onMouseUp = function(e) {
+        var i, l, res, t = this;
+        t._click.up = t.hover;
+        var clickedOnShape = t._click.down && t._click.up && t._click.down === t._click.up;
+        if (t._rect.active) {
+            // Calculate selection
+            var hw = Math.abs(t._rect.ex - t._rect.sx) / 2;
+            var hh = Math.abs(t._rect.ey - t._rect.sy) / 2;
+            var rx = Math.max(t._rect.sx, t._rect.ex) - hw;
+            var ry = Math.max(t._rect.sy, t._rect.ey) - hh;
+            res = t.shapesFromRect(rx, ry, hw, hh);
+            if (res.length === 0)
+                t.chart.events._callListeners(cl.Event.deselect, e, t.selection);
+            else
+                t.chart.events._callListeners(cl.Event.select, e, res);
+            t.selection = res;
+            t._rect.active = false;
+            t.apply();
+        } else if (t._drag.active) {
+            // Move all dragged shapes in static layer
+            for (i = 0, l = t._drag.items.length; i < l; i++) {
+                t._drag.items[i]._isDragged = false;
+                if (!t._drag.items[i].tween) {
+                    t._drag.items[i].isAnimating = false;
+                    t.chart.shapes.updateStatic();
+                    t.chart.shapes.apply();
+                }
+            }
+            // Stop dragging
+            t.chart.events._callListeners(cl.Event.dragEnd, e.originalEvent, t._drag.items);
+            t._drag.items = null;
+            t._drag.active = false;
+            t._drag.prepared = false;
+            t.apply();
+        } else {
+            // Select shapes
+            if (t.options.selection.enabled) {
+                if (t.options.selection.multiple && t.hover) {
+                    // Multiple selection. Add or remove shape from selection
+                    var idx = t.selection.indexOf(t.hover);
+                    if (idx === -1) t.selection.push(t.hover); else t.selection.splice(idx, 1);
+                } else {
+                    // Single selection
+                    if (t.hover && clickedOnShape) {
+                        if (t.selection.length === 1 && t.selection[0] === t.hover) {
+                            t.chart.events._callListeners(cl.Event.deselect, e, t.selection);
+                            t.selection = [];
+                        } else {
+                            t.selection = [t.hover];
+                            t.chart.events._callListeners(cl.Event.select, e, t.selection);
+                        }
+                    } else {
+                        t.chart.events._callListeners(cl.Event.deselect, e, t.selection);
+                        t.selection = [];
+                    }
+                }
+                t.apply();
+            }
+        }
+    };
+
+    /**
+     * Removes selection
+     */
+    Selector.prototype.deselect = function() {
+        var t = this;
+        if (t.selection.length === 0) return;
+        t.chart.events._callListeners(cl.Event.deselect, null, t.selection);
+        t.selection = [];
+        t.apply();
+    };
+
+    /**
+     * Returns selection
+     * @returns {Array.<cl.Shape>}
+     */
+    Selector.prototype.getSelection = function() {
+        return this.selection;
+    };
+
+    /**
+     * Enables multiselection
+     */
+    Selector.prototype.enableMultiselect = function() {
+        this.options.selection.enabled = true;
+        this.options.selection.rect.enabled = true;
+        this.options.selection.multiple = true;
+    };
+
+    /**
+     * Disables multiselection
+     */
+    Selector.prototype.disableMultiselect = function() {
+        this.options.selection.multiple = false;
+    };
+
+    /**
+     * Enables dragging
+     */
+    Selector.prototype.enableDrag = function() {
+        this.options.draggable = true;
+    };
+
+    /**
+     * Disables dragging
+     */
+    Selector.prototype.disableDrag = function() {
+        this.options.draggable = false;
+    };
+
+    /**
+     * Starts dragging process
+     * @param {object} e Event
+     * @private
+     */
+    Selector.prototype._startDrag = function(e) {
+        var t = this;
+        if (!t.options.draggable) return;
+
+        // Check if there shape under cursor
+        var currentItem = t.shapeFromPoint(t.chart.events.mouseX, t.chart.events.mouseY);
+        if (!currentItem) return;
+
+        // Make selection if not exists
+        if (currentItem && t.selection.indexOf(currentItem) === -1) {
+            t.selection = [currentItem];
+            t.chart.events._callListeners(cl.Event.select, e.originalEvent, t.selection);
+        }
+        if (t.selection.length === 0) return;
+
+        var i, l;
+        var sel = t.selection;
+
+        // Initialise
+        t._drag.items = [];
+        t._drag.sx = t.chart.xAxis.toAxis(t._drag.sx);
+        t._drag.sy = t.chart.yAxis.toAxis(t._drag.sy);
+
+        // Calculate bounds of draggable shapes
+        t._drag.bounds = t.getBounds(sel);
+        t._drag.bounds.x = Math.floor(t._drag.bounds.x) - 10;
+        t._drag.bounds.y = Math.floor(t._drag.bounds.y) - 10;
+
+        // Prepare drag layer for drawing
+        t._drag.layer.resize(t._drag.bounds.w + 20, t._drag.bounds.h + 20);
+        t._drag.layer.resetTransform();
+        t._drag.layer.clear();
+        t._drag.layer.ctx.translate(-t._drag.bounds.x, -t._drag.bounds.y);
+
+        for (i = 0, l = sel.length; i < l; i++) if (sel[i].props.draggable) {
+            // Add draggable item
+            t._drag.items.push(sel[i]);
+            // Render draggable shape in drag layer
+            sel[i]._render(t._drag.layer);
+            if (!sel[i].isAnimating) {
+                // Update static layer if draggable shapes was in static
+                t.chart.shapes.updateStatic();
+                t.chart.shapes.apply();
+            }
+            sel[i].isAnimating = true;
+        }
+        // Renders selection of draggable shapes
+        t._renderSelection(t._drag.layer, t._drag.items);
+
+        // Sets _isDragged flag to hide shapes from rendering in ShapeManager
+        for (i = 0, l = t._drag.items.length; i < l; i++) t._drag.items[i]._isDragged = true;
+
+        t._drag.active = true;
+        t.apply();
+
+        t.chart.events._callListeners(cl.Event.dragStart, e.originalEvent, t._drag.items);
+    };
+
+    /**
+     * Returns bounds of shapes
+     * @param {Array.<cl.Shape>} items Shapes array
+     * @returns {{x: Number, y: Number, w: number, h: number}} Bounds
+     */
+    Selector.prototype.getBounds = function(items) {
+        var x1, y1, x2, y2, i, l, b;
+        x1 = Number.MAX_VALUE;
+        y1 = Number.MAX_VALUE;
+        x2 = Number.MIN_VALUE;
+        y2 = Number.MIN_VALUE;
+        for (i = 0, l = items.length; i < l; i++) {
+            b = items[i].getBounds();
+            if (b.x < x1) x1 = b.x;
+            if (b.y < y1) y1 = b.y;
+            if (b.x + b.w > x2) x2 = b.x + b.w;
+            if (b.y + b.h > y2) y2 = b.y + b.h;
+        }
+        return {x: x1, y: y1, w: x2 - x1, h: y2 - y1};
+    };
+
+    /**
+     * Returns all shapes intersecting rectangle
+     * @param {number} rx X coordinate in pixels of rectangle center
+     * @param {number} ry Y coordinate in pixels of rectangle center
+     * @param {number} hw Half width
+     * @param {number} hh Half height
+     * @returns {Array<cl.Shape>} Array of shapes intersecting rectangle
+     */
+    Selector.prototype.shapesFromRect = function(rx, ry, hw, hh) {
+        var i, l, t = this, res = [];
+        l = t.chart.shapes.count;
+        for (i = 0; i < l; i++) if (t.chart.shapes.items[i].hitTestRect(rx, ry, hw, hh)) res.push(t.chart.shapes.items[i]);
+        return res;
+    };
+
+    /**
+     * Returns all shapes under point in screen coordinates
+     * @param {number} x X coordinate in pixels
+     * @param {number} y Y coordinate in pixels
+     * @returns {Array.<cl.Shape>} Array of shapes under point
+     */
+    Selector.prototype.shapesFromPoint = function(x, y) {
+        var i, l, t = this, res = [];
+        l = t.chart.shapes.count;
+        for (i = 0; i < l; i++) if (t.chart.shapes.items[i].hitTest(x, y)) res.push(t.chart.shapes.items[i]);
+        return res;
+    };
+
+    /**
+     * Returns one shape under point in screen coordinates. Will return smallest shape
+     * @param {number} x X coordinate in pixels
+     * @param {number} y Y coordinate in pixels
+     * @returns {cl.Shape} Shape under point
+     */
+    Selector.prototype.shapeFromPoint = function(x, y) {
+        var t = this;
+        var shapes = t.chart.selector.shapesFromPoint(x, y);
+        if (shapes.length !== 0) {
+            var min = Number.MAX_VALUE;
+            var idx = 0;
+            // Find smallest shape
+            for (var i = 0, l = shapes.length; i < l; i++) {
+                var size = shapes[i].getPixelArea();
+                if (size < min) {
+                    min = size;
+                    idx = i;
+                }
+            }
+            return shapes[idx];
+        }
+    };
+
+    /**
+     * Renders selector
+     * @private
+     */
+    Selector.prototype._render = function() {
+        var t = this;
+        if (!t.options.visible) return;
+
+        t.surface.clear();
+        if (t._drag.active) t.surface.draw(t._drag.layer, t._drag.bounds.x -t._drag.lx + t.chart.events.mouseX, t._drag.bounds.y -t._drag.ly + t.chart.events.mouseY); else {
+
+            // Render selection
+            t._renderSelection(t.surface, t.selection);
+
+            if (t.options.hover.enabled && !t._rect.active) {
+                // Recalculate hover if shapes is moving, but not when dragging
+                if (t.chart.shapes.isAnimating && !t._drag.active) t.hover = t.shapeFromPoint(t.chart.events.mouseX, t.chart.events.mouseY);
+                // Render hover if exists
+                if (t.hover && !(t.hover.props.hover && t.hover.props.hover.enabled === false)) {
+                    if (t.hover.props.lineDash && t.hover.props.lineDash.length !== 0) t.surface.setLineDash(t.hover.props.lineDash);
+                    if (t.hover.props.hover) {
+                        t.surface.ctx.strokeStyle = t.hover.props.hover.color !== undefined ? t.hover.props.hover.color : t.options.hover.color;
+                        t.surface.ctx.lineWidth = t.hover.props.hover.border !== undefined ? t.hover.props.hover.border : t.options.hover.width;
+                        t.surface.ctx.globalAlpha = t.hover.props.hover.opacity !== undefined ? t.hover.props.hover.opacity : t.options.hover.opacity;
+                    } else {
+                        t.surface.ctx.strokeStyle = t.options.hover.color;
+                        t.surface.ctx.lineWidth = t.options.hover.width;
+                        t.surface.ctx.globalAlpha = t.options.hover.opacity;
+                    }
+                    t.surface.ctx.beginPath();
+                    t.hover._renderHover(t.surface, - 1 + t.options.hover.width / 2 + (t.hover.props.hover ? ((t.hover.props.hover.border / 2 || 0) + (t.hover.props.hover.offset || 0)) : 0));
+                    t.surface.ctx.stroke();
+                    t.surface.ctx.closePath();
+                    if (t.hover.props.lineDash && t.hover.props.lineDash.length !== 0) t.surface.setLineDash([]);
+                }
+            }
+
+            // Render selection rectangle
+            if (t._rect.active) {
+                t.surface.ctx.strokeStyle = cl.Utils.colorLuminance(t.options.selection.rect.color, -0.2);
+                t.surface.ctx.fillStyle = t.options.selection.rect.color;
+                t.surface.ctx.lineWidth = t.options.selection.rect.width;
+                t.surface.ctx.globalAlpha = t.options.selection.rect.opacity;
+                t.surface.ctx.beginPath();
+                t.surface.ctx.rect(t._rect.sx + 0.5, t._rect.sy + 0.5, t._rect.ex - t._rect.sx, t._rect.ey - t._rect.sy);
+                t.surface.ctx.fill();
+                t.surface.ctx.stroke();
+                t.surface.ctx.closePath();
+            }
+        }
+
+        t.constructor.superclass._render.call(t);
+    };
+
+    /**
+     * Renders selection
+     * @param {cl.Canvas} canvas Canvas
+     * @param {Array.<cl.Shape>} shapes Shapes to draw
+     * @private
+     */
+    Selector.prototype._renderSelection = function(canvas, shapes) {
+        var i, l, t = this;
+
+        if (t.options.selection.enabled && t.selection.length !== 0) {
+            canvas.ctx.strokeStyle = t.options.selection.shape.color;
+            canvas.ctx.lineWidth = t.options.selection.shape.width;
+            canvas.ctx.globalAlpha = t.options.selection.shape.opacity;
+            canvas.ctx.beginPath();
+            // Render all lines as one path for best performance
+            for (i = 0, l = shapes.length; i < l; i++) shapes[i]._renderHover(canvas);
+            canvas.ctx.stroke();
+            canvas.ctx.closePath();
+        }
+    };
+
+    /**
+     * Destroys selector
+     * @override
+     */
+    Selector.prototype.destroy = function() {
+        var t = this;
+        if (t._drag.layer) t._drag.layer.destroy();
+        t.hover = null;
+        t.options = null;
+        t._drag.layer = null;
+        t.selection = [];
+        t.constructor.superclass.destroy.call(t);
+    };
+
+    /**
+     * Shows hand cursor
+     * @private
+     */
+    Selector.prototype._showHand = function() {
+        this.chart.setCursor("pointer");
+    };
+
+    /**
+     * Hides hand cursor
+     * @private
+     */
+    Selector.prototype._resetCursor = function() {
+        this.chart.setCursor();
+    };
+
+
     /**
      * Number of pixels indicates mouse movement before drag actually start
-     * @memberof cl.Selector
      * @type {number}
      * @default 3
      */
     Selector.DRAG_THRESOLD = 3;
 
-    return Selector;
+    namespace.Selector = Selector;
 
-})();
+})(cl);
 
-cl.Shape = (function() {
+/**
+ * @module shapes/shape
+ * @description Module describes base shape class
+ * @author Anton Gnibeda
+ */
+(function(namespace) {
     'use strict';
 
     /**
      * Represent base shape class. This is base class for all displayable objects, like bubbles, polygons, etc.
+     *
+     * @constructor
+     * @memberof cl
+     *
      * @param {object} parent Parent shape manager
      * @param {object} props shape settings
      * @param {object} props.id Shape id
@@ -3279,23 +3385,13 @@ cl.Shape = (function() {
      * @param {string} [props.hover.color] Hover color
      * @param {number} [props.hover.opacity] Hover opacity
      * @param {number} [props.hover.offset] Hover offset
-     *
-     * @property {object} props Shape properties. Same as "props" in constructor
-     * @property {cl.Shape} props.owner Owner of properties
-     * @property {string} type Shape type
-     * @constructor
-     * @memberof cl
      **/
     function Shape(parent, props) {
         var t = this;
         if (!parent) throw new Error(cl.Lang.get("errShapeNoParam", "parent"));
-        // Private
-        var opt = props || {};
 
         // Properties
         t.parent = parent;
-        t.type = "base";
-        t.isAnimating = false;
         t.animProps = null;
 
         // Private
@@ -3324,7 +3420,7 @@ cl.Shape = (function() {
             },
             hover: null
         };
-        cl.Utils.merge(t.props, props);
+        cl.Utils.merge(t.props, props || {});
 
         if (t.props.color) t.props.color = cl.Color.fromString(t.props.color);
         if (t.props.borderColor) t.props.borderColor = cl.Color.fromString(t.props.borderColor); else t.props.borderColor = cl.Utils.colorLuminance(t.props.color, -0.2);
@@ -3332,6 +3428,35 @@ cl.Shape = (function() {
         // Dont create shapes without id
         if (t.props.id === undefined) throw new Error(cl.Lang.get("errShapeNoParam", "id"));
     }
+
+    ///////////////////////////////////////////// PROPERTIES //////////////////////////////////////////////////////
+
+    /**
+     * Parent shape manager
+     * @type {cl.ShapeManager}
+     */
+    Shape.prototype.parent = null;
+
+    /**
+     * Shape properties
+     * @type {Object}
+     */
+    Shape.prototype.props = null;
+
+    /**
+     * Shape type
+     * @type {string}
+     * @readonly
+     */
+    Shape.prototype.type = "base";
+
+    /**
+     * Indicates that shape is currently animating or moving
+     * @type {boolean}
+     */
+    Shape.prototype.isAnimating = false;
+
+    /////////////////////////////////////////////// METHODS ///////////////////////////////////////////////////////
 
     /**
      * Sets shape hover style
@@ -3376,8 +3501,9 @@ cl.Shape = (function() {
      * Used to update shape position while shape dragged
      * @param {number} deltaX X coordinate changes
      * @param {number} deltaY Y coordinate changes
+     * @private
      */
-    Shape.prototype.processDrag = function(deltaX, deltaY) {
+    Shape.prototype._processDrag = function(deltaX, deltaY) {
         this.props.x += deltaX;
         this.props.y += deltaY;
     };
@@ -3419,14 +3545,16 @@ cl.Shape = (function() {
     Shape.prototype.link = function(ids) {
         var t = this;
         var changed = false;
-        ids.forEach(function(v){
+        var i, l, v;
+        for (i = 0, l = ids.length; i < l; i++) {
+            v = ids[i];
             if (t.props.links.indexOf(v) === -1) {
                 var obj = t.parent.get(v);
                 if (!obj || obj.props.id === t.props.id) return;
                 t.props.links.push(v);
                 if (!obj.isAnimating) changed = true;
             }
-        });
+        }
         // Request redraw static if shape was changed and laying in static
         if (changed) {
             t.parent.updateStatic();
@@ -3441,10 +3569,12 @@ cl.Shape = (function() {
     Shape.prototype.unlink = function(ids) {
         var t = this;
         var prevLength = t.props.links.length;
-        ids.forEach(function(v){
+        var i, l, v;
+        for (i = 0, l = ids.length; i < l; i++) {
+            v = ids[i];
             var idx = t.props.links.indexOf(v);
             if (idx !== -1) t.props.links.splice(idx, 1);
-        });
+        }
         // Request redraw static if shape was changed and laying in static
         if (prevLength !== t.props.links.length && !t.isAnimating) {
             t.parent.updateStatic();
@@ -3454,10 +3584,10 @@ cl.Shape = (function() {
 
     /**
      * Called each frame when animation was updated
-     * @param {number} p Animation progress [0..1]
-     * @this current object "props" with animated properties
+     * @param {Object} animatedObj Object currently animated
+     * @param {number} progress Animation progress [0..1]
      */
-    Shape.prototype.onAnimationUpdate = function(p) {
+    Shape.prototype.onAnimationUpdate = function(animatedObj, progress) {
 
     };
 
@@ -3486,41 +3616,35 @@ cl.Shape = (function() {
         // Calculate colors for animations
         var rgbFrom;
         var rgbTo;
-        if (this.animProps.color) {
+        if (this.animProps._color) {
             rgbFrom = cl.Color.toRGB(this.props.color);
-            rgbTo = cl.Color.toRGB(this.animProps.color);
+            rgbTo = cl.Color.toRGB(this.animProps._color);
             this.props.color_r = rgbFrom.r;
             this.props.color_g = rgbFrom.g;
             this.props.color_b = rgbFrom.b;
             this.animProps.color_r = rgbTo.r;
             this.animProps.color_g = rgbTo.g;
             this.animProps.color_b = rgbTo.b;
-            // TODO: don't use delete because v8 performance issues with changed objects. Replace property name
-            delete this.animProps.color;
         }
-        if (this.animProps.color2) {
+        if (this.animProps._color2) {
             rgbFrom = cl.Color.toRGB(this.props.color2 || this.props.color);
-            rgbTo = cl.Color.toRGB(this.animProps.color2);
+            rgbTo = cl.Color.toRGB(this.animProps._color2);
             this.props.color2_r = rgbFrom.r;
             this.props.color2_g = rgbFrom.g;
             this.props.color2_b = rgbFrom.b;
             this.animProps.color2_r = rgbTo.r;
             this.animProps.color2_g = rgbTo.g;
             this.animProps.color2_b = rgbTo.b;
-            // TODO: don't use delete because v8 performance issues with changed objects. Replace property name
-            delete this.animProps.color2;
         }
-        if (this.animProps.borderColor) {
+        if (this.animProps._borderColor) {
             rgbFrom = cl.Color.toRGB(this.props.borderColor || this.props.color);
-            rgbTo = cl.Color.toRGB(this.animProps.borderColor);
+            rgbTo = cl.Color.toRGB(this.animProps._borderColor);
             this.props.borderColor_r = rgbFrom.r;
             this.props.borderColor_g = rgbFrom.g;
             this.props.borderColor_b = rgbFrom.b;
             this.animProps.borderColor_r = rgbTo.r;
             this.animProps.borderColor_g = rgbTo.g;
             this.animProps.borderColor_b = rgbTo.b;
-            // TODO: don't use delete because v8 performance issues with changed objects. Replace property name
-            delete this.animProps.borderColor;
         }
         // Create tween for animation
         this.tween = new TWEEN.Tween(this.props)
@@ -3528,7 +3652,7 @@ cl.Shape = (function() {
             .easing(TWEEN.Easing.Quadratic.Out)
             .delay(cl.ShapeManager.ANIMATION_DELAY)
             .onUpdate(function (time) {
-                _this.onAnimationUpdate.apply(this, arguments);
+                _this.onAnimationUpdate(this, time);
                 var r, g, b;
                 if (this.color_r !== undefined) {
                     r = Math.floor(this.color_r);
@@ -3586,10 +3710,10 @@ cl.Shape = (function() {
      * Updates shape properties
      * @param {object} newProps New properties
      * @param {boolean} [animate=false] Animate properties change
-     * @param {number} [animationSpeed=cl.ShapeManager.ANIMATION_DURATION] Animation speed in ms
+     * @param {number} [animationDuration={@link cl.ShapeManager.ANIMATION_DURATION}] Animation speed in ms
      * @returns {boolean} Is shape changed or not
      */
-    Shape.prototype.setProps = function(newProps, animate, animationSpeed) {
+    Shape.prototype.setProps = function(newProps, animate, animationDuration) {
         if (this._isDragged) return false;
         // Get animation properties
         var result = this.calcAnimProps(newProps);
@@ -3603,7 +3727,7 @@ cl.Shape = (function() {
                 cl.Utils.merge(this.props, this.animProps, ["id", "owner"]);
                 // If shape was in static layer, update it. No need to update animated shape, because it will update every frame
                 if (!this.isAnimating) this.parent.updateStatic();
-            } else this.startAnimation(animationSpeed);
+            } else this.startAnimation(animationDuration);
 
             // Say to parent that something is changed
             this.parent.apply();
@@ -3641,11 +3765,11 @@ cl.Shape = (function() {
             this.animProps.changed = true;
         }
         if (newProps.color !== undefined && cl.Color.fromString(newProps.color) !== cl.Color.fromString(this.props.color)) {
-            this.animProps.color = newProps.color;
+            this.animProps._color = newProps.color;
             this.animProps.changed = true;
         }
         if (newProps.borderColor !== undefined && cl.Color.fromString(newProps.borderColor) !== cl.Color.fromString(this.props.borderColor)) {
-            this.animProps.borderColor = newProps.borderColor;
+            this.animProps._borderColor = newProps.borderColor;
             this.animProps.changed = true;
         }
         if (newProps.border !== undefined && newProps.border !== this.props.border) {
@@ -3670,7 +3794,7 @@ cl.Shape = (function() {
     /**
      * Renders shape on canvas
      * @param {cl.Canvas} canvas
-     * @param {cl.Chart} chart
+     * @private
      */
     Shape.prototype._render = function(canvas) {
 
@@ -3680,9 +3804,9 @@ cl.Shape = (function() {
      * Renders shape hover on canvas
      * @param {cl.Canvas} canvas
      * @param {number} [offset=0] Hover offset
-     * @param {cl.Chart} chart
+     * @private
      */
-    Shape.prototype.renderHover = function(canvas, offset) {
+    Shape.prototype._renderHover = function(canvas, offset) {
 
     };
 
@@ -3692,7 +3816,12 @@ cl.Shape = (function() {
      */
     Shape.prototype.stopAnimation = function(dontStopTween) {
         // Set all props to animProps, because this is end of animation
-        if (this.tween && this.animProps) cl.Utils.merge(this.props, this.animProps, ["id", "owner"]);
+        if (this.tween && this.animProps) {
+            if (this.animProps._color) this.props.color = cl.Color.fromString(this.animProps._color);
+            if (this.animProps._color2) this.props.color2 = cl.Color.fromString(this.animProps._color2);
+            if (this.animProps._borderColor) this.props.borderColor = cl.Color.fromString(this.animProps._borderColor);
+            cl.Utils.merge(this.props, this.animProps, ["id", "owner", "_color", "_color2", "_borderColor", "_pointColor", "_pointColor2"]);
+        }
 
         if (this.tween && !dontStopTween) this.tween.stop();
         this.tween = null;
@@ -3710,14 +3839,13 @@ cl.Shape = (function() {
         this.parent = null;
     };
 
-    return Shape;
+    namespace.Shape = Shape;
 
-})();
+})(cl);
 /**
  * @module shapes/shapeManager
  * @description Module describes shape manager class
  * @author Anton Gnibeda
- *
  */
 (function(namespace) {
     'use strict';
@@ -3743,21 +3871,11 @@ cl.Shape = (function() {
      * @param {number} [options.centers.size=3] Radius
      * @param {number} [options.centers.opacity=0.3] Opacity
      * @param {string} [options.centers.color={@link cl.Consts.COLOR_BLACK}] Line color
-     *
-     * @property {cl.Chart} chart Parent chart
-     * @property {Array<cl.Shape>} items Shape array
-     * @property {number} count Shapes count
-     * @property {boolean} isAnimating True if any shapes is in animation state
-     * @property {number} animCount Count of shapes currently animated
-     * @property {Object} options Shape manager settings. Same as options in constructor
-     * @property {cl.Canvas} surface Layer canvas. All animated shapes will be rendered here
-     * @property {cl.Canvas} static Canvas for static shapes. All static shapes will be rendered here
      */
     function ShapeManager(chart, options) {
         var t = this;
-        this.constructor.superclass.constructor.call(t, chart);
+        cl.Layer.call(t, chart);
 
-        // Private fields
         // Indicates that some object moved to(from) static layer. So layer should be redrawn
         t._shouldRedrawStatic = false;
         // Counts objects that currently is animating
@@ -3800,7 +3918,63 @@ cl.Shape = (function() {
 
     cl.Utils.extend(ShapeManager, cl.Layer);
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Parent chart
+     * @type {cl.Chart}
+     */
+    ShapeManager.prototype.chart = null;
+
+    /**
+     * Shape array
+     * @type {Array.<cl.Shape>}
+     */
+    ShapeManager.prototype.items = null;
+
+    /**
+     * Shapes count
+     * @type {number}
+     */
+    ShapeManager.prototype.count = 0;
+
+    /**
+     * if any shapes is in animation state
+     * @type {boolean}
+     */
+    ShapeManager.prototype.isAnimating = true;
+
+    /**
+     * Count of shapes currently animated
+     * @type {number}
+     */
+    ShapeManager.prototype.animCount = 0;
+
+    /**
+     * Shape manager settings. Same as options in constructor
+     * @type {Object}
+     */
+    ShapeManager.prototype.options = null;
+
+    /**
+     * Canvas for static shapes. All static shapes will be rendered here
+     * @type {cl.Canvas}
+     */
+    ShapeManager.prototype.static = null;
+
+
+    /**
+     * Returns new id. Can be used to generate ids for new shapes
+     * @returns {number} New id
+     */
+    ShapeManager.prototype.getNewId = function() {
+        var t = this;
+        var id = 0;
+        for (var i = 0; i < t.items.length; i++) {
+            var eId = parseInt(t.items[i].props.id);
+            if (isNaN(eId)) continue;
+            if (eId > id) id = eId;
+        }
+        return id + 1;
+    };
 
     /**
      * Renders all axis on surface
@@ -3888,16 +4062,16 @@ cl.Shape = (function() {
             if (!isStatic && staticPass) continue;
             lc = t.items[i].props.links.length;
             if (lc === 0) continue;
-            var x = t.chart.xAxis.toScreen(t.items[i].getCenterX());
-            var y = t.chart.yAxis.toScreen(t.items[i].getCenterY());
+            var x = t.chart.toScreenX(t.items[i].getCenterX());
+            var y = t.chart.toScreenY(t.items[i].getCenterY());
             for (k = 0; k < lc; k++) {
                 if (t.items[i].props.links[k] == t.items[i].props.id) continue;
                 var obj = t.get(t.items[i].props.links[k]);
                 if (!obj) continue;
                 if (obj.isAnimating && staticPass) continue;
                 if (!staticPass && (isStatic && !obj.isAnimating)) continue;
-                var tx = t.chart.xAxis.toScreen(obj.props.x);
-                var ty = t.chart.yAxis.toScreen(obj.props.y);
+                var tx = t.chart.toScreenX(obj.getCenterX());
+                var ty = t.chart.toScreenY(obj.getCenterY());
                 canvas.ctx.moveTo(x, y);
                 canvas.ctx.lineTo(tx, ty);
             }
@@ -3993,6 +4167,12 @@ cl.Shape = (function() {
     ShapeManager.prototype.clear = function() {
         var t = this;
 
+        // Remove hover
+        if (t.chart.selector.hover) {
+            t.chart.selector.hover = null;
+            t.chart.selector.apply();
+        }
+
         // Remove shapes. Destroy would be called in remove function
         while (t.count !== 0) t.remove(t.items[0]);
 
@@ -4079,6 +4259,12 @@ cl.Shape = (function() {
         idx = t.chart.selector.selection.indexOf(item);
         if (idx !== -1) {
             t.chart.selector.selection.splice(idx, 1);
+            t.chart.selector.apply();
+        }
+
+        // Remove item from hover
+        if (t.chart.selector.hover === item) {
+            t.chart.selector.hover = null;
             t.chart.selector.apply();
         }
 
@@ -4178,12 +4364,21 @@ cl.Shape = (function() {
     namespace.ShapeManager = ShapeManager;
 
 })(cl);
-cl.Bubble = (function() {
+/**
+ * @module shapes/bubble
+ * @description Module describes bubble class.
+ * @author Anton Gnibeda
+ */
+(function(namespace) {
     'use strict';
 
     /**
      * Represent bubble shape class
+     *
      * @extends cl.Shape
+     * @constructor
+     * @memberof cl
+     *
      * @param {object} parent Parent shape manager
      * @param {object} props shape settings
      * @param {object} props.id Shape id
@@ -4207,177 +4402,156 @@ cl.Bubble = (function() {
      * @param {string} [props.hover.color] Hover color
      * @param {number} [props.hover.opacity] Hover opacity
      * @param {number} [props.hover.offset] Hover offset
-     *
-     * @constructor
-     * @memberof cl
      **/
     function Bubble(parent, props) {
         var t = this;
         cl.Shape.call(t, parent, props);
 
-        // Public methods
-        t.type = "bubble";
-        t.parent = parent;
-        t._render = render;
-        t.destroy = destroy;
-        t.hitTest = hitTest;
-        t.getBounds = getBounds;
-        t.hitTestRect = hitTestRect;
-        t.renderHover = renderHover;
-        t.getPixelArea = getPixelArea;
-        t.calcAnimProps = calcAnimProps;
-
-        // Private
-        var opt = props || {};
         if (t.props.size === undefined) throw new Error(cl.Lang.get("errShapeNoParam", "size"));
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        /**
-         * Returns shape area in pixels
-         * @returns {number} Shape area
-         * @memberof cl.Bubble.prototype
-         */
-        function getPixelArea() {
-            return Math.PI * t.props.size * t.props.size;
-        }
-
-        /**
-         * Returns shape bounds
-         * @returns {{x: number, y: number, w: number, h: number}} Shape bounds
-         * @memberof cl.Bubble.prototype
-         */
-        function getBounds() {
-            return {
-                x: t.parent.chart.xAxis.toScreen(t.props.x) - t.props.size,
-                y: t.parent.chart.yAxis.toScreen(t.props.y) - t.props.size,
-                w: t.props.size * 2,
-                h: t.props.size * 2
-            };
-        }
-
-        /**
-         * Checks if shape intersecting rectangle
-         * @param {number} rx X coordinate in pixels of rectangle center
-         * @param {number} ry Y coordinate in pixels of rectangle center
-         * @param {number} hw Half width
-         * @param {number} hh Half height
-         * @returns {boolean} Intersecting or not
-         * @memberof cl.Bubble.prototype
-         */
-        function hitTestRect(rx, ry, hw, hh) {
-            var cx = t.parent.chart.xAxis.toScreen(t.props.x);
-            var cy = t.parent.chart.yAxis.toScreen(t.props.y);
-            var cdx = Math.abs(cx - rx);
-            var cdy = Math.abs(cy - ry);
-            var r = t.props.size;
-
-            if (cdx > hw + r) { return false; }
-            if (cdy > hh + r) { return false; }
-
-            if (cdx <= hw ) { return true; }
-            if (cdy <= hh ) { return true; }
-
-            var cdsq = (cdx - hw) * (cdx - hw) + (cdy - hh) * (cdy - hh);
-
-            return cdsq <= r * r;
-        }
-
-        /**
-         * Check if point inside shape
-         * @param {number} x X coordinate in pixels
-         * @param {number} y Y coordinate in pixels
-         * @returns {boolean} Intersect or not
-         * @memberof cl.Bubble.prototype
-         */
-        function hitTest(x, y) {
-            var bx = t.parent.chart.xAxis.toScreen(t.props.x);
-            var by = t.parent.chart.yAxis.toScreen(t.props.y);
-            return (x - bx) * (x - bx) + (y - by) * (y - by) <= t.props.size * t.props.size;
-        }
-
-        /**
-         * Updates shape properties
-         * @param {object} newProps New properties
-         * @returns {boolean} Is shape changed or not
-         * @memberof cl.Bubble.prototype
-         */
-        function calcAnimProps(newProps) {
-            t.constructor.superclass.calcAnimProps.call(t, newProps);
-
-            if (newProps.size !== undefined && newProps.size !== t.props.size) {
-                t.animProps.size = newProps.size;
-                t.animProps.changed = true;
-            }
-            return t.animProps.changed;
-        }
-
-        /**
-         * Renders bubble on canvas
-         * @param {cl.Canvas} canvas
-         * @memberof cl.Bubble.prototype
-         */
-        function render(canvas) {
-            if (t._isDragged) return;
-            var chart = t.parent.chart;
-            if (t.props.size >= 0) {
-                canvas.setAlpha(t.props.opacity);
-                canvas.setFillColor(t.props.color);
-                if (t.props.border) canvas.setLineStyle(t.props.border, t.props.borderColor, true);
-                if (t.props.lineDash) canvas.setLineDash(t.props.lineDash);
-                canvas.ctx.beginPath();
-                canvas.ctx.arc(chart.xAxis.toScreen(t.props.x), chart.yAxis.toScreen(t.props.y), t.props.size, 0, cl.Consts.TWO_PI, false);
-                canvas.ctx.fill();
-                if (t.props.border) canvas.ctx.stroke();
-                canvas.ctx.closePath();
-                if (t.props.lineDash) canvas.setLineDash([]);
-            }
-
-            t.constructor.superclass._render.call(t, canvas);
-        }
-
-        /**
-         * Renders bubble hover on canvas
-         * @param {cl.Canvas} canvas
-         * @param {number} [offset=0] Hover offset
-         * @memberof cl.Bubble.prototype
-         */
-        function renderHover(canvas, offset) {
-            if (t._isDragged) return;
-            offset = (offset || 0) + (t.props.border || 0) / 2;
-            var chart = t.parent.chart;
-            if (t.props.size >= 0) {
-                var x = chart.xAxis.toScreen(t.props.x);
-                var y = chart.yAxis.toScreen(t.props.y);
-                canvas.ctx.moveTo(x + t.props.size + offset, y);
-                canvas.ctx.arc(x, y, t.props.size + offset, 0, cl.Consts.TWO_PI, false);
-            }
-
-            t.constructor.superclass.renderHover.call(t, canvas);
-        }
-
-
-        /**
-         * Destroys bubble
-         * @memberof cl.Bubble.prototype
-         */
-        function destroy() {
-            t.constructor.superclass.destroy.call(t);
-        }
     }
 
     cl.Utils.extend(Bubble, cl.Shape);
 
+    Bubble.prototype.type = "bubble";
 
-    return Bubble;
+    /**
+     * Returns shape area in pixels
+     * @override
+     */
+    Bubble.prototype.getPixelArea = function() {
+        var t = this;
+        var border = (t.props.border || 0) / 2;
+        return Math.PI * (t.props.size + border) * (t.props.size + border);
+    };
 
-})();
-cl.Centroid = (function() {
+    /**
+     * Returns shape bounds
+     * @override
+     */
+    Bubble.prototype.getBounds = function() {
+        var t = this;
+        var border = (t.props.border || 0) / 2;
+        return {
+            x: t.parent.chart.xAxis.toScreen(t.props.x) - t.props.size - border,
+            y: t.parent.chart.yAxis.toScreen(t.props.y) - t.props.size - border,
+            w: (t.props.size + border) * 2,
+            h: (t.props.size + border) * 2
+        };
+    };
+
+    /**
+     * Checks if shape intersecting rectangle
+     * @override
+     */
+    Bubble.prototype.hitTestRect = function(rx, ry, hw, hh) {
+        var t = this;
+        var cx = t.parent.chart.xAxis.toScreen(t.props.x);
+        var cy = t.parent.chart.yAxis.toScreen(t.props.y);
+        var cdx = Math.abs(cx - rx);
+        var cdy = Math.abs(cy - ry);
+
+        // Include line border in radius
+        var r = t.props.size + (t.props.border || 0) / 2;
+
+        if (cdx > hw + r) { return false; }
+        if (cdy > hh + r) { return false; }
+
+        if (cdx <= hw ) { return true; }
+        if (cdy <= hh ) { return true; }
+
+        var cdsq = (cdx - hw) * (cdx - hw) + (cdy - hh) * (cdy - hh);
+
+        return cdsq <= r * r;
+    };
+
+    /**
+     * Check if point inside shape
+     * @override
+     */
+    Bubble.prototype.hitTest = function(x, y) {
+        var t = this;
+        var bx = t.parent.chart.xAxis.toScreen(t.props.x);
+        var by = t.parent.chart.yAxis.toScreen(t.props.y);
+        var border = (t.props.border || 0) / 2;
+        return (x - bx) * (x - bx) + (y - by) * (y - by) <= (t.props.size + border) * (t.props.size + border);
+    };
+
+    /**
+     * Updates shape properties
+     * @override
+     */
+    Bubble.prototype.calcAnimProps = function(newProps) {
+        var t = this;
+        cl.Shape.prototype.calcAnimProps.call(t, newProps);
+
+        if (newProps.size !== undefined && newProps.size !== t.props.size) {
+            t.animProps.size = newProps.size;
+            t.animProps.changed = true;
+        }
+        return t.animProps.changed;
+    };
+
+    /**
+     * Renders bubble on canvas
+     * @override
+     */
+    Bubble.prototype._render = function(canvas) {
+        var t = this;
+        if (t._isDragged) return;
+        var chart = t.parent.chart;
+        if (t.props.size >= 0) {
+            canvas.setAlpha(t.props.opacity);
+            canvas.setFillColor(t.props.color);
+            if (t.props.border) canvas.setLineStyle(t.props.border, t.props.borderColor, true);
+            if (t.props.lineDash) canvas.setLineDash(t.props.lineDash);
+            canvas.ctx.beginPath();
+            canvas.ctx.arc(chart.xAxis.toScreen(t.props.x), chart.yAxis.toScreen(t.props.y), t.props.size, 0, cl.Consts.TWO_PI, false);
+            canvas.ctx.fill();
+            if (t.props.border) canvas.ctx.stroke();
+            canvas.ctx.closePath();
+            if (t.props.lineDash) canvas.setLineDash([]);
+        }
+
+        cl.Shape.prototype._render.call(t, canvas);
+    };
+
+    /**
+     * Renders bubble hover on canvas
+     * @override
+     */
+    Bubble.prototype._renderHover = function(canvas, offset) {
+        var t = this;
+        if (t._isDragged) return;
+        offset = (offset || 0) + (t.props.border || 0) / 2;
+        var chart = t.parent.chart;
+        if (t.props.size >= 0) {
+            var x = chart.xAxis.toScreen(t.props.x);
+            var y = chart.yAxis.toScreen(t.props.y);
+            canvas.ctx.moveTo(x + t.props.size + offset, y);
+            canvas.ctx.arc(x, y, t.props.size + offset, 0, cl.Consts.TWO_PI, false);
+        }
+
+        cl.Shape.prototype._renderHover.call(t, canvas);
+    };
+
+    namespace.Bubble = Bubble;
+
+})(cl);
+/**
+ * @module shapes/centroid
+ * @description Module describes centroid class.
+ * @author Anton Gnibeda
+ */
+(function(namespace) {
     'use strict';
 
     /**
-     * Represent centroid shape class.
+     * Represent centroid shape class
+     *
      * @extends cl.Bubble
+     * @constructor
+     * @memberof cl
+     *
      * @param {object} parent Parent shape manager
      * @param {object} props shape settings
      * @param {object} props.id Shape id
@@ -4402,32 +4576,34 @@ cl.Centroid = (function() {
      * @param {string} [props.hover.color] Hover color
      * @param {number} [props.hover.opacity] Hover opacity
      * @param {number} [props.hover.offset] Hover offset
-     *
-     * @constructor
-     * @memberof cl
      **/
     function Centroid(parent, props) {
         var t = this;
         cl.Bubble.call(t, parent, props);
-
-        // Public methods
-        t.type = "centroid";
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     cl.Utils.extend(Centroid, cl.Bubble);
 
+    Centroid.prototype.type = "centroid";
 
-    return Centroid;
+    namespace.Centroid = Centroid;
 
-})();
-cl.Rect = (function() {
+})(cl);
+/**
+ * @module shapes/rect
+ * @description Module describes rect class. Class for rectangular shapes
+ * @author Anton Gnibeda
+ */
+(function(namespace) {
     'use strict';
 
     /**
      * Represent rectangle shape class
+     *
      * @extends cl.Shape
+     * @constructor
+     * @memberof cl
+     *
      * @param {object} parent Parent shape manager
      * @param {object} props shape settings
      * @param {object} props.id Shape id
@@ -4456,281 +4632,261 @@ cl.Rect = (function() {
      * @param {string} [props.hover.color] Hover color
      * @param {number} [props.hover.opacity] Hover opacity
      * @param {number} [props.hover.offset] Hover offset
-     *
-     * @constructor
-     * @memberof cl
      **/
     function Rect(parent, props) {
         var t = this;
         cl.Shape.call(t, parent, props);
 
-        // Public methods
-        t.type = "rect";
-        t.parent = parent;
-        t._render = render;
-        t.destroy = destroy;
-        t.hitTest = hitTest;
-        t.getBounds = getBounds;
-        t.getCenterX = getCenterX;
-        t.getCenterY = getCenterY;
-        t.hitTestRect = hitTestRect;
-        t.renderHover = renderHover;
-        t.processDrag = processDrag;
-        t.getPixelArea = getPixelArea;
-        t.calcAnimProps = calcAnimProps;
-
-        // Private
         var opt = props || {};
         opt.borderRadius = opt.borderRadius || 0;
         if (t.props.color2) t.props.color2 = cl.Color.fromString(t.props.color2);
 
         if (t.props.x2 === undefined) throw new Error(cl.Lang.get("errShapeNoParam", "x2"));
         if (t.props.y2 === undefined) throw new Error(cl.Lang.get("errShapeNoParam", "y2"));
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        /**
-         * Returns shape area in pixels
-         * @returns {number} Shape area
-         * @memberof cl.Rect.prototype
-         */
-        function getPixelArea() {
-            var bounds = t.getBounds();
-            return bounds.w * bounds.h;
-        }
-
-        /**
-         * Returns X coordinate of shape center
-         * @returns {number} X coordinate in axis space
-         * @memberof cl.Rect.prototype
-         */
-        function getCenterX() {
-            var x1, x2;
-            // Find right coordinates order: (x1, y1) -> should be top left corner
-            if (t.props.x < t.props.x2) { x1 = t.props.x; x2 = t.props.x2; } else { x1 = t.props.x2; x2 = t.props.x; }
-            return (x1 + Math.abs(x2 - x1) / 2);
-        }
-
-        /**
-         * Returns Y coordinate of shape center
-         * @returns {number} Y coordinate in axis space
-         * @memberof cl.Rect.prototype
-         */
-        function getCenterY() {
-            var y1, y2;
-            // Find right coordinates order: (x1, y1) -> should be top left corner
-            if (t.props.y < t.props.y2) { y1 = t.props.y; y2 =  t.props.y2; } else { y1 = t.props.y2; y2 = t.props.y; }
-            return (y1 + Math.abs(y2 - y1) / 2);
-        }
-
-        /**
-         * Used to update shape position while shape dragged
-         * @param {number} deltaX X coordinate changes
-         * @param {number} deltaY Y coordinate changes
-         * @memberof cl.Rect.prototype
-         */
-        function processDrag(deltaX, deltaY) {
-            t.props.x2 += deltaX;
-            t.props.y2 += deltaY;
-            t.constructor.superclass.processDrag.call(t, deltaX, deltaY);
-        }
-
-        /**
-         * Returns shape bounds
-         * @returns {{x: number, y: number, w: number, h: number}} Shape bounds
-         * @memberof cl.Rect.prototype
-         */
-        function getBounds() {
-            var x1, y1, x2, y2, sx, sy, ex, ey;
-            x1 = t.parent.chart.xAxis.toScreen(t.props.x);
-            y1 = t.parent.chart.yAxis.toScreen(t.props.y);
-            x2 = t.parent.chart.xAxis.toScreen(t.props.x2);
-            y2 = t.parent.chart.yAxis.toScreen(t.props.y2);
-            sx = Math.min(x1, x2);
-            sy = Math.min(y1, y2);
-            ex = Math.max(x1, x2);
-            ey = Math.max(y1, y2);
-            return {
-                x: sx,
-                y: sy,
-                w: ex - sx,
-                h: ey - sy
-            };
-        }
-
-        /**
-         * Checks if shape intersecting rectangle
-         * @param {number} rx X coordinate in pixels of rectangle center
-         * @param {number} ry Y coordinate in pixels of rectangle center
-         * @param {number} hw Half width
-         * @param {number} hh Half height
-         * @returns {boolean} Intersecting or not
-         * @memberof cl.Rect.prototype
-         */
-        function hitTestRect(rx, ry, hw, hh) {
-            var x1, y1, x2, y2, sx, sy, ex, ey;
-            x1 = t.parent.chart.xAxis.toScreen(t.props.x);
-            y1 = t.parent.chart.yAxis.toScreen(t.props.y);
-            x2 = t.parent.chart.xAxis.toScreen(t.props.x2);
-            y2 = t.parent.chart.yAxis.toScreen(t.props.y2);
-            sx = Math.min(x1, x2);
-            sy = Math.min(y1, y2);
-            ex = Math.max(x1, x2);
-            ey = Math.max(y1, y2);
-
-            // This shape half width and height
-            var thw = (ex - sx) / 2;
-            var thh = (ey - sy) / 2;
-
-            // This shape center
-            var cx = sx + thw;
-            var cy = sy + thh;
-
-            var cdx = Math.abs(cx - rx);
-            var cdy = Math.abs(cy - ry);
-
-            return ((cdx <= thw + hw) && (cdy <= thh + hh));
-        }
-
-        /**
-         * Check if point inside shape
-         * @param {number} x X coordinate in pixels
-         * @param {number} y Y coordinate in pixels
-         * @returns {boolean} Inside or not
-         * @memberof cl.Rect.prototype
-         */
-        function hitTest(x, y) {
-            var x1, y1, x2, y2, sx, sy, ex, ey;
-            x1 = t.parent.chart.xAxis.toScreen(t.props.x);
-            y1 = t.parent.chart.yAxis.toScreen(t.props.y);
-            x2 = t.parent.chart.xAxis.toScreen(t.props.x2);
-            y2 = t.parent.chart.yAxis.toScreen(t.props.y2);
-            sx = Math.min(x1, x2);
-            sy = Math.min(y1, y2);
-            ex = Math.max(x1, x2);
-            ey = Math.max(y1, y2);
-
-            return ((x >= sx) && (x <= ex) && (y >= sy) && (y <= ey));
-        }
-
-        /**
-         * Updates shape properties
-         * @param {object} newProps New properties
-         * @returns {boolean} Is shape changed or not
-         * @memberof cl.Rect.prototype
-         */
-        function calcAnimProps(newProps) {
-            t.constructor.superclass.calcAnimProps.call(t, newProps);
-
-            if (newProps.x2 !== undefined && newProps.x2 !== t.props.x2) {
-                t.animProps.x2 = newProps.x2;
-                t.animProps.changed = true;
-            }
-            if (newProps.y2 !== undefined && newProps.y2 !== t.props.y2) {
-                t.animProps.y2 = newProps.y2;
-                t.animProps.changed = true;
-            }
-            if (newProps.borderRadius !== undefined && newProps.borderRadius !== t.props.borderRadius) {
-                t.animProps.borderRadius = newProps.borderRadius;
-                t.animProps.changed = true;
-            }
-            if (newProps.color2 !== undefined && cl.Color.fromString(newProps.color2) !== cl.Color.fromString(t.props.color2)) {
-                t.animProps.color2 = newProps.color2;
-                t.animProps.changed = true;
-            }
-            return t.animProps.changed;
-        }
-
-        /**
-         * Renders rect on canvas
-         * @param {cl.Canvas} canvas
-         * @memberof cl.Rect.prototype
-         */
-        function render(canvas) {
-            if (t._isDragged) return;
-            var chart = t.parent.chart;
-
-            // Calculate rectangle coordinates
-            var x1, y1, x2, y2;
-            x1 = chart.xAxis.toScreen(t.props.x);
-            y1 = chart.yAxis.toScreen(t.props.y);
-            x2 = chart.xAxis.toScreen(t.props.x2);
-            y2 = chart.yAxis.toScreen(t.props.y2);
-
-            canvas.setAlpha(t.props.opacity);
-            if (!t.props.color2 || t.props.color === t.props.color2) canvas.setFillColor(t.props.color); else {
-                // Calculate gradient
-                var sx, sy, ex, ey;
-                sx = Math.min(x1, x2);
-                sy = Math.min(y1, y2);
-                ex = Math.max(x1, x2);
-                ey = Math.max(y1, y2);
-
-                var gradient = canvas.ctx.createLinearGradient(sx, sy, ex, ey);
-                gradient.addColorStop(0, t.props.color);
-                gradient.addColorStop(1, t.props.color2);
-                canvas.ctx.fillStyle = gradient;
-            }
-            if (t.props.border) canvas.setLineStyle(t.props.border, t.props.borderColor);
-            if (t.props.lineDash) canvas.setLineDash(t.props.lineDash);
-            canvas.ctx.beginPath();
-            canvas.drawRect(x1, y1, x2, y2, t.props.borderRadius);
-            canvas.ctx.fill();
-            if (t.props.border) {
-                canvas.ctx.stroke();
-                canvas.restoreLineFix();
-            }
-            canvas.ctx.closePath();
-            if (t.props.lineDash) canvas.setLineDash([]);
-
-            t.constructor.superclass._render.call(t, canvas);
-        }
-
-        /**
-         * Renders rect hover on canvas
-         * @param {cl.Canvas} canvas
-         * @param {number} [offset=0] Hover offset
-         * @memberof cl.Rect.prototype
-         */
-        function renderHover(canvas, offset) {
-            if (t._isDragged) return;
-            offset = (offset || 0) + (t.props.border || 0) / 2;
-            var chart = t.parent.chart;
-
-            // Calculate rectangle coordinates
-            var x1, y1, x2, y2;
-            x1 = chart.xAxis.toScreen(t.props.x);
-            y1 = chart.yAxis.toScreen(t.props.y);
-            x2 = chart.xAxis.toScreen(t.props.x2);
-            y2 = chart.yAxis.toScreen(t.props.y2);
-
-            canvas.drawRect(x1, y1, x2, y2, t.props.borderRadius, true);
-
-            t.constructor.superclass.renderHover.call(t, canvas);
-        }
-
-
-        /**
-         * Destroys rect
-         * @memberof cl.Rect.prototype
-         */
-        function destroy() {
-            t.constructor.superclass.destroy.call(t);
-        }
     }
 
     cl.Utils.extend(Rect, cl.Shape);
 
+    ///////////////////////////////////////////// PROPERTIES //////////////////////////////////////////////////////
 
-    return Rect;
+    /**
+     * Shape type
+     * @override
+     */
+    Rect.prototype.type = "rect";
 
-})();
-cl.Line = (function() {
+    /////////////////////////////////////////////// METHODS ///////////////////////////////////////////////////////
+
+    /**
+     * Returns shape area in pixels
+     * @override
+     */
+    Rect.prototype.getPixelArea = function() {
+        var bounds = this.getBounds();
+        return bounds.w * bounds.h;
+    };
+
+    /**
+     * Returns X coordinate of shape center
+     * @override
+     */
+    Rect.prototype.getCenterX = function() {
+        var x1, x2, t = this;
+        // Find right coordinates order: (x1, y1) -> should be top left corner
+        if (t.props.x < t.props.x2) { x1 = t.props.x; x2 = t.props.x2; } else { x1 = t.props.x2; x2 = t.props.x; }
+        return (x1 + Math.abs(x2 - x1) / 2);
+    };
+
+    /**
+     * Returns Y coordinate of shape center
+     * @override
+     */
+    Rect.prototype.getCenterY = function() {
+        var y1, y2, t = this;
+        // Find right coordinates order: (x1, y1) -> should be top left corner
+        if (t.props.y < t.props.y2) { y1 = t.props.y; y2 =  t.props.y2; } else { y1 = t.props.y2; y2 = t.props.y; }
+        return (y1 + Math.abs(y2 - y1) / 2);
+    };
+
+    /**
+     * Used to update shape position while shape dragged
+     * @override
+     */
+    Rect.prototype._processDrag = function(deltaX, deltaY) {
+        var t = this;
+        t.props.x2 += deltaX;
+        t.props.y2 += deltaY;
+        cl.Shape.prototype._processDrag.call(t, deltaX, deltaY);
+    };
+
+    /**
+     * Returns shape bounds
+     * @override
+     */
+    Rect.prototype.getBounds = function() {
+        var t = this;
+        var x1, y1, x2, y2, sx, sy, ex, ey;
+        var border = (t.props.border || 0) / 2;
+        x1 = t.parent.chart.xAxis.toScreen(t.props.x);
+        y1 = t.parent.chart.yAxis.toScreen(t.props.y);
+        x2 = t.parent.chart.xAxis.toScreen(t.props.x2);
+        y2 = t.parent.chart.yAxis.toScreen(t.props.y2);
+        sx = Math.min(x1, x2);
+        sy = Math.min(y1, y2);
+        ex = Math.max(x1, x2);
+        ey = Math.max(y1, y2);
+        return {
+            x: sx - border,
+            y: sy - border,
+            w: ex - sx + border * 2,
+            h: ey - sy + border * 2
+        };
+    };
+
+    /**
+     * Checks if shape intersecting rectangle
+     * @override
+     */
+    Rect.prototype.hitTestRect = function(rx, ry, hw, hh) {
+        var t = this;
+        var x1, y1, x2, y2, sx, sy, ex, ey;
+        var border = (t.props.border || 0) / 2;
+        x1 = t.parent.chart.xAxis.toScreen(t.props.x);
+        y1 = t.parent.chart.yAxis.toScreen(t.props.y);
+        x2 = t.parent.chart.xAxis.toScreen(t.props.x2);
+        y2 = t.parent.chart.yAxis.toScreen(t.props.y2);
+        sx = Math.min(x1, x2) - border;
+        sy = Math.min(y1, y2) - border;
+        ex = Math.max(x1, x2) + border;
+        ey = Math.max(y1, y2) + border;
+
+        // This shape half width and height
+        var thw = (ex - sx) / 2;
+        var thh = (ey - sy) / 2;
+
+        // This shape center
+        var cx = sx + thw;
+        var cy = sy + thh;
+
+        var cdx = Math.abs(cx - rx);
+        var cdy = Math.abs(cy - ry);
+
+        return ((cdx <= thw + hw) && (cdy <= thh + hh));
+    };
+
+    /**
+     * Check if point inside shape
+     * @override
+     */
+    Rect.prototype.hitTest = function(x, y) {
+        var t = this;
+        var x1, y1, x2, y2, sx, sy, ex, ey;
+        var border = (t.props.border || 0) / 2;
+        x1 = t.parent.chart.xAxis.toScreen(t.props.x);
+        y1 = t.parent.chart.yAxis.toScreen(t.props.y);
+        x2 = t.parent.chart.xAxis.toScreen(t.props.x2);
+        y2 = t.parent.chart.yAxis.toScreen(t.props.y2);
+        sx = Math.min(x1, x2) - border;
+        sy = Math.min(y1, y2) - border;
+        ex = Math.max(x1, x2) + border;
+        ey = Math.max(y1, y2) + border;
+
+        return ((x >= sx) && (x <= ex) && (y >= sy) && (y <= ey));
+    };
+
+    /**
+     * Renders rect on canvas
+     * @override
+     */
+    Rect.prototype._render = function(canvas) {
+        var t = this;
+
+        if (t._isDragged) return;
+        var chart = t.parent.chart;
+
+        // Calculate rectangle coordinates
+        var x1, y1, x2, y2;
+        x1 = chart.xAxis.toScreen(t.props.x);
+        y1 = chart.yAxis.toScreen(t.props.y);
+        x2 = chart.xAxis.toScreen(t.props.x2);
+        y2 = chart.yAxis.toScreen(t.props.y2);
+
+        canvas.setAlpha(t.props.opacity);
+        if (!t.props.color2 || t.props.color === t.props.color2) canvas.setFillColor(t.props.color); else {
+            // Calculate gradient
+            var sx, sy, ex, ey;
+            sx = Math.min(x1, x2);
+            sy = Math.min(y1, y2);
+            ex = Math.max(x1, x2);
+            ey = Math.max(y1, y2);
+
+            var gradient = canvas.ctx.createLinearGradient(sx, sy, ex, ey);
+            gradient.addColorStop(0, t.props.color);
+            gradient.addColorStop(1, t.props.color2);
+            canvas.ctx.fillStyle = gradient;
+        }
+        if (t.props.border) canvas.setLineStyle(t.props.border, t.props.borderColor);
+        if (t.props.lineDash) canvas.setLineDash(t.props.lineDash);
+        canvas.ctx.beginPath();
+        canvas.drawRect(x1, y1, x2, y2, t.props.borderRadius);
+        canvas.ctx.fill();
+        if (t.props.border) {
+            canvas.ctx.stroke();
+            canvas.restoreLineFix();
+        }
+        canvas.ctx.closePath();
+        if (t.props.lineDash) canvas.setLineDash([]);
+
+        cl.Shape.prototype._render.call(t, canvas);
+    };
+
+    /**
+     * Renders rect hover on canvas
+     * @override
+     */
+    Rect.prototype._renderHover = function(canvas, offset) {
+        var t = this;
+        if (t._isDragged) return;
+        offset = (offset || 0) + (t.props.border || 0) / 2;
+        var chart = t.parent.chart;
+
+        // Calculate rectangle coordinates
+        var x1, y1, x2, y2;
+        x1 = chart.xAxis.toScreen(t.props.x);
+        y1 = chart.yAxis.toScreen(t.props.y);
+        x2 = chart.xAxis.toScreen(t.props.x2);
+        y2 = chart.yAxis.toScreen(t.props.y2);
+
+        canvas.drawRect(x1, y1, x2, y2, t.props.borderRadius, true, offset);
+
+        cl.Shape.prototype._renderHover.call(t, canvas, offset);
+    };
+
+    /**
+     * Updates shape properties
+     * @override
+     */
+    Rect.prototype.calcAnimProps = function(newProps) {
+        var t = this;
+        cl.Shape.prototype.calcAnimProps.call(t, newProps);
+
+        if (newProps.x2 !== undefined && newProps.x2 !== t.props.x2) {
+            t.animProps.x2 = newProps.x2;
+            t.animProps.changed = true;
+        }
+        if (newProps.y2 !== undefined && newProps.y2 !== t.props.y2) {
+            t.animProps.y2 = newProps.y2;
+            t.animProps.changed = true;
+        }
+        if (newProps.borderRadius !== undefined && newProps.borderRadius !== t.props.borderRadius) {
+            t.animProps.borderRadius = newProps.borderRadius;
+            t.animProps.changed = true;
+        }
+        if (newProps.color2 !== undefined && cl.Color.fromString(newProps.color2) !== cl.Color.fromString(t.props.color2)) {
+            t.animProps._color2 = newProps.color2;
+            t.animProps.changed = true;
+        }
+        return t.animProps.changed;
+    };
+
+    namespace.Rect = Rect;
+
+})(cl);
+/**
+ * @module shapes/line
+ * @description Module describes line class.
+ * @author Anton Gnibeda
+ */
+(function(namespace) {
     'use strict';
 
     /**
      * Represent line shape class
+     *
      * @extends cl.Shape
+     * @constructor
+     * @memberof cl
+     *
      * @param {object} parent Parent shape manager
      * @param {object} props shape settings
      * @param {object} props.id Shape id
@@ -4760,818 +4916,949 @@ cl.Line = (function() {
      * @param {string} [props.hover.color] Hover color
      * @param {number} [props.hover.opacity] Hover opacity
      * @param {number} [props.hover.offset] Hover offset
-     *
-     * @constructor
-     * @memberof cl
      **/
     function Line(parent, props) {
         var t = this;
         cl.Shape.call(t, parent, props);
 
-        // Public methods
-        t.type = "line";
-        t.parent = parent;
-        t._render = render;
-        t.destroy = destroy;
-        t.hitTest = hitTest;
-        t.getBounds = getBounds;
-        t.getCenterX = getCenterX;
-        t.getCenterY = getCenterY;
-        t.hitTestRect = hitTestRect;
-        t.renderHover = renderHover;
-        t.processDrag = processDrag;
-        t.getPixelArea = getPixelArea;
-        t.calcAnimProps = calcAnimProps;
-        t.startAnimation = startAnimation;
-        t.onAnimationUpdate = onAnimationUpdate;
-
-        // Private
-        var opt = props || {};
         if (t.props.pointColor) t.props.pointColor = cl.Color.fromString(t.props.pointColor);
         if (t.props.pointColor2) t.props.pointColor2 = cl.Color.fromString(t.props.pointColor2);
 
         if (t.props.x2 === undefined) throw new Error(cl.Lang.get("errShapeNoParam", "x2"));
         if (t.props.y2 === undefined) throw new Error(cl.Lang.get("errShapeNoParam", "y2"));
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        /**
-         * Returns shape area in pixels
-         * @returns {number} Shape area
-         * @memberof cl.Line.prototype
-         */
-        function getPixelArea() {
-            return Math.sqrt(cl.Utils.distSq(t.props.x, t.props.y, t.props.x2, t.props.y2));
-        }
-
-        /**
-         * Uses to update point colors
-         */
-        function onAnimationUpdate() {
-            /*jshint validthis:true */
-            var _this = this;
-            var r, g, b;
-            if (_this.pointColor_r !== undefined) {
-                r = Math.floor(_this.pointColor_r);
-                g = Math.floor(_this.pointColor_g);
-                b = Math.floor(_this.pointColor_b);
-                if (r < 0) r = 0;
-                if (g < 0) g = 0;
-                if (b < 0) b = 0;
-                if (r > 255) r = 255;
-                if (g > 255) g = 255;
-                if (b > 255) b = 255;
-                _this.pointColor = cl.Color.toHex(r, g, b);
-            }
-            if (_this.pointColor2_r !== undefined) {
-                r = Math.floor(_this.pointColor2_r);
-                g = Math.floor(_this.pointColor2_g);
-                b = Math.floor(_this.pointColor2_b);
-                if (r < 0) r = 0;
-                if (g < 0) g = 0;
-                if (b < 0) b = 0;
-                if (r > 255) r = 255;
-                if (g > 255) g = 255;
-                if (b > 255) b = 255;
-                _this.pointColor2 = cl.Color.toHex(r, g, b);
-            }
-        }
-
-        /**
-         * @param {number} animationSpeed Animation duration in ms
-         */
-        function startAnimation(animationSpeed) {
-            /*jshint validthis:true */
-            var _this = this;
-            var rgbFrom;
-            var rgbTo;
-            if (_this.animProps.pointColor) {
-                rgbFrom = cl.Color.toRGB(_this.props.pointColor || _this.props.color);
-                rgbTo = cl.Color.toRGB(_this.animProps.pointColor);
-                _this.props.pointColor_r = rgbFrom.r;
-                _this.props.pointColor_g = rgbFrom.g;
-                _this.props.pointColor_b = rgbFrom.b;
-                _this.animProps.pointColor_r = rgbTo.r;
-                _this.animProps.pointColor_g = rgbTo.g;
-                _this.animProps.pointColor_b = rgbTo.b;
-                delete _this.animProps.pointColor;
-            }
-            if (_this.animProps.pointColor2) {
-                rgbFrom = cl.Color.toRGB(_this.props.pointColor2 || _this.props.pointColor || _this.props.color);
-                rgbTo = cl.Color.toRGB(_this.animProps.pointColor2);
-                _this.props.pointColor2_r = rgbFrom.r;
-                _this.props.pointColor2_g = rgbFrom.g;
-                _this.props.pointColor2_b = rgbFrom.b;
-                _this.animProps.pointColor2_r = rgbTo.r;
-                _this.animProps.pointColor2_g = rgbTo.g;
-                _this.animProps.pointColor2_b = rgbTo.b;
-                delete _this.animProps.pointColor2;
-            }
-
-            t.constructor.superclass.startAnimation.call(t, animationSpeed);
-        }
-
-        /**
-         * Returns X coordinate of shape center
-         * @returns {number} X coordinate in axis space
-         * @memberof cl.Line.prototype
-         */
-        function getCenterX() {
-            var x1, x2;
-            // Find right coordinates order: (x1, x2) -> first x should be left corner
-            if (t.props.x < t.props.x2) { x1 = t.props.x; x2 = t.props.x2; } else { x1 = t.props.x2; x2 = t.props.x; }
-            return (x1 + Math.abs(x2 - x1) / 2);
-        }
-
-        /**
-         * Returns Y coordinate of shape center
-         * @returns {number} Y coordinate in axis space
-         * @memberof cl.Line.prototype
-         */
-        function getCenterY() {
-            var y1, y2;
-            // Find right coordinates order: (y1, y2) -> first y should be top corner
-            if (t.props.y < t.props.y2) { y1 = t.props.y; y2 =  t.props.y2; } else { y1 = t.props.y2; y2 = t.props.y; }
-            return (y1 + Math.abs(y2 - y1) / 2);
-        }
-
-        /**
-         * Used to update shape position while shape dragged
-         * @param {number} deltaX X coordinate changes
-         * @param {number} deltaY Y coordinate changes
-         * @memberof cl.Line.prototype
-         */
-        function processDrag(deltaX, deltaY) {
-            t.props.x2 += deltaX;
-            t.props.y2 += deltaY;
-            t.constructor.superclass.processDrag.call(t, deltaX, deltaY);
-        }
-
-        /**
-         * Returns shape bounds
-         * @returns {{x: number, y: number, w: number, h: number}} Shape bounds
-         * @memberof cl.Line.prototype
-         */
-        function getBounds() {
-            var x1, y1, x2, y2, sx, sy, ex, ey, r1, r2;
-            r1 = t.props.size || 0;
-            r2 = t.props.size2 || 0;
-            x1 = t.parent.chart.xAxis.toScreen(t.props.x);
-            y1 = t.parent.chart.yAxis.toScreen(t.props.y);
-            x2 = t.parent.chart.xAxis.toScreen(t.props.x2);
-            y2 = t.parent.chart.yAxis.toScreen(t.props.y2);
-            // Extend coordinates by circles radius. Because line can have big circles on points
-            if (x1 < x2) {
-                x1 -= r1;
-                x2 += r2;
-            } else {
-                x1 += r1;
-                x2 -= r2;
-            }
-            if (y1 < y2) {
-                y1 -= r1;
-                y2 += r2;
-            } else {
-                y1 += r1;
-                y2 -= r2;
-            }
-            sx = Math.min(x1, x2);
-            sy = Math.min(y1, y2);
-            ex = Math.max(x1, x2);
-            ey = Math.max(y1, y2);
-            return {
-                x: sx,
-                y: sy,
-                w: ex - sx,
-                h: ey - sy
-            };
-        }
-
-        /**
-         * Checks if shape intersecting rectangle
-         * @param {number} rx X coordinate in pixels of rectangle center
-         * @param {number} ry Y coordinate in pixels of rectangle center
-         * @param {number} hw Half width
-         * @param {number} hh Half height
-         * @returns {boolean} Intersecting or not
-         * @memberof cl.Line.prototype
-         */
-        function hitTestRect(rx, ry, hw, hh) {
-            var x1, y1, x2, y2;
-            x1 = t.parent.chart.xAxis.toScreen(t.props.x);
-            y1 = t.parent.chart.yAxis.toScreen(t.props.y);
-            x2 = t.parent.chart.xAxis.toScreen(t.props.x2);
-            y2 = t.parent.chart.yAxis.toScreen(t.props.y2);
-
-            return cl.Utils.lineRectIntersect(rx - hw, ry - hh, rx + hw, ry + hh, x1, y1, x2, y2);
-        }
-
-        /**
-         * Check if point inside shape
-         * @param {number} x X coordinate in pixels
-         * @param {number} y Y coordinate in pixels
-         * @returns {boolean} Inside or not
-         * @memberof cl.Line.prototype
-         */
-        function hitTest(x, y) {
-            var x1, y1, x2, y2, sx, sy, ex, ey;
-            x1 = t.parent.chart.xAxis.toScreen(t.props.x);
-            y1 = t.parent.chart.yAxis.toScreen(t.props.y);
-            x2 = t.parent.chart.xAxis.toScreen(t.props.x2);
-            y2 = t.parent.chart.yAxis.toScreen(t.props.y2);
-            /*sx = Math.min(x1, x2);
-            sy = Math.min(y1, y2);
-            ex = Math.max(x1, x2);
-            ey = Math.max(y1, y2);
-
-            return ((x >= sx) && (x <= ex) && (y >= sy) && (y <= ey));*/
-            return cl.Utils.distToSegmentSquared(x, y, x1, y1, x2, y2) < Line.HOVER_THRESHOLD;
-        }
-
-        /**
-         * Updates shape properties
-         * @param {object} newProps New properties
-         * @returns {boolean} Is shape changed or not
-         * @memberof cl.Line.prototype
-         */
-        function calcAnimProps(newProps) {
-            t.constructor.superclass.calcAnimProps.call(t, newProps);
-
-            if (newProps.x2 !== undefined && newProps.x2 !== t.props.x2) {
-                t.animProps.x2 = newProps.x2;
-                t.animProps.changed = true;
-            }
-            if (newProps.y2 !== undefined && newProps.y2 !== t.props.y2) {
-                t.animProps.y2 = newProps.y2;
-                t.animProps.changed = true;
-            }
-            if (newProps.size !== undefined && newProps.size !== t.props.size) {
-                t.animProps.size = newProps.size;
-                t.animProps.changed = true;
-            }
-            if (newProps.size2 !== undefined && newProps.size2 !== t.props.size2) {
-                t.animProps.size2 = newProps.size2;
-                t.animProps.changed = true;
-            }
-            if (newProps.pointColor !== undefined && cl.Color.fromString(newProps.pointColor) !== cl.Color.fromString(t.props.pointColor)) {
-                t.animProps.pointColor = newProps.pointColor;
-                t.animProps.changed = true;
-            }
-            if (newProps.pointColor2 !== undefined && cl.Color.fromString(newProps.pointColor2) !== cl.Color.fromString(t.props.pointColor2)) {
-                t.animProps.pointColor2 = newProps.pointColor2;
-                t.animProps.changed = true;
-            }
-            return t.animProps.changed;
-        }
-
-        /**
-         * Renders line on canvas
-         * @param {cl.Canvas} canvas
-         * @memberof cl.Line.prototype
-         */
-        function render(canvas) {
-            if (t._isDragged) return;
-            var chart = t.parent.chart;
-
-            // Calculate line coordinates
-            var x1, y1, x2, y2;
-            x1 = chart.xAxis.toScreen(t.props.x);
-            y1 = chart.yAxis.toScreen(t.props.y);
-            x2 = chart.xAxis.toScreen(t.props.x2);
-            y2 = chart.yAxis.toScreen(t.props.y2);
-
-            canvas.setAlpha(t.props.opacity);
-            canvas.setLineStyle(t.props.border, t.props.color);
-            if (t.props.lineDash) canvas.setLineDash(t.props.lineDash);
-
-            canvas.drawLine(x1, y1, x2, y2);
-
-            if (t.props.size) {
-                canvas.ctx.beginPath();
-                canvas.setFillColor(t.props.pointColor || t.props.color);
-                canvas.ctx.moveTo(x1, y1);
-                canvas.ctx.arc(x1, y1, t.props.size, 0, cl.Consts.TWO_PI, false);
-                canvas.ctx.fill();
-                canvas.ctx.closePath();
-            }
-            if (t.props.size2) {
-                canvas.ctx.beginPath();
-                canvas.setFillColor(t.props.pointColor2 || t.props.pointColor || t.props.color);
-                canvas.ctx.moveTo(x2, y2);
-                canvas.ctx.arc(x2, y2, t.props.size2, 0, cl.Consts.TWO_PI, false);
-                canvas.ctx.fill();
-                canvas.ctx.closePath();
-            }
-
-            if (t.props.lineDash) canvas.setLineDash([]);
-
-            t.constructor.superclass._render.call(t,canvas);
-        }
-
-        /**
-         * Renders line hover on canvas
-         * @param {cl.Canvas} canvas
-         * @param {number} [offset=0] Hover offset
-         * @memberof cl.Line.prototype
-         */
-        function renderHover(canvas, offset) {
-            if (t._isDragged) return;
-            var chart = t.parent.chart;
-
-            // Calculate rectangle coordinates
-            var x1, y1, x2, y2;
-            x1 = chart.xAxis.toScreen(t.props.x);
-            y1 = chart.yAxis.toScreen(t.props.y);
-            x2 = chart.xAxis.toScreen(t.props.x2);
-            y2 = chart.yAxis.toScreen(t.props.y2);
-
-            /*var angle = Math.atan2(x2 - x1, y2 - y1) + Math.PI / 2;
-            var dx = Math.cos(angle) * (t.props.border || 1) * offset;
-            var dy = Math.cos(angle) * (t.props.border || 1) * offset;
-            canvas.drawLine(x1+dx, y1+dy, x2+dx, y2+dy);
-            angle += Math.PI;
-            dx = Math.cos(angle) * (t.props.border || 1) * offset;
-            dy = Math.cos(angle) * (t.props.border || 1) * offset;
-            canvas.drawLine(x1+dx, y1+dy, x2+dx, y2+dy);*/
-            canvas.drawLine(x1, y1, x2, y2, true);
-            if (t.props.size) {
-                canvas.ctx.moveTo(x1 + t.props.size + (offset || 0), y1);
-                canvas.ctx.arc(x1, y1, t.props.size + (offset || 0), 0, cl.Consts.TWO_PI, false);
-            }
-            if (t.props.size2) {
-                canvas.ctx.moveTo(x2 + t.props.size2 + (offset || 0), y2);
-                canvas.ctx.arc(x2, y2, t.props.size2 + (offset || 0), 0, cl.Consts.TWO_PI, false);
-            }
-
-            t.constructor.superclass.renderHover.call(t,canvas);
-        }
-
-
-        /**
-         * Destroys line
-         * @memberof cl.Line.prototype
-         */
-        function destroy() {
-            t.constructor.superclass.destroy.call(t);
-        }
     }
 
     cl.Utils.extend(Line, cl.Shape);
 
+    /////////////////////////////////////////////// STATIC ////////////////////////////////////////////////////////
+
     /**
      * Squared distance to line, when line considered hovered
-     * @memberof cl.Line
      * @type {number}
      * @default 25
      */
     Line.HOVER_THRESHOLD = 25;
 
-    return Line;
+    ///////////////////////////////////////////// PROPERTIES //////////////////////////////////////////////////////
 
-})();
-cl.PolyLine = (function() {
+    /**
+     * Shape type
+     * @override
+     */
+    Line.prototype.type = "line";
+
+    /////////////////////////////////////////////// METHODS ///////////////////////////////////////////////////////
+
+    /**
+     * Returns shape area in pixels
+     * @override
+     */
+    Line.prototype.getPixelArea = function() {
+        var t = this;
+        return Math.sqrt(cl.Utils.distSq(t.props.x, t.props.y, t.props.x2, t.props.y2));
+    };
+
+    /**
+     * Uses to update point colors
+     * @override
+     */
+    Line.prototype.onAnimationUpdate = function(obj, progress) {
+        var r, g, b;
+        if (obj.pointColor_r !== undefined) {
+            r = Math.floor(obj.pointColor_r);
+            g = Math.floor(obj.pointColor_g);
+            b = Math.floor(obj.pointColor_b);
+            if (r < 0) r = 0;
+            if (g < 0) g = 0;
+            if (b < 0) b = 0;
+            if (r > 255) r = 255;
+            if (g > 255) g = 255;
+            if (b > 255) b = 255;
+            obj.pointColor = cl.Color.toHex(r, g, b);
+        }
+        if (obj.pointColor2_r !== undefined) {
+            r = Math.floor(obj.pointColor2_r);
+            g = Math.floor(obj.pointColor2_g);
+            b = Math.floor(obj.pointColor2_b);
+            if (r < 0) r = 0;
+            if (g < 0) g = 0;
+            if (b < 0) b = 0;
+            if (r > 255) r = 255;
+            if (g > 255) g = 255;
+            if (b > 255) b = 255;
+            obj.pointColor2 = cl.Color.toHex(r, g, b);
+        }
+    };
+
+    /**
+     * @override
+     */
+    Line.prototype.startAnimation = function(animationSpeed) {
+        var t = this;
+        var rgbFrom;
+        var rgbTo;
+        if (t.animProps._pointColor) {
+            rgbFrom = cl.Color.toRGB(t.props.pointColor || t.props.color);
+            rgbTo = cl.Color.toRGB(t.animProps._pointColor);
+            t.props.pointColor_r = rgbFrom.r;
+            t.props.pointColor_g = rgbFrom.g;
+            t.props.pointColor_b = rgbFrom.b;
+            t.animProps.pointColor_r = rgbTo.r;
+            t.animProps.pointColor_g = rgbTo.g;
+            t.animProps.pointColor_b = rgbTo.b;
+        }
+        if (t.animProps._pointColor2) {
+            rgbFrom = cl.Color.toRGB(t.props.pointColor2 || t.props.pointColor || t.props.color);
+            rgbTo = cl.Color.toRGB(t.animProps._pointColor2);
+            t.props.pointColor2_r = rgbFrom.r;
+            t.props.pointColor2_g = rgbFrom.g;
+            t.props.pointColor2_b = rgbFrom.b;
+            t.animProps.pointColor2_r = rgbTo.r;
+            t.animProps.pointColor2_g = rgbTo.g;
+            t.animProps.pointColor2_b = rgbTo.b;
+        }
+
+        cl.Shape.prototype.startAnimation.call(t, animationSpeed);
+    };
+
+    /**
+     * Stops animation
+     * @override
+     */
+    Line.prototype.stopAnimation = function(dontStopTween) {
+        var i, l, t = this;
+        if (t.tween && t.animProps) {
+            if (this.animProps._pointColor) this.props.pointColor = cl.Color.fromString(this.animProps._pointColor);
+            if (this.animProps._pointColor2) this.props.pointColor2 = cl.Color.fromString(this.animProps._pointColor2);
+        }
+        cl.Shape.prototype.stopAnimation.call(t, dontStopTween);
+    };
+
+
+    /**
+     * Returns X coordinate of shape center
+     * @override
+     */
+    Line.prototype.getCenterX = function() {
+        var x1, x2, t = this;
+        // Find right coordinates order: (x1, x2) -> first x should be left corner
+        if (t.props.x < t.props.x2) { x1 = t.props.x; x2 = t.props.x2; } else { x1 = t.props.x2; x2 = t.props.x; }
+        return (x1 + Math.abs(x2 - x1) / 2);
+    };
+
+    /**
+     * Returns Y coordinate of shape center
+     * @override
+     */
+    Line.prototype.getCenterY = function() {
+        var y1, y2, t = this;
+        // Find right coordinates order: (y1, y2) -> first y should be top corner
+        if (t.props.y < t.props.y2) { y1 = t.props.y; y2 =  t.props.y2; } else { y1 = t.props.y2; y2 = t.props.y; }
+        return (y1 + Math.abs(y2 - y1) / 2);
+    };
+
+    /**
+     * Used to update shape position while shape dragged
+     * @override
+     */
+    Line.prototype._processDrag = function(deltaX, deltaY) {
+        var t = this;
+        t.props.x2 += deltaX;
+        t.props.y2 += deltaY;
+        cl.Shape.prototype._processDrag.call(t, deltaX, deltaY);
+    };
+
+    /**
+     * Returns shape bounds
+     * @override
+     */
+    Line.prototype.getBounds = function() {
+        var x1, y1, x2, y2, sx, sy, ex, ey, r1, r2, t = this;
+        var border = (t.props.border || 0) / 2;
+        r1 = t.props.size || 0;
+        r2 = t.props.size2 || 0;
+        if (r1 < border) r1 = border;
+        if (r2 < border) r2 = border;
+        x1 = t.parent.chart.xAxis.toScreen(t.props.x);
+        y1 = t.parent.chart.yAxis.toScreen(t.props.y);
+        x2 = t.parent.chart.xAxis.toScreen(t.props.x2);
+        y2 = t.parent.chart.yAxis.toScreen(t.props.y2);
+        // TODO: extend by line width
+        // Extend coordinates by circles radius. Because line can have big circles on end points
+        if (x1 < x2) {
+            x1 -= r1;
+            x2 += r2;
+        } else {
+            x1 += r1;
+            x2 -= r2;
+        }
+        if (y1 < y2) {
+            y1 -= r1;
+            y2 += r2;
+        } else {
+            y1 += r1;
+            y2 -= r2;
+        }
+
+        sx = Math.min(x1, x2);
+        sy = Math.min(y1, y2);
+        ex = Math.max(x1, x2);
+        ey = Math.max(y1, y2);
+        return {
+            x: sx,
+            y: sy,
+            w: ex - sx,
+            h: ey - sy
+        };
+    };
+
+    /**
+     * Checks if shape intersecting rectangle
+     * @override
+     */
+    Line.prototype.hitTestRect = function(rx, ry, hw, hh) {
+        var x1, y1, x2, y2, t = this;
+        x1 = t.parent.chart.xAxis.toScreen(t.props.x);
+        y1 = t.parent.chart.yAxis.toScreen(t.props.y);
+        x2 = t.parent.chart.xAxis.toScreen(t.props.x2);
+        y2 = t.parent.chart.yAxis.toScreen(t.props.y2);
+
+        return cl.Utils.lineRectIntersect(rx - hw, ry - hh, rx + hw, ry + hh, x1, y1, x2, y2);
+    };
+
+    /**
+     * Check if point inside shape
+     * @override
+     */
+    Line.prototype.hitTest = function(x, y) {
+        var x1, y1, x2, y2, t = this;
+        var border = (t.props.border || 0) / 2;
+        x1 = t.parent.chart.xAxis.toScreen(t.props.x);
+        y1 = t.parent.chart.yAxis.toScreen(t.props.y);
+        x2 = t.parent.chart.xAxis.toScreen(t.props.x2);
+        y2 = t.parent.chart.yAxis.toScreen(t.props.y2);
+
+        return cl.Utils.distToSegmentSquared(x, y, x1, y1, x2, y2) < Line.HOVER_THRESHOLD + border * border;
+    };
+
+    /**
+     * Updates shape properties
+     * @override
+     */
+    Line.prototype.calcAnimProps = function(newProps) {
+        var t = this;
+        cl.Shape.prototype.calcAnimProps.call(t, newProps);
+
+        if (newProps.x2 !== undefined && newProps.x2 !== t.props.x2) {
+            t.animProps.x2 = newProps.x2;
+            t.animProps.changed = true;
+        }
+        if (newProps.y2 !== undefined && newProps.y2 !== t.props.y2) {
+            t.animProps.y2 = newProps.y2;
+            t.animProps.changed = true;
+        }
+        if (newProps.size !== undefined && newProps.size !== t.props.size) {
+            t.animProps.size = newProps.size;
+            t.animProps.changed = true;
+        }
+        if (newProps.size2 !== undefined && newProps.size2 !== t.props.size2) {
+            t.animProps.size2 = newProps.size2;
+            t.animProps.changed = true;
+        }
+        if (newProps.pointColor !== undefined && cl.Color.fromString(newProps.pointColor) !== cl.Color.fromString(t.props.pointColor)) {
+            t.animProps._pointColor = newProps.pointColor;
+            t.animProps.changed = true;
+        }
+        if (newProps.pointColor2 !== undefined && cl.Color.fromString(newProps.pointColor2) !== cl.Color.fromString(t.props.pointColor2)) {
+            t.animProps._pointColor2 = newProps.pointColor2;
+            t.animProps.changed = true;
+        }
+        return t.animProps.changed;
+    };
+
+    /**
+     * Renders line on canvas
+     * @override
+     */
+    Line.prototype._render = function(canvas) {
+        var t = this;
+        if (t._isDragged) return;
+        var chart = t.parent.chart;
+
+        // Calculate line coordinates
+        var x1, y1, x2, y2;
+        x1 = chart.xAxis.toScreen(t.props.x);
+        y1 = chart.yAxis.toScreen(t.props.y);
+        x2 = chart.xAxis.toScreen(t.props.x2);
+        y2 = chart.yAxis.toScreen(t.props.y2);
+
+        canvas.setAlpha(t.props.opacity);
+        canvas.setLineStyle(t.props.border, t.props.color);
+        if (t.props.lineDash) canvas.setLineDash(t.props.lineDash);
+
+        canvas.drawLine(x1, y1, x2, y2);
+
+        if (t.props.size) {
+            canvas.ctx.beginPath();
+            canvas.setFillColor(t.props.pointColor || t.props.color);
+            canvas.ctx.moveTo(x1, y1);
+            canvas.ctx.arc(x1, y1, t.props.size, 0, cl.Consts.TWO_PI, false);
+            canvas.ctx.fill();
+            canvas.ctx.closePath();
+        }
+        if (t.props.size2) {
+            canvas.ctx.beginPath();
+            canvas.setFillColor(t.props.pointColor2 || t.props.pointColor || t.props.color);
+            canvas.ctx.moveTo(x2, y2);
+            canvas.ctx.arc(x2, y2, t.props.size2, 0, cl.Consts.TWO_PI, false);
+            canvas.ctx.fill();
+            canvas.ctx.closePath();
+        }
+
+        if (t.props.lineDash) canvas.setLineDash([]);
+
+        cl.Shape.prototype._render.call(t, canvas);
+    };
+
+    /**
+     * Renders line hover on canvas
+     * @override
+     */
+    Line.prototype._renderHover = function(canvas, offset) {
+        var t = this;
+        if (t._isDragged) return;
+        var chart = t.parent.chart;
+
+        // Calculate rectangle coordinates
+        var x1, y1, x2, y2;
+        x1 = chart.xAxis.toScreen(t.props.x);
+        y1 = chart.yAxis.toScreen(t.props.y);
+        x2 = chart.xAxis.toScreen(t.props.x2);
+        y2 = chart.yAxis.toScreen(t.props.y2);
+
+        canvas.drawLine(x1, y1, x2, y2, true);
+
+        // Render line cap circles
+        if (t.props.size) {
+            canvas.ctx.moveTo(x1 + t.props.size + (offset || 0), y1);
+            canvas.ctx.arc(x1, y1, t.props.size + (offset || 0), 0, cl.Consts.TWO_PI, false);
+        }
+        if (t.props.size2) {
+            canvas.ctx.moveTo(x2 + t.props.size2 + (offset || 0), y2);
+            canvas.ctx.arc(x2, y2, t.props.size2 + (offset || 0), 0, cl.Consts.TWO_PI, false);
+        }
+
+        cl.Shape.prototype._renderHover.call(t, canvas, offset);
+    };
+
+    namespace.Line = Line;
+
+})(cl);
+/**
+ * @module shapes/polyLine
+ * @description Module describes ploy line class.
+ * @author Anton Gnibeda
+ */
+(function(namespace) {
     'use strict';
 
     /**
      * Represent line segment shape class
+     *
      * @extends cl.Shape
-     * @param {object} parent Parent shape manager
-     * @param {object} props shape settings
-     * @param {object} props.id Shape id
-     * @param {array<number>} props.points Line points coordinates. Contains [x1, y1, x2, y2, x3, y3, ...]
+     * @constructor
+     * @memberof cl
+     *
+     * @param {Object} parent Parent shape manager
+     * @param {Object} props shape settings
+     * @param {Object} props.id Shape id
+     * @param {Array.<number>} props.points Line points coordinates. Contains [x1, y1, x2, y2, x3, y3, ...]
      * @param {boolean} [props.closed=false] Is poly line closed or not
      * @param {string} [props.cursor] Change cursor to specified when shape is hovered
      * @param {string} [props.color=cl.Consts.COLOR_RED] Line color
-     * @param {object} [props.border=1] Shape border width
-     * @param {object} [props.opacity=0.3] Shape opacity
+     * @param {Object} [props.border=1] Shape border width
+     * @param {Object} [props.opacity=0.3] Shape opacity
      * @param {string} [props.lineJoin="miter"] Line join. Can be "miter", "round", "bevel"
      * @param {array} [props.lineDash=[]] Shape line dash. Example: [2, 2]
      * @param {array} [props.links=[]] Array of linked shapes id's
      * @param {boolean} [props.draggable=true] Is shape draggable
-     * @param {object} [props.track] Shape track. Can be displayed while shape is animating
+     * @param {Object} [props.track] Shape track. Can be displayed while shape is animating
      * @param {boolean} [props.track.enabled=false] Enabled or not
      * @param {number} [props.track.width=1] Line width
      * @param {string} [props.track.color=cl.Consts.COLOR_GREEN] Line color
      * @param {number} [props.track.opacity=0.4] Line opacity
-     * @param {object} [props.hover] Hover style
+     * @param {Object} [props.hover] Hover style
      * @param {boolean} [props.hover.enabled=true] Is hover enabled
      * @param {number} [props.hover.border] Hover border size
      * @param {string} [props.hover.color] Hover color
      * @param {number} [props.hover.opacity] Hover opacity
      * @param {number} [props.hover.offset] Hover offset
-     *
-     * @constructor
-     * @memberof cl
      **/
     function PolyLine(parent, props) {
         var t = this;
         cl.Shape.call(t, parent, props);
 
-        // Public methods
-        t.type = "polyline";
-        t.parent = parent;
-        t._render = render;
-        t.destroy = destroy;
-        t.hitTest = hitTest;
-        t.getBounds = getBounds;
-        t.getCenterX = getCenterX;
-        t.getCenterY = getCenterY;
-        t.hitTestRect = hitTestRect;
-        t.renderHover = renderHover;
-        t.processDrag = processDrag;
-        t.getPixelArea = getPixelArea;
-        t.calcAnimProps = calcAnimProps;
-        t.onAnimationUpdate = onAnimationUpdate;
-        t.stopAnimation = stopAnimation;
-
-        // Private
-        var opt = props || {};
-        opt.borderRadius = opt.borderRadius || 0;
-        if (t.props.pointColor) t.props.pointColor = cl.Color.fromString(t.props.pointColor);
-        if (t.props.pointColor2) t.props.pointColor2 = cl.Color.fromString(t.props.pointColor2);
-
         if (t.props.points === undefined) throw new Error(cl.Lang.get("errShapeNoParam", "points"));
         if (t.props.points.length < 4) throw new Error(cl.Lang.get("errShapeNoParam", "points"));
 
         // Used for store animation variables
-        // TODO: try to make it without anim object. All animation specific properties should be in animProps
-        var anim = {
+        // TODO: try to make it without anim object. All animation specific properties should be in animProps?
+        t._anim = {
             pointsFrom: [],
             pointsTo: [],
             closedFrom: false,
             closedTo: false,
             closedWidth: 0
         };
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        /**
-         * Stops animation
-         * @param {boolean} [dontStopTween=false] Don't stop tween. Not usable in general cases. Used only if method called from onComplete tween event
-         * @memberof cl.PolyLine.prototype
-         */
-        function stopAnimation(dontStopTween) {
-            var i, l;
-            if (t.tween && anim.pointsTo.length !== 0) {
-                for (i = 0, l = t.props.points.length; i < l; i++) t.props.points[i] = anim.pointsTo[i];
-                if (t.props.delPoints) t.props.points.splice(t.props.points.length - t.props.delPoints * 2, t.props.delPoints * 2);
-            }
-            anim.closedWidth = 0;
-            anim.pointsFrom = [];
-            anim.pointsTo = [];
-            anim.closedFrom = t.props.closed;
-            anim.closedTo = t.props.closed;
-            t.constructor.superclass.stopAnimation.call(t, dontStopTween);
-        }
-
-        /**
-         * Returns shape area in pixels
-         * @returns {number} Shape area
-         * @memberof cl.PolyLine.prototype
-         */
-        function getPixelArea() {
-            var i, l, dist = 0;
-            for (i = 0, l = t.props.points.length; i < l - 2; i += 2) dist += Math.sqrt(cl.Utils.distSq(t.props.points[i], t.props.points[i+1], t.props.points[i+2], t.props.points[i+3]));
-            if (t.props.closed) dist += Math.sqrt(cl.Utils.distSq(t.props.points[l-2], t.props.points[l-1], t.props.points[0], t.props.points[1]));
-            return dist;
-        }
-
-        /**
-         * Uses to update point colors
-         * @param {number} p Animation progress [0..1]
-         */
-        function onAnimationUpdate(p) {
-            /*jshint validthis:true */
-            var i, l, idx, _this = this;
-            if (anim.pointsFrom.length !== 0 && anim.pointsTo.length !== 0) {
-                for (i = 0, l = _this.points.length; i < l; i++) _this.points[i] = anim.pointsFrom[i] + (anim.pointsTo[i] - anim.pointsFrom[i]) * p;
-            }
-
-            if (anim.closedFrom !== anim.closedTo) {
-                if (anim.closedTo) anim.closedWidth = p * t.props.border; else anim.closedWidth = (1 - p) * t.props.border;
-            }
-        }
-
-        function getArea() {
-            var area = 0, i, l, point1, point2;
-            for (i = 0, l = t.props.points.length; i < l - 2; i += 2) {
-                area += t.props.points[i] * t.props.points[i + 3];
-                area -= t.props.points[i + 1] * t.props.points[i + 2];
-            }
-            if (t.props.closed) {
-                area += t.props.points[l - 1] * t.props.points[1];
-                area -= t.props.points[l - 2] * t.props.points[0];
-                //point1.x * point2.y;
-                //point1.y * point2.x;
-            }
-            area /= 2;
-            return area;
-        }
-
-        /**
-         * Returns X coordinate of shape center
-         * @returns {number} X coordinate in axis space
-         * @memberof cl.PolyLine.prototype
-         */
-        function getCenterX() {
-            var twicearea = 0, x = 0, y = 0, i, l, f;
-            for (i = 0, l = t.props.points.length; i < l - 2; i += 2) {
-                f = t.props.points[i] * t.props.points[i + 3] - t.props.points[i + 2] * t.props.points[i + 1];
-                twicearea += f;
-                x += ( t.props.points[i] + t.props.points[i + 2] ) * f;
-                //y += ( t.props.points[i + 1] + t.props.points[i + 3] ) * f;
-            }
-            f = t.props.points[l - 2] * t.props.points[1] - t.props.points[0] * t.props.points[l - 1];
-            twicearea += f;
-            x += ( t.props.points[l - 2] + t.props.points[0] ) * f;
-            //y += ( t.props.points[l - 1] + t.props.points[1] ) * f;
-
-            f = twicearea * 3;
-            return x/f;
-        }
-
-        /**
-         * Returns Y coordinate of shape center
-         * @returns {number} Y coordinate in axis space
-         * @memberof cl.PolyLine.prototype
-         */
-        function getCenterY() {
-            var twicearea = 0, x = 0, y = 0, i, l, f;
-            for (i = 0, l = t.props.points.length; i < l - 2; i += 2) {
-                f = t.props.points[i] * t.props.points[i + 3] - t.props.points[i + 2] * t.props.points[i + 1];
-                twicearea += f;
-                //x += ( t.props.points[i] + t.props.points[i + 2] ) * f;
-                y += ( t.props.points[i + 1] + t.props.points[i + 3] ) * f;
-            }
-            f = t.props.points[l - 2] * t.props.points[1] - t.props.points[0] * t.props.points[l - 1];
-            twicearea += f;
-            //x += ( t.props.points[l - 2] + t.props.points[0] ) * f;
-            y += ( t.props.points[l - 1] + t.props.points[1] ) * f;
-
-            f = twicearea * 3;
-            return y/f;
-        }
-
-        /**
-         * Used to update shape position while shape dragged
-         * @param {number} deltaX X coordinate changes
-         * @param {number} deltaY Y coordinate changes
-         * @memberof cl.PolyLine.prototype
-         */
-        function processDrag(deltaX, deltaY) {
-            var i, l;
-            for (i = 0, l = t.props.points.length; i < l; i += 2) {
-                t.props.points[i] += deltaX;
-                t.props.points[i + 1] += deltaY;
-            }
-
-            t.constructor.superclass.processDrag.call(t, deltaX, deltaY);
-        }
-
-        /**
-         * Returns shape bounds
-         * @returns {{x: number, y: number, w: number, h: number}} Shape bounds
-         * @memberof cl.PolyLine.prototype
-         */
-        function getBounds() {
-            // TODO: extend bounds with line width?
-            var i, l, px, py, x1, y1, x2, y2;
-            x1 = Number.MAX_VALUE;
-            y1 = Number.MAX_VALUE;
-            x2 = Number.MIN_VALUE;
-            y2 = Number.MIN_VALUE;
-            for (i = 0, l = t.props.points.length; i < l; i += 2) {
-                px = t.parent.chart.xAxis.toScreen(t.props.points[i]);
-                py = t.parent.chart.yAxis.toScreen(t.props.points[i + 1]);
-                if (px < x1) x1 = px;
-                if (px > x2) x2 = px;
-                if (py < y1) y1 = py;
-                if (py > y2) y2 = py;
-            }
-            return {
-                x: x1,
-                y: y1,
-                w: x2 - x1,
-                h: y2-  y1
-            };
-        }
-
-        /**
-         * Checks if shape intersecting rectangle
-         * @param {number} rx X coordinate in pixels of rectangle center
-         * @param {number} ry Y coordinate in pixels of rectangle center
-         * @param {number} hw Half width
-         * @param {number} hh Half height
-         * @returns {boolean} Intersecting or not
-         * @memberof cl.PolyLine.prototype
-         */
-        function hitTestRect(rx, ry, hw, hh) {
-            var i, l, x1, y1, x2, y2;
-            for (i = 0, l = t.props.points.length; i < l - 2; i += 2) {
-                x1 = t.parent.chart.xAxis.toScreen(t.props.points[i]);
-                y1 = t.parent.chart.yAxis.toScreen(t.props.points[i + 1]);
-                x2 = t.parent.chart.xAxis.toScreen(t.props.points[i + 2]);
-                y2 = t.parent.chart.yAxis.toScreen(t.props.points[i + 3]);
-                if (cl.Utils.lineRectIntersect(rx - hw, ry - hh, rx + hw, ry + hh, x1, y1, x2, y2)) return true;
-            }
-            if (t.props.closed) {
-                x1 = t.parent.chart.xAxis.toScreen(t.props.points[l - 2]);
-                y1 = t.parent.chart.yAxis.toScreen(t.props.points[l - 1]);
-                x2 = t.parent.chart.xAxis.toScreen(t.props.points[0]);
-                y2 = t.parent.chart.yAxis.toScreen(t.props.points[1]);
-                if (cl.Utils.lineRectIntersect(rx - hw, ry - hh, rx + hw, ry + hh, x1, y1, x2, y2)) return true;
-            }
-
-            return false;
-        }
-
-        /**
-         * Check if point inside shape
-         * @param {number} x X coordinate in pixels
-         * @param {number} y Y coordinate in pixels
-         * @returns {boolean} Inside or not
-         * @memberof cl.PolyLine.prototype
-         */
-        function hitTest(x, y) {
-            var i, l, x1, y1, x2, y2;
-            for (i = 0, l = t.props.points.length; i < l - 2; i += 2) {
-                x1 = t.parent.chart.xAxis.toScreen(t.props.points[i]);
-                y1 = t.parent.chart.yAxis.toScreen(t.props.points[i + 1]);
-                x2 = t.parent.chart.xAxis.toScreen(t.props.points[i + 2]);
-                y2 = t.parent.chart.yAxis.toScreen(t.props.points[i + 3]);
-                if (cl.Utils.distToSegmentSquared(x, y, x1, y1, x2, y2) < cl.Line.HOVER_THRESHOLD) return true;
-            }
-            if (t.props.closed) {
-                x1 = t.parent.chart.xAxis.toScreen(t.props.points[l - 2]);
-                y1 = t.parent.chart.yAxis.toScreen(t.props.points[l - 1]);
-                x2 = t.parent.chart.xAxis.toScreen(t.props.points[0]);
-                y2 = t.parent.chart.yAxis.toScreen(t.props.points[1]);
-                if (cl.Utils.distToSegmentSquared(x, y, x1, y1, x2, y2) < cl.Line.HOVER_THRESHOLD) return true;
-            }
-
-            return false;
-        }
-
-        /**
-         * Updates shape properties
-         * @param {object} newProps New properties
-         * @returns {boolean} Is shape changed or not
-         * @memberof cl.PolyLine.prototype
-         */
-        function calcAnimProps(newProps) {
-            var i, l, k;
-            t.constructor.superclass.calcAnimProps.call(t, newProps);
-
-            if (newProps.lineJoin !== undefined && t.props.lineJoin !== newProps.lineJoin) {
-                t.animProps.lineJoin = newProps.lineJoin;
-                t.animProps.changed = true;
-            }
-
-            if (newProps.closed !== undefined && t.props.closed !== newProps.closed) {
-                anim.closedFrom = t.props.closed;
-                anim.closedTo = newProps.closed;
-                t.animProps.closed = newProps.closed;
-                t.animProps.changed = true;
-            }
-
-            // Check points
-            if (newProps.points !== undefined) {
-                // If length equal, check for changes
-                if (newProps.points.length === t.props.points.length) {
-                    for (i = 0, l = newProps.points.length; i < l; i++) if (t.props.points[i] !== newProps.points[i]) {
-                        t.animProps.changed = true;
-                        break;
-                    }
-                } else t.animProps.changed = true;
-                if (t.animProps.changed) {
-                    // Find out new points to be added or old to be deleted
-                    t.props.delPoints = 0;
-                    if (t.props.points.length < newProps.points.length) {
-                        // NewProps has more points. New points should be added
-                        k = t.props.points.length - 2;
-                        for (i = t.props.points.length, l = newProps.points.length; i < l; i+=2) {
-                            t.props.points.push(t.props.points[k]);
-                            t.props.points.push(t.props.points[k + 1]);
-                        }
-                    } else
-                    if (t.props.points.length > newProps.points.length) {
-                        // NewProps has less points. Old points should be deleted
-                        k = newProps.points.length - 2;
-                        for (i = newProps.points.length, l = t.props.points.length; i < l; i+=2) {
-                            newProps.points.push(newProps.points[k]);
-                            newProps.points.push(newProps.points[k + 1]);
-                            t.props.delPoints++;
-                        }
-                    }
-
-                    // Fill arrays for animation calculations
-                    anim.pointsFrom = [];
-                    anim.pointsTo = [];
-                    for (i = 0, l = t.props.points.length; i < l; i++) anim.pointsFrom.push(t.props.points[i]);
-                    for (i = 0, l = newProps.points.length; i < l; i++) anim.pointsTo.push(newProps.points[i]);
-                }
-            }
-
-            return t.animProps.changed;
-        }
-
-        /**
-         * Renders line on canvas
-         * @param {cl.Canvas} canvas
-         * @memberof cl.PolyLine.prototype
-         */
-        function render(canvas) {
-            if (t._isDragged) return;
-            var chart = t.parent.chart;
-
-            // Calculate line coordinates
-            var i, l;
-            var x = [];
-            var y = [];
-            for (i = 0, l = t.props.points.length; i < l; i+=2) {
-                x.push(chart.xAxis.toScreen(t.props.points[i]));
-                y.push(chart.yAxis.toScreen(t.props.points[i + 1]));
-            }
-
-            // Set drawing style
-            canvas.setAlpha(t.props.opacity);
-            canvas.setLineStyle(t.props.border, t.props.color, true);
-            if (t.props.lineJoin ) canvas.ctx.lineJoin  = t.props.lineJoin;
-            if (t.props.lineDash) canvas.setLineDash(t.props.lineDash);
-
-            // Draw lines
-            canvas.ctx.beginPath();
-            canvas.ctx.moveTo(x[0], y[0]);
-            for (i = 1; i < l; i++) canvas.ctx.lineTo(x[i], y[i]);
-
-            // Close poly line if closed === true
-            if (t.props.closed || anim.closedWidth) {
-                if (anim.closedWidth) {
-                    canvas.ctx.stroke();
-                    canvas.ctx.beginPath();
-                    canvas.setLineStyle(anim.closedWidth, t.props.color, true);
-                    canvas.ctx.moveTo(x[x.length - 1], y[y.length - 1]);
-                    canvas.ctx.lineTo(x[0], y[0]);
-                } else {
-                    canvas.ctx.lineTo(x[0], y[0]);
-                    canvas.ctx.closePath();
-                }
-            }
-            canvas.ctx.stroke();
-            // Restore line dash style
-            if (t.props.lineDash) canvas.setLineDash([]);
-            if (t.props.lineJoin) canvas.ctx.lineJoin = "miter";
-            t.constructor.superclass._render.call(t,canvas);
-        }
-
-        /**
-         * Renders line hover on canvas
-         * @param {cl.Canvas} canvas
-         * @param {number} [offset=0] Hover offset
-         * @memberof cl.PolyLine.prototype
-         */
-        function renderHover(canvas, offset) {
-            if (t._isDragged) return;
-            var chart = t.parent.chart;
-
-            // Calculate line coordinates
-            var i, l;
-            var x = [];
-            var y = [];
-            for (i = 0, l = t.props.points.length; i < l; i+=2) {
-                x.push(chart.xAxis.toScreen(t.props.points[i]));
-                y.push(chart.yAxis.toScreen(t.props.points[i + 1]));
-            }
-
-            // Draw lines
-            //canvas.ctx.beginPath();
-            canvas.ctx.moveTo(x[0], y[0]);
-            for (i = 1; i < l; i++) canvas.ctx.lineTo(x[i], y[i]);
-
-            // Close poly line if closed === true
-            if (t.props.closed) {
-                canvas.ctx.lineTo(x[0], y[0]);
-                //canvas.ctx.closePath();
-            }
-            //canvas.ctx.stroke();
-
-            t.constructor.superclass.renderHover.call(t,canvas);
-        }
-
-        /**
-         * Destroys polyline
-         * @memberof cl.PolyLine.prototype
-         */
-        function destroy() {
-            t.constructor.superclass.destroy.call(t);
-        }
     }
 
     cl.Utils.extend(PolyLine, cl.Shape);
 
-    return PolyLine;
+    ///////////////////////////////////////////// PROPERTIES //////////////////////////////////////////////////////
 
-})();
+    /**
+     * Shape type
+     * @override
+     */
+    PolyLine.prototype.type = "polyline";
+
+    /////////////////////////////////////////////// METHODS ///////////////////////////////////////////////////////
+
+
+    /**
+     * Uses to update point colors
+     * @override
+     */
+    PolyLine.prototype.onAnimationUpdate = function(obj, progress) {
+        var i, l, t = this;
+        if (t._anim.pointsFrom.length !== 0 && t._anim.pointsTo.length !== 0) {
+            for (i = 0, l = obj.points.length; i < l; i++) obj.points[i] = t._anim.pointsFrom[i] + (t._anim.pointsTo[i] - t._anim.pointsFrom[i]) * progress;
+        }
+
+        if (t._anim.closedFrom !== t._anim.closedTo) {
+            if (t._anim.closedTo) t._anim.closedWidth = progress * t.props.border; else t._anim.closedWidth = (1 - progress) * t.props.border;
+        }
+    };
+
+    /**
+     * Stops animation
+     * @override
+     */
+    PolyLine.prototype.stopAnimation = function(dontStopTween) {
+        var i, l, t = this;
+        if (t.tween && t._anim.pointsTo.length !== 0) {
+            for (i = 0, l = t.props.points.length; i < l; i++) t.props.points[i] = t._anim.pointsTo[i];
+            if (t.props.delPoints) t.props.points.splice(t.props.points.length - t.props.delPoints * 2, t.props.delPoints * 2);
+        }
+        t._anim.closedWidth = 0;
+        t._anim.pointsFrom = [];
+        t._anim.pointsTo = [];
+        t._anim.closedFrom = t.props.closed;
+        t._anim.closedTo = t.props.closed;
+        cl.Shape.prototype.stopAnimation.call(t, dontStopTween);
+    };
+
+    /**
+     * Returns shape area in pixels
+     * @override
+     */
+    PolyLine.prototype.getPixelArea = function() {
+        var i, l, dist = 0, t = this;
+        for (i = 0, l = t.props.points.length; i < l - 2; i += 2) dist += Math.sqrt(cl.Utils.distSq(t.props.points[i], t.props.points[i+1], t.props.points[i+2], t.props.points[i+3]));
+        if (t.props.closed) dist += Math.sqrt(cl.Utils.distSq(t.props.points[l-2], t.props.points[l-1], t.props.points[0], t.props.points[1]));
+        return dist;
+    };
+
+    /**
+     * Returns X coordinate of shape center
+     * @override
+     */
+    PolyLine.prototype.getCenterX = function() {
+        var twicearea = 0, x = 0, i, l, f, t = this;
+        for (i = 0, l = t.props.points.length; i < l - 2; i += 2) {
+            f = t.props.points[i] * t.props.points[i + 3] - t.props.points[i + 2] * t.props.points[i + 1];
+            twicearea += f;
+            x += ( t.props.points[i] + t.props.points[i + 2] ) * f;
+        }
+        f = t.props.points[l - 2] * t.props.points[1] - t.props.points[0] * t.props.points[l - 1];
+        twicearea += f;
+        x += ( t.props.points[l - 2] + t.props.points[0] ) * f;
+
+        f = twicearea * 3;
+        return x/f;
+    };
+
+    /**
+     * Returns Y coordinate of shape center
+     * @override
+     */
+    PolyLine.prototype.getCenterY = function() {
+        var twicearea = 0, y = 0, i, l, f, t = this;
+        for (i = 0, l = t.props.points.length; i < l - 2; i += 2) {
+            f = t.props.points[i] * t.props.points[i + 3] - t.props.points[i + 2] * t.props.points[i + 1];
+            twicearea += f;
+            y += ( t.props.points[i + 1] + t.props.points[i + 3] ) * f;
+        }
+        f = t.props.points[l - 2] * t.props.points[1] - t.props.points[0] * t.props.points[l - 1];
+        twicearea += f;
+        y += ( t.props.points[l - 1] + t.props.points[1] ) * f;
+
+        f = twicearea * 3;
+        return y/f;
+    };
+
+    /**
+     * Used to update shape position while shape dragged
+     * @override
+     */
+    PolyLine.prototype._processDrag = function(deltaX, deltaY) {
+        var i, l, t = this;
+        for (i = 0, l = t.props.points.length; i < l; i += 2) {
+            t.props.points[i] += deltaX;
+            t.props.points[i + 1] += deltaY;
+        }
+
+        cl.Shape.prototype._processDrag.call(t, deltaX, deltaY);
+    };
+
+    /**
+     * Returns shape bounds
+     * @override
+     */
+    PolyLine.prototype.getBounds = function() {
+        // TODO: extend bounds with line width
+        var i, l, px, py, x1, y1, x2, y2, t = this;
+        x1 = Number.MAX_VALUE;
+        y1 = Number.MAX_VALUE;
+        x2 = Number.MIN_VALUE;
+        y2 = Number.MIN_VALUE;
+        for (i = 0, l = t.props.points.length; i < l; i += 2) {
+            px = t.parent.chart.xAxis.toScreen(t.props.points[i]);
+            py = t.parent.chart.yAxis.toScreen(t.props.points[i + 1]);
+            if (px < x1) x1 = px;
+            if (px > x2) x2 = px;
+            if (py < y1) y1 = py;
+            if (py > y2) y2 = py;
+        }
+        return {
+            x: x1,
+            y: y1,
+            w: x2 - x1,
+            h: y2-  y1
+        };
+    };
+
+    /**
+     * Checks if shape intersecting rectangle
+     * @override
+     */
+    PolyLine.prototype.hitTestRect = function(rx, ry, hw, hh) {
+        var i, l, x1, y1, x2, y2, t = this;
+        for (i = 0, l = t.props.points.length; i < l - 2; i += 2) {
+            x1 = t.parent.chart.xAxis.toScreen(t.props.points[i]);
+            y1 = t.parent.chart.yAxis.toScreen(t.props.points[i + 1]);
+            x2 = t.parent.chart.xAxis.toScreen(t.props.points[i + 2]);
+            y2 = t.parent.chart.yAxis.toScreen(t.props.points[i + 3]);
+            if (cl.Utils.lineRectIntersect(rx - hw, ry - hh, rx + hw, ry + hh, x1, y1, x2, y2)) return true;
+        }
+        if (t.props.closed) {
+            x1 = t.parent.chart.xAxis.toScreen(t.props.points[l - 2]);
+            y1 = t.parent.chart.yAxis.toScreen(t.props.points[l - 1]);
+            x2 = t.parent.chart.xAxis.toScreen(t.props.points[0]);
+            y2 = t.parent.chart.yAxis.toScreen(t.props.points[1]);
+            if (cl.Utils.lineRectIntersect(rx - hw, ry - hh, rx + hw, ry + hh, x1, y1, x2, y2)) return true;
+        }
+
+        return false;
+    };
+
+    /**
+     * Check if point inside shape
+     * @override
+     */
+    PolyLine.prototype.hitTest = function(x, y) {
+        var i, l, x1, y1, x2, y2, t = this;
+        for (i = 0, l = t.props.points.length; i < l - 2; i += 2) {
+            x1 = t.parent.chart.xAxis.toScreen(t.props.points[i]);
+            y1 = t.parent.chart.yAxis.toScreen(t.props.points[i + 1]);
+            x2 = t.parent.chart.xAxis.toScreen(t.props.points[i + 2]);
+            y2 = t.parent.chart.yAxis.toScreen(t.props.points[i + 3]);
+            if (cl.Utils.distToSegmentSquared(x, y, x1, y1, x2, y2) < cl.Line.HOVER_THRESHOLD) return true;
+        }
+        if (t.props.closed) {
+            x1 = t.parent.chart.xAxis.toScreen(t.props.points[l - 2]);
+            y1 = t.parent.chart.yAxis.toScreen(t.props.points[l - 1]);
+            x2 = t.parent.chart.xAxis.toScreen(t.props.points[0]);
+            y2 = t.parent.chart.yAxis.toScreen(t.props.points[1]);
+            if (cl.Utils.distToSegmentSquared(x, y, x1, y1, x2, y2) < cl.Line.HOVER_THRESHOLD) return true;
+        }
+
+        return false;
+    };
+
+    /**
+     * Updates shape properties
+     * @override
+     */
+    PolyLine.prototype.calcAnimProps = function(newProps) {
+        var i, l, k, t = this;
+        cl.Shape.prototype.calcAnimProps.call(t, newProps);
+
+        if (newProps.lineJoin !== undefined && t.props.lineJoin !== newProps.lineJoin) {
+            t.animProps.lineJoin = newProps.lineJoin;
+            t.animProps.changed = true;
+        }
+
+        if (newProps.closed !== undefined && t.props.closed !== newProps.closed) {
+            t._anim.closedFrom = t.props.closed;
+            t._anim.closedTo = newProps.closed;
+            t.animProps.closed = newProps.closed;
+            t.animProps.changed = true;
+        }
+
+        // Check points
+        if (newProps.points !== undefined) {
+            // If length equal, check for changes
+            if (newProps.points.length === t.props.points.length) {
+                for (i = 0, l = newProps.points.length; i < l; i++) if (t.props.points[i] !== newProps.points[i]) {
+                    t.animProps.changed = true;
+                    break;
+                }
+            } else t.animProps.changed = true;
+            if (t.animProps.changed) {
+                // Find out new points to be added or old to be deleted
+                t.props.delPoints = 0;
+                if (t.props.points.length < newProps.points.length) {
+                    // NewProps has more points. New points should be added
+                    k = t.props.points.length - 2;
+                    for (i = t.props.points.length, l = newProps.points.length; i < l; i+=2) {
+                        t.props.points.push(t.props.points[k]);
+                        t.props.points.push(t.props.points[k + 1]);
+                    }
+                } else
+                if (t.props.points.length > newProps.points.length) {
+                    // NewProps has less points. Old points should be deleted
+                    k = newProps.points.length - 2;
+                    for (i = newProps.points.length, l = t.props.points.length; i < l; i+=2) {
+                        newProps.points.push(newProps.points[k]);
+                        newProps.points.push(newProps.points[k + 1]);
+                        t.props.delPoints++;
+                    }
+                }
+
+                // Fill arrays for animation calculations
+                t._anim.pointsFrom = [];
+                t._anim.pointsTo = [];
+                for (i = 0, l = t.props.points.length; i < l; i++) t._anim.pointsFrom.push(t.props.points[i]);
+                for (i = 0, l = newProps.points.length; i < l; i++) t._anim.pointsTo.push(newProps.points[i]);
+            }
+        }
+
+        return t.animProps.changed;
+    };
+
+    /**
+     * Renders line on canvas
+     * @override
+     */
+    PolyLine.prototype._render = function(canvas) {
+        var t = this;
+        if (t._isDragged) return;
+        var chart = t.parent.chart;
+
+        // Calculate line coordinates
+        var i, l;
+        var x = [];
+        var y = [];
+        for (i = 0, l = t.props.points.length; i < l; i+=2) {
+            x.push(chart.xAxis.toScreen(t.props.points[i]));
+            y.push(chart.yAxis.toScreen(t.props.points[i + 1]));
+        }
+
+        // Set drawing style
+        canvas.setAlpha(t.props.opacity);
+        canvas.setLineStyle(t.props.border, t.props.color, true);
+        if (t.props.lineJoin ) canvas.ctx.lineJoin  = t.props.lineJoin;
+        if (t.props.lineDash) canvas.setLineDash(t.props.lineDash);
+
+        // Draw lines
+        canvas.ctx.beginPath();
+        canvas.ctx.moveTo(x[0], y[0]);
+        for (i = 1; i < l; i++) canvas.ctx.lineTo(x[i], y[i]);
+
+        // Close poly line if closed === true
+        if (t.props.closed || t._anim.closedWidth) {
+            if (t._anim.closedWidth) {
+                canvas.ctx.stroke();
+                canvas.ctx.beginPath();
+                canvas.setLineStyle(t._anim.closedWidth, t.props.color, true);
+                canvas.ctx.moveTo(x[x.length - 1], y[y.length - 1]);
+                canvas.ctx.lineTo(x[0], y[0]);
+            } else {
+                canvas.ctx.lineTo(x[0], y[0]);
+                canvas.ctx.closePath();
+            }
+        }
+        canvas.ctx.stroke();
+        // Restore line dash style
+        if (t.props.lineDash) canvas.setLineDash([]);
+        if (t.props.lineJoin) canvas.ctx.lineJoin = "miter";
+        cl.Shape.prototype._render.call(t,canvas);
+    };
+
+    /**
+     * Renders line hover on canvas
+     * @override
+     */
+    PolyLine.prototype._renderHover = function(canvas, offset) {
+        var t = this;
+        if (t._isDragged) return;
+        var chart = t.parent.chart;
+
+        // Calculate line coordinates
+        var i, l;
+        var x = [];
+        var y = [];
+        for (i = 0, l = t.props.points.length; i < l; i+=2) {
+            x.push(chart.xAxis.toScreen(t.props.points[i]));
+            y.push(chart.yAxis.toScreen(t.props.points[i + 1]));
+        }
+
+        // Draw lines
+        canvas.ctx.moveTo(x[0], y[0]);
+        for (i = 1; i < l; i++) canvas.ctx.lineTo(x[i], y[i]);
+
+        // Close poly line if closed === true
+        if (t.props.closed) canvas.ctx.lineTo(x[0], y[0]);
+
+        cl.Shape.prototype._renderHover.call(t,canvas);
+    };
+
+    namespace.PolyLine = PolyLine;
+
+})(cl);
+/**
+ * @module shapes/poly
+ * @description Module describes ploy class.
+ * @author Anton Gnibeda
+ */
+(function(namespace) {
+    'use strict';
+
+    /**
+     * Represent poly shape class
+     *
+     * @extends cl.PolyLine
+     * @constructor
+     * @memberof cl
+     *
+     * @param {Object} parent Parent shape manager
+     * @param {Object} props shape settings
+     * @param {Object} props.id Shape id
+     * @param {Array.<number>} props.points Line points coordinates. Contains [x1, y1, x2, y2, x3, y3, ...]
+     * @param {string} [props.cursor] Change cursor to specified when shape is hovered
+     * @param {string} [props.color={@link cl.Consts.COLOR_RED}] Fill color
+     * @param {Object} [props.border=1] Shape border width
+     * @param {Object} [props.borderColor=props.color] Shape border color
+     * @param {Object} [props.opacity=0.3] Shape opacity
+     * @param {string} [props.lineJoin="miter"] Line join. Can be "miter", "round", "bevel"
+     * @param {array} [props.lineDash=[]] Shape line dash. Example: [2, 2]
+     * @param {array} [props.links=[]] Array of linked shapes id's
+     * @param {boolean} [props.draggable=true] Is shape draggable
+     * @param {Object} [props.track] Shape track. Can be displayed while shape is animating
+     * @param {boolean} [props.track.enabled=false] Enabled or not
+     * @param {number} [props.track.width=1] Line width
+     * @param {string} [props.track.color={@link cl.Consts.COLOR_GREEN}] Line color
+     * @param {number} [props.track.opacity=0.4] Line opacity
+     * @param {Object} [props.hover] Hover style
+     * @param {boolean} [props.hover.enabled=true] Is hover enabled
+     * @param {number} [props.hover.border] Hover border size
+     * @param {string} [props.hover.color] Hover color
+     * @param {number} [props.hover.opacity] Hover opacity
+     * @param {number} [props.hover.offset] Hover offset
+     **/
+    function Poly(parent, props) {
+        var t = this;
+        cl.PolyLine.call(t, parent, props);
+
+        // Poly always closed
+        t.props.closed = true;
+
+        if (t.props.points === undefined) throw new Error(cl.Lang.get("errShapeNoParam", "points"));
+        if (t.props.points.length < 4) throw new Error(cl.Lang.get("errShapeNoParam", "points"));
+
+        // Used for store animation variables
+        t._anim = {
+            pointsFrom: [],
+            pointsTo: []
+        };
+    }
+
+    cl.Utils.extend(Poly, cl.PolyLine);
+
+    ///////////////////////////////////////////// PROPERTIES //////////////////////////////////////////////////////
+
+    /**
+     * Shape type
+     * @override
+     */
+    Poly.prototype.type = "poly";
+
+    /////////////////////////////////////////////// METHODS ///////////////////////////////////////////////////////
+
+
+    /**
+     * Uses to update point colors
+     * @override
+     */
+    Poly.prototype.onAnimationUpdate = function(obj, progress) {
+        var i, l, t = this;
+        if (t._anim.pointsFrom.length !== 0 && t._anim.pointsTo.length !== 0) {
+            for (i = 0, l = obj.points.length; i < l; i++) obj.points[i] = t._anim.pointsFrom[i] + (t._anim.pointsTo[i] - t._anim.pointsFrom[i]) * progress;
+        }
+    };
+
+    /**
+     * Stops animation
+     * @override
+     */
+    Poly.prototype.stopAnimation = function(dontStopTween) {
+        var i, l, t = this;
+        if (t.tween && t._anim.pointsTo.length !== 0) {
+            for (i = 0, l = t.props.points.length; i < l; i++) t.props.points[i] = t._anim.pointsTo[i];
+            if (t.props.delPoints) t.props.points.splice(t.props.points.length - t.props.delPoints * 2, t.props.delPoints * 2);
+        }
+        t._anim.pointsFrom = [];
+        t._anim.pointsTo = [];
+
+        cl.Shape.prototype.stopAnimation.call(t, dontStopTween);
+
+        // Poly always closed
+        t.props.closed = true;
+    };
+
+    /**
+     * Returns shape area in pixels
+     * @override
+     */
+    Poly.prototype.getPixelArea = function() {
+        var t = this;
+        var area = 0, i, l, point1, point2;
+        var ch = t.parent.chart;
+        for (i = 0, l = t.props.points.length; i < l - 2; i += 2) {
+            area += ch.toScreenX(t.props.points[i]) * ch.toScreenY(t.props.points[i + 3]);
+            area -= ch.toScreenY(t.props.points[i + 1]) * ch.toScreenX(t.props.points[i + 2]);
+        }
+        area += ch.toScreenX(t.props.points[l - 2]) * ch.toScreenY(t.props.points[1]);
+        area -= ch.toScreenY(t.props.points[l - 1]) * ch.toScreenX(t.props.points[0]);
+        //area /= 2;
+        return Math.abs(area / 2);
+    };
+
+    /**
+     * Checks if shape intersecting rectangle
+     * @override
+     */
+    Poly.prototype.hitTestRect = function(rx, ry, hw, hh) {
+        var i, l, v;
+        var t = this;
+        var p = this.props.points;
+
+        // Calc coordinates in axis space
+        var x1 = t.parent.chart.toAxisX(rx - hw);
+        var y1 = t.parent.chart.toAxisY(ry - hh);
+        var x2 = t.parent.chart.toAxisX(rx + hw);
+        var y2 = t.parent.chart.toAxisY(ry + hh);
+
+        // Make x1, y1 lower point
+        if (x1 > x2) {
+            v = x1;
+            x1 = x2;
+            x2 = v;
+        }
+        if (y1 > y2) {
+            v = y1;
+            y1 = y2;
+            y2 = v;
+        }
+
+        // First step. Check all rect points inside poly
+        if (cl.Utils.pointInPoly(x1, y1, p)) return true;
+        if (cl.Utils.pointInPoly(x2, y1, p)) return true;
+        if (cl.Utils.pointInPoly(x2, y2, p)) return true;
+        if (cl.Utils.pointInPoly(x1, y2, p)) return true;
+
+        // Second step. Check all poly points inside rect
+        for (i = 0, l = t.props.points.length; i < l; i+=2) if ((p[i] > x1) && (p[i] < x2) && (p[i + 1] > y1) && (p[i + 1] < y2)) return true;
+
+        // Last step. Check for intersection between rect and poly edges
+        for (i = 0, l = t.props.points.length; i < l - 2; i+=2) {
+            if (cl.Utils.lineRectIntersect(x1, y1, x2, y2, p[i], p[i+1], p[i + 2], p[i + 3])) return true;
+        }
+        if (cl.Utils.lineRectIntersect(x1, y1, x2, y2, p[p.length - 2], p[p.length - 1], p[0], p[1])) return true;
+
+        return false;
+    };
+
+    /**
+     * Check if point inside shape
+     * @override
+     */
+    Poly.prototype.hitTest = function(x, y) {
+        return cl.Utils.pointInPoly(this.parent.chart.toAxisX(x), this.parent.chart.toAxisY(y), this.props.points);
+    };
+
+    /**
+     * Renders line on canvas
+     * @override
+     */
+    Poly.prototype._render = function(canvas) {
+        var t = this;
+        if (t._isDragged) return;
+        var chart = t.parent.chart;
+
+        // Calculate line coordinates
+        var i, l;
+        var x = [];
+        var y = [];
+        for (i = 0, l = t.props.points.length; i < l; i+=2) {
+            x.push(chart.xAxis.toScreen(t.props.points[i]));
+            y.push(chart.yAxis.toScreen(t.props.points[i + 1]));
+        }
+
+        // Set drawing style
+        canvas.setAlpha(t.props.opacity);
+        if (t.props.border) canvas.setLineStyle(t.props.border, t.props.borderColor || t.props.color, true);
+        canvas.setFillColor(t.props.color);
+        if (t.props.lineJoin ) canvas.ctx.lineJoin  = t.props.lineJoin;
+        if (t.props.lineDash) canvas.setLineDash(t.props.lineDash);
+
+        // Draw lines
+        canvas.ctx.beginPath();
+        canvas.ctx.moveTo(x[0], y[0]);
+        for (i = 1; i < l; i++) canvas.ctx.lineTo(x[i], y[i]);
+        canvas.ctx.lineTo(x[0], y[0]);
+        canvas.ctx.closePath();
+        canvas.ctx.fill();
+        if (t.props.border) canvas.ctx.stroke();
+        // Restore line dash style
+        if (t.props.lineDash) canvas.setLineDash([]);
+        if (t.props.lineJoin) canvas.ctx.lineJoin = "miter";
+        cl.Shape.prototype._render.call(t,canvas);
+    };
+
+    /**
+     * Renders poly hover on canvas
+     * @override
+     */
+    Poly.prototype._renderHover = function(canvas) {
+        this.props.closed = true;
+        cl.PolyLine.prototype._renderHover.call(this, canvas);
+    };
+
+    namespace.Poly = Poly;
+
+})(cl);
 (function(namespace){
     'use strict';
 
@@ -5592,19 +5879,6 @@ cl.PolyLine = (function() {
      * @param {object} [options.background] Background options, described like options in {@link cl.Background} constructor
      * @param {object} [options.shapes] Shapes options, described like options in {@link cl.ShapeManager} constructor
      * @param {object} [options.selector] Selector options, described like options in {@link cl.Selector} constructor
-     *
-     * @property {object} options Chart settings
-     * @property {cl.Axis} xAxis Chart x axis
-     * @property {cl.Axis} yAxis Chart y axis
-     * @property {cl.AxisManager} axis Chart axis
-     * @property {object} element Parent DOM element
-     * @property {cl.Canvas} screen Main canvas. All things will be rendered here
-     * @property {cl.ShapeManager} shapes Chart shapes
-     * @property {cl.Selector} selector Chart selector
-     * @property {cl.Background} background Chart background
-     * @property {number} width Chart width (readonly). To set size use {@link cl.Chart#resize}
-     * @property {number} height Chart width (readonly). To set size use {@link cl.Chart#resize}
-     * @property {boolean} isDirty Indicates that chart should be redrawed on next frame. Actual redrawing would be fired if this flag is true
      *
      * @example
      * // Minimal setup
@@ -5679,7 +5953,7 @@ cl.PolyLine = (function() {
      * chart.shapes.add({ id: -22, border: 10, color: "black", closed: true, lineJoin: "round", points: [0, 0, 90, 10, 80, 90, 70, 20]}, cl.PolyLine);
      *
      * // Change single bubble properties with animation
-     * var b = chart.shapes.get(myBubbleID);
+     * var b = chart.get(myBubbleID);
      * b.setProps({ x: 50, y: 50, size: 2}, true);
      *
      * // Link shape to another by ids
@@ -5730,13 +6004,13 @@ cl.PolyLine = (function() {
             height: { get: function() { return t.screen.height; } }
         });
 
-        t._render = render;
-
         // Private
         t._redrawRequested = false;
         t._dirtyFlags = {
             all: false
         };
+        // Create bound render func to use in requestAnimationFrame
+        t._renderFunc = t._render.bind(t);
 
         if (!t.element) throw cl.Lang.get("errNoElements");
         t.screen = new cl.Canvas(t.options.width || t.element.offsetWidth, t.options.height || t.element.offsetHeight);
@@ -5755,7 +6029,7 @@ cl.PolyLine = (function() {
             t.selector
         ];
 
-        // Create deafult axis
+        // Create default axis
         t.xAxis = t.axis.add(cl.Utils.merge({ type: "x" }, t.options.xAxis || {}));
         t.yAxis = t.axis.add(cl.Utils.merge({ type: "y" }, t.options.yAxis || {}));
 
@@ -5763,49 +6037,159 @@ cl.PolyLine = (function() {
         t.element.appendChild(t.screen.el);
         t.setCursor();
         t.redraw();
-
-        /**
-         * Renders chart. This method called automatically by requestAnimationFrame
-         * @param {number} time Elapsed time
-         * @private
-         */
-        function render(time) {
-            TWEEN.update(time);
-
-            if (!t.screen) return;
-            //console.log("render");
-            var i, l;
-
-            // Request shapes redraw if they is animated
-            if (t.shapes.isAnimating) {
-                t.shapes.apply();
-                t.selector.apply();
-            }
-
-            // Should redraw all objects if axis changed
-            if (t._dirtyFlags.axis) {
-                t._dirtyFlags.shapes = true;
-                t.shapes.updateStatic();
-            }
-
-            // Render layers based on dirty flags
-            for (i = 0, l = t.layers.length; i < l; i++) {
-                if (t._dirtyFlags.all || t._dirtyFlags[t.layers[i].dirtyFlagName]) t.layers[i]._render();
-            }
-
-            // Draw layers on screen
-            t.screen.clear();
-
-            for (i = 0, l = t.layers.length; i < l; i++) t.screen.draw(t.layers[i].surface);
-
-            t._clearDirtyFlags();
-
-            if (t.shapes.isAnimating && !t._redrawRequested) {
-                t._redrawRequested = true;
-                requestAnimFrame(t._render);
-            }
-        }
     }
+
+
+    /**
+     * Chart settings. Same as in constructor
+     * @type {Object}
+     */
+    Chart.prototype.options = null;
+
+    /**
+     * Chart x axis
+     * @type {cl.Axis}
+     */
+    Chart.prototype.xAxis = null;
+
+    /**
+     * Chart y axis
+     * @type {cl.Axis}
+     */
+    Chart.prototype.yAxis = null;
+
+    /**
+     * Chart axis
+     * @type {cl.AxisManager}
+     */
+    Chart.prototype.axis = null;
+
+    /**
+     * Parent DOM element
+     * @type {Element}
+     */
+    Chart.prototype.element = null;
+
+    /**
+     * Main canvas. All things will be rendered here
+     * @type {cl.Canvas}
+     */
+    Chart.prototype.screen = null;
+
+    /**
+     * Chart shapes
+     * @type {cl.ShapeManager}
+     */
+    Chart.prototype.shapes = null;
+
+    /**
+     * Chart selector
+     * @type {cl.Selector}
+     */
+    Chart.prototype.selector = null;
+
+    /**
+     * Chart background
+     * @type {cl.Background}
+     */
+    Chart.prototype.background = null;
+
+    /**
+     * Chart width (readonly). To set size use {@link cl.Chart#resize}
+     * @type {number}
+     * @readonly
+     */
+    Chart.prototype.width = 0;
+
+    /**
+     * Chart width (readonly). To set size use {@link cl.Chart#resize}
+     * @type {number}
+     * @readonly
+     */
+    Chart.prototype.height = 0;
+
+    /**
+     * Indicates that chart should be redrawn on next frame. Actual redrawing would be fired if this flag is true
+     * @type {boolean}
+     * @private
+     */
+    Chart.prototype.isDirty = false;
+
+
+    /**
+     * Removes shape by id
+     * @param {number} id Shape id to remove
+     * @example
+     * chart.remove(335);
+     */
+    Chart.prototype.remove = function(id) {
+        this.shapes.remove(id);
+    };
+
+    /**
+     * Returns shape by id
+     * @param {number} id Shape id
+     * @returns {cl.Shape} Shape with id
+     * @example
+     * var shape = chart.get(335);
+     */
+    Chart.prototype.get = function(id) {
+        return this.shapes.get(id);
+    };
+
+    /**
+     * Returns new id. Can be used to generate ids for new shapes
+     * @returns {number} New id
+     * @example
+     * var nId = chart.getNewId();
+     * chart.add({id: nId, x: 10, y: 10, size: 20}, cl.Bubble);
+     */
+    Chart.prototype.getNewId = function() {
+        return this.shapes.getNewId();
+    };
+
+    /**
+     * Renders chart. This method called automatically by requestAnimationFrame
+     * @param {number} time Elapsed time
+     * @private
+     */
+    Chart.prototype._render = function(time) {
+        var t = this;
+        TWEEN.update(time);
+
+        if (!t.screen) return;
+        //console.log("render");
+        var i, l;
+
+        // Request shapes redraw if they is animated
+        if (t.shapes.isAnimating) {
+            t.shapes.apply();
+            t.selector.apply();
+        }
+
+        // Should redraw all objects if axis changed
+        if (t._dirtyFlags.axis) {
+            t._dirtyFlags.shapes = true;
+            t.shapes.updateStatic();
+        }
+
+        // Render layers based on dirty flags
+        for (i = 0, l = t.layers.length; i < l; i++) {
+            if (t._dirtyFlags.all || t._dirtyFlags[t.layers[i].dirtyFlagName]) t.layers[i]._render();
+        }
+
+        // Draw layers on screen
+        t.screen.clear();
+
+        for (i = 0, l = t.layers.length; i < l; i++) t.screen.draw(t.layers[i].surface);
+
+        t._clearDirtyFlags();
+
+        if (t.shapes.isAnimating && !t._redrawRequested) {
+            t._redrawRequested = true;
+            requestAnimFrame(t._renderFunc);
+        }
+    };
 
     /**
      * Changes chart cursor
@@ -5866,7 +6250,7 @@ cl.PolyLine = (function() {
 
     /**
      * Add any shape to chart. If been added exists id's, will update shape properties
-     * @param {Array.<Object>} items Array of lines. Contains only properties description, not rect class
+     * @param {Array.<Object>|Object} items Array of lines or sigle item. Contains only properties description, not rect class
      * @param {Function} shapeClass Shape class to add. Can be anything inherited from {@link cl.Shape} e.g. {@link cl.Bubble}, {@link cl.Line}, {@link cl.PolyLine}, {@link cl.Centroid}, {@link cl.Rect}
      * @param {boolean} [allowAnimation=false] Play animation if rect properties changed
      * @param {number} [animationDuration={@link cl.ShapeManager.ANIMATION_DURATION}] Animation speed in ms
@@ -5880,7 +6264,7 @@ cl.PolyLine = (function() {
 
     /**
      * Add bubbles to chart. If been added exists id's, bubbles will update its properties
-     * @param {Array} items Array of bubbles. Contains only properties description, not class
+     * @param {Array.<Object>|Object} items Array of bubbles or sigle item. Contains only properties description, not class
      * @param {boolean} [allowAnimation=false] Play animation if bubble properties changed
      * @param {number} [animationDuration={@link cl.ShapeManager.ANIMATION_DURATION}] Animation speed in ms
      */
@@ -5890,7 +6274,7 @@ cl.PolyLine = (function() {
 
     /**
      * Add rects to chart. If been added exists id's, rects will update its properties
-     * @param {Array.<Object>} items Array of rects. Contains only properties description, not class
+     * @param {Array.<Object>|Object} items Array of rects or sigle item. Contains only properties description, not class
      * @param {boolean} [allowAnimation=false] Play animation if rect properties changed
      * @param {number} [animationDuration={@link cl.ShapeManager.ANIMATION_DURATION}] Animation speed in ms
      */
@@ -5900,8 +6284,8 @@ cl.PolyLine = (function() {
 
     /**
      * Add lines to chart. If been added exists id's, lines will update its properties
-     * @param {Array.<Object>} items Array of lines. Contains only properties description, not class
-     * @param {boolean} [allowAnimation=false] Play animation if rect properties changed
+     * @param {Array.<Object>|Object} items Array of lines or sigle item. Contains only properties description, not class
+     * @param {boolean} [allowAnimation=false] Play animation if line properties changed
      * @param {number} [animationDuration={@link cl.ShapeManager.ANIMATION_DURATION}] Animation speed in ms
      */
     Chart.prototype.addLines = function(items, allowAnimation, animationDuration) {
@@ -5910,8 +6294,8 @@ cl.PolyLine = (function() {
 
     /**
      * Add polylines to chart. If been added exists id's, polylines will update its properties
-     * @param {Array.<Object>} items Array of polylines. Contains only properties description, not class
-     * @param {boolean} [allowAnimation=false] Play animation if rect properties changed
+     * @param {Array.<Object>|Object} items Array of polylines or sigle item. Contains only properties description, not class
+     * @param {boolean} [allowAnimation=false] Play animation if polyline properties changed
      * @param {number} [animationDuration={@link cl.ShapeManager.ANIMATION_DURATION}] Animation speed in ms
      */
     Chart.prototype.addPolyLines = function(items, allowAnimation, animationDuration) {
@@ -5919,12 +6303,22 @@ cl.PolyLine = (function() {
     };
 
     /**
-     * Add centroids to chart. If been added exists id's, centroids will update its properties
-     * @param {Array.<Object>} items Array of centroids. Contains only properties description, not class
-     * @param {boolean} [allowAnimation=false] Play animation if rect properties changed
+     * Add polygons to chart. If been added exists id's, polygon will update its properties
+     * @param {Array.<Object>|Object} items Array of polygons or sigle item. Contains only properties description, not class
+     * @param {boolean} [allowAnimation=false] Play animation if polygons properties changed
      * @param {number} [animationDuration={@link cl.ShapeManager.ANIMATION_DURATION}] Animation speed in ms
      */
-    Chart.prototype.addPolyLines = function(items, allowAnimation, animationDuration) {
+    Chart.prototype.addPolys = function(items, allowAnimation, animationDuration) {
+        this.shapes.add(items, cl.Poly, allowAnimation, animationDuration);
+    };
+
+    /**
+     * Add centroids to chart. If been added exists id's, centroids will update its properties
+     * @param {Array.<Object>|Object} items Array of centroids or sigle item. Contains only properties description, not class
+     * @param {boolean} [allowAnimation=false] Play animation if centroid properties changed
+     * @param {number} [animationDuration={@link cl.ShapeManager.ANIMATION_DURATION}] Animation speed in ms
+     */
+    Chart.prototype.addCentroids = function(items, allowAnimation, animationDuration) {
         this.shapes.add(items, cl.Centroid, allowAnimation, animationDuration);
     };
 
@@ -5976,7 +6370,7 @@ cl.PolyLine = (function() {
     Chart.prototype.redraw = function() {
         var t = this;
         if (t._redrawRequested) return;
-        requestAnimFrame(t._render);
+        requestAnimFrame(t._renderFunc);
         t._redrawRequested = true;
     };
 

@@ -28,7 +28,7 @@ function fireEvent(name, x, y, chart) {
     chart.screen.el.dispatchEvent(event);
 }
 
-describe('Chart library', function(){
+describe('Chart library v.' + cl.version, function(){
     colorTest();
     canvasTest();
     chartTest();

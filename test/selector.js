@@ -1,8 +1,7 @@
 function testSelector() {
 
     describe("cl.Selector", function() {
-
-        var chart;
+        var chart, testsDone;
 
         before(function() {
             chart = new cl.Chart({
@@ -10,8 +9,8 @@ function testSelector() {
                 width: 800,
                 height: 600
             });
-            chart.addBubbles([{id: 1, x: 50, y: 50, size: 30}, {id: 2, x: 80, y: 50, size: 10}]);
-            chart.addRects([{id: 11, x: 0, y: 0, x2: 10, y2: 10}, {id: 22, x: 20, y: 0, x2: 30, y2: 10}]);
+            chart.addBubbles([{id: 1, x: 50, y: 50, size: 30, border: 20}, {id: 2, x: 80, y: 50, size: 10, border: 20}]);
+            chart.addRects([{id: 11, x: 0, y: 0, x2: 10, y2: 10, border: 20}, {id: 22, x: 20, y: 0, x2: 30, y2: 10, border: 20}]);
         });
 
         after(function() {
@@ -22,25 +21,25 @@ function testSelector() {
         it('should get single bubble shape bounds', function() {
             var bounds = chart.selector.getBounds([chart.shapes.get(1)]);
             expect(bounds).to.exists;
-            expect(bounds).eql({ x: 370, y: 270, w: 60, h: 60 });
+            expect(bounds).eql({ x: 360, y: 260, w: 80, h: 80 });
         });
 
         it('should get multiple bubbles shape bounds', function() {
             var bounds = chart.selector.getBounds([chart.shapes.get(1), chart.shapes.get(2)]);
             expect(bounds).to.exists;
-            expect(bounds).eql({x: 370, y: 270, w: 268, h: 60});
+            expect(bounds).eql({x: 360, y: 260, w: 288, h: 80});
         });
 
         it('should get single rect shape bounds', function() {
             var bounds = chart.selector.getBounds([chart.shapes.get(11)]);
             expect(bounds).to.exists;
-            expect(bounds).eql({ x: 20, y: 524, w: 76, h: 56 });
+            expect(bounds).eql({ x: 10, y: 514, w: 96, h: 76 });
         });
 
         it('should get multiple rects shape bounds', function() {
             var bounds = chart.selector.getBounds([chart.shapes.get(11), chart.shapes.get(22)]);
             expect(bounds).to.exists;
-            expect(bounds).eql({x: 20, y: 524, w: 228, h: 56});
+            expect(bounds).eql({x: 10, y: 514, w: 248, h: 76});
         });
 
         it('should get bubble shape from point', function() {
@@ -225,13 +224,54 @@ function testSelector() {
             expect(chart.selector.selection.length).equal(0, "Selection was not cleared");
         });
 
+        it("should remove shape from hover after shape was removed", function() {
+            chart.addBubbles([{id: 1, x: 50, y: 50, size: 20}]);
+            fireEvent("mousemove", 400, 300, chart)
+            expect(chart.selector.hover).to.exist;
+            chart.remove(1);
+            expect(chart.selector.hover).not.exist;
+        });
+
+        it("should remove shape from hover after clear", function() {
+            chart.addBubbles([{id: 1, x: 50, y: 50, size: 20}]);
+            fireEvent("mousemove", 400, 300, chart)
+            expect(chart.selector.hover).to.exist;
+            chart.shapes.clear();
+            expect(chart.selector.hover).not.exist;
+        });
+
         it("should select rectangle", function(){
+            chart.shapes.clear();
             chart.addRects([{id: 11, x: 40, y: 40, x2: 60, y2: 60}]);
             fireEvent("mousemove", 400, 300, chart);
             fireEvent("mousedown", 400, 300, chart);
             fireEvent("mouseup", 400, 300, chart);
 
             expect(chart.selector.selection.length).equal(1, "Rect was not selected");
+            expect(chart.selector.selection[0]).to.exists;
+            expect(chart.selector.selection[0].props.id).equal(11, "Wrong shape id");
+        });
+
+        it("should select poly line", function(){
+            chart.shapes.clear();
+            chart.addPolyLines([{id: 11, points: [10, 50, 90, 50, 50, 90]}]);
+            fireEvent("mousemove", 400, 300, chart);
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mouseup", 400, 300, chart);
+
+            expect(chart.selector.selection.length).equal(1, "Poly line was not selected");
+            expect(chart.selector.selection[0]).to.exists;
+            expect(chart.selector.selection[0].props.id).equal(11, "Wrong shape id");
+        });
+
+        it("should select poly", function(){
+            chart.shapes.clear();
+            chart.addPolys([{id: 11, points: [40, 40, 40, 60, 60, 60, 60, 40]}]);
+            fireEvent("mousemove", 400, 300, chart);
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mouseup", 400, 300, chart);
+
+            expect(chart.selector.selection.length).equal(1, "Poly was not selected");
             expect(chart.selector.selection[0]).to.exists;
             expect(chart.selector.selection[0].props.id).equal(11, "Wrong shape id");
         });
@@ -312,27 +352,238 @@ function testSelector() {
             chart.shapes.clear();
         });
 
-        it("should support custom hover", function(done){
+        it('should drag line shape', function() {
+            chart.shapes.clear();
+            chart.add({id: 1, x: 40, y: 50, x2: 60, y2: 50, border: 3, color: "green", opacity: 0.9}, cl.Line);
+            fireEvent("mousemove", 0, 0, chart);
+            fireEvent("mousemove", 400, 300, chart);
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mousemove", 400, 304, chart);
+            fireEvent("mousemove", 400, chart.toScreenY(10), chart);
+            fireEvent("mouseup", 400, chart.toScreenY(10), chart);
+            var p = chart.get(1).getProps();
+            expect(p.x).equal(40, "Shape dragged incorrectly. Wrong shape X coordinate");
+            expect(p.x2).equal(60, "Shape dragged incorrectly. Wrong shape X2 coordinate");
+            expect(p.y).equal(10, "Shape dragged incorrectly. Wrong shape Y coordinate");
+            expect(p.y2).equal(10, "Shape dragged incorrectly. Wrong shape Y2 coordinate");
+        });
+
+        it('should drag poly line shape', function() {
+            chart.shapes.clear();
+            chart.add({id: 1, points: [40, 50, 60, 50, 60, 60], border: 3, color: "green", opacity: 0.9}, cl.PolyLine);
+            fireEvent("mousemove", 0, 0, chart);
+            fireEvent("mousemove", 400, 300, chart);
+            fireEvent("mousedown", 400, 300, chart);
+            fireEvent("mousemove", 400, 304, chart);
+            fireEvent("mousemove", 400, chart.toScreenY(10), chart);
+            fireEvent("mouseup", 400, chart.toScreenY(10), chart);
+            var p = chart.get(1).getProps();
+            expect(p.points[0]).equal(40, "Shape dragged incorrectly. Wrong shape X coordinate");
+            expect(p.points[2]).equal(60, "Shape dragged incorrectly. Wrong shape X2 coordinate");
+            expect(p.points[4]).equal(60, "Shape dragged incorrectly. Wrong shape X2 coordinate");
+            expect(p.points[1]).equal(10, "Shape dragged incorrectly. Wrong shape Y coordinate");
+            expect(p.points[3]).equal(10, "Shape dragged incorrectly. Wrong shape Y2 coordinate");
+            expect(p.points[5]).equal(20, "Shape dragged incorrectly. Wrong shape Y2 coordinate");
+        });
+
+        it('should drag poly shape', function() {
+            chart.shapes.clear();
+            chart.add({id: 1, points: [40, 50, 60, 50, 60, 60], border: 3, color: "green", opacity: 0.9}, cl.Poly);
+            fireEvent("mousemove", 0, 0, chart);
+            fireEvent("mousemove", 400, 300 - 10, chart);
+            fireEvent("mousedown", 400, 300 - 10, chart);
+            fireEvent("mousemove", 400, 304 - 10, chart);
+            fireEvent("mousemove", 400, chart.toScreenY(10) - 10, chart);
+            fireEvent("mouseup", 400, chart.toScreenY(10) - 10, chart);
+            var p = chart.get(1).getProps();
+            expect(Math.round(p.points[0])).equal(40, "Shape dragged incorrectly. Wrong shape X coordinate");
+            expect(Math.round(p.points[2])).equal(60, "Shape dragged incorrectly. Wrong shape X2 coordinate");
+            expect(Math.round(p.points[4])).equal(60, "Shape dragged incorrectly. Wrong shape X3 coordinate");
+            expect(Math.round(p.points[1])).equal(10, "Shape dragged incorrectly. Wrong shape Y coordinate");
+            expect(Math.round(p.points[3])).equal(10, "Shape dragged incorrectly. Wrong shape Y2 coordinate");
+            expect(Math.round(p.points[5])).equal(20, "Shape dragged incorrectly. Wrong shape Y3 coordinate");
+        });
+
+        it("should support custom hover for bubble", function(done){
+            testsDone = 0;
+            chart.shapes.clear();
             chart.addBubbles([{id: 1, x: 50, y: 50, size: 20, hover:{
                 color: "yellow",
                 border: 20,
                 opacity: 1
             }}]);
+            fireEvent("mousemove", 0, 0, chart);
             fireEvent("mousemove", 400, 300, chart);
 
             setTimeout(function(){
                 try {
-                    var pixel = chart.screen.ctx.getImageData(400, 300 - 22, 1, 1).data;
+                    var pixel = chart.screen.ctx.getImageData(400, 300 - 30, 1, 1).data;
                     var p = {r: pixel[0], g: pixel[1], b: pixel[2]};
                     expect(p).to.deep.equal({r: 255, g: 255, b: 0}, "Wrong color of top shape");
                 }
                 catch (e) {
                     done(e);
                 }
-                chart.shapes.options.zIndexUsage = false;
                 done();
+                testsDone++;
             }, 100);
         });
+
+        it("should support custom hover for rect", function(done){
+            var int = setInterval(function() {
+                if (testsDone !== 1) return;
+                clearInterval(int);
+                chart.shapes.clear();
+
+                chart.addRects([{
+                    id: 1, x: 48, y: 48, x2: 52, y2: 52, hover: {
+                        color: "yellow",
+                        border: 20,
+                        opacity: 1
+                    }
+                }]);
+                fireEvent("mousemove", 0, 0, chart);
+                fireEvent("mousemove", 400, 300, chart);
+
+                setTimeout(function () {
+                    try {
+                        var pixel = chart.screen.ctx.getImageData(400, 300 - 20, 1, 1).data;
+                        var p = {r: pixel[0], g: pixel[1], b: pixel[2]};
+                        expect(p).to.deep.equal({r: 255, g: 255, b: 0}, "Wrong color of top shape");
+                    }
+                    catch (e) {
+                        done(e);
+                    }
+                    done();
+                    testsDone++;
+                }, 200);
+            }, 100);
+        });
+
+        it("should support custom hover for line", function(done){
+            var int = setInterval(function() {
+                if (testsDone !== 2) return;
+                clearInterval(int);
+                chart.shapes.clear();
+
+                chart.addLines([{
+                    id: 1, x: 30, y: 50, x2: 70, y2: 50, hover: {
+                        color: "yellow",
+                        border: 40,
+                        opacity: 1
+                    }
+                }]);
+                fireEvent("mousemove", 0, 0, chart);
+                fireEvent("mousemove", 400, 300, chart);
+
+                setTimeout(function () {
+                    try {
+                        var pixel = chart.screen.ctx.getImageData(400, 300 - 10, 1, 1).data;
+                        var p = {r: pixel[0], g: pixel[1], b: pixel[2]};
+                        expect(p).to.deep.equal({r: 255, g: 255, b: 0}, "Wrong color of top shape");
+                    }
+                    catch (e) {
+                        done(e);
+                    }
+                    done();
+                    testsDone++;
+                }, 200);
+            }, 100);
+        });
+
+        it("should support custom hover for poly line", function(done){
+            var int = setInterval(function() {
+                if (testsDone !== 3) return;
+                clearInterval(int);
+                chart.shapes.clear();
+
+                chart.addPolyLines([{
+                    id: 1, points: [30, 50, 70, 50, 70, 10], hover: {
+                        color: "yellow",
+                        border: 40,
+                        opacity: 1
+                    }
+                }]);
+                fireEvent("mousemove", 0, 0, chart);
+                fireEvent("mousemove", 400, 300, chart);
+
+                setTimeout(function () {
+                    try {
+                        var pixel = chart.screen.ctx.getImageData(400, 300 - 10, 1, 1).data;
+                        var p = {r: pixel[0], g: pixel[1], b: pixel[2]};
+                        expect(p).to.deep.equal({r: 255, g: 255, b: 0}, "Wrong color of top shape");
+                    }
+                    catch (e) {
+                        done(e);
+                    }
+                    done();
+                    testsDone++;
+                }, 200);
+            }, 100);
+        });
+
+        it("should support custom hover for poly", function(done){
+            var int = setInterval(function() {
+                if (testsDone !== 4) return;
+                clearInterval(int);
+                chart.shapes.clear();
+
+                chart.addPolys([{
+                    id: 1, points: [30, 50, 70, 50, 70, 10], hover: {
+                        color: "yellow",
+                        border: 40,
+                        opacity: 1
+                    }
+                }]);
+                fireEvent("mousemove", 0, 0, chart);
+                fireEvent("mousemove", 400, 300 + 30, chart);
+
+                setTimeout(function () {
+                    try {
+                        var pixel = chart.screen.ctx.getImageData(400, 300 - 10, 1, 1).data;
+                        var p = {r: pixel[0], g: pixel[1], b: pixel[2]};
+                        expect(p).to.deep.equal({r: 255, g: 255, b: 0}, "Wrong color");
+                    }
+                    catch (e) {
+                        done(e);
+                    }
+                    done();
+                    testsDone++;
+                }, 200);
+            }, 100);
+        });
+
+        it("should support custom hover for centroid", function(done){
+            var int = setInterval(function() {
+                if (testsDone !== 5) return;
+                clearInterval(int);
+                chart.shapes.clear();
+
+                chart.addCentroids([{id: 1, x: 50, y: 50, size: 20, hover:{
+                    color: "yellow",
+                    border: 20,
+                    opacity: 1
+                }}]);
+
+                fireEvent("mousemove", 0, 0, chart);
+                fireEvent("mousemove", 400, 300, chart);
+
+                setTimeout(function () {
+                    try {
+                        var pixel = chart.screen.ctx.getImageData(400, 300 - 30, 1, 1).data;
+                        var p = {r: pixel[0], g: pixel[1], b: pixel[2]};
+                        expect(p).to.deep.equal({r: 255, g: 255, b: 0}, "Wrong color of top shape");
+                    }
+                    catch (e) {
+                        done(e);
+                    }
+                    done();
+                    testsDone++;
+                }, 200);
+            }, 100);
+        });
+
+
 
         it('should disable drag', function() {
             chart.selector.disableDrag();

@@ -1,6 +1,4 @@
-// TODO: add line segment class
 // TODO: add poly class
-// TODO: add hints
 (function () {
     'use strict';
 
@@ -95,27 +93,38 @@
         var i;
 
         bubbles = [
-            {id: 1, x: 10, y: 10, size: 20},
-            {id: 2, x: 80, y: 10, size: 20, lineDash: [2, 2] },
-            {id: 3, x: 50, y: 50, size: 40, hover: {
-                color: "green",
-                border: 10,
-                animation: 3000
-            }}
+            { id: 1, x: 10, y: 10, size: 20},
+            { id: 2, x: 80, y: 10, size: 20, lineDash: [2, 2] },
+            { id: 3, x: 50, y: 50, size: 40, border: 30, links: [4] }
         ];
-
-        chart.addBubbles(bubbles);
+        //chart.add({ id: 4, x: 10, y: 10, x2: 40, y2: 40, opacity: 1, border: 10, borderColor: "black", links: [1, 2, 3] }, cl.Rect    );
+        //chart.addBubbles(bubbles);
         chart.shapes.add({
-            id: -22, border: 6, color: "green", opacity: 0.8, closed: true, lineJoin: "round",
-            points: [0, 0, 90, 10, 80, 90, 70, 20]
-        }, cl.PolyLine);
+            id: -22, border: 6, color: "green", borderColor: "red", opacity: 0.8, closed: true, lineJoin: "round",
+            points: [0, 0, 90, 10, 80, 90, 70, 20], hover: {
+                color: "yellow",
+                border: 40,
+                opacity: 1
+            }
+        }, cl.Poly);
+
 
         chart.addEventListener(cl.Event.click, function(e){
-            console.log("clicked", e.target);
+            /*if (!e.target) return;
+            var b = e.target.getBounds();
+            chart.addRects({
+                id: chart.getNewId(),
+                x: chart.toAxisX(b.x),
+                y: chart.toAxisY(b.y),
+                x2: chart.toAxisX(b.x + b.w),
+                y2: chart.toAxisY(b.y + b.h),
+                color: "blue",
+                border: 2
+            });*/
         });
 
         chart.addEventListener(cl.Event.doubleClick, function(e){
-            console.log("double clicked", e.target);
+            //console.log("double clicked", e.target);
         });
         /*
         chart.addEventListener(cl.Event.mouseUp, function(e){
@@ -181,7 +190,7 @@ setInterval(function() {
 function addLinks() {
     var i;
     for (i = 0; i < ch.shapes.count; i++) if (Math.random() < 0.01) {
-        for (var k = 0; k < 1 + Math.ceil(Math.random() * 10); k++) ch.shapes.shapes[i].link([Math.floor(Math.random() * ch.shapes.count - 1)]);
+        for (var k = 0; k < 1 + Math.ceil(Math.random() * 10); k++) ch.shapes.items[i].link([Math.floor(Math.random() * ch.shapes.count - 1)]);
     }
 }
 
@@ -201,7 +210,7 @@ function addPolyLine() {
         points.push(Math.random() * 100);
         points.push(Math.random() * 100);
     }
-    ch.shapes.add({ id: -22, closed: true, color: getRandomColor(), border: 1 + Math.random() * 10, points: points}, cl.PolyLine, true);
+    ch.shapes.add({ id: -22, closed: true, borderColor: getRandomColor(), color: getRandomColor(), border: 1 + Math.random() * 10, points: points}, cl.Poly, true);
 }
 
 function changePolyStyle() {
@@ -224,7 +233,7 @@ function toggleClose() {
 }
 
 function addAllLinks() {
-    for (i = 0; i < ch.shapes.count; i++) for (j = 0; j < ch.shapes.count; j++) if (i !== j) ch.shapes.shapes[i].link([ch.shapes.shapes[j].props.id]);
+    for (i = 0; i < ch.shapes.count; i++) for (j = 0; j < ch.shapes.count; j++) if (i !== j) ch.shapes.items[i].link([ch.shapes.items[j].props.id]);
 }
 
 
@@ -253,7 +262,7 @@ function buildGraph() {
         points.push(x);
         points.push(y);
     }
-    ch.shapes.add([{id: -22, closed: false, points: points, border: 3, color: getRandomColor(), border: 1 + Math.random() * 10, opacity: 0.8 }], cl.PolyLine, true);
+    ch.shapes.add([{id: -22, closed: false, points: points, color: getRandomColor(), border: 1 + Math.random() * 10, opacity: 0.8 }], cl.Poly, true);
 }
 
 
