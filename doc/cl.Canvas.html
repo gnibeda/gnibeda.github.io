@@ -484,6 +484,8 @@
             
                 <li data-name="cl.Canvas#destroy"><a href="cl.Canvas.html#destroy">destroy</a></li>
             
+                <li data-name="cl.Canvas#draw"><a href="cl.Canvas.html#draw">draw</a></li>
+            
                 <li data-name="cl.Canvas#drawArrow"><a href="cl.Canvas.html#drawArrow">drawArrow</a></li>
             
                 <li data-name="cl.Canvas#drawCircle"><a href="cl.Canvas.html#drawCircle">drawCircle</a></li>
@@ -641,6 +643,8 @@
                 <li data-name="cl.Chart#addPolys"><a href="cl.Chart.html#addPolys">addPolys</a></li>
             
                 <li data-name="cl.Chart#addRects"><a href="cl.Chart.html#addRects">addRects</a></li>
+            
+                <li data-name="cl.Chart#clear"><a href="cl.Chart.html#clear">clear</a></li>
             
                 <li data-name="cl.Chart#destroy"><a href="cl.Chart.html#destroy">destroy</a></li>
             
@@ -1294,6 +1298,75 @@
             </ul>
         </li>
     
+        <li class="item" data-name="cl.Tween">
+            <span class="title">
+                <a href="cl.Tween.html">cl.Tween</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="cl.Tween.EASING_BOUNCE_IN"><a href="cl.Tween.html#.EASING_BOUNCE_IN">EASING_BOUNCE_IN</a></li>
+            
+                <li data-name="cl.Tween.EASING_BOUNCE_OUT"><a href="cl.Tween.html#.EASING_BOUNCE_OUT">EASING_BOUNCE_OUT</a></li>
+            
+                <li data-name="cl.Tween.EASING_ELASTIC_BACK_IN"><a href="cl.Tween.html#.EASING_ELASTIC_BACK_IN">EASING_ELASTIC_BACK_IN</a></li>
+            
+                <li data-name="cl.Tween.EASING_ELASTIC_BACK_OUT"><a href="cl.Tween.html#.EASING_ELASTIC_BACK_OUT">EASING_ELASTIC_BACK_OUT</a></li>
+            
+                <li data-name="cl.Tween.EASING_ELASTIC_IN"><a href="cl.Tween.html#.EASING_ELASTIC_IN">EASING_ELASTIC_IN</a></li>
+            
+                <li data-name="cl.Tween.EASING_ELASTIC_OUT"><a href="cl.Tween.html#.EASING_ELASTIC_OUT">EASING_ELASTIC_OUT</a></li>
+            
+                <li data-name="cl.Tween.EASING_LINEAR"><a href="cl.Tween.html#.EASING_LINEAR">EASING_LINEAR</a></li>
+            
+                <li data-name="cl.Tween.EASING_QUADRATIC_IN"><a href="cl.Tween.html#.EASING_QUADRATIC_IN">EASING_QUADRATIC_IN</a></li>
+            
+                <li data-name="cl.Tween.EASING_QUADRATIC_IN_OUT"><a href="cl.Tween.html#.EASING_QUADRATIC_IN_OUT">EASING_QUADRATIC_IN_OUT</a></li>
+            
+                <li data-name="cl.Tween.EASING_QUADRATIC_OUT"><a href="cl.Tween.html#.EASING_QUADRATIC_OUT">EASING_QUADRATIC_OUT</a></li>
+            
+                <li data-name="cl.Tween.items"><a href="cl.Tween.html#.items">items</a></li>
+            
+                <li data-name="cl.Tween#active"><a href="cl.Tween.html#active">active</a></li>
+            
+                <li data-name="cl.Tween#delay"><a href="cl.Tween.html#delay">delay</a></li>
+            
+                <li data-name="cl.Tween#duration"><a href="cl.Tween.html#duration">duration</a></li>
+            
+                <li data-name="cl.Tween#object"><a href="cl.Tween.html#object">object</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="cl.Tween.update"><a href="cl.Tween.html#.update">update</a></li>
+            
+                <li data-name="cl.Tween#delay"><a href="cl.Tween.html#delay">delay</a></li>
+            
+                <li data-name="cl.Tween#easing"><a href="cl.Tween.html#easing">easing</a></li>
+            
+                <li data-name="cl.Tween#onComplete"><a href="cl.Tween.html#onComplete">onComplete</a></li>
+            
+                <li data-name="cl.Tween#onUpdate"><a href="cl.Tween.html#onUpdate">onUpdate</a></li>
+            
+                <li data-name="cl.Tween#start"><a href="cl.Tween.html#start">start</a></li>
+            
+                <li data-name="cl.Tween#stop"><a href="cl.Tween.html#stop">stop</a></li>
+            
+                <li data-name="cl.Tween#to"><a href="cl.Tween.html#to">to</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
     </ul>
 </div>
     <div class="main">
@@ -1579,7 +1652,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 270
+            canvas.js, line 295
         </div>
         
     </div>
@@ -1650,7 +1723,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 291
+            canvas.js, line 316
         </div>
         
     </div>
@@ -1714,6 +1787,213 @@
             
 <dt>
     <div class="nameContainer">
+        <h4 class="name" id="draw">
+            
+            draw<span class="signature">(canvas, <span class="optional">x</span>, <span class="optional">y</span>)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            canvas.js, line 288
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Draws another canvas on this
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Default</th>
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>canvas</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                    
+                        
+                    
+                
+                </td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                X coordinate</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Y coordinate</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+
+    
+    <pre class="prettyprint"><code>canvas.draw(secondCanvas);</code></pre>
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
         <h4 class="name" id="drawArrow">
             
             drawArrow<span class="signature">(x, y, rotation, len, <span class="optional">arrowAngle</span>)</span>
@@ -1721,7 +2001,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 151
+            canvas.js, line 164
         </div>
         
     </div>
@@ -1967,6 +2247,14 @@
     
     
     
+        <h5>Example</h5>
+        
+
+    
+    <pre class="prettyprint"><code>canvas.drawArrow(10, 10, Math.PI / 4, 20);</code></pre>
+    
+
+    
 </dd>
 
         
@@ -1980,7 +2268,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 220
+            canvas.js, line 240
         </div>
         
     </div>
@@ -2129,6 +2417,14 @@
     
     
     
+        <h5>Example</h5>
+        
+
+    
+    <pre class="prettyprint"><code>canvas.drawCircle(100, 100, 25);</code></pre>
+    
+
+    
 </dd>
 
         
@@ -2142,7 +2438,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 232
+            canvas.js, line 254
         </div>
         
     </div>
@@ -2388,6 +2684,14 @@
     
     
     
+        <h5>Example</h5>
+        
+
+    
+    <pre class="prettyprint"><code>canvas.drawLine(10, 10, 100, 100);</code></pre>
+    
+
+    
 </dd>
 
         
@@ -2396,12 +2700,12 @@
     <div class="nameContainer">
         <h4 class="name" id="drawRect">
             
-            drawRect<span class="signature">(x1, y1, x2, y2, r, <span class="optional">dontCreatePath</span>, <span class="optional">offset</span>)</span>
+            drawRect<span class="signature">(x1, y1, x2, y2, <span class="optional">r</span>, <span class="optional">dontCreatePath</span>, <span class="optional">offset</span>)</span>
         </h4>
     
         
         <div class="tag-source">
-            canvas.js, line 182
+            canvas.js, line 200
         </div>
         
     </div>
@@ -2594,6 +2898,8 @@
             <td class="description last">
                 
                     
+                        <span class="optional">optional</span>
+                    
                     
                         
                     
@@ -2713,6 +3019,14 @@
     
     
     
+        <h5>Example</h5>
+        
+
+    
+    <pre class="prettyprint"><code>// Simple rectanglecanvas.drawRect(10, 10, 40, 30);// With round cornerscanvas.drawRect(10, 10, 40, 30, 4);</code></pre>
+    
+
+    
 </dd>
 
         
@@ -2726,7 +3040,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 126
+            canvas.js, line 137
         </div>
         
     </div>
@@ -3116,6 +3430,14 @@
     
     
     
+        <h5>Example</h5>
+        
+
+    
+    <pre class="prettyprint"><code>canvas.drawText("Hello!", 10, 10);canvas.drawText("Hello!", 10, 10, 32, "center", "middle", "Arial", "bold italic", 64);</code></pre>
+    
+
+    
 </dd>
 
         
@@ -3129,7 +3451,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 252
+            canvas.js, line 276
         </div>
         
     </div>
@@ -3200,7 +3522,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 282
+            canvas.js, line 307
         </div>
         
     </div>
@@ -3339,7 +3661,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 61
+            canvas.js, line 63
         </div>
         
     </div>
@@ -3410,7 +3732,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 83
+            canvas.js, line 89
         </div>
         
     </div>
@@ -3481,7 +3803,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 68
+            canvas.js, line 70
         </div>
         
     </div>
@@ -3552,7 +3874,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 244
+            canvas.js, line 268
         </div>
         
     </div>
@@ -3655,6 +3977,14 @@
     
     
     
+        <h5>Example</h5>
+        
+
+    
+    <pre class="prettyprint"><code>canvas.setAlpha(0.4);</code></pre>
+    
+
+    
 </dd>
 
         
@@ -3668,7 +3998,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 76
+            canvas.js, line 82
         </div>
         
     </div>
@@ -3771,6 +4101,14 @@
     
     
     
+        <h5>Example</h5>
+        
+
+    
+    <pre class="prettyprint"><code>canvas.setFillColor("#FF0000");canvas.setFillColor("red");canvas.setFillColor("rgb(255, 0, 0)");</code></pre>
+    
+
+    
 </dd>
 
         
@@ -3784,7 +4122,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 53
+            canvas.js, line 55
         </div>
         
     </div>
@@ -3887,6 +4225,14 @@
     
     
     
+        <h5>Example</h5>
+        
+
+    
+    <pre class="prettyprint"><code>canvas.setLineDash([2, 15]);</code></pre>
+    
+
+    
 </dd>
 
         
@@ -3900,7 +4246,7 @@
     
         
         <div class="tag-source">
-            canvas.js, line 96
+            canvas.js, line 104
         </div>
         
     </div>
@@ -4086,6 +4432,14 @@
     
     
     
+        <h5>Example</h5>
+        
+
+    
+    <pre class="prettyprint"><code>canvas.setLineStyle(2, "#FF0000");</code></pre>
+    
+
+    
 </dd>
 
         </dl>
@@ -4105,7 +4459,7 @@
         
 
         <footer>
-            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Wed Sep 30 2015 18:51:22 GMT+0300 (Финляндия (лето))
+            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Thu Oct 01 2015 21:23:14 GMT+0300 (Финляндия (лето))
         </footer>
     </div>
 </div>

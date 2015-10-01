@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Class: AxisManager</title>
+    <title>Class: Tween</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -1370,7 +1370,7 @@
     </ul>
 </div>
     <div class="main">
-        <h1 class="page-title" data-filename="cl.AxisManager.html">Class: AxisManager</h1>
+        <h1 class="page-title" data-filename="cl.Tween.html">Class: Tween</h1>
         
 
 
@@ -1381,7 +1381,7 @@
     <h2>
         <span class="ancestors"><a href="cl.html">cl</a>.</span>
     
-    AxisManager
+    Tween
     </h2>
     
 </header>  
@@ -1394,14 +1394,14 @@
         
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id="AxisManager">
+        <h4 class="name" id="Tween">
             
-            new cl.AxisManager<span class="signature">(chart)</span>
+            new cl.Tween<span class="signature">(object)</span>
         </h4>
     
         
         <div class="tag-source">
-            axis/axisManager.js, line 19
+            sys/tween.js, line 46
         </div>
         
     </div>
@@ -1412,7 +1412,7 @@
     
     
     <div class="description">
-        Represent axis manager class
+        Twee class. Used for animations
     </div>
     
 
@@ -1443,13 +1443,13 @@
 	
         <tr>
             
-                <td class="name"><code>chart</code></td>
+                <td class="name"><code>object</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type"><a href="cl.Chart.html">cl.Chart</a></span>
+<span class="param-type">Object</span>
 
 
             
@@ -1459,7 +1459,7 @@
             
             <td class="description last">
                 
-                Parent chart</td>
+                Object to animate</td>
         </tr>
 	
 	
@@ -1469,57 +1469,6 @@
     
     
 <dl class="details">
-    
-        
-        <h5 class="subsection-title">Properties:</h5>
-        
-        <dl>
-
-<table class="props">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>count</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Axis count</td>
-        </tr>
-	
-	
-	</tbody>
-</table></dl>
-        
     
         
     
@@ -1555,17 +1504,19 @@
     
     
     
+        <h5>Example</h5>
+        
+
+    
+    <pre class="prettyprint"><code>var t = new cl.Tween(obj)                  .to({value: 100}, 1000)                  .easing(cl.Tween.EASING_QUADRATIC_OUT)                  .delay(100)                  .onUpdate(function (time) {                       // Custom update code here                   })                  .onComplete(function (time) {                       // Complete code here                   })                  .start();// Don't forget to call cl.Tween.Update() in requestAnimationFrame</code></pre>
+    
+
+    
 </dd>
 
     
     </div>
     
-    
-        <h3 class="subsection-title">Extends</h3>
-        
-        <ul>
-            <li><a href="cl.Layer.html">cl.Layer</a></li>
-        </ul>
     
     
     
@@ -1583,7 +1534,7 @@
             
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id="chart">chart<span class="type-signature type null">null</span> </h4>
+        <h4 class="name" id=".EASING_BOUNCE_IN"><span class="type-signature static">static,constant</span>cl.Tween.EASING_BOUNCE_IN</h4>
     </div>
     
     
@@ -1591,7 +1542,7 @@
 <dd>
     
     <div class="description">
-        Parent chart
+        Tween easing function
     </div>
     
     
@@ -1628,7 +1579,7 @@
             
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id="items">items<span class="type-signature type array.<cl.axis>">Array.&lt;<a href="cl.Axis.html">cl.Axis</a>></span> </h4>
+        <h4 class="name" id=".EASING_BOUNCE_OUT"><span class="type-signature static">static,constant</span>cl.Tween.EASING_BOUNCE_OUT</h4>
     </div>
     
     
@@ -1636,7 +1587,7 @@
 <dd>
     
     <div class="description">
-        Axis items
+        Tween easing function
     </div>
     
     
@@ -1673,7 +1624,7 @@
             
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id="surface">surface<span class="type-signature type cl.canvas"><a href="cl.Canvas.html">cl.Canvas</a></span> </h4>
+        <h4 class="name" id=".EASING_ELASTIC_BACK_IN"><span class="type-signature static">static,constant</span>cl.Tween.EASING_ELASTIC_BACK_IN</h4>
     </div>
     
     
@@ -1681,7 +1632,547 @@
 <dd>
     
     <div class="description">
-        Layer surface
+        Tween easing function
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id=".EASING_ELASTIC_BACK_OUT"><span class="type-signature static">static,constant</span>cl.Tween.EASING_ELASTIC_BACK_OUT</h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Tween easing function
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id=".EASING_ELASTIC_IN"><span class="type-signature static">static,constant</span>cl.Tween.EASING_ELASTIC_IN</h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Tween easing function
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id=".EASING_ELASTIC_OUT"><span class="type-signature static">static,constant</span>cl.Tween.EASING_ELASTIC_OUT</h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Tween easing function
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id=".EASING_LINEAR"><span class="type-signature static">static,constant</span>cl.Tween.EASING_LINEAR</h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Tween easing function
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id=".EASING_QUADRATIC_IN"><span class="type-signature static">static,constant</span>cl.Tween.EASING_QUADRATIC_IN</h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Tween easing function
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id=".EASING_QUADRATIC_IN_OUT"><span class="type-signature static">static,constant</span>cl.Tween.EASING_QUADRATIC_IN_OUT</h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Tween easing function
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id=".EASING_QUADRATIC_OUT"><span class="type-signature static">static,constant</span>cl.Tween.EASING_QUADRATIC_OUT</h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Tween easing function
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id=".items"><span class="type-signature static">static</span>cl.Tween.items<span class="type-signature type array.<cl.tween>">Array.&lt;<a href="cl.Tween.html">cl.Tween</a>></span> </h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        All currently active tweens
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="active">active<span class="type-signature type boolean">boolean</span> </h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Is tween active(animating)
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="delay">delay<span class="type-signature type number">number</span> </h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Animation delay
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="duration">duration<span class="type-signature type number">number</span> </h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Animation duration
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="object">object<span class="type-signature type object">Object</span> </h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Animated object
     </div>
     
     
@@ -1724,14 +2215,14 @@
             
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id="add">
+        <h4 class="name" id=".update">
             
-            add<span class="signature">(axisOptions)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="cl.Axis.html">cl.Axis</a>}</span>
+            <span class="type-signature static">static</span>cl.Tween.update<span class="signature">(<span class="optional">time</span>)</span>
         </h4>
     
         
         <div class="tag-source">
-            axis/axisManager.js, line 65
+            sys/tween.js, line 235
         </div>
         
     </div>
@@ -1742,7 +2233,7 @@
     
     
     <div class="description">
-        Adds axis
+        Updates all tweens
     </div>
     
 
@@ -1773,7 +2264,918 @@
 	
         <tr>
             
-                <td class="name"><code>axisOptions</code></td>
+                <td class="name"><code>time</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                Time</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="delay">
+            
+            delay<span class="signature">(delay)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="cl.Tween.html">cl.Tween</a>}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            sys/tween.js, line 113
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Sets tween delay
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>delay</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                Tween delay in ms</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        <a href="cl.Tween.html">cl.Tween</a>
+                        
+                    
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="easing">
+            
+            easing<span class="signature">(easingFunc)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="cl.Tween.html">cl.Tween</a>}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            sys/tween.js, line 91
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Sets easing function
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>easingFunc</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                Easing function</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        <a href="cl.Tween.html">cl.Tween</a>
+                        
+                    
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+        <h5>Example</h5>
+        
+
+    
+    <pre class="prettyprint"><code>var tween = new cl.Tween(obj).easing(cl.Tween.EASING_BOUNCE_OUT);</code></pre>
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="onComplete">
+            
+            onComplete<span class="signature">(callback)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="cl.Tween.html">cl.Tween</a>}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            sys/tween.js, line 133
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Sets complete callback
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                </td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        <a href="cl.Tween.html">cl.Tween</a>
+                        
+                    
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="onUpdate">
+            
+            onUpdate<span class="signature">(callback)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="cl.Tween.html">cl.Tween</a>}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            sys/tween.js, line 123
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Sets update callback
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                </td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        <a href="cl.Tween.html">cl.Tween</a>
+                        
+                    
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="start">
+            
+            start<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="cl.Tween.html">cl.Tween</a>}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            sys/tween.js, line 142
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Starts tween
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        <a href="cl.Tween.html">cl.Tween</a>
+                        
+                    
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="stop">
+            
+            stop<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="cl.Tween.html">cl.Tween</a>}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            sys/tween.js, line 157
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Stops tween
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        <a href="cl.Tween.html">cl.Tween</a>
+                        
+                    
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="to">
+            
+            to<span class="signature">(obj, duration)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="cl.Tween.html">cl.Tween</a>}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            sys/tween.js, line 102
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Sets properties to wich tween should animate
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
             
             
             <td class="type">
@@ -1789,7 +3191,30 @@
             
             <td class="description last">
                 
-                Axis settings. See "options" in <a href="cl.Axis.html">cl.Axis</a> constructor</td>
+                Object with end phase properties</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>duration</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                Animation duration in ms</td>
         </tr>
 	
 	
@@ -1850,797 +3275,7 @@
             
             <td class="type">
             
-                        <a href="cl.Axis.html">cl.Axis</a>
-                        
-                    
-            </td>
-            <td class="description last">New axis</td>
-        </tr>
-    
-    </tbody>
-</table>
-
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <div class="nameContainer inherited">
-        <h4 class="name" id="apply">
-            
-                <span class="inherited"><a href="cl.Layer.html#apply">inherited</a></span>
-            
-            apply<span class="signature">()</span>
-        </h4>
-    
-        
-        <div class="tag-source">
-            layer.js, line 65
-        </div>
-        
-    </div>
-
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Apply all changes to layer. This will cause layer redraw on next frame render
-    </div>
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <div class="nameContainer inherited">
-        <h4 class="name" id="destroy">
-            
-                <span class="inherited"><a href="cl.Layer.html#destroy">inherited</a></span>
-            
-            destroy<span class="signature">()</span>
-        </h4>
-    
-        
-        <div class="tag-source">
-            layer.js, line 93
-        </div>
-        
-    </div>
-
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Destroys layer
-    </div>
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <div class="nameContainer">
-        <h4 class="name" id="get">
-            
-            get<span class="signature">(indexOrName)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="cl.Axis.html">cl.Axis</a>}</span>
-        </h4>
-    
-        
-        <div class="tag-source">
-            axis/axisManager.js, line 78
-        </div>
-        
-    </div>
-
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Returns axis with specified index or name. Will return first axis with name. Returns undefined if axis was not found
-    </div>
-    
-
-    
-    
-    
-    
-    
-        
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>indexOrName</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-|
-
-<span class="param-type">string</span>
-
-
-            
-            </td>
-            
-            
-            
-            <td class="description last">
-                
-                or axis name</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Type</th>
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    
-        <tr>
-            
-            <td class="type">
-            
-                        <a href="cl.Axis.html">cl.Axis</a>
-                        
-                    
-            </td>
-            <td class="description last"></td>
-        </tr>
-    
-    </tbody>
-</table>
-
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <div class="nameContainer inherited">
-        <h4 class="name" id="hide">
-            
-                <span class="inherited"><a href="cl.Layer.html#hide">inherited</a></span>
-            
-            hide<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="cl.Layer.html">cl.Layer</a>}</span>
-        </h4>
-    
-        
-        <div class="tag-source">
-            layer.js, line 57
-        </div>
-        
-    </div>
-
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Hide layer
-    </div>
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Type</th>
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    
-        <tr>
-            
-            <td class="type">
-            
-                        <a href="cl.Layer.html">cl.Layer</a>
-                        
-                    
-            </td>
-            <td class="description last"></td>
-        </tr>
-    
-    </tbody>
-</table>
-
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <div class="nameContainer">
-        <h4 class="name" id="remove">
-            
-            remove<span class="signature">(axis)</span>
-        </h4>
-    
-        
-        <div class="tag-source">
-            axis/axisManager.js, line 89
-        </div>
-        
-    </div>
-
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Removes axis
-    </div>
-    
-
-    
-    
-    
-    
-    
-        
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>axis</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type"><a href="cl.Axis.html">cl.Axis</a></span>
-|
-
-<span class="param-type">string</span>
-|
-
-<span class="param-type">number</span>
-
-
-            
-            </td>
-            
-            
-            
-            <td class="description last">
-                
-                Axis itself or axis name, or axis index</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <div class="nameContainer inherited">
-        <h4 class="name" id="resize">
-            
-                <span class="inherited"><a href="cl.Layer.html#resize">inherited</a></span>
-            
-            resize<span class="signature">(width, height)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="cl.Layer.html">cl.Layer</a>}</span>
-        </h4>
-    
-        
-        <div class="tag-source">
-            layer.js, line 85
-        </div>
-        
-    </div>
-
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Will resize layer
-    </div>
-    
-
-    
-    
-    
-    
-    
-        
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>width</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-            
-            
-            
-            <td class="description last">
-                
-                New layer width</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>height</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-            
-            
-            
-            <td class="description last">
-                
-                New layer height</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Type</th>
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    
-        <tr>
-            
-            <td class="type">
-            
-                        <a href="cl.Layer.html">cl.Layer</a>
-                        
-                    
-            </td>
-            <td class="description last"></td>
-        </tr>
-    
-    </tbody>
-</table>
-
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <div class="nameContainer inherited">
-        <h4 class="name" id="show">
-            
-                <span class="inherited"><a href="cl.Layer.html#show">inherited</a></span>
-            
-            show<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="cl.Layer.html">cl.Layer</a>}</span>
-        </h4>
-    
-        
-        <div class="tag-source">
-            layer.js, line 48
-        </div>
-        
-    </div>
-
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Show layer
-    </div>
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Type</th>
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    
-        <tr>
-            
-            <td class="type">
-            
-                        <a href="cl.Layer.html">cl.Layer</a>
+                        <a href="cl.Tween.html">cl.Tween</a>
                         
                     
             </td>
