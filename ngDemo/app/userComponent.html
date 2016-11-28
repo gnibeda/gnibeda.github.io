@@ -1,0 +1,3 @@
+<span [style.opacity]="user.isDeleted ? '0.5' : '1'">{{user.name}}</span>​
+<button *ngIf="!user.isDeleted" (click)="delete()">Delete</button>​
+<button *ngIf="user.isDeleted" (click)="restore()">Restore</button>
